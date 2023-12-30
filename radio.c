@@ -484,18 +484,32 @@ void RADIO_ConfigureSquelchAndOutputPower(VFO_Info_t *pInfo)
 	uint8_t Txp[3];
 	EEPROM_ReadBuffer(0x1ED0 + (Band * 16) + (pInfo->OUTPUT_POWER * 3), Txp, 3);
 
-#ifdef ENABLE_REDUCE_LOW_MID_TX_POWER
+#ifdef ENABLE_BEST_SPLIT_TX_POWER
 	// make low and mid even lower
 	if (pInfo->OUTPUT_POWER == OUTPUT_POWER_LOW) {
-		Txp[0] /= 5;
-		Txp[1] /= 5;
-		Txp[2] /= 5;
+		Txp[0] = (Txp[0] * 4) / 11;
+		Txp[1] = (Txp[1] * 4) / 11;
+		Txp[2] = (Txp[2] * 4) / 11;
 	}
 	else if (pInfo->OUTPUT_POWER == OUTPUT_POWER_MID){
-		Txp[0] /= 3;
-		Txp[1] /= 3;
-		Txp[2] /= 3;
+		Txp[0] = (Txp[0] * 4) / 5;
+		Txp[1] = (Txp[1] * 4) / 5;
+		Txp[2] = (Txp[2] * 4) / 5;
 	}
+#else
+	#ifdef ENABLE_REDUCE_LOW_MID_TX_POWER
+		// make low and mid even lower
+		if (pInfo->OUTPUT_POWER == OUTPUT_POWER_LOW) {
+			Txp[0] /= 5;
+			Txp[1] /= 5;
+			Txp[2] /= 5;
+		}
+		else if (pInfo->OUTPUT_POWER == OUTPUT_POWER_MID){
+			Txp[0] /= 3;
+			Txp[1] /= 3;
+			Txp[2] /= 3;
+		}
+	#endif
 #endif
 
 	pInfo->TXP_CalculatedSetting = FREQUENCY_CalculateOutputPower(
