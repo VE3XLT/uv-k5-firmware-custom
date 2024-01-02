@@ -19,6 +19,7 @@
 #include "bsp/dp32g030/pwmplus.h"
 #include "bsp/dp32g030/portcon.h"
 #include "driver/gpio.h"
+#include "driver/system.h"
 #include "settings.h"
 
 // this is decremented once every 500ms
@@ -60,7 +61,12 @@ void BACKLIGHT_TurnOn(void)
 	}
 
 	backlightOn = true;
-	BACKLIGHT_SetBrightness(gEeprom.BACKLIGHT_MAX);
+
+	for(uint8_t i = 0; i <= gEeprom.BACKLIGHT_MAX; i++)
+	{
+		BACKLIGHT_SetBrightness(i);
+		SYSTEM_DelayMs(50);
+	}
 
 	switch (gEeprom.BACKLIGHT_TIME) {
 		default:
