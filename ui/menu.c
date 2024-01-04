@@ -463,7 +463,11 @@ void UI_DisplayMenu(void)
 			}
 
 			// draw the menu index number/count
+#ifdef ENABLE_FEAT_F4HWN
+			sprintf(String, "%2u/%u", 1 + gMenuCursor, gMenuListCount);
+#else
 			sprintf(String, "%2u.%u", 1 + gMenuCursor, gMenuListCount);
+#endif
 			UI_PrintStringSmallNormal(String, 2, 0, 6);
 		}
 		else if (menu_index >= 0 && menu_index < (int)gMenuListCount)

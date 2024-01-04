@@ -56,6 +56,41 @@ void BACKLIGHT_InitHardware()
 		0;
 }
 
+#ifdef ENABLE_FEAT_F4HWN
+	void BACKLIGHT_TurnOnBoot()
+	{
+		if (gEeprom.BACKLIGHT_TIME == 0) {
+			BACKLIGHT_TurnOff();
+			return;
+		}
+
+		backlightOn = true;
+
+		for(uint8_t i = 0; i <= gEeprom.BACKLIGHT_MAX; i++)
+		{
+			BACKLIGHT_SetBrightness(i);
+			SYSTEM_DelayMs(50);
+		}
+
+		switch (gEeprom.BACKLIGHT_TIME) {
+			default:
+			case 1:	// 5 sec
+			case 2:	// 10 sec
+			case 3:	// 20 sec
+				gBacklightCountdown_500ms = 1 + (2 << (gEeprom.BACKLIGHT_TIME - 1)) * 5;
+				break;
+			case 4:	// 1 min
+			case 5:	// 2 min
+			case 6:	// 4 min
+				gBacklightCountdown_500ms = 1 + (2 << (gEeprom.BACKLIGHT_TIME - 4)) * 60;
+				break;
+			case 7:	// always on
+				gBacklightCountdown_500ms = 0;
+				break;
+		}
+	}
+#endif
+
 void BACKLIGHT_TurnOn(void)
 {
 	if (gEeprom.BACKLIGHT_TIME == 0) {
@@ -64,17 +99,7 @@ void BACKLIGHT_TurnOn(void)
 	}
 
 	backlightOn = true;
-
-#ifdef ENABLE_FEAT_F4HWN
-	for(uint8_t i = 0; i <= gEeprom.BACKLIGHT_MAX; i++)
-	{
-		BACKLIGHT_SetBrightness(i);
-		SYSTEM_DelayMs(50);
-	}
-#else
 	BACKLIGHT_SetBrightness(gEeprom.BACKLIGHT_MAX);
-#endif
-
 
 	switch (gEeprom.BACKLIGHT_TIME) {
 		default:
