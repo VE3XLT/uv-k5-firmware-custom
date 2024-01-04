@@ -9,6 +9,6 @@
 const char Version[]      = AUTHOR_STRING VER;
 const char UART_Version[] = "UV-K5 Firmware, Open Edition, " AUTHOR_STRING VER "\r\n";
 
-#ifdef ENABLE_BEST_SPLIT_TX_POWER
+#ifdef ENABLE_FEAT_F4HWN
 	const char Feat[]         = "Feat " FEAT_STRING;
 #endif

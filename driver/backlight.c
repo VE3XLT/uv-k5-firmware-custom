@@ -19,8 +19,11 @@
 #include "bsp/dp32g030/pwmplus.h"
 #include "bsp/dp32g030/portcon.h"
 #include "driver/gpio.h"
-#include "driver/system.h"
 #include "settings.h"
+
+#ifdef ENABLE_FEAT_F4HWN
+	#include "driver/system.h"
+#endif
 
 // this is decremented once every 500ms
 uint16_t gBacklightCountdown_500ms = 0;
@@ -62,11 +65,16 @@ void BACKLIGHT_TurnOn(void)
 
 	backlightOn = true;
 
+#ifdef ENABLE_FEAT_F4HWN
 	for(uint8_t i = 0; i <= gEeprom.BACKLIGHT_MAX; i++)
 	{
 		BACKLIGHT_SetBrightness(i);
 		SYSTEM_DelayMs(50);
 	}
+#else
+	BACKLIGHT_SetBrightness(gEeprom.BACKLIGHT_MAX);
+#endif
+
 
 	switch (gEeprom.BACKLIGHT_TIME) {
 		default:

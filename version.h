@@ -22,6 +22,6 @@ extern const char UART_Version[];
 
 #endif
 
-#ifdef ENABLE_BEST_SPLIT_TX_POWER
+#ifdef ENABLE_FEAT_F4HWN
 	extern const char Feat[];
 #endif

@@ -494,7 +494,7 @@ void RADIO_ConfigureSquelchAndOutputPower(VFO_Info_t *pInfo)
 	uint8_t Txp[3];
 	EEPROM_ReadBuffer(0x1ED0 + (Band * 16) + (pInfo->OUTPUT_POWER * 3), Txp, 3);
 
-#ifdef ENABLE_BEST_SPLIT_TX_POWER
+#ifdef ENABLE_FEAT_F4HWN
 	// make low and mid even lower
 	if (pInfo->OUTPUT_POWER == OUTPUT_POWER_LOW) {
 		Txp[0] = (Txp[0] * 4) / 11;
