@@ -123,7 +123,9 @@ const t_menu_item MenuList[] =
 	{"BatVol", VOICE_ID_INVALID,                       MENU_VOL           }, // was "VOL"
 	{"RxMode", VOICE_ID_DUAL_STANDBY,                  MENU_TDR           },
 	{"Sql",    VOICE_ID_SQUELCH,                       MENU_SQL           },
-
+#ifdef ENABLE_FEAT_F4HWN
+	{"SetLow", VOICE_ID_INVALID,                       MENU_SET_LOW       },
+#endif
 	// hidden menu items from here on
 	// enabled if pressing both the PTT and upper side button at power-on
 	{"F Lock", VOICE_ID_INVALID,                       MENU_F_LOCK        },
@@ -333,6 +335,15 @@ const char gSubMenu_SCRAMBLER[][7] =
 	"3400Hz",
 	"3500Hz"
 };
+
+#ifdef ENABLE_FEAT_F4HWN
+	const char gSubMenu_SET_LOW[][6] =
+	{
+		"125mW",
+		"250mW",
+		"500mW",
+	};
+#endif
 
 const t_sidefunction gSubMenu_SIDEFUNCTIONS[] =
 {
@@ -841,6 +852,11 @@ void UI_DisplayMenu(void)
 			strcpy(String, gSubMenu_SIDEFUNCTIONS[gSubMenuSelection].name);
 			break;
 
+		#ifdef ENABLE_FEAT_F4HWN
+			case MENU_SET_LOW:
+				strcpy(String, gSubMenu_SET_LOW[gSubMenuSelection]);
+				break;
+		#endif
 	}
 
 	if (!already_printed)

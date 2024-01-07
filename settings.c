@@ -277,6 +277,11 @@ void SETTINGS_InitEEPROM(void)
 			return;
 		}
 	}
+
+	#ifdef ENABLE_FEAT_F4HWN
+		EEPROM_ReadBuffer(0x1FF0, Data, 8);
+		gSetting_set_low = Data[7];
+	#endif
 }
 
 void SETTINGS_LoadCalibration(void)
@@ -711,6 +716,11 @@ void SETTINGS_UpdateChannel(uint8_t channel, const VFO_Info_t *pVFO, bool keep)
 void SETTINGS_WriteBuildOptions(void)
 {
 	uint8_t buf[8] = {0};
+
+#ifdef ENABLE_FEAT_F4HWN
+	EEPROM_ReadBuffer(0x1FF0, buf, 8);
+#endif
+
 buf[0] = 0
 #ifdef ENABLE_FMRADIO
     | (1 << 0)

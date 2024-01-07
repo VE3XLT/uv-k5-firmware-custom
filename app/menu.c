@@ -363,6 +363,13 @@ int MENU_GetLimits(uint8_t menu_id, int32_t *pMin, int32_t *pMax)
 			*pMax = gSubMenu_SIDEFUNCTIONS_size-1;
 			break;
 
+#ifdef ENABLE_FEAT_F4HWN
+		case MENU_SET_LOW:
+			*pMin = 0;
+			*pMax = ARRAY_SIZE(gSubMenu_SET_LOW) - 1;
+			break;			
+#endif
+
 		default:
 			return -1;
 	}
@@ -704,6 +711,16 @@ void MENU_AcceptSetting(void)
 				gSetting_AM_fix = gSubMenuSelection;
 				gVfoConfigureMode = VFO_CONFIGURE_RELOAD;
 				gFlagResetVfos    = true;
+				break;
+		#endif
+
+		#ifdef ENABLE_FEAT_F4HWN
+			case MENU_SET_LOW:
+				gSetting_set_low = gSubMenuSelection;
+				uint8_t Data[8] = {0};
+				EEPROM_ReadBuffer(0x1FF0, Data, 8);
+				Data[7] = gSetting_set_low;
+				EEPROM_WriteBuffer(0x1FF0, Data);
 				break;
 		#endif
 
@@ -1081,6 +1098,12 @@ void MENU_ShowCurrentSetting(void)
 #ifdef ENABLE_AM_FIX
 		case MENU_AM_FIX:
 			gSubMenuSelection = gSetting_AM_fix;
+			break;
+#endif
+
+#ifdef ENABLE_FEAT_F4HWN
+		case MENU_SET_LOW:
+			gSubMenuSelection = gSetting_set_low;
 			break;
 #endif
 		#ifdef ENABLE_NOAA
