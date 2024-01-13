@@ -794,7 +794,7 @@ void APP_Update(void)
 #ifdef ENABLE_FEAT_F4HWN
 	if (gCurrentFunction == FUNCTION_TRANSMIT && (gTxTimeoutReachedAlert || SerialConfigInProgress()))
 	{
-		AUDIO_PlayBeep(BEEP_500HZ_60MS_DOUBLE_BEEP);
+		
 	}
 #endif
 
