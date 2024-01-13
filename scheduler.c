@@ -56,7 +56,9 @@ void SystickHandler(void)
 	if ((gGlobalSysTickCounter % 50) == 0)
 	{
 		gNextTimeslice_500ms = true;
-		
+#ifdef ENABLE_FEAT_F4HWN
+		DECREMENT_AND_TRIGGER(gTxTimerCountdownAlert_500ms - ALERT_TOT * 2, gTxTimeoutReachedAlert);
+#endif
 		DECREMENT_AND_TRIGGER(gTxTimerCountdown_500ms, gTxTimeoutReached);
 		DECREMENT(gSerialConfigCountDown_500ms);
 	}

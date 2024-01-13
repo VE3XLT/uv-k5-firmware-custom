@@ -1084,9 +1084,17 @@ void RADIO_PrepareTX(void)
 			gTxTimerCountdown_500ms = 120 * gEeprom.TX_TIMEOUT_TIMER;  // minutes
 		else
 			gTxTimerCountdown_500ms = 120 * 15;  // 15 minutes
+
+#ifdef ENABLE_FEAT_F4HWN 
+		gTxTimerCountdownAlert_500ms = gTxTimerCountdown_500ms;
+#endif
 	}
 
 	gTxTimeoutReached    = false;
+#ifdef ENABLE_FEAT_F4HWN 
+	gTxTimeoutReachedAlert = false;
+#endif
+	
 	gRTTECountdown       = 0;
 
 #ifdef ENABLE_DTMF_CALLING

@@ -791,9 +791,17 @@ void APP_Update(void)
 	}
 #endif
 
+#ifdef ENABLE_FEAT_F4HWN
+	if (gCurrentFunction == FUNCTION_TRANSMIT && (gTxTimeoutReachedAlert || SerialConfigInProgress()))
+	{
+		AUDIO_PlayBeep(BEEP_500HZ_60MS_DOUBLE_BEEP);
+	}
+#endif
+
 	if (gCurrentFunction == FUNCTION_TRANSMIT && (gTxTimeoutReached || SerialConfigInProgress()))
 	{	// transmitter timed out or must de-key
 		gTxTimeoutReached = false;
+		gTxTimeoutReachedAlert = false;
 
 		APP_EndTransmission(true);
 
