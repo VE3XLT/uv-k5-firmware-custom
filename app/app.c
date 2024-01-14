@@ -794,10 +794,19 @@ void APP_Update(void)
 #ifdef ENABLE_FEAT_F4HWN
 	if (gCurrentFunction == FUNCTION_TRANSMIT && (gTxTimeoutReachedAlert || SerialConfigInProgress()))
 	{
-		GPIO_FlipBit(&GPIOC->DATA, GPIOC_PIN_FLASHLIGHT);
-		SYSTEM_DelayMs(50);
-		GPIO_FlipBit(&GPIOC->DATA, GPIOC_PIN_FLASHLIGHT);
-		SYSTEM_DelayMs(50);
+		if (gEeprom.BACKLIGHT_TIME == 0) {
+			GPIO_FlipBit(&GPIOC->DATA, GPIOC_PIN_FLASHLIGHT);
+			SYSTEM_DelayMs(5);
+			GPIO_FlipBit(&GPIOC->DATA, GPIOC_PIN_FLASHLIGHT);
+			SYSTEM_DelayMs(500);
+		}
+		else
+		{
+			BACKLIGHT_TurnOn();
+			SYSTEM_DelayMs(250);
+			BACKLIGHT_TurnOff();
+			SYSTEM_DelayMs(250);
+		}
 	}
 #endif
 
