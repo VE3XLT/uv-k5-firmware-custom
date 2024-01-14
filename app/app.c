@@ -794,7 +794,10 @@ void APP_Update(void)
 #ifdef ENABLE_FEAT_F4HWN
 	if (gCurrentFunction == FUNCTION_TRANSMIT && (gTxTimeoutReachedAlert || SerialConfigInProgress()))
 	{
-
+		GPIO_FlipBit(&GPIOC->DATA, GPIOC_PIN_FLASHLIGHT);
+		SYSTEM_DelayMs(50);
+		GPIO_FlipBit(&GPIOC->DATA, GPIOC_PIN_FLASHLIGHT);
+		SYSTEM_DelayMs(50);
 	}
 #endif
 
