@@ -145,7 +145,7 @@ extern const char*        gSubMenu_RXMode[4];
 #endif
 
 #ifdef ENABLE_FEAT_F4HWN
-	extern const char    gSubMenu_SET_LOW[3][6];
+	extern const char    gSubMenu_SET_LOW[5][7];
 #endif
 
 extern const char        gSubMenu_SC_REV[3][8];

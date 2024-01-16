@@ -337,11 +337,13 @@ const char gSubMenu_SCRAMBLER[][7] =
 };
 
 #ifdef ENABLE_FEAT_F4HWN
-	const char gSubMenu_SET_LOW[][6] =
+	const char gSubMenu_SET_LOW[][7] =
 	{
 		"125mW",
 		"250mW",
 		"500mW",
+		"1W",
+		"< 20mW"
 	};
 #endif
 

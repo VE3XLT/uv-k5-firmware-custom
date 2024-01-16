@@ -73,7 +73,7 @@ bool RADIO_CheckValidChannel(uint16_t channel, bool checkScanList, uint8_t scanL
 
 	if (scanList ? !att.scanlist2 : !att.scanlist1)
 		return false;
-	
+
 	const uint8_t PriorityCh1 = gEeprom.SCANLIST_PRIORITY_CH1[scanList];
 	const uint8_t PriorityCh2 = gEeprom.SCANLIST_PRIORITY_CH2[scanList];
 
@@ -505,6 +505,16 @@ void RADIO_ConfigureSquelchAndOutputPower(VFO_Info_t *pInfo)
 				Txp[0] = (Txp[0] * 4) / 10;
 				Txp[1] = (Txp[1] * 4) / 10;
 				Txp[2] = (Txp[2] * 4) / 10;
+				break;
+			case 3:
+				Txp[0] = (Txp[0] * 4) / 7;
+				Txp[1] = (Txp[1] * 4) / 7;
+				Txp[2] = (Txp[2] * 4) / 7;
+				break;
+			case 4:
+				Txp[0] = (Txp[0] * 4) / 25;
+				Txp[1] = (Txp[1] * 4) / 25;
+				Txp[2] = (Txp[2] * 4) / 25;
 				break;
 		}
 	}
