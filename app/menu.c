@@ -721,6 +721,7 @@ void MENU_AcceptSetting(void)
 				EEPROM_ReadBuffer(0x1FF0, Data, 8);
 				Data[7] = gSetting_set_low;
 				EEPROM_WriteBuffer(0x1FF0, Data);
+				gRequestSaveChannel = 1;
 				break;
 		#endif
 
