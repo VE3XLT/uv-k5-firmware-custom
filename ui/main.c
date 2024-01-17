@@ -160,7 +160,7 @@ void UI_DisplayAudioBar(void)
 #endif
 
 #ifdef ENABLE_FEAT_F4HWN
-	int16_t map(int16_t x, int16_t in_min, int16_t in_max, int16_t out_min, int16_t out_max) {
+	static int16_t map(int16_t x, int16_t in_min, int16_t in_max, int16_t out_min, int16_t out_max) {
 		return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 	}
 #endif
