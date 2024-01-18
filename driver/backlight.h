@@ -32,9 +32,6 @@ typedef enum {
 #endif
 
 void BACKLIGHT_InitHardware();
-#ifdef ENABLE_FEAT_F4HWN
-    void BACKLIGHT_TurnOnBoot();
-#endif
 void BACKLIGHT_TurnOn();
 void BACKLIGHT_TurnOff();
 bool BACKLIGHT_IsOn();
