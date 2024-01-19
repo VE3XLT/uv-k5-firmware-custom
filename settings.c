@@ -280,6 +280,10 @@ void SETTINGS_InitEEPROM(void)
 
 	#ifdef ENABLE_FEAT_F4HWN
 		EEPROM_ReadBuffer(0x1FF0, Data, 8);
+		if(Data[7] > 4)
+		{
+			Data[7] = 0;
+		}
 		gSetting_set_low = Data[7];
 	#endif
 }
