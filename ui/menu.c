@@ -417,6 +417,10 @@ void UI_DisplayMenu(void)
 
 	UI_DisplayClear();
 
+#ifdef ENABLE_FEAT_F4HWN
+	UI_DrawLineBuffer(gFrameBuffer, 50, 0, 50, 64, 1);
+#endif
+
 #ifndef ENABLE_CUSTOM_MENU_LAYOUT
 		// original menu layout
 	for (i = 0; i < 3; i++)
