@@ -9,7 +9,7 @@ ENABLE_SWD                    ?= 0
 ENABLE_OVERLAY                ?= 0
 ENABLE_LTO                    ?= 1
 
-# ---- STOCK QUANSHENG FERATURES ----
+# ---- STOCK QUANSHENG FEATURES ----
 ENABLE_UART                   ?= 1
 ENABLE_AIRCOPY                ?= 0
 ENABLE_FMRADIO                ?= 1
