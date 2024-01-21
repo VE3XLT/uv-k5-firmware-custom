@@ -125,7 +125,19 @@ void UI_DisplayAudioBar(void)
 		if(gLowBattery && !gLowBatteryConfirmed)
 			return;
 
-		const unsigned int line      = 3;
+#ifdef ENABLE_FEAT_F4HWN
+		unsigned int line;
+		if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
+		{
+			line       = 5;
+		}
+		else
+		{
+			line       = 3;
+		}
+#else
+	const unsigned int line         = 3;
+#endif
 
 		if (gCurrentFunction != FUNCTION_TRANSMIT ||
 			gScreenToDisplay != DISPLAY_MAIN
@@ -172,7 +184,19 @@ void DisplayRSSIBar(const bool now)
 	const unsigned int txt_width    = 7 * 8;                 // 8 text chars
 	const unsigned int bar_x        = 2 + txt_width + 4;     // X coord of bar graph
 
+#ifdef ENABLE_FEAT_F4HWN
+		unsigned int line;
+		if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
+		{
+			line       = 5;
+		}
+		else
+		{
+			line       = 3;
+		}
+#else
 	const unsigned int line         = 3;
+#endif
 	uint8_t           *p_line        = gFrameBuffer[line];
 	char               str[16];
 
@@ -343,6 +367,14 @@ void UI_DisplayMain(void)
 	// clear the screen
 	UI_DisplayClear();
 
+#ifdef ENABLE_FEAT_F4HWN
+	if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
+	{
+		UI_DrawLineBuffer(gFrameBuffer, 0, 2, 127, 2, 1);
+		UI_DrawLineBuffer(gFrameBuffer, 0, 35, 127, 35, 1);
+	}
+#endif
+
 	if(gLowBattery && !gLowBatteryConfirmed) {
 		UI_DisplayPopup("LOW BATTERY");
 		ST7565_BlitFullScreen();
@@ -361,6 +393,24 @@ void UI_DisplayMain(void)
 
 	for (unsigned int vfo_num = 0; vfo_num < 2; vfo_num++)
 	{
+
+#ifdef ENABLE_FEAT_F4HWN
+		const unsigned int line0 = 0;  // text screen line
+		const unsigned int line1 = 4;
+		unsigned int line;
+		if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
+		{
+			line       = 1;
+		}
+		else
+		{
+			line       = (vfo_num == 0) ? line0 : line1;
+		}
+		const bool         isMainVFO  = (vfo_num == gEeprom.TX_VFO);
+		uint8_t           *p_line0    = gFrameBuffer[line + 0];
+		uint8_t           *p_line1    = gFrameBuffer[line + 1];
+		enum Vfo_txtr_mode mode       = VFO_MODE_NONE;		
+#else
 		const unsigned int line0 = 0;  // text screen line
 		const unsigned int line1 = 4;
 		const unsigned int line       = (vfo_num == 0) ? line0 : line1;
@@ -368,6 +418,17 @@ void UI_DisplayMain(void)
 		uint8_t           *p_line0    = gFrameBuffer[line + 0];
 		uint8_t           *p_line1    = gFrameBuffer[line + 1];
 		enum Vfo_txtr_mode mode       = VFO_MODE_NONE;
+#endif
+
+#ifdef ENABLE_FEAT_F4HWN
+	if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
+	{
+		if (activeTxVFO != vfo_num)
+		{
+			continue;
+		}
+	}
+#endif
 
 		if (activeTxVFO != vfo_num) // this is not active TX VFO
 		{
@@ -673,6 +734,24 @@ void UI_DisplayMain(void)
 		String[0] = '\0';
 		const VFO_Info_t *vfoInfo = &gEeprom.VfoInfo[vfo_num];
 
+/*
+#ifdef ENABLE_FEAT_F4HWN
+	// show the TX power in watts
+	const char low_pwr_list[][7] = {"125mW","250mW", "500mW", "1W", "< 20mW"};
+	switch (vfoInfo->OUTPUT_POWER)
+	{
+	case 0:
+		UI_PrintStringSmallNormal(low_pwr_list[gSetting_set_low], 0, 0, line + 2);
+		break;
+	case 1:
+		UI_PrintStringSmallNormal("2W", 0, 0, line + 2);
+		break;
+	case 2:
+		UI_PrintStringSmallNormal("5W", 0, 0, line + 2);
+		break;
+	}
+#endif
+*/
 		// show the modulation symbol
 		const char * s = "";
 		const ModulationMode_t mod = vfoInfo->Modulation;

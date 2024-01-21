@@ -418,7 +418,7 @@ void UI_DisplayMenu(void)
 	UI_DisplayClear();
 
 #ifdef ENABLE_FEAT_F4HWN
-	UI_DrawLineBuffer(gFrameBuffer, 50, 0, 50, 64, 1);
+	UI_DrawLineBuffer(gFrameBuffer, 50, 0, 50, 63, 1); // Be ware, limit is 63 pixels (not 64)
 	UI_DrawLineBuffer(gFrameBuffer, 0, 46, 50, 46, 1);
 #endif
 
