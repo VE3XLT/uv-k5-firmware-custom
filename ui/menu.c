@@ -419,6 +419,7 @@ void UI_DisplayMenu(void)
 
 #ifdef ENABLE_FEAT_F4HWN
 	UI_DrawLineBuffer(gFrameBuffer, 50, 0, 50, 64, 1);
+	UI_DrawLineBuffer(gFrameBuffer, 0, 46, 50, 46, 1);
 #endif
 
 #ifndef ENABLE_CUSTOM_MENU_LAYOUT
@@ -481,7 +482,7 @@ void UI_DisplayMenu(void)
 
 			// draw the menu index number/count
 #ifdef ENABLE_FEAT_F4HWN
-			sprintf(String, "%2u/%u", 1 + gMenuCursor, gMenuListCount);
+			sprintf(String, "%02u/%u", 1 + gMenuCursor, gMenuListCount);
 #else
 			sprintf(String, "%2u.%u", 1 + gMenuCursor, gMenuListCount);
 #endif
