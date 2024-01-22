@@ -198,6 +198,28 @@ static void sort(int16_t *a, int16_t *b)
 	}
 }
 
+#ifdef ENABLE_FEAT_F4HWN
+	void UI_DrawLineDottedBuffer(uint8_t (*buffer)[128], int16_t x1, int16_t y1, int16_t x2, int16_t y2, bool black)
+	{
+		if(x2==x1) {
+			sort(&y1, &y2);
+			for(int16_t i = y1; i <= y2; i+=2) {
+				UI_DrawPixelBuffer(buffer, x1, i, black);
+			}
+		} else {
+			const int multipl = 1000;
+			int a = (y2-y1)*multipl / (x2-x1);
+			int b = y1 - a * x1 / multipl;
+
+			sort(&x1, &x2);
+			for(int i = x1; i<= x2; i+=2)
+			{
+				UI_DrawPixelBuffer(buffer, i, i*a/multipl +b, black);
+			}
+		}
+	}
+#endif
+
 void UI_DrawLineBuffer(uint8_t (*buffer)[128], int16_t x1, int16_t y1, int16_t x2, int16_t y2, bool black)
 {
 	if(x2==x1) {

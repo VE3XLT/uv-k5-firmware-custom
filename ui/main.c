@@ -370,8 +370,8 @@ void UI_DisplayMain(void)
 #ifdef ENABLE_FEAT_F4HWN
 	if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
 	{
-		UI_DrawLineBuffer(gFrameBuffer, 0, 2, 127, 2, 1);
-		UI_DrawLineBuffer(gFrameBuffer, 0, 35, 127, 35, 1);
+		UI_DrawLineDottedBuffer(gFrameBuffer, 0, 2, 127, 2, 1);
+		UI_DrawLineDottedBuffer(gFrameBuffer, 0, 35, 127, 35, 1);
 	}
 #endif
 
@@ -901,7 +901,6 @@ void UI_DisplayMain(void)
 #endif
 		}
 	}
-
 	ST7565_BlitFullScreen();
 }
 
