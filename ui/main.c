@@ -39,6 +39,10 @@
 
 center_line_t center_line = CENTER_LINE_NONE;
 
+#ifdef ENABLE_FEAT_F4HWN
+	int posLine;
+#endif
+
 const int8_t dBmCorrTable[7] = {
 			-15, // band 1
 			-25, // band 2
@@ -77,17 +81,42 @@ static void DrawSmallAntennaAndBars(uint8_t *p, unsigned int level)
 
 static void DrawLevelBar(uint8_t xpos, uint8_t line, uint8_t level)
 {
+#ifdef ENABLE_FEAT_F4HWN
+	const char hollowBar[] = {
+		0b00111110,
+		0b00100010,
+		0b00100010,
+		0b00111110
+	};
+
+	const char simpleBar[] = {
+		0b00111110,
+		0b00111110,
+		0b00111110,
+		0b00111110
+	};
+
+#else
 	const char hollowBar[] = {
 		0b01111111,
 		0b01000001,
 		0b01000001,
 		0b01111111
 	};
+#endif
 
 	uint8_t *p_line = gFrameBuffer[line];
 	level = MIN(level, 13);
 
 	for(uint8_t i = 0; i < level; i++) {
+#ifdef ENABLE_FEAT_F4HWN
+		if(i < 9) {
+			memcpy(p_line + (xpos + i * 5), &simpleBar, ARRAY_SIZE(simpleBar));
+		}
+		else {
+			memcpy(p_line + (xpos + i * 5), &hollowBar, ARRAY_SIZE(hollowBar));
+		}
+#else
 		if(i < 9) {
 			for(uint8_t j = 0; j < 4; j++)
 				p_line[xpos + i * 5 + j] = (~(0x7F >> (i+1))) & 0x7F;
@@ -95,7 +124,30 @@ static void DrawLevelBar(uint8_t xpos, uint8_t line, uint8_t level)
 		else {
 			memcpy(p_line + (xpos + i * 5), &hollowBar, ARRAY_SIZE(hollowBar));
 		}
+#endif
 	}
+
+#ifdef ENABLE_FEAT_F4HWN
+	if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 != 0)
+	{
+		switch(posLine) {
+			case 0:
+				UI_DrawLineBuffer(gFrameBuffer, 0, 31, 10, 31, 1);
+				UI_DrawLineBuffer(gFrameBuffer, 117, 31, 127, 31, 1);
+				UI_DrawLineBuffer(gFrameBuffer, 0, 31, 0, 24, 1);
+				UI_DrawLineBuffer(gFrameBuffer, 127, 31, 127, 24, 1);
+				//UI_DrawRectangleBuffer(gFrameBuffer, 0, 31, 127, 0, 1);
+				break;
+			case 1:
+				UI_DrawLineBuffer(gFrameBuffer, 0, 23, 10, 23, 1);
+				UI_DrawLineBuffer(gFrameBuffer, 117, 23, 127, 23, 1);
+				UI_DrawLineBuffer(gFrameBuffer, 0, 23, 0, 30, 1);
+				UI_DrawLineBuffer(gFrameBuffer, 127, 23, 127, 30, 1);
+				//UI_DrawRectangleBuffer(gFrameBuffer, 0, 23, 127, 54, 1);
+				break;
+		}
+	}
+#endif
 }
 #endif
 
@@ -129,14 +181,14 @@ void UI_DisplayAudioBar(void)
 		unsigned int line;
 		if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
 		{
-			line       = 5;
+			line = 4;
 		}
 		else
 		{
-			line       = 3;
+			line = 3;
 		}
 #else
-	const unsigned int line         = 3;
+	const unsigned int line = 3;
 #endif
 
 		if (gCurrentFunction != FUNCTION_TRANSMIT ||
@@ -188,18 +240,19 @@ void DisplayRSSIBar(const bool now)
 		unsigned int line;
 		if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
 		{
-			line       = 5;
+			line = 4;
 		}
 		else
 		{
-			line       = 3;
+			line = 3;
 		}
 #else
-	const unsigned int line         = 3;
+	const unsigned int line = 3;
 #endif
 	uint8_t           *p_line        = gFrameBuffer[line];
 	char               str[16];
 
+#ifndef ENABLE_FEAT_F4HWN
 	const char plus[] = {
 		0b00011000,
 		0b00011000,
@@ -209,6 +262,7 @@ void DisplayRSSIBar(const bool now)
 		0b00011000,
 		0b00011000,
 	};
+#endif
 
 	if ((gEeprom.KEY_LOCK && gKeypadLocked > 0) || center_line != CENTER_LINE_RSSI)
 		return;     // display is in use
@@ -265,6 +319,20 @@ void DisplayRSSIBar(const bool now)
 	uint8_t overS9Bars = MIN(overS9dBm/10, 4);
 #endif
 
+#ifdef ENABLE_FEAT_F4HWN
+	if(overS9Bars == 0) {
+		sprintf(str, "% 4d", -rssi_dBm);
+		UI_PrintStringSmallNormal(str, LCD_WIDTH + 8, 0, line - 1);
+		sprintf(str, "S%d", s_level);
+		UI_PrintStringSmallBold(str, LCD_WIDTH + 38, 0, line - 1);
+	}
+	else {
+		sprintf(str, "% 4d", -rssi_dBm);
+		UI_PrintStringSmallNormal(str, LCD_WIDTH + 8, 0, line - 1);
+		sprintf(str, "+%02d", overS9dBm);
+		UI_PrintStringSmallBold(str, LCD_WIDTH + 40, 0, line - 1);
+	}
+#else
 	if(overS9Bars == 0) {
 		sprintf(str, "% 4d S%d", -rssi_dBm, s_level);
 	}
@@ -274,6 +342,7 @@ void DisplayRSSIBar(const bool now)
 	}
 
 	UI_PrintStringSmallNormal(str, 2, 0, line);
+#endif
 	DrawLevelBar(bar_x, line, s_level + overS9Bars);
 	if (now)
 		ST7565_BlitLine(line);
@@ -367,14 +436,6 @@ void UI_DisplayMain(void)
 	// clear the screen
 	UI_DisplayClear();
 
-#ifdef ENABLE_FEAT_F4HWN
-	if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
-	{
-		UI_DrawLineDottedBuffer(gFrameBuffer, 0, 2, 127, 2, 1);
-		UI_DrawLineDottedBuffer(gFrameBuffer, 0, 35, 127, 35, 1);
-	}
-#endif
-
 	if(gLowBattery && !gLowBatteryConfirmed) {
 		UI_DisplayPopup("LOW BATTERY");
 		ST7565_BlitFullScreen();
@@ -391,6 +452,10 @@ void UI_DisplayMain(void)
 
 	unsigned int activeTxVFO = gRxVfoIsActive ? gEeprom.RX_VFO : gEeprom.TX_VFO;
 
+#ifdef ENABLE_FEAT_F4HWN
+	posLine = -1;
+#endif
+
 	for (unsigned int vfo_num = 0; vfo_num < 2; vfo_num++)
 	{
 
@@ -401,6 +466,21 @@ void UI_DisplayMain(void)
 		if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
 		{
 			line       = 1;
+
+			/*
+			UI_DrawLineBuffer(gFrameBuffer, 0, 0, 10, 0, 1);
+			UI_DrawLineBuffer(gFrameBuffer, 117, 0, 127, 0, 1);
+			UI_DrawLineBuffer(gFrameBuffer, 0, 0, 0, 7, 1);
+			UI_DrawLineBuffer(gFrameBuffer, 127, 0, 127, 7, 1);
+
+			UI_DrawLineBuffer(gFrameBuffer, 0, 46, 10, 46, 1);
+			UI_DrawLineBuffer(gFrameBuffer, 117, 46, 127, 46, 1);
+			UI_DrawLineBuffer(gFrameBuffer, 0, 46, 0, 39, 1);
+			UI_DrawLineBuffer(gFrameBuffer, 127, 46, 127, 39, 1);
+			*/
+
+			UI_DrawLineBuffer(gFrameBuffer, 0, 4, 127, 4, 1);
+			UI_DrawLineBuffer(gFrameBuffer, 0, 42, 127, 42, 1);
 		}
 		else
 		{
@@ -514,6 +594,7 @@ void UI_DisplayMain(void)
 				{	// show the TX symbol
 					mode = VFO_MODE_TX;
 					UI_PrintStringSmallBold("TX", 14, 0, line);
+					posLine = vfo_num;
 				}
 			}
 		}
@@ -522,6 +603,10 @@ void UI_DisplayMain(void)
 			mode = VFO_MODE_RX;
 			if (FUNCTION_IsRx() && gEeprom.RX_VFO == vfo_num) {
 				UI_PrintStringSmallBold("RX", 14, 0, line);
+				if(posLine == -1) // posLine on TX is a priority
+				{
+					posLine = vfo_num;
+				}
 			}
 		}
 
@@ -800,6 +885,7 @@ void UI_DisplayMain(void)
 		// show the audio scramble symbol
 		if (vfoInfo->SCRAMBLING_TYPE > 0 && gSetting_ScrambleEnable)
 			UI_PrintStringSmallNormal("SCR", LCD_WIDTH + 106, 0, line + 1);
+
 	}
 
 #ifdef ENABLE_AGC_SHOW_DATA
