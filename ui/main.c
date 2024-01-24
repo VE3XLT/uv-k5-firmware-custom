@@ -155,7 +155,7 @@ void UI_DisplayAudioBar(void)
 		unsigned int line;
 		if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
 		{
-			line = 4;
+			line = 5;
 		}
 		else
 		{
@@ -214,7 +214,7 @@ void DisplayRSSIBar(const bool now)
 		unsigned int line;
 		if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
 		{
-			line = 4;
+			line = 5;
 		}
 		else
 		{
@@ -435,7 +435,7 @@ void UI_DisplayMain(void)
 		unsigned int line;
 		if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
 		{
-			line       = 1;
+			line       = 0;
 
 			/*
 			UI_DrawLineBuffer(gFrameBuffer, 0, 0, 10, 0, 1);
@@ -449,8 +449,8 @@ void UI_DisplayMain(void)
 			UI_DrawLineBuffer(gFrameBuffer, 127, 46, 127, 39, 1);
 			*/
 
-			UI_DrawLineBuffer(gFrameBuffer, 0, 4, 127, 4, 1);
-			UI_DrawLineBuffer(gFrameBuffer, 0, 42, 127, 42, 1);
+			//UI_DrawLineBuffer(gFrameBuffer, 0, 4, 127, 4, 1);
+			//UI_DrawLineBuffer(gFrameBuffer, 0, 42, 127, 42, 1);
 		}
 		else
 		{
@@ -714,19 +714,45 @@ void UI_DisplayMain(void)
 						}
 						else {
 #ifdef ENABLE_FEAT_F4HWN
-	if(activeTxVFO == vfo_num) {
-		UI_PrintStringSmallBold(String, 32 + 4, 0, line);
+	if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
+	{
+		UI_PrintString(String, 32, 0, line, 8);
 	}
 	else
 	{
-		UI_PrintStringSmallNormal(String, 32 + 4, 0, line);		
+		if(activeTxVFO == vfo_num) {
+			UI_PrintStringSmallBold(String, 32 + 4, 0, line);
+		}
+		else
+		{
+			UI_PrintStringSmallNormal(String, 32 + 4, 0, line);		
+		}
 	}
 #else
 	UI_PrintStringSmallBold(String, 32 + 4, 0, line);
 #endif
-							// show the channel frequency below the channel number/name
-							sprintf(String, "%03u.%05u", frequency / 100000, frequency % 100000);
-							UI_PrintStringSmallNormal(String, 32 + 4, 0, line + 1);
+
+#ifdef ENABLE_FEAT_F4HWN
+	if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
+	{
+		sprintf(String, "%3u.%05u", frequency / 100000, frequency % 100000);
+		if(frequency < _1GHz_in_KHz) {
+			// show the remaining 2 small frequency digits
+			UI_PrintStringSmallNormal(String + 7, 113, 0, line + 4);
+			String[7] = 0;
+			// show the main large frequency digits
+			UI_DisplayFrequency(String, 32, line + 3, false);
+		}
+		else
+		{
+			// show the frequency in the main font
+			UI_PrintString(String, 32, 0, line + 3, 8);
+		}
+	}
+#else							// show the channel frequency below the channel number/name
+	sprintf(String, "%03u.%05u", frequency / 100000, frequency % 100000);
+	UI_PrintStringSmallNormal(String, 32 + 4, 0, line + 1);
+#endif
 						}
 
 						break;
