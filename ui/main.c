@@ -749,6 +749,11 @@ void UI_DisplayMain(void)
 			UI_PrintString(String, 32, 0, line + 3, 8);
 		}
 	}
+	else
+	{
+		sprintf(String, "%03u.%05u", frequency / 100000, frequency % 100000);
+		UI_PrintStringSmallNormal(String, 32 + 4, 0, line + 1);
+	}
 #else							// show the channel frequency below the channel number/name
 	sprintf(String, "%03u.%05u", frequency / 100000, frequency % 100000);
 	UI_PrintStringSmallNormal(String, 32 + 4, 0, line + 1);
