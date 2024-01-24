@@ -304,7 +304,7 @@ void DisplayRSSIBar(const bool now)
 		sprintf(str, "% 4d", -rssi_dBm);
 		UI_PrintStringSmallNormal(str, LCD_WIDTH + 8, 0, line - 1);
 		sprintf(str, "+%02d", overS9dBm);
-		UI_PrintStringSmallBold(str, LCD_WIDTH + 40, 0, line - 1);
+		UI_PrintStringSmallBold(str, LCD_WIDTH + 38, 0, line - 1);
 	}
 #else
 	if(overS9Bars == 0) {
