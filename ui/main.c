@@ -39,10 +39,6 @@
 
 center_line_t center_line = CENTER_LINE_NONE;
 
-#ifdef ENABLE_FEAT_F4HWN
-	int posLine;
-#endif
-
 const int8_t dBmCorrTable[7] = {
 			-15, // band 1
 			-25, // band 2
@@ -126,28 +122,6 @@ static void DrawLevelBar(uint8_t xpos, uint8_t line, uint8_t level)
 		}
 #endif
 	}
-
-#ifdef ENABLE_FEAT_F4HWN
-	if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 != 0)
-	{
-		switch(posLine) {
-			case 0:
-				UI_DrawLineBuffer(gFrameBuffer, 0, 31, 10, 31, 1);
-				UI_DrawLineBuffer(gFrameBuffer, 117, 31, 127, 31, 1);
-				UI_DrawLineBuffer(gFrameBuffer, 0, 31, 0, 24, 1);
-				UI_DrawLineBuffer(gFrameBuffer, 127, 31, 127, 24, 1);
-				//UI_DrawRectangleBuffer(gFrameBuffer, 0, 31, 127, 0, 1);
-				break;
-			case 1:
-				UI_DrawLineBuffer(gFrameBuffer, 0, 23, 10, 23, 1);
-				UI_DrawLineBuffer(gFrameBuffer, 117, 23, 127, 23, 1);
-				UI_DrawLineBuffer(gFrameBuffer, 0, 23, 0, 30, 1);
-				UI_DrawLineBuffer(gFrameBuffer, 127, 23, 127, 30, 1);
-				//UI_DrawRectangleBuffer(gFrameBuffer, 0, 23, 127, 54, 1);
-				break;
-		}
-	}
-#endif
 }
 #endif
 
@@ -452,10 +426,6 @@ void UI_DisplayMain(void)
 
 	unsigned int activeTxVFO = gRxVfoIsActive ? gEeprom.RX_VFO : gEeprom.TX_VFO;
 
-#ifdef ENABLE_FEAT_F4HWN
-	posLine = -1;
-#endif
-
 	for (unsigned int vfo_num = 0; vfo_num < 2; vfo_num++)
 	{
 
@@ -594,7 +564,6 @@ void UI_DisplayMain(void)
 				{	// show the TX symbol
 					mode = VFO_MODE_TX;
 					UI_PrintStringSmallBold("TX", 14, 0, line);
-					posLine = vfo_num;
 				}
 			}
 		}
@@ -603,10 +572,6 @@ void UI_DisplayMain(void)
 			mode = VFO_MODE_RX;
 			if (FUNCTION_IsRx() && gEeprom.RX_VFO == vfo_num) {
 				UI_PrintStringSmallBold("RX", 14, 0, line);
-				if(posLine == -1) // posLine on TX is a priority
-				{
-					posLine = vfo_num;
-				}
 			}
 		}
 
@@ -748,7 +713,17 @@ void UI_DisplayMain(void)
 							UI_PrintString(String, 32, 0, line, 8);
 						}
 						else {
-							UI_PrintStringSmallBold(String, 32 + 4, 0, line);
+#ifdef ENABLE_FEAT_F4HWN
+	if(activeTxVFO == vfo_num) {
+		UI_PrintStringSmallBold(String, 32 + 4, 0, line);
+	}
+	else
+	{
+		UI_PrintStringSmallNormal(String, 32 + 4, 0, line);		
+	}
+#else
+	UI_PrintStringSmallBold(String, 32 + 4, 0, line);
+#endif
 							// show the channel frequency below the channel number/name
 							sprintf(String, "%03u.%05u", frequency / 100000, frequency % 100000);
 							UI_PrintStringSmallNormal(String, 32 + 4, 0, line + 1);
