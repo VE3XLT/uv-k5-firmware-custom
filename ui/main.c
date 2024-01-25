@@ -954,7 +954,20 @@ void UI_DisplayMain(void)
 					center_line = CENTER_LINE_DTMF_DEC;
 
 					sprintf(String, "DTMF %s", gDTMF_RX_live + idx);
-					UI_PrintStringSmallNormal(String, 2, 0, 3);
+
+#ifdef ENABLE_FEAT_F4HWN
+		if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
+		{
+			UI_PrintStringSmallNormal(String, 2, 0, 5);
+		}
+		else
+		{
+			UI_PrintStringSmallNormal(String, 2, 0, 3);
+		}
+#else
+		UI_PrintStringSmallNormal(String, 2, 0, 3);
+
+#endif
 				}
 			#else
 				if (gSetting_live_DTMF_decoder && gDTMF_RX_index > 0)
