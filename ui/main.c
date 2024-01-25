@@ -41,7 +41,7 @@ center_line_t center_line = CENTER_LINE_NONE;
 
 #ifdef ENABLE_FEAT_F4HWN
 	static bool RXCounter;
-	static uint8_t RXLine;
+	static int8_t RXLine;
 #endif
 
 const int8_t dBmCorrTable[7] = {
@@ -240,7 +240,7 @@ const char empty[] = {
 	//sprintf(String, "%d", RXCounter);
 	//UI_PrintStringSmallBold(String, 80, 0, RXLine);
 
-	if(RXLine != 0 && center_line != CENTER_LINE_IN_USE)
+	if(RXLine >= 0 && center_line != CENTER_LINE_IN_USE)
 	{
 		if(RXCounter == true)
 		{
@@ -619,7 +619,7 @@ void UI_DisplayMain(void)
 	}
 	else
 	{
-		RXLine = 0;
+		RXLine = -1;
 		UI_PrintStringSmallBold("RX", 14, 0, line);
 	}
 #else
