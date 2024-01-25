@@ -240,7 +240,7 @@ const char empty[] = {
 	//sprintf(String, "%d", RXCounter);
 	//UI_PrintStringSmallBold(String, 80, 0, RXLine);
 
-	if(RXLine != 0)
+	if(RXLine != 0 && center_line != CENTER_LINE_IN_USE)
 	{
 		if(RXCounter == true)
 		{
