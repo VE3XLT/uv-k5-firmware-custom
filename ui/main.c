@@ -39,6 +39,11 @@
 
 center_line_t center_line = CENTER_LINE_NONE;
 
+#ifdef ENABLE_FEAT_F4HWN
+	static bool RXCounter;
+	static uint8_t RXLine;
+#endif
+
 const int8_t dBmCorrTable[7] = {
 			-15, // band 1
 			-25, // band 2
@@ -211,15 +216,50 @@ void DisplayRSSIBar(const bool now)
 	const unsigned int bar_x        = 2 + txt_width + 4;     // X coord of bar graph
 
 #ifdef ENABLE_FEAT_F4HWN
-		unsigned int line;
-		if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
+
+const char empty[] = {
+	0b00000000,
+	0b00000000,
+	0b00000000,
+	0b00000000,
+	0b00000000,
+	0b00000000,
+	0b00000000,
+};
+	unsigned int line;
+	if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
+	{
+		line = 5;
+	}
+	else
+	{
+		line = 3;
+	}
+
+	char rx[4];
+	//sprintf(String, "%d", RXCounter);
+	//UI_PrintStringSmallBold(String, 80, 0, RXLine);
+
+	if(RXLine != 0)
+	{
+		if(RXCounter == true)
 		{
-			line = 5;
+			sprintf(rx, "%s", "RX");
+			//UI_PrintStringSmallBold("RX", 14, 0, RXLine);
+			RXCounter = false;
 		}
 		else
 		{
-			line = 3;
+			sprintf(rx, "%s", "  ");
+			memcpy(gFrameBuffer[RXLine] + 14, &empty, ARRAY_SIZE(empty));
+			memcpy(gFrameBuffer[RXLine] + 21, &empty, ARRAY_SIZE(empty));
+
+			//UI_PrintStringSmallBold("  ", 14, 0, RXLine);
+			RXCounter = true;
 		}
+		UI_PrintStringSmallBold(rx, 14, 0, RXLine);
+		ST7565_BlitLine(RXLine);
+	}
 #else
 	const unsigned int line = 3;
 #endif
@@ -571,7 +611,20 @@ void UI_DisplayMain(void)
 		{	// receiving .. show the RX symbol
 			mode = VFO_MODE_RX;
 			if (FUNCTION_IsRx() && gEeprom.RX_VFO == vfo_num) {
-				UI_PrintStringSmallBold("RX", 14, 0, line);
+
+#ifdef ENABLE_FEAT_F4HWN
+	if(activeTxVFO != vfo_num)
+	{
+		RXLine = line;
+	}
+	else
+	{
+		RXLine = 0;
+		UI_PrintStringSmallBold("RX", 14, 0, line);
+	}
+#else
+	UI_PrintStringSmallBold("RX", 14, 0, line);
+#endif
 			}
 		}
 

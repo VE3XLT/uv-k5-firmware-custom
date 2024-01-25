@@ -1078,7 +1078,8 @@ void RADIO_PrepareTX(void)
 #ifdef ENABLE_FEAT_F4HWN 
 	gTxTimeoutReachedAlert = false;
 #endif
-	
+
+	gFlagEndTransmission = false;
 	gRTTECountdown       = 0;
 
 #ifdef ENABLE_DTMF_CALLING

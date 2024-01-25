@@ -702,19 +702,16 @@ static void CheckRadioInterrupts(void)
 	}
 }
 
-void APP_EndTransmission(bool inmediately)
+void APP_EndTransmission(void)
 {
+	// back to RX mode
 	RADIO_SendEndOfTransmission();
+
+	gFlagEndTransmission = true;
 
 	if (gMonitor) {
 		 //turn the monitor back on
 		gFlagReconfigureVfos = true;
-	}
-
-	if (inmediately || gEeprom.REPEATER_TAIL_TONE_ELIMINATION == 0) {
-		FUNCTION_Select(FUNCTION_FOREGROUND);
-	} else {
-		gRTTECountdown = gEeprom.REPEATER_TAIL_TONE_ELIMINATION * 10;
 	}
 }
 
@@ -755,11 +752,31 @@ static void HandleVox(void)
 		else if (gVoxStopCountdown_10ms == 0)
 			gVOX_NoiseDetected = false;
 
-		if (gCurrentFunction == FUNCTION_TRANSMIT && !gPttIsPressed && !gVOX_NoiseDetected) {
-			APP_EndTransmission(false);
-			gUpdateStatus = true;
-			gUpdateDisplay = true;
+		if (gCurrentFunction == FUNCTION_TRANSMIT && !gPttIsPressed && !gVOX_NoiseDetected)
+		{
+			if (gFlagEndTransmission)
+			{
+				//if (gCurrentFunction != FUNCTION_FOREGROUND)
+					FUNCTION_Select(FUNCTION_FOREGROUND);
+			}
+			else
+			{
+				APP_EndTransmission();
+
+				if (gEeprom.REPEATER_TAIL_TONE_ELIMINATION == 0)
+				{
+					//if (gCurrentFunction != FUNCTION_FOREGROUND)
+						FUNCTION_Select(FUNCTION_FOREGROUND);
+				}
+				else
+					gRTTECountdown = gEeprom.REPEATER_TAIL_TONE_ELIMINATION * 10;
+			}
+
+			gUpdateStatus        = true;
+			gUpdateDisplay       = true;
+			gFlagEndTransmission = false;
 		}
+
 		return;
 	}
 
@@ -816,7 +833,7 @@ void APP_Update(void)
 #ifdef ENABLE_FEAT_F4HWN
 		gTxTimeoutReachedAlert = false;
 #endif
-		APP_EndTransmission(true);
+		APP_EndTransmission();
 
 		AUDIO_PlayBeep(BEEP_880HZ_60MS_TRIPLE_BEEP);
 
@@ -1217,10 +1234,15 @@ void APP_TimeSlice10ms(void)
 		#endif
 
 		// repeater tail tone elimination
-		if (gRTTECountdown > 0 && gRTTECountdown-- == 0) {
-			FUNCTION_Select(FUNCTION_FOREGROUND);
-			gUpdateStatus  = true;
-			gUpdateDisplay = true;
+		if (gRTTECountdown > 0) {
+			if (--gRTTECountdown == 0)
+			{
+				//if (gCurrentFunction != FUNCTION_FOREGROUND)
+					FUNCTION_Select(FUNCTION_FOREGROUND);
+
+				gUpdateStatus  = true;
+				gUpdateDisplay = true;
+			}
 		}
 	}
 
@@ -1508,7 +1530,7 @@ static void ALARM_Off(void)
 	gEnableSpeaker = false;
 
 	if (gAlarmState == ALARM_STATE_TXALARM || gAlarmState == ALARM_STATE_TX1750) {
-		APP_EndTransmission(false);
+		RADIO_SendEndOfTransmission();
 	}
 
 	gAlarmState = ALARM_STATE_OFF;
@@ -1780,10 +1802,14 @@ static void ProcessKey(KEY_Code_t Key, bool bKeyPressed, bool bKeyHeld)
 		else if ((!bKeyHeld && bKeyPressed) || (gAlarmState == ALARM_STATE_TX1750 && bKeyHeld && !bKeyPressed)) {
 			ALARM_Off();
 
+			if (gEeprom.REPEATER_TAIL_TONE_ELIMINATION == 0)
+				FUNCTION_Select(FUNCTION_FOREGROUND);
+			else
+				gRTTECountdown = gEeprom.REPEATER_TAIL_TONE_ELIMINATION * 10;
+
 			if (Key == KEY_PTT)
 				gPttWasPressed  = true;
-			else
-			if (!bKeyHeld)
+			else if (!bKeyHeld)
 				gPttWasReleased = true;
 		}
 #endif

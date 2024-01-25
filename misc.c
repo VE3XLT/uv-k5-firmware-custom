@@ -209,6 +209,7 @@ bool              g_SquelchLost;
 
 volatile uint16_t gFlashLightBlinkCounter;
 
+bool              gFlagEndTransmission;
 uint8_t           gNextMrChannel;
 ReceptionMode_t   gRxReceptionMode;
 
