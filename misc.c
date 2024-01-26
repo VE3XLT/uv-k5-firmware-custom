@@ -97,6 +97,7 @@ enum BacklightOnRxTx_t gSetting_backlight_on_tx_rx;
 
 #ifdef ENABLE_FEAT_F4HWN
 	uint8_t gSetting_set_low;
+	bool gSetting_set_ptt;
 #endif
 
 #ifdef ENABLE_AUDIO_BAR
@@ -220,6 +221,12 @@ bool              gRxVfoIsActive;
 #endif
 bool              gKeyBeingHeld;
 bool              gPttIsPressed;
+
+#ifdef ENABLE_FEAT_F4HWN
+	bool              gPttOnePush = true;
+	uint8_t           gPttOnePushCounter = 0;
+#endif
+
 uint8_t           gPttDebounceCounter;
 uint8_t           gMenuListCount;
 uint8_t           gBackup_CROSS_BAND_RX_TX;

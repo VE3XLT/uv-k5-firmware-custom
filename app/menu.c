@@ -367,7 +367,11 @@ int MENU_GetLimits(uint8_t menu_id, int32_t *pMin, int32_t *pMax)
 		case MENU_SET_LOW:
 			*pMin = 0;
 			*pMax = ARRAY_SIZE(gSubMenu_SET_LOW) - 1;
-			break;			
+			break;
+		case MENU_SET_PTT:
+			*pMin = 0;
+			*pMax = ARRAY_SIZE(gSubMenu_SET_PTT) - 1;
+			break;
 #endif
 
 		default:
@@ -717,10 +721,10 @@ void MENU_AcceptSetting(void)
 		#ifdef ENABLE_FEAT_F4HWN
 			case MENU_SET_LOW:
 				gSetting_set_low = gSubMenuSelection;
-				uint8_t Data[8] = {0};
-				EEPROM_ReadBuffer(0x1FF0, Data, 8);
-				Data[7] = gSetting_set_low;
-				EEPROM_WriteBuffer(0x1FF0, Data);
+				gRequestSaveChannel = 1;
+				break;
+			case MENU_SET_PTT:
+				gSetting_set_ptt = gSubMenuSelection;
 				gRequestSaveChannel = 1;
 				break;
 		#endif
@@ -1106,6 +1110,10 @@ void MENU_ShowCurrentSetting(void)
 		case MENU_SET_LOW:
 			gSubMenuSelection = gSetting_set_low;
 			break;
+		case MENU_SET_PTT:
+			gSubMenuSelection = gSetting_set_ptt;
+			break;
+
 #endif
 		#ifdef ENABLE_NOAA
 			case MENU_NOAA_S:

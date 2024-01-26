@@ -158,6 +158,7 @@ extern enum BacklightOnRxTx_t gSetting_backlight_on_tx_rx;
 
 #ifdef ENABLE_FEAT_F4HWN
 	extern uint8_t              gSetting_set_low;
+	extern bool              	gSetting_set_ptt;
 #endif
 
 #ifdef ENABLE_AUDIO_BAR
@@ -303,6 +304,11 @@ extern uint8_t               gAlarmToneCounter;
 extern uint16_t              gAlarmRunningCounter;
 extern bool                  gKeyBeingHeld;
 extern bool                  gPttIsPressed;
+
+#ifdef ENABLE_FEAT_F4HWN
+	extern uint8_t               gPttOnePushCounter;
+#endif
+
 extern uint8_t               gPttDebounceCounter;
 extern uint8_t               gMenuListCount;
 extern uint8_t               gBackup_CROSS_BAND_RX_TX;

@@ -125,6 +125,7 @@ const t_menu_item MenuList[] =
 	{"Sql",    VOICE_ID_SQUELCH,                       MENU_SQL           },
 #ifdef ENABLE_FEAT_F4HWN
 	{"SetLow", VOICE_ID_INVALID,                       MENU_SET_LOW       },
+	{"SetPtt", VOICE_ID_INVALID,                       MENU_SET_PTT       },
 #endif
 	// hidden menu items from here on
 	// enabled if pressing both the PTT and upper side button at power-on
@@ -344,6 +345,12 @@ const char gSubMenu_SCRAMBLER[][7] =
 		"500mW",
 		"1W",
 		"< 20mW"
+	};
+
+	const char gSubMenu_SET_PTT[][8] =
+	{
+		"Classic",
+		"OnePush"
 	};
 #endif
 
@@ -863,6 +870,11 @@ void UI_DisplayMenu(void)
 			case MENU_SET_LOW:
 				strcpy(String, gSubMenu_SET_LOW[gSubMenuSelection]);
 				break;
+
+			case MENU_SET_PTT:
+				strcpy(String, gSubMenu_SET_PTT[gSubMenuSelection]);
+				break;
+
 		#endif
 	}
 

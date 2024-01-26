@@ -106,6 +106,7 @@ enum
 #endif
 #ifdef ENABLE_FEAT_F4HWN
 	MENU_SET_LOW,
+	MENU_SET_PTT,
 #endif
 #ifdef ENABLE_NOAA
 	MENU_NOAA_S,
@@ -146,6 +147,7 @@ extern const char*       gSubMenu_RXMode[4];
 
 #ifdef ENABLE_FEAT_F4HWN
 	extern const char    gSubMenu_SET_LOW[5][7];
+	extern const char    gSubMenu_SET_PTT[2][8];
 #endif
 
 extern const char        gSubMenu_SC_REV[3][8];
