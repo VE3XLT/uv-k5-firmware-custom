@@ -281,17 +281,8 @@ void SETTINGS_InitEEPROM(void)
 	
 	#ifdef ENABLE_FEAT_F4HWN
 		EEPROM_ReadBuffer(0x1FF0, Data, 8);
-		if(Data[7] > 4)
-		{
-			Data[7] = 0;
-		}
-		gSetting_set_low = Data[7];
-
-		if(Data[6] > 1)
-		{
-			Data[6] = 0;
-		}
-		gSetting_set_ptt = Data[6];
+		gSetting_set_low = (Data[7] < 5) ? Data[7] : 0;
+		gSetting_set_ptt = (Data[6] < 2) ? Data[6] : 0;
 	#endif
 }
 
@@ -611,7 +602,7 @@ void SETTINGS_SaveSettings(void)
 	memset(State, 0xFF, sizeof(State));
 	State[6] = gSetting_set_ptt;
 	State[7] = gSetting_set_low;
-	EEPROM_WriteBuffer(0x0F40, State);
+	EEPROM_WriteBuffer(0x1FF0, State);
 #endif
 
 }
