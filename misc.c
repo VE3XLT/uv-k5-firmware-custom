@@ -223,8 +223,9 @@ bool              gKeyBeingHeld;
 bool              gPttIsPressed;
 
 #ifdef ENABLE_FEAT_F4HWN
-	bool              gPttOnePush = true;
-	uint8_t           gPttOnePushCounter = 0;
+	bool          gPttOnePush = true;
+	uint8_t       gPttOnePushCounter = 0;
+	uint32_t      gBlinkCounter = 0;
 #endif
 
 uint8_t           gPttDebounceCounter;

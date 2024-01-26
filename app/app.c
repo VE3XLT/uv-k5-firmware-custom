@@ -812,17 +812,32 @@ void APP_Update(void)
 	if (gCurrentFunction == FUNCTION_TRANSMIT && (gTxTimeoutReachedAlert || SerialConfigInProgress()))
 	{
 		if (gEeprom.BACKLIGHT_TIME == 0) {
-			GPIO_FlipBit(&GPIOC->DATA, GPIOC_PIN_FLASHLIGHT);
-			SYSTEM_DelayMs(5);
-			GPIO_FlipBit(&GPIOC->DATA, GPIOC_PIN_FLASHLIGHT);
-			SYSTEM_DelayMs(500);
+			if (gBlinkCounter == 0)
+			{
+				GPIO_FlipBit(&GPIOC->DATA, GPIOC_PIN_FLASHLIGHT);
+			}
+			else if(gBlinkCounter == 250)
+			{
+				GPIO_FlipBit(&GPIOC->DATA, GPIOC_PIN_FLASHLIGHT);
+			}
 		}
 		else
 		{
-			BACKLIGHT_TurnOn();
-			SYSTEM_DelayMs(250);
-			BACKLIGHT_TurnOff();
-			SYSTEM_DelayMs(250);
+			if (gBlinkCounter == 0)
+			{
+				BACKLIGHT_TurnOn();
+			}
+			else if(gBlinkCounter == 15000)
+			{
+				BACKLIGHT_TurnOff();
+			}
+		}
+
+		gBlinkCounter++;
+
+		if(gBlinkCounter > 30000)
+		{
+			gBlinkCounter = 0;
 		}
 	}
 #endif

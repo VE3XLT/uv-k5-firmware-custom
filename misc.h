@@ -307,6 +307,7 @@ extern bool                  gPttIsPressed;
 
 #ifdef ENABLE_FEAT_F4HWN
 	extern uint8_t               gPttOnePushCounter;
+	extern uint32_t              gBlinkCounter;
 #endif
 
 extern uint8_t               gPttDebounceCounter;
