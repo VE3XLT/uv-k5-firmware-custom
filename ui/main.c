@@ -613,7 +613,7 @@ void UI_DisplayMain(void)
 			if (FUNCTION_IsRx() && gEeprom.RX_VFO == vfo_num) {
 
 #ifdef ENABLE_FEAT_F4HWN
-	if(activeTxVFO != vfo_num)
+	if(!isMainVFO)
 	{
 		RXLine = line;
 	}
