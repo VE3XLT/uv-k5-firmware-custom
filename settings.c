@@ -728,6 +728,10 @@ void SETTINGS_WriteBuildOptions(void)
 {
 	uint8_t buf[8] = {0};
 
+#ifdef ENABLE_FEAT_F4HWN
+	EEPROM_ReadBuffer(0x1FF0, buf, 8);
+#endif
+	
 buf[0] = 0
 #ifdef ENABLE_FMRADIO
     | (1 << 0)
