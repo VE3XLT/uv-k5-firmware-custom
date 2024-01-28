@@ -64,7 +64,7 @@ void (*action_opt_table[])(void) = {
 	[ACTION_OPT_A_B] = &COMMON_SwitchVFOs,
 	[ACTION_OPT_VFO_MR] = &COMMON_SwitchVFOMode,
 	[ACTION_OPT_SWITCH_DEMODUL] = &ACTION_SwitchDemodul,
-
+ 
 #ifdef ENABLE_FLASHLIGHT
 	[ACTION_OPT_FLASHLIGHT] = &ACTION_FlashLight,
 #else
@@ -100,6 +100,13 @@ void (*action_opt_table[])(void) = {
 #else
 	[ACTION_OPT_BLMIN_TMP_OFF] = &FUNCTION_NOP,
 #endif
+
+#ifdef ENABLE_FEAT_F4HWN
+	[ACTION_OPT_MAIN] = &ACTION_Main,
+	[ACTION_OPT_PTT] = &ACTION_Ptt,
+#else
+	[ACTION_OPT_MAIN] = &FUNCTION_NOP,
+#endif	
 };
 
 static_assert(ARRAY_SIZE(action_opt_table) == ACTION_OPT_LEN);
@@ -440,5 +447,52 @@ void ACTION_BlminTmpOff(void)
 	} else {
 		BACKLIGHT_SetBrightness(0);
 	}
+}
+#endif
+
+#ifdef ENABLE_FEAT_F4HWN
+void ACTION_Main(void)
+{
+	static uint8_t cycle = 0;
+	static uint8_t a;
+	static uint8_t b;
+
+
+	if(gEeprom.DUAL_WATCH == 0 && gEeprom.CROSS_BAND_RX_TX == 0 && cycle != 1)
+	{
+		return;
+	}
+	else
+	{
+		if(cycle == 0)
+		{
+			a = gEeprom.DUAL_WATCH;
+			b = gEeprom.CROSS_BAND_RX_TX;
+
+			gEeprom.DUAL_WATCH = 0;
+			gEeprom.CROSS_BAND_RX_TX = 0;
+
+			gFlagReconfigureVfos = true;
+			gUpdateStatus        = true;
+
+			cycle = 1;
+		}
+		else
+		{
+			gEeprom.DUAL_WATCH = a;
+			gEeprom.CROSS_BAND_RX_TX = b;
+
+			gFlagReconfigureVfos = true;
+			gUpdateStatus        = true;
+
+			cycle = 0;			
+		}
+	}
+}
+
+void ACTION_Ptt(void)
+{
+	gSetting_set_ptt = (gSetting_set_ptt == 0) ? 1: 0;
+	
 }
 #endif

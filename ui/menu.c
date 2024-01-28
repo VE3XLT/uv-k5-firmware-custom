@@ -382,6 +382,10 @@ const t_sidefunction gSubMenu_SIDEFUNCTIONS[] =
 #ifdef ENABLE_BLMIN_TMP_OFF
 	{"BLMIN\nTMP OFF",  ACTION_OPT_BLMIN_TMP_OFF}, 		//BackLight Minimum Temporay OFF
 #endif
+#ifdef ENABLE_FEAT_F4HWN
+	{"SWITCH\nMAIN ONLY", ACTION_OPT_MAIN}, 
+	{"SWITCH\nPTT",  	  ACTION_OPT_PTT},
+#endif
 };
 
 const uint8_t gSubMenu_SIDEFUNCTIONS_size = ARRAY_SIZE(gSubMenu_SIDEFUNCTIONS);
