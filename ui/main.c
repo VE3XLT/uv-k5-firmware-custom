@@ -39,6 +39,11 @@
 
 center_line_t center_line = CENTER_LINE_NONE;
 
+#ifdef ENABLE_FEAT_F4HWN
+	static bool RXCounter;
+	static int8_t RXLine;
+#endif
+
 const int8_t dBmCorrTable[7] = {
 			-15, // band 1
 			-25, // band 2
@@ -77,17 +82,42 @@ static void DrawSmallAntennaAndBars(uint8_t *p, unsigned int level)
 
 static void DrawLevelBar(uint8_t xpos, uint8_t line, uint8_t level)
 {
+#ifdef ENABLE_FEAT_F4HWN
+	const char hollowBar[] = {
+		0b00111110,
+		0b00100010,
+		0b00100010,
+		0b00111110
+	};
+
+	const char simpleBar[] = {
+		0b00111110,
+		0b00111110,
+		0b00111110,
+		0b00111110
+	};
+
+#else
 	const char hollowBar[] = {
 		0b01111111,
 		0b01000001,
 		0b01000001,
 		0b01111111
 	};
-
+#endif
+	
 	uint8_t *p_line = gFrameBuffer[line];
 	level = MIN(level, 13);
 
 	for(uint8_t i = 0; i < level; i++) {
+#ifdef ENABLE_FEAT_F4HWN
+		if(i < 9) {
+			memcpy(p_line + (xpos + i * 5), &simpleBar, ARRAY_SIZE(simpleBar));
+		}
+		else {
+			memcpy(p_line + (xpos + i * 5), &hollowBar, ARRAY_SIZE(hollowBar));
+		}
+#else
 		if(i < 9) {
 			for(uint8_t j = 0; j < 4; j++)
 				p_line[xpos + i * 5 + j] = (~(0x7F >> (i+1))) & 0x7F;
@@ -95,6 +125,7 @@ static void DrawLevelBar(uint8_t xpos, uint8_t line, uint8_t level)
 		else {
 			memcpy(p_line + (xpos + i * 5), &hollowBar, ARRAY_SIZE(hollowBar));
 		}
+#endif
 	}
 }
 #endif
@@ -125,7 +156,19 @@ void UI_DisplayAudioBar(void)
 		if(gLowBattery && !gLowBatteryConfirmed)
 			return;
 
-		const unsigned int line      = 3;
+#ifdef ENABLE_FEAT_F4HWN
+		unsigned int line;
+		if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
+		{
+			line = 5;
+		}
+		else
+		{
+			line = 3;
+		}
+#else
+		const unsigned int line = 3;
+#endif
 
 		if (gCurrentFunction != FUNCTION_TRANSMIT ||
 			gScreenToDisplay != DISPLAY_MAIN
@@ -159,6 +202,11 @@ void UI_DisplayAudioBar(void)
 }
 #endif
 
+#ifdef ENABLE_FEAT_F4HWN
+	static int16_t map(int16_t x, int16_t in_min, int16_t in_max, int16_t out_min, int16_t out_max) {
+		return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+	}
+#endif
 
 void DisplayRSSIBar(const bool now)
 {
@@ -167,10 +215,58 @@ void DisplayRSSIBar(const bool now)
 	const unsigned int txt_width    = 7 * 8;                 // 8 text chars
 	const unsigned int bar_x        = 2 + txt_width + 4;     // X coord of bar graph
 
-	const unsigned int line         = 3;
+#ifdef ENABLE_FEAT_F4HWN
+	const char empty[] = {
+		0b00000000,
+		0b00000000,
+		0b00000000,
+		0b00000000,
+		0b00000000,
+		0b00000000,
+		0b00000000,
+	};
+
+	unsigned int line;
+	if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
+	{
+		line = 5;
+	}
+	else
+	{
+		line = 3;
+	}
+
+	char rx[4];
+	//sprintf(String, "%d", RXCounter);
+	//UI_PrintStringSmallBold(String, 80, 0, RXLine);
+
+	if(RXLine >= 0 && center_line != CENTER_LINE_IN_USE)
+	{
+		if(RXCounter == true)
+		{
+			sprintf(rx, "%s", "RX");
+			//UI_PrintStringSmallBold("RX", 14, 0, RXLine);
+			RXCounter = false;
+		}
+		else
+		{
+			sprintf(rx, "%s", "  ");
+			memcpy(gFrameBuffer[RXLine] + 14, &empty, ARRAY_SIZE(empty));
+			memcpy(gFrameBuffer[RXLine] + 21, &empty, ARRAY_SIZE(empty));
+
+			//UI_PrintStringSmallBold("  ", 14, 0, RXLine);
+			RXCounter = true;
+		}
+		UI_PrintStringSmallBold(rx, 14, 0, RXLine);
+		ST7565_BlitLine(RXLine);
+	}
+#else
+	const unsigned int line = 3;
+#endif
 	uint8_t           *p_line        = gFrameBuffer[line];
 	char               str[16];
 
+#ifndef ENABLE_FEAT_F4HWN
 	const char plus[] = {
 		0b00011000,
 		0b00011000,
@@ -180,6 +276,7 @@ void DisplayRSSIBar(const bool now)
 		0b00011000,
 		0b00011000,
 	};
+#endif
 
 	if ((gEeprom.KEY_LOCK && gKeypadLocked > 0) || center_line != CENTER_LINE_RSSI)
 		return;     // display is in use
@@ -195,7 +292,32 @@ void DisplayRSSIBar(const bool now)
 	if (now)
 		memset(p_line, 0, LCD_WIDTH);
 
+#ifdef ENABLE_FEAT_F4HWN
+ 	int16_t rssi_dBm =
+		BK4819_GetRSSI_dBm()
+#ifdef ENABLE_AM_FIX
+		+ ((gSetting_AM_fix && gRxVfo->Modulation == MODULATION_AM) ? AM_fix_get_gain_diff() : 0)
+#endif
+		+ dBmCorrTable[gRxVfo->Band];
 
+	rssi_dBm = -rssi_dBm;
+
+	if(rssi_dBm > 141) rssi_dBm = 141;
+	if(rssi_dBm < 53) rssi_dBm = 53;
+
+	uint8_t s_level = 0;
+	uint8_t overS9dBm = 0;
+	uint8_t overS9Bars = 0;
+
+	if(rssi_dBm >= 93) {
+		s_level = map(rssi_dBm, 141, 93, 1, 9);
+	}
+	else {
+		s_level = 9;
+		overS9dBm = map(rssi_dBm, 93, 53, 0, 40);
+		overS9Bars = map(overS9dBm, 0, 40, 0, 4);
+	}
+#else
 	const int16_t s0_dBm   = -gEeprom.S0_LEVEL;                  // S0 .. base level
 	const int16_t rssi_dBm =
 		BK4819_GetRSSI_dBm()
@@ -208,16 +330,32 @@ void DisplayRSSIBar(const bool now)
 	const uint8_t s_level = MIN(MAX((int32_t)(rssi_dBm - s0_dBm)*100 / (s0_9*100/9), 0), 9); // S0 - S9
 	uint8_t overS9dBm = MIN(MAX(rssi_dBm + gEeprom.S9_LEVEL, 0), 99);
 	uint8_t overS9Bars = MIN(overS9dBm/10, 4);
+#endif
 
+#ifdef ENABLE_FEAT_F4HWN
 	if(overS9Bars == 0) {
-		sprintf(str, "% 4d S%d", rssi_dBm, s_level);
+		sprintf(str, "% 4d", -rssi_dBm);
+		UI_PrintStringSmallNormal(str, LCD_WIDTH + 8, 0, line - 1);
+		sprintf(str, "S%d", s_level);
+		UI_PrintStringSmallBold(str, LCD_WIDTH + 38, 0, line - 1);
 	}
 	else {
-		sprintf(str, "% 4d  %2d", rssi_dBm, overS9dBm);
+		sprintf(str, "% 4d", -rssi_dBm);
+		UI_PrintStringSmallNormal(str, LCD_WIDTH + 8, 0, line - 1);
+		sprintf(str, "+%02d", overS9dBm);
+		UI_PrintStringSmallBold(str, LCD_WIDTH + 38, 0, line - 1);
+	}
+#else
+	if(overS9Bars == 0) {
+		sprintf(str, "% 4d S%d", -rssi_dBm, s_level);
+	}
+	else {
+		sprintf(str, "% 4d  %2d", -rssi_dBm, overS9dBm);
 		memcpy(p_line + 2 + 7*5, &plus, ARRAY_SIZE(plus));
 	}
 
 	UI_PrintStringSmallNormal(str, 2, 0, line);
+#endif
 	DrawLevelBar(bar_x, line, s_level + overS9Bars);
 	if (now)
 		ST7565_BlitLine(line);
@@ -329,6 +467,23 @@ void UI_DisplayMain(void)
 
 	for (unsigned int vfo_num = 0; vfo_num < 2; vfo_num++)
 	{
+#ifdef ENABLE_FEAT_F4HWN
+		const unsigned int line0 = 0;  // text screen line
+		const unsigned int line1 = 4;
+		unsigned int line;
+		if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
+		{
+			line       = 0;
+		}
+		else
+		{
+			line       = (vfo_num == 0) ? line0 : line1;
+		}
+		const bool         isMainVFO  = (vfo_num == gEeprom.TX_VFO);
+		uint8_t           *p_line0    = gFrameBuffer[line + 0];
+		uint8_t           *p_line1    = gFrameBuffer[line + 1];
+		enum Vfo_txtr_mode mode       = VFO_MODE_NONE;		
+#else
 		const unsigned int line0 = 0;  // text screen line
 		const unsigned int line1 = 4;
 		const unsigned int line       = (vfo_num == 0) ? line0 : line1;
@@ -336,7 +491,17 @@ void UI_DisplayMain(void)
 		uint8_t           *p_line0    = gFrameBuffer[line + 0];
 		uint8_t           *p_line1    = gFrameBuffer[line + 1];
 		enum Vfo_txtr_mode mode       = VFO_MODE_NONE;
+#endif
 
+#ifdef ENABLE_FEAT_F4HWN
+	if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
+	{
+		if (activeTxVFO != vfo_num)
+		{
+			continue;
+		}
+	}
+#endif
 		if (activeTxVFO != vfo_num) // this is not active TX VFO
 		{
 #ifdef ENABLE_SCAN_RANGES
@@ -428,7 +593,19 @@ void UI_DisplayMain(void)
 		{	// receiving .. show the RX symbol
 			mode = VFO_MODE_RX;
 			if (FUNCTION_IsRx() && gEeprom.RX_VFO == vfo_num) {
+#ifdef ENABLE_FEAT_F4HWN
+				if(!isMainVFO)
+				{
+					RXLine = line;
+				}
+				else
+				{
+					RXLine = -1;
+					UI_PrintStringSmallBold("RX", 14, 0, line);
+				}
+#else
 				UI_PrintStringSmallBold("RX", 14, 0, line);
+#endif
 			}
 		}
 
@@ -570,10 +747,51 @@ void UI_DisplayMain(void)
 							UI_PrintString(String, 32, 0, line, 8);
 						}
 						else {
+#ifdef ENABLE_FEAT_F4HWN
+							if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
+							{
+								UI_PrintString(String, 32, 0, line, 8);
+							}
+							else
+							{
+								if(activeTxVFO == vfo_num) {
+									UI_PrintStringSmallBold(String, 32 + 4, 0, line);
+								}
+								else
+								{
+									UI_PrintStringSmallNormal(String, 32 + 4, 0, line);		
+								}
+							}
+#else
 							UI_PrintStringSmallBold(String, 32 + 4, 0, line);
-							// show the channel frequency below the channel number/name
+#endif
+
+#ifdef ENABLE_FEAT_F4HWN
+							if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
+							{
+								sprintf(String, "%3u.%05u", frequency / 100000, frequency % 100000);
+								if(frequency < _1GHz_in_KHz) {
+									// show the remaining 2 small frequency digits
+									UI_PrintStringSmallNormal(String + 7, 113, 0, line + 4);
+									String[7] = 0;
+									// show the main large frequency digits
+									UI_DisplayFrequency(String, 32, line + 3, false);
+								}
+								else
+								{
+									// show the frequency in the main font
+									UI_PrintString(String, 32, 0, line + 3, 8);
+								}
+							}
+							else
+							{
+								sprintf(String, "%03u.%05u", frequency / 100000, frequency % 100000);
+								UI_PrintStringSmallNormal(String, 32 + 4, 0, line + 1);
+							}
+#else							// show the channel frequency below the channel number/name
 							sprintf(String, "%03u.%05u", frequency / 100000, frequency % 100000);
 							UI_PrintStringSmallNormal(String, 32 + 4, 0, line + 1);
+#endif
 						}
 
 						break;
@@ -751,7 +969,19 @@ void UI_DisplayMain(void)
 					center_line = CENTER_LINE_DTMF_DEC;
 
 					sprintf(String, "DTMF %s", gDTMF_RX_live + idx);
+#ifdef ENABLE_FEAT_F4HWN
+					if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
+					{
+						UI_PrintStringSmallNormal(String, 2, 0, 5);
+					}
+					else
+					{
+						UI_PrintStringSmallNormal(String, 2, 0, 3);
+					}
+#else
 					UI_PrintStringSmallNormal(String, 2, 0, 3);
+
+#endif
 				}
 			#else
 				if (gSetting_live_DTMF_decoder && gDTMF_RX_index > 0)

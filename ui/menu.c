@@ -123,7 +123,10 @@ const t_menu_item MenuList[] =
 	{"BatVol", VOICE_ID_INVALID,                       MENU_VOL           }, // was "VOL"
 	{"RxMode", VOICE_ID_DUAL_STANDBY,                  MENU_TDR           },
 	{"Sql",    VOICE_ID_SQUELCH,                       MENU_SQL           },
-
+#ifdef ENABLE_FEAT_F4HWN
+	{"SetLow", VOICE_ID_INVALID,                       MENU_SET_LOW       },
+	{"SetPtt", VOICE_ID_INVALID,                       MENU_SET_PTT       },
+#endif
 	// hidden menu items from here on
 	// enabled if pressing both the PTT and upper side button at power-on
 	{"F Lock", VOICE_ID_INVALID,                       MENU_F_LOCK        },
@@ -334,6 +337,23 @@ const char gSubMenu_SCRAMBLER[][7] =
 	"3500Hz"
 };
 
+#ifdef ENABLE_FEAT_F4HWN
+	const char gSubMenu_SET_LOW[][7] =
+	{
+		"125mW",
+		"250mW",
+		"500mW",
+		"1W",
+		"< 20mW"
+	};
+
+	const char gSubMenu_SET_PTT[][8] =
+	{
+		"Classic",
+		"OnePush"
+	};
+#endif
+
 const t_sidefunction gSubMenu_SIDEFUNCTIONS[] =
 {
 	{"NONE",			ACTION_OPT_NONE},
@@ -361,6 +381,10 @@ const t_sidefunction gSubMenu_SIDEFUNCTIONS[] =
 	{"SWITCH\nDEMODUL",	ACTION_OPT_SWITCH_DEMODUL},
 #ifdef ENABLE_BLMIN_TMP_OFF
 	{"BLMIN\nTMP OFF",  ACTION_OPT_BLMIN_TMP_OFF}, 		//BackLight Minimum Temporay OFF
+#endif
+#ifdef ENABLE_FEAT_F4HWN
+	{"SWITCH\nMAIN ONLY", ACTION_OPT_MAIN}, 
+	{"SWITCH\nPTT",  	  ACTION_OPT_PTT},
 #endif
 };
 
@@ -404,6 +428,11 @@ void UI_DisplayMenu(void)
 
 	UI_DisplayClear();
 
+#ifdef ENABLE_FEAT_F4HWN
+	UI_DrawLineBuffer(gFrameBuffer, 50, 0, 50, 63, 1); // Be ware, limit is 63 pixels (not 64)
+	UI_DrawLineDottedBuffer(gFrameBuffer, 0, 46, 50, 46, 1);
+#endif
+
 #ifndef ENABLE_CUSTOM_MENU_LAYOUT
 		// original menu layout
 	for (i = 0; i < 3; i++)
@@ -427,8 +456,11 @@ void UI_DisplayMenu(void)
 		memcpy(gFrameBuffer[0] + (8 * menu_list_width) + 1, BITMAP_CurrentIndicator, sizeof(BITMAP_CurrentIndicator));
 
 	// draw the menu index number/count
+#ifdef ENABLE_FEAT_F4HWN
+	sprintf(String, "%02u/%u", 1 + gMenuCursor, gMenuListCount);
+#else
 	sprintf(String, "%2u.%u", 1 + gMenuCursor, gMenuListCount);
-
+#endif
 	UI_PrintStringSmallNormal(String, 2, 0, 6);
 
 #else
@@ -839,6 +871,15 @@ void UI_DisplayMenu(void)
 			strcpy(String, gSubMenu_SIDEFUNCTIONS[gSubMenuSelection].name);
 			break;
 
+#ifdef ENABLE_FEAT_F4HWN
+		case MENU_SET_LOW:
+			strcpy(String, gSubMenu_SET_LOW[gSubMenuSelection]);
+			break;
+
+		case MENU_SET_PTT:
+			strcpy(String, gSubMenu_SET_PTT[gSubMenuSelection]);
+			break;
+#endif
 	}
 
 	if (!already_printed)

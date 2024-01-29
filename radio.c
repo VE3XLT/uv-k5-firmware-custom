@@ -455,21 +455,75 @@ void RADIO_ConfigureSquelchAndOutputPower(VFO_Info_t *pInfo)
 
 	Band = FREQUENCY_GetBand(pInfo->pTX->Frequency);
 
+	// my eeprom calibration data 
+	//
+	// 1ED0 32 32 32 64 64 64 8c 8c 8c ff ff ff ff ff ff ff  50 MHz
+	// 1EE0 32 32 32 64 64 64 8c 8c 8c ff ff ff ff ff ff ff 108 MHz
+	// 1EF0 5f 5f 5f 69 69 69 87 87 87 ff ff ff ff ff ff ff 137 MHz
+	// 1F00 32 32 32 64 64 64 8c 8c 8c ff ff ff ff ff ff ff 174 MHz
+	// 1F10 5f 5f 5f 69 69 69 87 87 87 ff ff ff ff ff ff ff 350 MHz
+	// 1F20 5f 5f 5f 69 69 69 87 87 87 ff ff ff ff ff ff ff 400 MHz
+	// 1F30 32 32 32 64 64 64 8c 8c 8c ff ff ff ff ff ff ff 470 MHz
+
 	uint8_t Txp[3];
 	EEPROM_ReadBuffer(0x1ED0 + (Band * 16) + (pInfo->OUTPUT_POWER * 3), Txp, 3);
 
-#ifdef ENABLE_REDUCE_LOW_MID_TX_POWER
+#ifdef ENABLE_FEAT_F4HWN
 	// make low and mid even lower
 	if (pInfo->OUTPUT_POWER == OUTPUT_POWER_LOW) {
-		Txp[0] /= 5;
-		Txp[1] /= 5;
-		Txp[2] /= 5;
+		switch (gSetting_set_low) {
+			case 0:
+				Txp[0] = (Txp[0] * 4) / 19;
+				Txp[1] = (Txp[1] * 4) / 19;
+				Txp[2] = (Txp[2] * 4) / 19;
+				break;
+			case 1:
+				Txp[0] = (Txp[0] * 4) / 13;
+				Txp[1] = (Txp[1] * 4) / 13;
+				Txp[2] = (Txp[2] * 4) / 13;
+				break;
+			case 2:
+				Txp[0] = (Txp[0] * 4) / 10;
+				Txp[1] = (Txp[1] * 4) / 10;
+				Txp[2] = (Txp[2] * 4) / 10;
+				break;
+			case 3:
+				Txp[0] = (Txp[0] * 4) / 7;
+				Txp[1] = (Txp[1] * 4) / 7;
+				Txp[2] = (Txp[2] * 4) / 7;
+				break;
+			case 4:
+				Txp[0] = (Txp[0] * 4) / 25;
+				Txp[1] = (Txp[1] * 4) / 25;
+				Txp[2] = (Txp[2] * 4) / 25;
+				break;
+		}
 	}
 	else if (pInfo->OUTPUT_POWER == OUTPUT_POWER_MID){
-		Txp[0] /= 3;
-		Txp[1] /= 3;
-		Txp[2] /= 3;
+		Txp[0] = (Txp[0] * 3) / 4;
+		Txp[1] = (Txp[1] * 3) / 4;
+		Txp[2] = (Txp[2] * 3) / 4;
 	}
+	// increase high
+	else if (pInfo->OUTPUT_POWER == OUTPUT_POWER_HIGH){
+		Txp[0] = Txp[0] + 30;
+		Txp[1] = Txp[1] + 30;
+		Txp[2] = Txp[2] + 30;
+	}
+#else
+	#ifdef ENABLE_REDUCE_LOW_MID_TX_POWER
+		// make low and mid even lower
+		if (pInfo->OUTPUT_POWER == OUTPUT_POWER_LOW) {
+			Txp[0] /= 5;
+			Txp[1] /= 5;
+			Txp[2] /= 5;
+		}
+		else if (pInfo->OUTPUT_POWER == OUTPUT_POWER_MID){
+			Txp[0] /= 3;
+			Txp[1] /= 3;
+			Txp[2] /= 3;
+		}
+	#endif
 #endif
 
 	pInfo->TXP_CalculatedSetting = FREQUENCY_CalculateOutputPower(
@@ -993,9 +1047,18 @@ void RADIO_PrepareTX(void)
 			gTxTimerCountdown_500ms = 120 * gEeprom.TX_TIMEOUT_TIMER;  // minutes
 		else
 			gTxTimerCountdown_500ms = 120 * 15;  // 15 minutes
+
+#ifdef ENABLE_FEAT_F4HWN 
+		gTxTimerCountdownAlert_500ms = gTxTimerCountdown_500ms;
+#endif
 	}
 
 	gTxTimeoutReached    = false;
+
+#ifdef ENABLE_FEAT_F4HWN 
+	gTxTimeoutReachedAlert = false;
+#endif
+	
 	gFlagEndTransmission = false;
 	gRTTECountdown_10ms  = 0;
 

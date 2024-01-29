@@ -95,6 +95,11 @@ enum BacklightOnRxTx_t gSetting_backlight_on_tx_rx;
 	bool          gSetting_AM_fix;
 #endif
 
+#ifdef ENABLE_FEAT_F4HWN
+	uint8_t       gSetting_set_low;
+	bool          gSetting_set_ptt;
+#endif
+
 #ifdef ENABLE_AUDIO_BAR
 	bool          gSetting_mic_bar;
 #endif
@@ -131,6 +136,11 @@ volatile bool     gNextTimeslice_500ms;
 
 volatile uint16_t gTxTimerCountdown_500ms;
 volatile bool     gTxTimeoutReached;
+
+#ifdef ENABLE_FEAT_F4HWN
+	volatile uint16_t gTxTimerCountdownAlert_500ms;
+	volatile bool     gTxTimeoutReachedAlert;
+#endif
 
 volatile uint16_t gTailNoteEliminationCountdown_10ms;
 
@@ -246,6 +256,12 @@ volatile uint8_t  boot_counter_10ms;
 
 uint8_t           gIsLocked = 0xFF;
 
+
+#ifdef ENABLE_FEAT_F4HWN
+	bool          gPttOnePush = true;
+	uint8_t       gPttOnePushCounter = 0;
+	uint32_t      gBlinkCounter = 0;
+#endif
 
 inline void FUNCTION_NOP() { ; }
 

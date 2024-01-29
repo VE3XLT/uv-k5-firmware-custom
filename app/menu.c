@@ -363,6 +363,17 @@ int MENU_GetLimits(uint8_t menu_id, int32_t *pMin, int32_t *pMax)
 			*pMax = gSubMenu_SIDEFUNCTIONS_size-1;
 			break;
 
+#ifdef ENABLE_FEAT_F4HWN
+		case MENU_SET_LOW:
+			*pMin = 0;
+			*pMax = ARRAY_SIZE(gSubMenu_SET_LOW) - 1;
+			break;
+		case MENU_SET_PTT:
+			*pMin = 0;
+			*pMax = ARRAY_SIZE(gSubMenu_SET_PTT) - 1;
+			break;
+#endif
+
 		default:
 			return -1;
 	}
@@ -797,6 +808,16 @@ void MENU_AcceptSetting(void)
 			}
 			break;
 
+#ifdef ENABLE_FEAT_F4HWN
+		case MENU_SET_LOW:
+			gSetting_set_low = gSubMenuSelection;
+			gRequestSaveChannel = 1;
+			break;
+		case MENU_SET_PTT:
+			gSetting_set_ptt = gSubMenuSelection;
+			gRequestSaveChannel = 1;
+			break;
+#endif
 	}
 
 	gRequestSaveSettings = true;
@@ -1158,6 +1179,15 @@ void MENU_ShowCurrentSetting(void)
 			}
 			break;
 		}
+
+#ifdef ENABLE_FEAT_F4HWN
+		case MENU_SET_LOW:
+			gSubMenuSelection = gSetting_set_low;
+			break;
+		case MENU_SET_PTT:
+			gSubMenuSelection = gSetting_set_ptt;
+			break;
+#endif
 
 		default:
 			return;

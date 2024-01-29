@@ -277,6 +277,13 @@ void SETTINGS_InitEEPROM(void)
 			return;
 		}
 	}
+
+	#ifdef ENABLE_FEAT_F4HWN
+		// 1FF0..0x1FF7
+		EEPROM_ReadBuffer(0x1FF0, Data, 8);
+		gSetting_set_low = (Data[7] < 5) ? Data[7] : 0;
+		gSetting_set_ptt = (Data[6] < 2) ? Data[6] : 0;
+	#endif
 }
 
 void SETTINGS_LoadCalibration(void)
@@ -592,6 +599,13 @@ void SETTINGS_SaveSettings(void)
 	State[7] = (State[7] & ~(3u << 6)) | ((gSetting_backlight_on_tx_rx & 3u) << 6);
 
 	EEPROM_WriteBuffer(0x0F40, State);
+
+#ifdef ENABLE_FEAT_F4HWN
+	memset(State, 0xFF, sizeof(State));
+	State[6] = gSetting_set_ptt;
+	State[7] = gSetting_set_low;
+	EEPROM_WriteBuffer(0x1FF0, State);
+#endif
 }
 
 void SETTINGS_SaveChannel(uint8_t Channel, uint8_t VFO, const VFO_Info_t *pVFO, uint8_t Mode)
@@ -714,6 +728,11 @@ void SETTINGS_UpdateChannel(uint8_t channel, const VFO_Info_t *pVFO, bool keep)
 void SETTINGS_WriteBuildOptions(void)
 {
 	uint8_t buf[8] = {0};
+
+#ifdef ENABLE_FEAT_F4HWN
+	EEPROM_ReadBuffer(0x1FF0, buf, 8);
+#endif
+	
 buf[0] = 0
 #ifdef ENABLE_FMRADIO
     | (1 << 0)

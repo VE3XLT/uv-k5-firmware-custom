@@ -69,7 +69,13 @@ void UI_DisplayWelcome(void)
 
 		UI_PrintString(WelcomeString0, 0, 127, 0, 10);
 		UI_PrintString(WelcomeString1, 0, 127, 2, 10);
+
+#ifdef ENABLE_FEAT_F4HWN
+		UI_PrintStringSmallNormal(Version, 0, 128, 5);
+		UI_PrintStringSmallNormal(Feat, 0, 128, 6);
+#else
 		UI_PrintStringSmallNormal(Version, 0, 128, 6);
+#endif
 
 		ST7565_BlitStatusLine();  // blank status line
 		ST7565_BlitFullScreen();

@@ -156,6 +156,11 @@ extern enum BacklightOnRxTx_t gSetting_backlight_on_tx_rx;
 	extern bool              gSetting_AM_fix;
 #endif
 
+#ifdef ENABLE_FEAT_F4HWN
+	extern uint8_t              gSetting_set_low;
+	extern bool              	gSetting_set_ptt;
+#endif
+
 #ifdef ENABLE_AUDIO_BAR
 	extern bool              gSetting_mic_bar;
 #endif
@@ -204,6 +209,11 @@ extern volatile bool         gNextTimeslice_500ms;
 
 extern volatile uint16_t     gTxTimerCountdown_500ms;
 extern volatile bool         gTxTimeoutReached;
+
+#ifdef ENABLE_FEAT_F4HWN
+	extern volatile uint16_t gTxTimerCountdownAlert_500ms;
+	extern volatile bool     gTxTimeoutReachedAlert;
+#endif
 
 extern volatile uint16_t     gTailNoteEliminationCountdown_10ms;
 
@@ -322,6 +332,11 @@ extern volatile uint8_t      gVFOStateResumeCountdown_500ms;
 #endif
 extern uint8_t               gIsLocked;
 extern volatile uint8_t      boot_counter_10ms;
+
+#ifdef ENABLE_FEAT_F4HWN
+	extern uint8_t               gPttOnePushCounter;
+	extern uint32_t              gBlinkCounter;
+#endif
 
 int32_t NUMBER_AddWithWraparound(int32_t Base, int32_t Add, int32_t LowerLimit, int32_t UpperLimit);
 unsigned long StrToUL(const char * str);

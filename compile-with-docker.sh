@@ -1,3 +1,6 @@
 #!/bin/sh
-docker build -t uvk5 .
-docker run --rm -v ${PWD}/compiled-firmware:/app/compiled-firmware uvk5 /bin/bash -c "cd /app && make && cp firmware* compiled-firmware/"
+
+IMAGE_NAME="uvk5"
+
+docker build -t $IMAGE_NAME .
+docker run --rm -v "${PWD}/compiled-firmware:/app/compiled-firmware" $IMAGE_NAME /bin/bash -c "cd /app && make && cp firmware* compiled-firmware/"

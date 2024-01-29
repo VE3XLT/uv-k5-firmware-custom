@@ -117,6 +117,10 @@ enum
 #ifdef ENABLE_F_CAL_MENU
 	MENU_F_CALI,  // reference xtal calibration
 #endif
+#ifdef ENABLE_FEAT_F4HWN
+	MENU_SET_LOW,
+	MENU_SET_PTT,
+#endif
 	MENU_BATCAL,  // battery voltage calibration
 	MENU_F1SHRT,
 	MENU_F1LONG,
@@ -148,6 +152,12 @@ extern const char* const gSubMenu_MDF[4];
 #ifdef ENABLE_DTMF_CALLING
 extern const char        gSubMenu_D_RSP[4][11];
 #endif
+
+#ifdef ENABLE_FEAT_F4HWN
+	extern const char    gSubMenu_SET_LOW[5][7];
+	extern const char    gSubMenu_SET_PTT[2][8];
+#endif
+
 extern const char* const gSubMenu_PTT_ID[5];
 extern const char        gSubMenu_PONMSG[4][8];
 extern const char        gSubMenu_ROGER[3][6];

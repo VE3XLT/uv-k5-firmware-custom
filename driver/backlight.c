@@ -21,6 +21,10 @@
 #include "driver/gpio.h"
 #include "settings.h"
 
+#ifdef ENABLE_FEAT_F4HWN
+	#include "driver/system.h"
+#endif
+
 // this is decremented once every 500ms
 uint16_t gBacklightCountdown_500ms = 0;
 bool backlightOn;
@@ -60,7 +64,25 @@ void BACKLIGHT_TurnOn(void)
 	}
 
 	backlightOn = true;
+
+#ifdef ENABLE_FEAT_F4HWN
+	static bool k5Startup = true;
+	
+	if(k5Startup == true) {
+		for(uint8_t i = 0; i <= gEeprom.BACKLIGHT_MAX; i++)
+		{
+			BACKLIGHT_SetBrightness(i);
+			SYSTEM_DelayMs(50);
+		}
+		k5Startup = false;
+	}
+	else
+	{
+		BACKLIGHT_SetBrightness(gEeprom.BACKLIGHT_MAX);
+	}
+#else
 	BACKLIGHT_SetBrightness(gEeprom.BACKLIGHT_MAX);
+#endif
 
 	switch (gEeprom.BACKLIGHT_TIME) {
 		default:
