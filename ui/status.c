@@ -129,6 +129,20 @@ void UI_DisplayStatus()
 	x += sizeof(BITMAP_VOX) + 1;
 #endif
 
+#ifdef ENABLE_FEAT_F4HWN
+	// PTT indicator
+	if (gSetting_set_ptt) {
+		memcpy(line + x, BITMAP_PTT_ONE_PUSH, sizeof(BITMAP_PTT_ONE_PUSH));
+		x1 = x + sizeof(BITMAP_PTT_ONE_PUSH) + 1;
+	}
+	else
+	{
+		memcpy(line + x, BITMAP_PTT_CLASSIC, sizeof(BITMAP_PTT_CLASSIC));
+		x1 = x + sizeof(BITMAP_PTT_CLASSIC) + 1;		
+	}
+	x += sizeof(BITMAP_PTT_CLASSIC) + 1;
+#endif
+
 	x = MAX(x1, 61u);
 
 	// KEY-LOCK indicator

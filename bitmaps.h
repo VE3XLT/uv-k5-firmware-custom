@@ -18,7 +18,16 @@ extern const uint8_t BITMAP_KeyLock[6];
 extern const uint8_t BITMAP_F_Key[6];
 
 #ifdef ENABLE_VOX
+#ifdef ENABLE_FEAT_F4HWN
+	extern const uint8_t BITMAP_VOX[12];
+#else
 	extern const uint8_t BITMAP_VOX[18];
+#endif
+#endif
+
+#ifdef ENABLE_FEAT_F4HWN
+	extern const uint8_t BITMAP_PTT_ONE_PUSH[11];
+	extern const uint8_t BITMAP_PTT_CLASSIC[11];
 #endif
 
 extern const uint8_t BITMAP_XB[12];

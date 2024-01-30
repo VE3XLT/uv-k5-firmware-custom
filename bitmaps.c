@@ -142,6 +142,24 @@ const uint8_t BITMAP_F_Key[6] =
 };
 
 #ifdef ENABLE_VOX
+
+#ifdef ENABLE_FEAT_F4HWN
+	const uint8_t BITMAP_VOX[12] =
+	{	// "V"
+		0b00000000,
+		0b00011111,
+		0b00100000,
+		0b01000000,
+		0b00100000,
+		0b00011111,
+		0b00000000,
+		0b01100011,
+		0b00010100,
+		0b00001000,
+		0b00010100,
+		0b01100011
+	};
+#else
 	const uint8_t BITMAP_VOX[18] =
 	{	// "VOX"
 		0b00000000,
@@ -164,7 +182,40 @@ const uint8_t BITMAP_F_Key[6] =
 		0b01100011
 	};
 #endif
+#endif
 
+
+#ifdef ENABLE_FEAT_F4HWN
+	const uint8_t BITMAP_PTT_ONE_PUSH[11] =
+	{	// "OnePush"
+		0b00000000,
+		0b00111110,
+		0b01000001,
+		0b01000001,
+		0b00111110,
+		0b00000000,
+		0b01111110,
+		0b00010001,
+		0b00010001,
+		0b00001110,
+		0b00000000,
+	};
+
+	const uint8_t BITMAP_PTT_CLASSIC[11] =
+	{	// "Classic"
+		0b00000000,
+		0b00111110,
+		0b01000001,
+		0b01000001,
+		0b01000001,
+		0b00000000,
+		0b00111111,
+		0b01000000,
+		0b01000000,
+		0b01000000,
+		0b00000000,
+	};
+#endif
 
 // 'XB' (cross-band/cross-VFO)
 const uint8_t BITMAP_XB[12] =
