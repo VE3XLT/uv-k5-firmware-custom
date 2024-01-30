@@ -42,6 +42,7 @@ center_line_t center_line = CENTER_LINE_NONE;
 #ifdef ENABLE_FEAT_F4HWN
 	static bool RXCounter;
 	static int8_t RXLine;
+	bool isMainOnlyInputDTMF = false;
 #endif
 
 const int8_t dBmCorrTable[7] = {
@@ -502,7 +503,12 @@ void UI_DisplayMain(void)
 		}
 	}
 #endif
+
+#ifdef ENABLE_FEAT_F4HWN
+		if (activeTxVFO != vfo_num || ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0))
+#else
 		if (activeTxVFO != vfo_num) // this is not active TX VFO
+#endif
 		{
 #ifdef ENABLE_SCAN_RANGES
 			if(gScanRangeStart) {
@@ -555,7 +561,20 @@ void UI_DisplayMain(void)
 					pPrintStr = String;
 				}
 
+#ifdef ENABLE_FEAT_F4HWN
+				if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
+				{
+					UI_PrintString(pPrintStr, 2, 0, 5, 8);
+					isMainOnlyInputDTMF = true;
+				}
+				else
+				{
+					UI_PrintString(pPrintStr, 2, 0, 0 + (vfo_num * 3), 8);
+					isMainOnlyInputDTMF = false;
+				}
+#else
 				UI_PrintString(pPrintStr, 2, 0, 0 + (vfo_num * 3), 8);
+#endif
 
 				center_line = CENTER_LINE_IN_USE;
 				continue;
