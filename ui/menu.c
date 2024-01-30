@@ -429,7 +429,7 @@ void UI_DisplayMenu(void)
 	UI_DisplayClear();
 
 #ifdef ENABLE_FEAT_F4HWN
-	UI_DrawLineBuffer(gFrameBuffer, 50, 0, 50, 63, 1); // Be ware, limit is 63 pixels (not 64)
+	UI_DrawLineBuffer(gFrameBuffer, 50, 0, 50, 55, 1); // Be ware, status zone = 8 lines, the rest = 56 ->total 64
 	UI_DrawLineDottedBuffer(gFrameBuffer, 0, 46, 50, 46, 1);
 #endif
 
@@ -456,11 +456,8 @@ void UI_DisplayMenu(void)
 		memcpy(gFrameBuffer[0] + (8 * menu_list_width) + 1, BITMAP_CurrentIndicator, sizeof(BITMAP_CurrentIndicator));
 
 	// draw the menu index number/count
-#ifdef ENABLE_FEAT_F4HWN
-	sprintf(String, "%02u/%u", 1 + gMenuCursor, gMenuListCount);
-#else
 	sprintf(String, "%2u.%u", 1 + gMenuCursor, gMenuListCount);
-#endif
+
 	UI_PrintStringSmallNormal(String, 2, 0, 6);
 
 #else
@@ -495,7 +492,11 @@ void UI_DisplayMenu(void)
 			}
 
 			// draw the menu index number/count
+#ifdef ENABLE_FEAT_F4HWN
+			sprintf(String, "%02u/%u", 1 + gMenuCursor, gMenuListCount);
+#else
 			sprintf(String, "%2u.%u", 1 + gMenuCursor, gMenuListCount);
+#endif
 			UI_PrintStringSmallNormal(String, 2, 0, 6);
 		}
 		else if (menu_index >= 0 && menu_index < (int)gMenuListCount)
@@ -880,6 +881,7 @@ void UI_DisplayMenu(void)
 			strcpy(String, gSubMenu_SET_PTT[gSubMenuSelection]);
 			break;
 #endif
+
 	}
 
 	if (!already_printed)
