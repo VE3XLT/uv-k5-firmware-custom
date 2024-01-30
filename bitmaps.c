@@ -145,7 +145,7 @@ const uint8_t BITMAP_F_Key[6] =
 
 #ifdef ENABLE_FEAT_F4HWN
 	const uint8_t BITMAP_VOX[12] =
-	{	// "V"
+	{	// "VX"
 		0b00000000,
 		0b00011111,
 		0b00100000,
@@ -186,10 +186,11 @@ const uint8_t BITMAP_F_Key[6] =
 
 
 #ifdef ENABLE_FEAT_F4HWN
-	const uint8_t BITMAP_PTT_ONE_PUSH[11] =
+	const uint8_t BITMAP_PTT_ONE_PUSH[12] =
 	{	// "OnePush"
 		0b00000000,
 		0b00111110,
+		0b01000001,
 		0b01000001,
 		0b01000001,
 		0b00111110,
@@ -197,23 +198,24 @@ const uint8_t BITMAP_F_Key[6] =
 		0b01111110,
 		0b00010001,
 		0b00010001,
+		0b00010001,
 		0b00001110,
-		0b00000000,
 	};
 
-	const uint8_t BITMAP_PTT_CLASSIC[11] =
+	const uint8_t BITMAP_PTT_CLASSIC[12] =
 	{	// "Classic"
 		0b00000000,
 		0b00111110,
 		0b01000001,
 		0b01000001,
 		0b01000001,
+		0b00100010,
 		0b00000000,
 		0b00111111,
 		0b01000000,
 		0b01000000,
 		0b01000000,
-		0b00000000,
+		0b01000000,
 	};
 #endif
 

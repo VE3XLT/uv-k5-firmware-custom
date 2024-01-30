@@ -26,8 +26,8 @@ extern const uint8_t BITMAP_F_Key[6];
 #endif
 
 #ifdef ENABLE_FEAT_F4HWN
-	extern const uint8_t BITMAP_PTT_ONE_PUSH[11];
-	extern const uint8_t BITMAP_PTT_CLASSIC[11];
+	extern const uint8_t BITMAP_PTT_ONE_PUSH[12];
+	extern const uint8_t BITMAP_PTT_CLASSIC[12];
 #endif
 
 extern const uint8_t BITMAP_XB[12];
