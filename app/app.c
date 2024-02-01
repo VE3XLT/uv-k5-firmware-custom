@@ -855,7 +855,11 @@ void APP_Update(void)
 
 		gBlinkCounter++;
 
-		if(gBlinkCounter > 74000)
+		if(
+			(gSetting_set_tot == 3 && gEeprom.BACKLIGHT_TIME != 0 && gBlinkCounter > 74000) || 
+			(gSetting_set_tot == 3 && gEeprom.BACKLIGHT_TIME == 0 && gBlinkCounter > 79000) || 
+			(gSetting_set_tot != 3 && gBlinkCounter > 76000)
+			) // try to calibrate 10 times
 		{
 			gBlinkCounter = 0;
 
