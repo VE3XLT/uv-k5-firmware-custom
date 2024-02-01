@@ -98,6 +98,7 @@ enum BacklightOnRxTx_t gSetting_backlight_on_tx_rx;
 #ifdef ENABLE_FEAT_F4HWN
 	uint8_t       gSetting_set_low;
 	bool          gSetting_set_ptt;
+	uint8_t       gSetting_set_tot;
 #endif
 
 #ifdef ENABLE_AUDIO_BAR
@@ -140,6 +141,7 @@ volatile bool     gTxTimeoutReached;
 #ifdef ENABLE_FEAT_F4HWN
 	volatile uint16_t gTxTimerCountdownAlert_500ms;
 	volatile bool     gTxTimeoutReachedAlert;
+	volatile uint16_t gTxTimeoutToneAlert = 800;
 #endif
 
 volatile uint16_t gTailNoteEliminationCountdown_10ms;

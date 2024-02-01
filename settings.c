@@ -283,6 +283,8 @@ void SETTINGS_InitEEPROM(void)
 		EEPROM_ReadBuffer(0x1FF0, Data, 8);
 		gSetting_set_low = (Data[7] < 5) ? Data[7] : 0;
 		gSetting_set_ptt = (Data[6] < 2) ? Data[6] : 0;
+		gSetting_set_tot = (Data[5] < 4) ? Data[5] : 0;
+
 	#endif
 }
 
@@ -602,6 +604,7 @@ void SETTINGS_SaveSettings(void)
 
 #ifdef ENABLE_FEAT_F4HWN
 	memset(State, 0xFF, sizeof(State));
+	State[5] = gSetting_set_tot;
 	State[6] = gSetting_set_ptt;
 	State[7] = gSetting_set_low;
 	EEPROM_WriteBuffer(0x1FF0, State);

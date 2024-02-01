@@ -828,33 +828,43 @@ void APP_Update(void)
 #ifdef ENABLE_FEAT_F4HWN
 	if (gCurrentFunction == FUNCTION_TRANSMIT && (gTxTimeoutReachedAlert || SerialConfigInProgress()))
 	{
-		if (gEeprom.BACKLIGHT_TIME == 0) {
-			if (gBlinkCounter == 0)
-			{
-				GPIO_FlipBit(&GPIOC->DATA, GPIOC_PIN_FLASHLIGHT);
-			}
-			else if(gBlinkCounter == 250)
-			{
-				GPIO_FlipBit(&GPIOC->DATA, GPIOC_PIN_FLASHLIGHT);
-			}
-		}
-		else
+		if(gSetting_set_tot >= 2)
 		{
-			if (gBlinkCounter == 0)
-			{
-				BACKLIGHT_TurnOn();
+			if (gEeprom.BACKLIGHT_TIME == 0) {
+				if (gBlinkCounter == 0)
+				{
+					GPIO_FlipBit(&GPIOC->DATA, GPIOC_PIN_FLASHLIGHT);
+				}
+				else if(gBlinkCounter == 250)
+				{
+					GPIO_FlipBit(&GPIOC->DATA, GPIOC_PIN_FLASHLIGHT);
+				}
 			}
-			else if(gBlinkCounter == 15000)
+			else
 			{
-				BACKLIGHT_TurnOff();
+				if (gBlinkCounter == 0)
+				{
+					BACKLIGHT_TurnOn();
+				}
+				else if(gBlinkCounter == 15000)
+				{
+					BACKLIGHT_TurnOff();
+				}
 			}
 		}
 
 		gBlinkCounter++;
 
-		if(gBlinkCounter > 30000)
+		if(gBlinkCounter > 74000)
 		{
 			gBlinkCounter = 0;
+
+			if(gSetting_set_tot == 1 || gSetting_set_tot == 3)
+			{
+				BK4819_DisableScramble();
+				BK4819_PlaySingleTone(gTxTimeoutToneAlert, 30, 1, true);
+				gTxTimeoutToneAlert += 100;
+			}
 		}
 	}
 #endif
@@ -865,6 +875,7 @@ void APP_Update(void)
 
 #ifdef ENABLE_FEAT_F4HWN
 		gTxTimeoutReachedAlert = false;
+		gTxTimeoutToneAlert = 800;
 #endif
 
 		APP_EndTransmission();
