@@ -232,8 +232,10 @@ void RADIO_ConfigureChannel(const unsigned int VFO, const unsigned int configure
 		pVfo->StepFrequency = gStepFrequencyTable[tmp];
 
 		tmp = data[7];
+#ifndef ENABLE_FEAT_F4HWN
 		if (tmp > (ARRAY_SIZE(gSubMenu_SCRAMBLER) - 1))
 			tmp = 0;
+#endif
 		pVfo->SCRAMBLING_TYPE = tmp;
 
 		pVfo->freq_config_RX.CodeType = (data[2] >> 0) & 0x0F;

@@ -49,7 +49,9 @@ const t_menu_item MenuList[] =
 	{"TxODir", VOICE_ID_TX_OFFSET_FREQUENCY_DIRECTION, MENU_SFT_D         }, // was "SFT_D"
 	{"TxOffs", VOICE_ID_TX_OFFSET_FREQUENCY,           MENU_OFFSET        }, // was "OFFSET"
 	{"W/N",    VOICE_ID_CHANNEL_BANDWIDTH,             MENU_W_N           },
+#ifndef ENABLE_FEAT_F4HWN
 	{"Scramb", VOICE_ID_SCRAMBLER_ON,                  MENU_SCR           }, // was "SCR"
+#endif
 	{"BusyCL", VOICE_ID_BUSY_LOCKOUT,                  MENU_BCL           }, // was "BCL"
 	{"Compnd", VOICE_ID_INVALID,                       MENU_COMPAND       },
 	{"Demodu", VOICE_ID_INVALID,                       MENU_AM            }, // was "AM"
@@ -323,6 +325,7 @@ const char gSubMenu_BATTYP[][9] =
 	"2200mAh"
 };
 
+#ifndef ENABLE_FEAT_F4HWN
 const char gSubMenu_SCRAMBLER[][7] =
 {
 	"OFF",
@@ -337,6 +340,7 @@ const char gSubMenu_SCRAMBLER[][7] =
 	"3400Hz",
 	"3500Hz"
 };
+#endif
 
 #ifdef ENABLE_FEAT_F4HWN
 	const char gSubMenu_SET_LOW[][7] =
@@ -604,6 +608,7 @@ void UI_DisplayMenu(void)
 			strcpy(String, gSubMenu_W_N[gSubMenuSelection]);
 			break;
 
+#ifndef ENABLE_FEAT_F4HWN
 		case MENU_SCR:
 			strcpy(String, gSubMenu_SCRAMBLER[gSubMenuSelection]);
 			#if 1
@@ -613,6 +618,7 @@ void UI_DisplayMenu(void)
 					BK4819_DisableScramble();
 			#endif
 			break;
+#endif
 
 		#ifdef ENABLE_VOX
 			case MENU_VOX:

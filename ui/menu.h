@@ -42,7 +42,9 @@ enum
 	MENU_OFFSET,
 	MENU_TOT,
 	MENU_W_N,
+#ifndef ENABLE_FEAT_F4HWN
 	MENU_SCR,
+#endif
 	MENU_BCL,
 	MENU_MEM_CH,
 	MENU_DEL_CH,
@@ -169,7 +171,10 @@ extern const char        gSubMenu_BACKLIGHT[8][7];
 extern const char        gSubMenu_RX_TX[4][6];
 extern const char        gSubMenu_BAT_TXT[3][8];
 extern const char 		 gSubMenu_BATTYP[2][9];
+
+#ifndef ENABLE_FEAT_F4HWN
 extern const char        gSubMenu_SCRAMBLER[11][7];
+#endif
 
 typedef struct {char* name; uint8_t id;} t_sidefunction;
 extern const uint8_t 		 gSubMenu_SIDEFUNCTIONS_size;
