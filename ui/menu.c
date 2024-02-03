@@ -399,7 +399,7 @@ const t_sidefunction gSubMenu_SIDEFUNCTIONS[] =
 #ifdef ENABLE_FEAT_F4HWN
 	{"SWITCH\nMAIN ONLY",   ACTION_OPT_MAIN},
 	{"SWITCH\nPTT",  	    ACTION_OPT_PTT},
-	{"SWITCH\nWIDE\nARROW", ACTION_OPT_WN},
+	{"SWITCH\nWIDE\nNARROW", ACTION_OPT_WN},
 #endif
 };
 
