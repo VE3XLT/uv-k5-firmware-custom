@@ -155,7 +155,16 @@ void ST7565_Init(void)
 	SYSTEM_DelayMs(120);
 
 	for(uint8_t i = 0; i < 8; i++)
+	{
+#ifdef ENABLE_FEAT_F4HWN
+		if(i == 7)
+			ST7565_WriteByte(20 + gSetting_set_ctr);
+		else
+			ST7565_WriteByte(cmds[i]);
+#else
 		ST7565_WriteByte(cmds[i]);
+#endif
+	}
 
 	ST7565_WriteByte(ST7565_CMD_POWER_CIRCUIT | 0b011);   // VB=0 VR=1 VF=1
 	SYSTEM_DelayMs(1);
@@ -174,6 +183,22 @@ void ST7565_Init(void)
 
 	ST7565_FillScreen(0x00);
 }
+
+#ifdef ENABLE_FEAT_F4HWN
+	void ST7565_Contrast(void)
+	{
+		SPI_ToggleMasterMode(&SPI0->CR, false);
+		ST7565_WriteByte(ST7565_CMD_SOFTWARE_RESET);   // software reset
+
+		for(uint8_t i = 0; i < 8; i++)
+		{
+			if(i == 7)
+				ST7565_WriteByte(20 + gSetting_set_ctr);
+			else
+				ST7565_WriteByte(cmds[i]);
+		}
+	}
+#endif
 
 void ST7565_FixInterfGlitch(void)
 {

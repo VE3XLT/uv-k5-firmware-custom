@@ -123,6 +123,7 @@ enum
 	MENU_SET_LOW,
 	MENU_SET_PTT,
 	MENU_SET_TOT,
+	MENU_SET_CTR,
 #endif
 	MENU_BATCAL,  // battery voltage calibration
 	MENU_F1SHRT,

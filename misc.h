@@ -160,6 +160,7 @@ extern enum BacklightOnRxTx_t gSetting_backlight_on_tx_rx;
 	extern uint8_t            gSetting_set_low;
 	extern bool               gSetting_set_ptt;
 	extern uint8_t            gSetting_set_tot;
+	extern uint8_t            gSetting_set_ctr;
 #endif
 
 #ifdef ENABLE_AUDIO_BAR

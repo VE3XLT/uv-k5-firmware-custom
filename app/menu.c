@@ -378,6 +378,10 @@ int MENU_GetLimits(uint8_t menu_id, int32_t *pMin, int32_t *pMax)
 			*pMin = 0;
 			*pMax = ARRAY_SIZE(gSubMenu_SET_TOT) - 1;
 			break;
+		case MENU_SET_CTR:
+			*pMin = 0;
+			*pMax = 20;
+			break;
 #endif
 
 		default:
@@ -829,6 +833,9 @@ void MENU_AcceptSetting(void)
 			gSetting_set_tot = gSubMenuSelection;
 			gRequestSaveChannel = 1;
 			break;
+		case MENU_SET_CTR:
+			gSetting_set_ctr = gSubMenuSelection;
+			break;
 #endif
 	}
 
@@ -1203,6 +1210,9 @@ void MENU_ShowCurrentSetting(void)
 			break;
 		case MENU_SET_TOT:
 			gSubMenuSelection = gSetting_set_tot;
+			break;
+		case MENU_SET_CTR:
+			gSubMenuSelection = gSetting_set_ctr;
 			break;
 #endif
 

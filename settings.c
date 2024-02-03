@@ -284,6 +284,7 @@ void SETTINGS_InitEEPROM(void)
 		gSetting_set_low = (Data[7] < 5) ? Data[7] : 0;
 		gSetting_set_ptt = (Data[6] < 2) ? Data[6] : 0;
 		gSetting_set_tot = (Data[5] < 4) ? Data[5] : 0;
+		gSetting_set_ctr = (Data[4] < 21) ? Data[4] : 11;
 
 	#endif
 }
@@ -604,6 +605,7 @@ void SETTINGS_SaveSettings(void)
 
 #ifdef ENABLE_FEAT_F4HWN
 	memset(State, 0xFF, sizeof(State));
+	State[4] = gSetting_set_ctr;
 	State[5] = gSetting_set_tot;
 	State[6] = gSetting_set_ptt;
 	State[7] = gSetting_set_low;
