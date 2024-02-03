@@ -104,6 +104,7 @@ void (*action_opt_table[])(void) = {
 #ifdef ENABLE_FEAT_F4HWN
 	[ACTION_OPT_MAIN] = &ACTION_Main,
 	[ACTION_OPT_PTT] = &ACTION_Ptt,
+	[ACTION_OPT_WN] = &ACTION_Wn,
 #else
 	[ACTION_OPT_MAIN] = &FUNCTION_NOP,
 #endif
@@ -492,6 +493,12 @@ void ACTION_Main(void)
 void ACTION_Ptt(void)
 {
 	gSetting_set_ptt = (gSetting_set_ptt == 0) ? 1: 0;
+	
+}
+
+void ACTION_Wn(void)
+{
+	gTxVfo->CHANNEL_BANDWIDTH = (gTxVfo->CHANNEL_BANDWIDTH == 0) ? 1: 0;
 	
 }
 #endif

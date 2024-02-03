@@ -38,6 +38,7 @@ void ACTION_SwitchDemodul(void);
 #ifdef ENABLE_FEAT_F4HWN
 	void ACTION_Main(void);
 	void ACTION_Ptt(void);
+	void ACTION_Wn(void);
 #endif
 
 void ACTION_Handle(KEY_Code_t Key, bool bKeyPressed, bool bKeyHeld);
