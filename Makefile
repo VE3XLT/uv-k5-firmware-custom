@@ -11,7 +11,7 @@ ENABLE_NOAA                   ?= 0
 ENABLE_VOICE                  ?= 0
 ENABLE_VOX                    ?= 1
 ENABLE_ALARM                  ?= 0
-ENABLE_TX1750                 ?= 0
+ENABLE_TX1750                 ?= 1
 ENABLE_PWRON_PASSWORD         ?= 0
 ENABLE_DTMF_CALLING           ?= 0
 ENABLE_FLASHLIGHT             ?= 1
@@ -380,7 +380,7 @@ ifeq ($(ENABLE_CUSTOM_MENU_LAYOUT),1)
 endif
 ifeq ($(ENABLE_FEAT_F4HWN),1)
 	CFLAGS  += -DENABLE_FEAT_F4HWN
-	FEAT_STRING ?= "F4HWN v1.6"
+	FEAT_STRING ?= "F4HWN v1.7"
 	CFLAGS += -DFEAT_STRING=\"$(FEAT_STRING)\" -DALERT_TOT=10
 endif
 
