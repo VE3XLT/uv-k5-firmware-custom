@@ -499,6 +499,11 @@ void ACTION_Ptt(void)
 void ACTION_Wn(void)
 {
 	gTxVfo->CHANNEL_BANDWIDTH = (gTxVfo->CHANNEL_BANDWIDTH == 0) ? 1: 0;
-	
+#ifdef ENABLE_AM_FIX
+	BK4819_SetFilterBandwidth(gTxVfo->CHANNEL_BANDWIDTH, true);
+#else
+
+	BK4819_SetFilterBandwidth(gTxVfo->CHANNEL_BANDWIDTH, false);
+#endif
 }
 #endif
