@@ -761,7 +761,11 @@ void MENU_AcceptSetting(void)
 		case MENU_F_LOCK: {
 			if(gSubMenuSelection == F_LOCK_NONE) { // select 10 times to enable
 				gUnlockAllTxConfCnt++;
+#ifdef ENABLE_FEAT_F4HWN
+				if(gUnlockAllTxConfCnt < 3)
+#else
 				if(gUnlockAllTxConfCnt < 10)
+#endif
 					return;
 			}
 			else
