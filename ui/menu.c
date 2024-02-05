@@ -355,16 +355,16 @@ const char gSubMenu_SCRAMBLER[][7] =
 
 	const char gSubMenu_SET_PTT[][8] =
 	{
-		"Classic",
-		"OnePush"
+		"CLASSIC",
+		"ONEPUSH"
 	};
 
 	const char gSubMenu_SET_TOT[][7] =
 	{
-		"Off",
-		"Sound",
-		"Visual",
-		"All"
+		"OFF",
+		"SOUND",
+		"VISUAL",
+		"ALL"
 	};
 #endif
 
@@ -387,7 +387,7 @@ const t_sidefunction gSubMenu_SIDEFUNCTIONS[] =
 	{"FM RADIO",		ACTION_OPT_FM},
 #endif
 #ifdef ENABLE_TX1750
-	{"1750HZ",			ACTION_OPT_1750},
+	{"1750Hz",			ACTION_OPT_1750},
 #endif
 	{"LOCK\nKEYPAD",	ACTION_OPT_KEYLOCK},
 	{"SWITCH\nVFO",		ACTION_OPT_A_B},
