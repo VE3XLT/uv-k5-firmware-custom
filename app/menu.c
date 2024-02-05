@@ -827,11 +827,9 @@ void MENU_AcceptSetting(void)
 			break;
 		case MENU_SET_PTT:
 			gSetting_set_ptt = gSubMenuSelection;
-			gRequestSaveChannel = 1;
 			break;
 		case MENU_SET_TOT:
 			gSetting_set_tot = gSubMenuSelection;
-			gRequestSaveChannel = 1;
 			break;
 		case MENU_SET_CTR:
 			gSetting_set_ctr = gSubMenuSelection;
