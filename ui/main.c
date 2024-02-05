@@ -159,7 +159,7 @@ void UI_DisplayAudioBar(void)
 
 #ifdef ENABLE_FEAT_F4HWN
 		unsigned int line;
-		if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
+		if ((gSetting_set_dual_watch_session != DUAL_WATCH_OFF) + (gSetting_set_cross_band_RX_TX_session != CROSS_BAND_OFF) * 2 == 0)
 		{
 			line = 5;
 		}
@@ -228,7 +228,7 @@ void DisplayRSSIBar(const bool now)
 	};
 
 	unsigned int line;
-	if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
+	if ((gSetting_set_dual_watch_session != DUAL_WATCH_OFF) + (gSetting_set_cross_band_RX_TX_session != CROSS_BAND_OFF) * 2 == 0)
 	{
 		line = 5;
 	}
@@ -472,7 +472,7 @@ void UI_DisplayMain(void)
 		const unsigned int line0 = 0;  // text screen line
 		const unsigned int line1 = 4;
 		unsigned int line;
-		if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
+		if ((gSetting_set_dual_watch_session != DUAL_WATCH_OFF) + (gSetting_set_cross_band_RX_TX_session != CROSS_BAND_OFF) * 2 == 0)
 		{
 			line       = 0;
 		}
@@ -495,7 +495,7 @@ void UI_DisplayMain(void)
 #endif
 
 #ifdef ENABLE_FEAT_F4HWN
-	if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
+	if ((gSetting_set_dual_watch_session != DUAL_WATCH_OFF) + (gSetting_set_cross_band_RX_TX_session != CROSS_BAND_OFF) * 2 == 0)
 	{
 		if (activeTxVFO != vfo_num)
 		{
@@ -505,7 +505,7 @@ void UI_DisplayMain(void)
 #endif
 
 #ifdef ENABLE_FEAT_F4HWN
-		if (activeTxVFO != vfo_num || ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0))
+		if (activeTxVFO != vfo_num || ((gSetting_set_dual_watch_session != DUAL_WATCH_OFF) + (gSetting_set_cross_band_RX_TX_session != CROSS_BAND_OFF) * 2 == 0))
 #else
 		if (activeTxVFO != vfo_num) // this is not active TX VFO
 #endif
@@ -562,7 +562,7 @@ void UI_DisplayMain(void)
 				}
 
 #ifdef ENABLE_FEAT_F4HWN
-				if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
+				if ((gSetting_set_dual_watch_session != DUAL_WATCH_OFF) + (gSetting_set_cross_band_RX_TX_session != CROSS_BAND_OFF) * 2 == 0)
 				{
 					UI_PrintString(pPrintStr, 2, 0, 5, 8);
 					isMainOnlyInputDTMF = true;
@@ -767,7 +767,7 @@ void UI_DisplayMain(void)
 						}
 						else {
 #ifdef ENABLE_FEAT_F4HWN
-							if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
+							if ((gSetting_set_dual_watch_session != DUAL_WATCH_OFF) + (gSetting_set_cross_band_RX_TX_session != CROSS_BAND_OFF) * 2 == 0)
 							{
 								UI_PrintString(String, 32, 0, line, 8);
 							}
@@ -786,7 +786,7 @@ void UI_DisplayMain(void)
 #endif
 
 #ifdef ENABLE_FEAT_F4HWN
-							if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
+							if ((gSetting_set_dual_watch_session != DUAL_WATCH_OFF) + (gSetting_set_cross_band_RX_TX_session != CROSS_BAND_OFF) * 2 == 0)
 							{
 								sprintf(String, "%3u.%05u", frequency / 100000, frequency % 100000);
 								if(frequency < _1GHz_in_KHz) {
@@ -989,7 +989,7 @@ void UI_DisplayMain(void)
 
 					sprintf(String, "DTMF %s", gDTMF_RX_live + idx);
 #ifdef ENABLE_FEAT_F4HWN
-					if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
+					if ((gSetting_set_dual_watch_session != DUAL_WATCH_OFF) + (gSetting_set_cross_band_RX_TX_session != CROSS_BAND_OFF) * 2 == 0)
 					{
 						UI_PrintStringSmallNormal(String, 2, 0, 5);
 					}

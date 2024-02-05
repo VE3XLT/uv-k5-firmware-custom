@@ -1066,7 +1066,7 @@ static void CheckKeys(void)
 
 // -------------------- PTT ------------------------
 #ifdef ENABLE_FEAT_F4HWN
-	if (gSetting_set_ptt == 1)
+	if (gSetting_set_ptt_session == true)
 	{
 		if (!GPIO_CheckBit(&GPIOC->DATA, GPIOC_PIN_PTT) && !SerialConfigInProgress() && gPttOnePushCounter == 0)
 		{	// PTT pressed

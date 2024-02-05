@@ -131,7 +131,7 @@ void UI_DisplayStatus()
 
 #ifdef ENABLE_FEAT_F4HWN
 	// PTT indicator
-	if (gSetting_set_ptt) {
+	if (gSetting_set_ptt_session) {
 		memcpy(line + x, BITMAP_PTT_ONE_PUSH, sizeof(BITMAP_PTT_ONE_PUSH));
 		x1 = x + sizeof(BITMAP_PTT_ONE_PUSH) + 1;
 	}

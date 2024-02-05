@@ -286,6 +286,10 @@ void SETTINGS_InitEEPROM(void)
 		gSetting_set_tot = (Data[5] < 4) ? Data[5] : 0;
 		gSetting_set_ctr = (Data[4] < 21) ? Data[4] : 11;
 
+		// And set special session settings for actions
+		gSetting_set_ptt_session = gSetting_set_ptt;
+		gSetting_set_dual_watch_session = gEeprom.DUAL_WATCH;
+		gSetting_set_cross_band_RX_TX_session = gEeprom.CROSS_BAND_RX_TX;
 	#endif
 }
 

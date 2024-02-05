@@ -115,7 +115,9 @@ enum
 	MENU_350TX,
 	MENU_500TX,
 	MENU_350EN,
+#ifndef ENABLE_FEAT_F4HWN
 	MENU_SCREN,
+#endif
 #ifdef ENABLE_F_CAL_MENU
 	MENU_F_CALI,  // reference xtal calibration
 #endif
@@ -174,7 +176,7 @@ extern const char        gSubMenu_BAT_TXT[3][8];
 extern const char 		 gSubMenu_BATTYP[2][9];
 
 #ifndef ENABLE_FEAT_F4HWN
-extern const char        gSubMenu_SCRAMBLER[11][7];
+	extern const char        gSubMenu_SCRAMBLER[11][7];
 #endif
 
 typedef struct {char* name; uint8_t id;} t_sidefunction;

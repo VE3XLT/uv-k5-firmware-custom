@@ -247,10 +247,12 @@ int MENU_GetLimits(uint8_t menu_id, int32_t *pMin, int32_t *pMax)
 		case MENU_200TX:
 		case MENU_500TX:
 		case MENU_350EN:
+#ifndef ENABLE_FEAT_F4HWN
 		case MENU_SCREN:
 			*pMin = 0;
 			*pMax = ARRAY_SIZE(gSubMenu_OFF_ON) - 1;
 			break;
+#endif
 
 		case MENU_AM:
 			*pMin = 0;
@@ -563,6 +565,11 @@ void MENU_AcceptSetting(void)
 		case MENU_TDR:
 			gEeprom.DUAL_WATCH = (gEeprom.TX_VFO + 1) * (gSubMenuSelection & 1);
 			gEeprom.CROSS_BAND_RX_TX = (gEeprom.TX_VFO + 1) * ((gSubMenuSelection & 2) > 0);
+#ifdef ENABLE_FEAT_F4HWN
+			// Special for actions
+			gSetting_set_dual_watch_session = gEeprom.DUAL_WATCH;
+			gSetting_set_cross_band_RX_TX_session = gEeprom.CROSS_BAND_RX_TX;
+#endif
 
 			gFlagReconfigureVfos = true;
 			gUpdateStatus        = true;
@@ -777,10 +784,12 @@ void MENU_AcceptSetting(void)
 			gFlagResetVfos       = true;
 			break;
 
+#ifndef ENABLE_FEAT_F4HWN
 		case MENU_SCREN:
 			gSetting_ScrambleEnable = gSubMenuSelection;
 			gFlagReconfigureVfos    = true;
 			break;
+#endif
 
 		#ifdef ENABLE_F_CAL_MENU
 			case MENU_F_CALI:
@@ -827,6 +836,7 @@ void MENU_AcceptSetting(void)
 			break;
 		case MENU_SET_PTT:
 			gSetting_set_ptt = gSubMenuSelection;
+			gSetting_set_ptt_session = gSetting_set_ptt; // Special for action
 			break;
 		case MENU_SET_TOT:
 			gSetting_set_tot = gSubMenuSelection;
@@ -987,7 +997,11 @@ void MENU_ShowCurrentSetting(void)
 			break;
 
 		case MENU_TDR:
+#ifdef ENABLE_FEAT_F4HWN
+			gSubMenuSelection = (gSetting_set_dual_watch_session != DUAL_WATCH_OFF) + (gSetting_set_cross_band_RX_TX_session != CROSS_BAND_OFF) * 2;
+#else
 			gSubMenuSelection = (gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2;
+#endif
 			break;
 
 		case MENU_BEEP:
@@ -1157,9 +1171,11 @@ void MENU_ShowCurrentSetting(void)
 			gSubMenuSelection = gSetting_350EN;
 			break;
 
+#ifndef ENABLE_FEAT_F4HWN
 		case MENU_SCREN:
 			gSubMenuSelection = gSetting_ScrambleEnable;
 			break;
+#endif
 
 		#ifdef ENABLE_F_CAL_MENU
 			case MENU_F_CALI:
@@ -1204,7 +1220,7 @@ void MENU_ShowCurrentSetting(void)
 			gSubMenuSelection = gSetting_set_low;
 			break;
 		case MENU_SET_PTT:
-			gSubMenuSelection = gSetting_set_ptt;
+			gSubMenuSelection = gSetting_set_ptt_session;
 			break;
 		case MENU_SET_TOT:
 			gSubMenuSelection = gSetting_set_tot;
