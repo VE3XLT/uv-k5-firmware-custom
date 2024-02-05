@@ -801,6 +801,8 @@ void UI_DisplayMain(void)
 									// show the frequency in the main font
 									UI_PrintString(String, 32, 0, line + 3, 8);
 								}
+								sprintf(String, "SQL %d", gEeprom.SQUELCH_LEVEL);
+								UI_PrintStringSmallNormal(String, 46, 0, 6);
 							}
 							else
 							{
