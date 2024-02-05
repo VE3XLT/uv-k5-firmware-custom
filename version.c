@@ -6,11 +6,10 @@
 #endif
 
 #ifdef ENABLE_FEAT_F4HWN
-	const char Version[]      = AUTHOR_STRING " v0.22";
-	const char UART_Version[] = "UV-K5 Firmware, Open Edition, " AUTHOR_STRING "\r\n";
-	const char Feat[]         = "Feat " FEAT_STRING;
+	const char Version[]      = AUTHOR_STRING_1 " " VERSION_STRING_1;
+	const char Feat[]         = "Feat " AUTHOR_STRING_2 " " VERSION_STRING_2;
 #else
 	const char Version[]      = AUTHOR_STRING VER;
-	const char UART_Version[] = "UV-K5 Firmware, Open Edition, " AUTHOR_STRING VER "\r\n";
 #endif
 
+const char UART_Version[] = "UV-K5 Firmware, Open Edition, " AUTHOR_STRING VER "\r\n";

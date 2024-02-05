@@ -201,22 +201,32 @@ endif
 OBJCOPY = arm-none-eabi-objcopy
 SIZE = arm-none-eabi-size
 
-AUTHOR_STRING ?= EGZUMER
-# the user might not have/want git installed
-# can set own version string here (max 7 chars)
-ifneq (, $(shell $(WHERE) git))
-	VERSION_STRING ?= $(shell git describe --tags --exact-match 2>$(NULL_OUTPUT))
-	ifeq (, $(VERSION_STRING))
-    	VERSION_STRING := $(shell git rev-parse --short HEAD)
-	endif
-endif
-# If there is still no VERSION_STRING we need to make one.
-# It is needed for the firmware packing script
-ifeq (, $(VERSION_STRING))
-	VERSION_STRING := NOGIT
-endif
-#VERSION_STRING := 230930b
+ifeq ($(ENABLE_FEAT_F4HWN),1)
+	AUTHOR_STRING_1 ?= EGZUMER
+	VERSION_STRING_1 ?= v0.22
 
+	AUTHOR_STRING_2 ?= F4HWN
+	VERSION_STRING_2 ?= v1.7
+
+	AUTHOR_STRING ?= $(AUTHOR_STRING_1)+$(AUTHOR_STRING_2)
+	VERSION_STRING ?= $(VERSION_STRING_2)
+else
+	AUTHOR_STRING ?= EGZUMER
+	# the user might not have/want git installed
+	# can set own version string here (max 7 chars)
+	ifneq (, $(shell $(WHERE) git))
+		VERSION_STRING ?= $(shell git describe --tags --exact-match 2>$(NULL_OUTPUT))
+		ifeq (, $(VERSION_STRING))
+            VERSION_STRING := $(shell git rev-parse --short HEAD)
+		endif
+	endif
+	# If there is still no VERSION_STRING we need to make one.
+	# It is needed for the firmware packing script
+	ifeq (, $(VERSION_STRING))
+		VERSION_STRING := NOGIT
+	endif
+	#VERSION_STRING := 230930b
+endif
 
 ASFLAGS = -c -mcpu=cortex-m0
 ifeq ($(ENABLE_OVERLAY),1)
@@ -380,8 +390,9 @@ ifeq ($(ENABLE_CUSTOM_MENU_LAYOUT),1)
 endif
 ifeq ($(ENABLE_FEAT_F4HWN),1)
 	CFLAGS  += -DENABLE_FEAT_F4HWN
-	FEAT_STRING ?= "F4HWN v1.7"
-	CFLAGS += -DFEAT_STRING=\"$(FEAT_STRING)\" -DALERT_TOT=10
+	CFLAGS  += -DALERT_TOT=10
+	CFLAGS  += -DAUTHOR_STRING_1=\"$(AUTHOR_STRING_1)\" -DVERSION_STRING_1=\"$(VERSION_STRING_1)\"
+	CFLAGS  += -DAUTHOR_STRING_2=\"$(AUTHOR_STRING_2)\" -DVERSION_STRING_2=\"$(VERSION_STRING_2)\"
 endif
 
 LDFLAGS =
