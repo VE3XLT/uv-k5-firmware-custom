@@ -801,8 +801,8 @@ void UI_DisplayMain(void)
 									// show the frequency in the main font
 									UI_PrintString(String, 32, 0, line + 3, 8);
 								}
-								sprintf(String, "SQL %d", gEeprom.SQUELCH_LEVEL);
-								UI_PrintStringSmallNormal(String, 46, 0, 6);
+								//sprintf(String, "SQL %d", gEeprom.SQUELCH_LEVEL);
+								//UI_PrintStringSmallNormal(String, 46, 0, 6);
 							}
 							else
 							{
@@ -925,9 +925,17 @@ void UI_DisplayMain(void)
 			UI_PrintStringSmallNormal("DTMF", LCD_WIDTH + 78, 0, line + 1);
 #endif
 
+#ifndef ENABLE_FEAT_F4HWN
 		// show the audio scramble symbol
 		if (vfoInfo->SCRAMBLING_TYPE > 0 && gSetting_ScrambleEnable)
 			UI_PrintStringSmallNormal("SCR", LCD_WIDTH + 106, 0, line + 1);
+#endif
+
+#ifdef ENABLE_FEAT_F4HWN
+	sprintf(String, "SQL %d", gEeprom.SQUELCH_LEVEL);
+	UI_PrintStringSmallNormal(String, LCD_WIDTH + 78, 0, line + 1);	
+#endif
+
 	}
 
 #ifdef ENABLE_AGC_SHOW_DATA
