@@ -157,7 +157,9 @@ void ST7565_Init(void)
 	for(uint8_t i = 0; i < 8; i++)
 	{
 #ifdef ENABLE_FEAT_F4HWN
-		if(i == 7)
+		if(i == 3)
+			ST7565_WriteByte(ST7565_CMD_INVERSE_DISPLAY | gSetting_set_inv);
+		else if(i == 7)
 			ST7565_WriteByte(20 + gSetting_set_ctr);
 		else
 			ST7565_WriteByte(cmds[i]);
@@ -192,7 +194,9 @@ void ST7565_Init(void)
 
 		for(uint8_t i = 0; i < 8; i++)
 		{
-			if(i == 7)
+			if(i == 3)
+				ST7565_WriteByte(ST7565_CMD_INVERSE_DISPLAY | gSetting_set_inv);
+			else if(i == 7)
 				ST7565_WriteByte(20 + gSetting_set_ctr);
 			else
 				ST7565_WriteByte(cmds[i]);

@@ -161,6 +161,7 @@ extern enum BacklightOnRxTx_t gSetting_backlight_on_tx_rx;
 	extern bool               gSetting_set_ptt;
 	extern uint8_t            gSetting_set_tot;
 	extern uint8_t            gSetting_set_ctr;
+	extern bool               gSetting_set_inv;
 	extern bool               gSetting_set_ptt_session;
 	extern uint8_t            gSetting_set_dual_watch_session;
 	extern uint8_t            gSetting_set_cross_band_RX_TX_session;

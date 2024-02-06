@@ -126,6 +126,7 @@ enum
 	MENU_SET_PTT,
 	MENU_SET_TOT,
 	MENU_SET_CTR,
+	MENU_SET_INV,
 #endif
 	MENU_BATCAL,  // battery voltage calibration
 	MENU_F1SHRT,

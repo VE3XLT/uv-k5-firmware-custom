@@ -100,6 +100,7 @@ enum BacklightOnRxTx_t gSetting_backlight_on_tx_rx;
 	bool          gSetting_set_ptt;
 	uint8_t       gSetting_set_tot;
 	uint8_t       gSetting_set_ctr = 11;
+	bool          gSetting_set_inv = false;
 	bool          gSetting_set_ptt_session;
 	uint8_t       gSetting_set_dual_watch_session;
 	uint8_t       gSetting_set_cross_band_RX_TX_session;
