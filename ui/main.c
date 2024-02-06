@@ -932,8 +932,8 @@ void UI_DisplayMain(void)
 #endif
 
 #ifdef ENABLE_FEAT_F4HWN
-	sprintf(String, "SQL %d", gEeprom.SQUELCH_LEVEL);
-	UI_PrintStringSmallNormal(String, LCD_WIDTH + 78, 0, line + 1);	
+//	sprintf(String, "SQL %d", gEeprom.SQUELCH_LEVEL);
+//	UI_PrintStringSmallNormal(String, LCD_WIDTH + 78, 0, line + 1);	
 #endif
 
 	}
@@ -1049,6 +1049,21 @@ void UI_DisplayMain(void)
 #endif
 		}
 	}
+
+#ifdef ENABLE_FEAT_F4HWN
+	//if(center_line == CENTER_LINE_NONE)
+	{
+		sprintf(String, "SQL %d", gEeprom.SQUELCH_LEVEL);
+		if ((gSetting_set_dual_watch_session != DUAL_WATCH_OFF) + (gSetting_set_cross_band_RX_TX_session != CROSS_BAND_OFF) * 2 == 0)
+		{
+			UI_PrintStringSmallNormal(String, 90, 0, 2);
+		}
+		else
+		{
+			UI_PrintStringSmallNormal(String, 90, 0, 2);
+		}
+	}
+#endif
 
 	ST7565_BlitFullScreen();
 }
