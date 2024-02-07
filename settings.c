@@ -283,8 +283,8 @@ void SETTINGS_InitEEPROM(void)
 		EEPROM_ReadBuffer(0x1FF0, Data, 8);
 		gSetting_set_low = (Data[7] < 5) ? Data[7] : 0;
 		
-		gSetting_set_tot = (((Data[6] & 0xF0) >> 4) < 2) ? ((Data[6] & 0xF0) >> 4) : 0;
-		gSetting_set_ptt = (((Data[6] & 0x0F)) < 4) ? ((Data[6] & 0x0F)) : 0;
+		gSetting_set_tot = (((Data[6] & 0xF0) >> 4) < 4) ? ((Data[6] & 0xF0) >> 4) : 0;
+		gSetting_set_ptt = (((Data[6] & 0x0F)) < 2) ? ((Data[6] & 0x0F)) : 0;
 
 		gSetting_set_inv = (((Data[5] & 0xF0) >> 4) < 2) ? ((Data[5] & 0xF0) >> 4) : 0;
 		gSetting_set_ctr = (((Data[5] & 0x0F)) < 21) ? ((Data[5] & 0x0F)) : 11;
