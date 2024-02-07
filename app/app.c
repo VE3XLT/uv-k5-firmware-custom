@@ -1096,6 +1096,7 @@ static void CheckKeys(void)
 				gPttOnePushCounter = 3;
 				if (gKeyReading1 != KEY_INVALID)
 					gPttWasReleased = true;
+				ST7565_ContrastAndInv();
 			}
 		}
 		else if ((GPIO_CheckBit(&GPIOC->DATA, GPIOC_PIN_PTT) || SerialConfigInProgress()) && gPttOnePushCounter == 3)
@@ -1120,6 +1121,7 @@ static void CheckKeys(void)
 					gPttIsPressed = false;
 					if (gKeyReading1 != KEY_INVALID)
 						gPttWasReleased = true;
+					ST7565_ContrastAndInv();
 				}
 			}
 			else
