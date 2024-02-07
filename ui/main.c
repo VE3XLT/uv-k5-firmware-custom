@@ -945,11 +945,6 @@ void UI_DisplayMain(void)
 			}
 		}
 #endif
-#ifdef ENABLE_FEAT_F4HWN
-//	sprintf(String, "SQL %d", gEeprom.SQUELCH_LEVEL);
-//	UI_PrintStringSmallNormal(String, LCD_WIDTH + 78, 0, line + 1);	
-#endif
-
 	}
 
 #ifdef ENABLE_AGC_SHOW_DATA
