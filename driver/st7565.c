@@ -187,7 +187,7 @@ void ST7565_Init(void)
 }
 
 #ifdef ENABLE_FEAT_F4HWN
-	void ST7565_Contrast(void)
+	void ST7565_ContrastAndInv(void)
 	{
 		SPI_ToggleMasterMode(&SPI0->CR, false);
 		ST7565_WriteByte(ST7565_CMD_SOFTWARE_RESET);   // software reset

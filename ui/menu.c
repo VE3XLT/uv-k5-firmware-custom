@@ -910,12 +910,12 @@ void UI_DisplayMenu(void)
 		case MENU_SET_CTR:
 			sprintf(String, "%d", gSubMenuSelection);
 			gSetting_set_ctr = gSubMenuSelection;
-			ST7565_Contrast();
+			ST7565_ContrastAndInv();
 			break;
 
 		case MENU_SET_INV:
 			strcpy(String, gSubMenu_OFF_ON[gSubMenuSelection]);
-			ST7565_Contrast();
+			ST7565_ContrastAndInv();
 			break;
 #endif
 
