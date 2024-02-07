@@ -160,7 +160,7 @@ void ST7565_Init(void)
 		if(i == 3)
 			ST7565_WriteByte(ST7565_CMD_INVERSE_DISPLAY | gSetting_set_inv);
 		else if(i == 7)
-			ST7565_WriteByte(20 + gSetting_set_ctr);
+			ST7565_WriteByte(21 + gSetting_set_ctr);
 		else
 			ST7565_WriteByte(cmds[i]);
 #else
@@ -197,7 +197,7 @@ void ST7565_Init(void)
 			if(i == 3)
 				ST7565_WriteByte(ST7565_CMD_INVERSE_DISPLAY | gSetting_set_inv);
 			else if(i == 7)
-				ST7565_WriteByte(20 + gSetting_set_ctr);
+				ST7565_WriteByte(21 + gSetting_set_ctr);
 			else
 				ST7565_WriteByte(cmds[i]);
 		}
