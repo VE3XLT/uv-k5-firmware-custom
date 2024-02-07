@@ -287,7 +287,7 @@ void SETTINGS_InitEEPROM(void)
 		gSetting_set_ptt = (((Data[6] & 0x0F)) < 2) ? ((Data[6] & 0x0F)) : 0;
 
 		gSetting_set_inv = (((Data[5] & 0xF0) >> 4) < 2) ? ((Data[5] & 0xF0) >> 4) : 0;
-		gSetting_set_ctr = (((Data[5] & 0x0F)) < 21) ? ((Data[5] & 0x0F)) : 11;
+		gSetting_set_ctr = (((Data[5] & 0x0F)) < 21) ? ((Data[5] & 0x0F)) : 10;
 
 		// And set special session settings for actions
 		gSetting_set_ptt_session = gSetting_set_ptt;
