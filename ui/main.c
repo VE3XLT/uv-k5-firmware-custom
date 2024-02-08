@@ -37,10 +37,16 @@
 #include "ui/main.h"
 #include "ui/ui.h"
 
+#ifdef ENABLE_FEAT_F4HWN
+	#include "driver/system.h"
+#endif
+
 center_line_t center_line = CENTER_LINE_NONE;
 
 #ifdef ENABLE_FEAT_F4HWN
 	static bool RXBlink;
+	static int8_t RXBlinkLed = 0;
+	static int8_t RXBlinkLedCounter;
 	static int8_t RXLine;
 	bool isMainOnlyInputDTMF = false;
 #endif
@@ -158,6 +164,9 @@ void UI_DisplayAudioBar(void)
 			return;
 
 #ifdef ENABLE_FEAT_F4HWN
+		RXBlinkLed = 0;
+		RXBlinkLedCounter = 0;
+		BK4819_ToggleGpioOut(BK4819_GPIO6_PIN2_GREEN, false);
 		unsigned int line;
 		if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
 		{
@@ -436,6 +445,32 @@ void UI_MAIN_TimeSlice500ms(void)
 		if(FUNCTION_IsRx()) {
 			DisplayRSSIBar(true);
 		}
+#ifdef ENABLE_FEAT_F4HWN
+		else
+		{
+			if(RXBlinkLed == 2)
+			{
+				if(RXBlinkLedCounter <= 10)
+				{
+					if(RXBlinkLedCounter % 2 == 0)
+					{
+						BK4819_ToggleGpioOut(BK4819_GPIO6_PIN2_GREEN, false);
+					}
+					else
+					{
+						BK4819_ToggleGpioOut(BK4819_GPIO6_PIN2_GREEN, true);
+						if(RXBlinkLedCounter > 6)
+							SYSTEM_DelayMs(350);
+					}
+					RXBlinkLedCounter += 1;
+				}
+				else
+				{
+					RXBlinkLed = 0;
+				}
+			}
+		}
+#endif
 	}
 }
 
@@ -613,6 +648,8 @@ void UI_DisplayMain(void)
 			mode = VFO_MODE_RX;
 			if (FUNCTION_IsRx() && gEeprom.RX_VFO == vfo_num) {
 #ifdef ENABLE_FEAT_F4HWN
+				RXBlinkLed = 1;
+				RXBlinkLedCounter = 0;
 				if(!isMainVFO)
 				{
 					RXLine = line;
@@ -626,6 +663,13 @@ void UI_DisplayMain(void)
 				UI_PrintStringSmallBold("RX", 14, 0, line);
 #endif
 			}
+#ifdef ENABLE_FEAT_F4HWN
+			else
+			{
+				if(RXBlinkLed == 1)
+					RXBlinkLed = 2;
+			}
+#endif
 		}
 
 		if (IS_MR_CHANNEL(gEeprom.ScreenChannel[vfo_num]))
