@@ -40,7 +40,7 @@
 center_line_t center_line = CENTER_LINE_NONE;
 
 #ifdef ENABLE_FEAT_F4HWN
-	static bool RXCounter;
+	static bool RXBlink;
 	static int8_t RXLine;
 	bool isMainOnlyInputDTMF = false;
 #endif
@@ -238,16 +238,16 @@ void DisplayRSSIBar(const bool now)
 	}
 
 	char rx[4];
-	//sprintf(String, "%d", RXCounter);
+	//sprintf(String, "%d", RXBlink);
 	//UI_PrintStringSmallBold(String, 80, 0, RXLine);
 
 	if(RXLine >= 0 && center_line != CENTER_LINE_IN_USE)
 	{
-		if(RXCounter == true)
+		if(RXBlink == true)
 		{
 			sprintf(rx, "%s", "RX");
 			//UI_PrintStringSmallBold("RX", 14, 0, RXLine);
-			RXCounter = false;
+			RXBlink = false;
 		}
 		else
 		{
@@ -256,7 +256,7 @@ void DisplayRSSIBar(const bool now)
 			memcpy(gFrameBuffer[RXLine] + 21, &empty, ARRAY_SIZE(empty));
 
 			//UI_PrintStringSmallBold("  ", 14, 0, RXLine);
-			RXCounter = true;
+			RXBlink = true;
 		}
 		UI_PrintStringSmallBold(rx, 14, 0, RXLine);
 		ST7565_BlitLine(RXLine);
