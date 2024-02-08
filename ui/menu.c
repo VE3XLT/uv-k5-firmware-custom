@@ -400,7 +400,7 @@ const t_sidefunction gSubMenu_SIDEFUNCTIONS[] =
 	{"BLMIN\nTMP OFF",  ACTION_OPT_BLMIN_TMP_OFF}, 		//BackLight Minimum Temporay OFF
 #endif
 #ifdef ENABLE_FEAT_F4HWN
-	{"SWITCH\nMAIN ONLY",   ACTION_OPT_MAIN},
+	{"SWITCH\nRX MODE",   ACTION_OPT_RXMODE},
 	{"SWITCH\nPTT",  	    ACTION_OPT_PTT},
 	{"SWITCH\nWIDE\nNARROW", ACTION_OPT_WN},
 #endif
