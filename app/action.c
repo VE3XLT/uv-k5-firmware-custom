@@ -458,7 +458,7 @@ void ACTION_Main(void)
 	static uint8_t b;
 
 
-	if(gSetting_set_dual_watch_session == 0 && gSetting_set_cross_band_RX_TX_session == 0 && cycle != 1)
+	if(gEeprom.DUAL_WATCH == 0 && gEeprom.CROSS_BAND_RX_TX == 0 && cycle != 1)
 	{
 		return;
 	}
@@ -466,11 +466,11 @@ void ACTION_Main(void)
 	{
 		if(cycle == 0)
 		{
-			a = gSetting_set_dual_watch_session;
-			b = gSetting_set_cross_band_RX_TX_session;
+			a = gEeprom.DUAL_WATCH;
+			b = gEeprom.CROSS_BAND_RX_TX;
 
-			gSetting_set_dual_watch_session = 0;
-			gSetting_set_cross_band_RX_TX_session = 0;
+			gEeprom.DUAL_WATCH = 0;
+			gEeprom.CROSS_BAND_RX_TX = 0;
 
 			gFlagReconfigureVfos = true;
 			gUpdateStatus        = true;
@@ -479,8 +479,8 @@ void ACTION_Main(void)
 		}
 		else
 		{
-			gSetting_set_dual_watch_session = a;
-			gSetting_set_cross_band_RX_TX_session = b;
+			gEeprom.DUAL_WATCH = a;
+			gEeprom.CROSS_BAND_RX_TX = b;
 
 			gFlagReconfigureVfos = true;
 			gUpdateStatus        = true;
