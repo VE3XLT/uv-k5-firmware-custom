@@ -250,6 +250,21 @@ static void processFKeyFunction(const KEY_Code_t Key, const bool beep)
 				gBeepToPlay = BEEP_500HZ_60MS_DOUBLE_BEEP_OPTIONAL;
 			break;
 
+#ifdef ENABLE_FEAT_F4HWN // Set Squelch F + UP or Down
+		case KEY_UP:
+			gEeprom.SQUELCH_LEVEL = (gEeprom.SQUELCH_LEVEL < 9) ? gEeprom.SQUELCH_LEVEL + 1: 9;
+			gVfoConfigureMode     = VFO_CONFIGURE;
+			//gRequestDisplayScreen = DISPLAY_MAIN;
+			gWasFKeyPressed = false;
+			break;
+		case KEY_DOWN:
+			gEeprom.SQUELCH_LEVEL = (gEeprom.SQUELCH_LEVEL > 0) ? gEeprom.SQUELCH_LEVEL - 1: 0;
+			gVfoConfigureMode     = VFO_CONFIGURE;
+			//gRequestDisplayScreen = DISPLAY_MAIN;
+			gWasFKeyPressed = false;
+			break;
+#endif
+
 		default:
 			gUpdateStatus   = true;
 			gWasFKeyPressed = false;
@@ -600,6 +615,22 @@ static void MAIN_Key_STAR(bool bKeyPressed, bool bKeyHeld)
 
 static void MAIN_Key_UP_DOWN(bool bKeyPressed, bool bKeyHeld, int8_t Direction)
 {
+
+#ifdef ENABLE_FEAT_F4HWN // Set Squelch F + UP or Down
+	if(gWasFKeyPressed) {
+		switch(Direction)
+		{
+			case 1:
+				processFKeyFunction(KEY_UP, false);
+				break;
+			case -1:
+				processFKeyFunction(KEY_DOWN, false);
+				break;
+		}
+		return;
+	}
+#endif
+
 	uint8_t Channel = gEeprom.ScreenChannel[gEeprom.TX_VFO];
 
 	if (bKeyHeld || !bKeyPressed) { // key held or released
