@@ -72,7 +72,7 @@ void UI_DisplayWelcome(void)
 
 #ifdef ENABLE_FEAT_F4HWN
 		ST7565_ContrastAndInv();
-		UI_PrintStringSmallNormal(Version, 0, 128, 5);
+		UI_PrintStringSmallNormal(Credits, 0, 128, 5);
 		UI_PrintStringSmallNormal(Feat, 0, 128, 6);
 #else
 		UI_PrintStringSmallNormal(Version, 0, 128, 6);
