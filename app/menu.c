@@ -381,7 +381,7 @@ int MENU_GetLimits(uint8_t menu_id, int32_t *pMin, int32_t *pMax)
 			break;
 		case MENU_SET_CTR:
 			*pMin = 1;
-			*pMax = 20;
+			*pMax = 15;
 			break;
         case MENU_SET_INV:
 			*pMin = 0;

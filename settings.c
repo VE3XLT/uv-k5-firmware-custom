@@ -286,21 +286,8 @@ void SETTINGS_InitEEPROM(void)
 		gSetting_set_tot = (((Data[6] & 0xF0) >> 4) < 4) ? ((Data[6] & 0xF0) >> 4) : 0;
 		gSetting_set_ptt = (((Data[6] & 0x0F)) < 2) ? ((Data[6] & 0x0F)) : 0;
 
-		// 
-		// Special patch for 1.7
-		// Change me on 1.8
-		//
-		
-		if(Data[4] < 21)
-		{
-			gSetting_set_inv = 0;
-			gSetting_set_ctr = 10;
-		}
-		else
-		{
-			gSetting_set_inv = (((Data[5] & 0xF0) >> 4) < 2) ? ((Data[5] & 0xF0) >> 4) : 0;
-			gSetting_set_ctr = (((Data[5] & 0x0F)) < 21) ? ((Data[5] & 0x0F)) : 10;
-		}
+		gSetting_set_inv = (((Data[5] & 0xF0) >> 4) < 2) ? ((Data[5] & 0xF0) >> 4) : 0;
+		gSetting_set_ctr = (((Data[5] & 0x0F)) < 16) ? ((Data[5] & 0x0F)) : 5;
 
 		// And set special session settings for actions
 		gSetting_set_ptt_session = gSetting_set_ptt;
