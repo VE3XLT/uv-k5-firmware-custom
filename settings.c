@@ -238,7 +238,13 @@ void SETTINGS_InitEEPROM(void)
 	gSetting_200TX             = (Data[3] < 2) ? Data[3] : false;
 	gSetting_500TX             = (Data[4] < 2) ? Data[4] : false;
 	gSetting_350EN             = (Data[5] < 2) ? Data[5] : true;
+
+#ifdef ENABLE_FEAT_F4HWN
+	gSetting_ScrambleEnable    = false;
+#else
 	gSetting_ScrambleEnable    = (Data[6] < 2) ? Data[6] : true;
+#endif
+
 	//gSetting_TX_EN             = (Data[7] & (1u << 0)) ? true : false;
 	gSetting_live_DTMF_decoder = !!(Data[7] & (1u << 1));
 	gSetting_battery_text      = (((Data[7] >> 2) & 3u) <= 2) ? (Data[7] >> 2) & 3 : 2;
@@ -594,7 +600,13 @@ void SETTINGS_SaveSettings(void)
 	State[3]  = gSetting_200TX;
 	State[4]  = gSetting_500TX;
 	State[5]  = gSetting_350EN;
+
+#ifdef ENABLE_FEAT_F4HWN
+	State[6]  = false;
+#else
 	State[6]  = gSetting_ScrambleEnable;
+#endif
+
 	//if (!gSetting_TX_EN)             State[7] &= ~(1u << 0);
 	if (!gSetting_live_DTMF_decoder) State[7] &= ~(1u << 1);
 	State[7] = (State[7] & ~(3u << 2)) | ((gSetting_battery_text & 3u) << 2);
@@ -657,7 +669,11 @@ void SETTINGS_SaveChannel(uint8_t Channel, uint8_t VFO, const VFO_Info_t *pVFO, 
 #endif
 		;
 		State._8[6] =  pVFO->STEP_SETTING;
+#ifdef ENABLE_FEAT_F4HWN
+		State._8[7] =  0;
+#else
 		State._8[7] =  pVFO->SCRAMBLING_TYPE;
+#endif
 		EEPROM_WriteBuffer(OffsetVFO + 8, State._8);
 
 		SETTINGS_UpdateChannel(Channel, pVFO, true);
