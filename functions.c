@@ -214,10 +214,14 @@ void FUNCTION_Transmit()
 	}
 #endif
 
+#ifdef ENABLE_FEAT_F4HWN
+	BK4819_DisableScramble();
+#else
 	if (gCurrentVfo->SCRAMBLING_TYPE > 0 && gSetting_ScrambleEnable)
 		BK4819_EnableScramble(gCurrentVfo->SCRAMBLING_TYPE - 1);
 	else
 		BK4819_DisableScramble();
+#endif
 
 	if (gSetting_backlight_on_tx_rx & BACKLIGHT_ON_TR_TX) {
 		BACKLIGHT_TurnOn();
