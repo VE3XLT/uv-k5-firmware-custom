@@ -974,14 +974,22 @@ void UI_DisplayMain(void)
 #ifdef ENABLE_FEAT_F4HWN
  		if(isMainVFO)	
  		{
- 			sprintf(String, "SQL %d", gEeprom.SQUELCH_LEVEL);
+ 			if(gMonitor)
+ 			{
+				sprintf(String, "%s", "MON");
+ 			}
+ 		 	else
+ 		 	{
+				sprintf(String, "SQL %d", gEeprom.SQUELCH_LEVEL);
+ 		 	}
+
 			if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
  			{
- 				UI_PrintStringSmallNormal(String, 90, 0, 2);
+				UI_PrintStringSmallNormal(String, 91, 0, 2);
  			}
  			else
  			{
- 				UI_PrintStringSmallNormal(String, 90, 0, line + 2);
+				UI_PrintStringSmallNormal(String, 91, 0, line + 2);
  			}
  		}
 #endif
