@@ -441,7 +441,11 @@ else ifneq (,$(HAS_CRCMOD))
 	$(info !!!!!!!! run: pip install crcmod)
 	$(info )
 else
+ifeq ($(ENABLE_FEAT_F4HWN),1)
+	-$(MY_PYTHON) fw-pack.py $<.bin $(AUTHOR_STRING_2) $(VERSION_STRING_2) $<.packed.bin
+else
 	-$(MY_PYTHON) fw-pack.py $<.bin $(AUTHOR_STRING) $(VERSION_STRING) $<.packed.bin
+endif
 endif
 
 	$(SIZE) $<
