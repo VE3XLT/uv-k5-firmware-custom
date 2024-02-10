@@ -208,7 +208,16 @@ void ST7565_FixInterfGlitch(void)
 {
 	SPI_ToggleMasterMode(&SPI0->CR, false);
 	for(uint8_t i = 0; i < ARRAY_SIZE(cmds); i++)
+#ifdef ENABLE_FEAT_F4HWN
+			if(i == 3)
+				ST7565_WriteByte(ST7565_CMD_INVERSE_DISPLAY | gSetting_set_inv);
+			else if(i == 7)
+				ST7565_WriteByte(21 + gSetting_set_ctr);
+			else
+				ST7565_WriteByte(cmds[i]);
+#else
 		ST7565_WriteByte(cmds[i]);
+#endif
 	SPI_WaitForUndocumentedTxFifoStatusBit();
 	SPI_ToggleMasterMode(&SPI0->CR, true);
 }
