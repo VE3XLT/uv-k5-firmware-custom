@@ -129,6 +129,7 @@ const t_menu_item MenuList[] =
 	{"SetLow", VOICE_ID_INVALID,                       MENU_SET_LOW       },
 	{"SetPtt", VOICE_ID_INVALID,                       MENU_SET_PTT       },
 	{"SetTot", VOICE_ID_INVALID,                       MENU_SET_TOT       },
+	{"SetEot", VOICE_ID_INVALID,                       MENU_SET_EOT       },
 	{"SetCtr", VOICE_ID_INVALID,                       MENU_SET_CTR       },
 	{"SetInv", VOICE_ID_INVALID,                       MENU_SET_INV       },
 #endif
@@ -362,7 +363,7 @@ const char gSubMenu_SCRAMBLER[][7] =
 		"ONEPUSH"
 	};
 
-	const char gSubMenu_SET_TOT[][7] =
+	const char gSubMenu_SET_TOT[][7] =	// Use by SET_EOT too
 	{
 		"OFF",
 		"SOUND",
@@ -905,6 +906,10 @@ void UI_DisplayMenu(void)
 
 		case MENU_SET_TOT:
 			strcpy(String, gSubMenu_SET_TOT[gSubMenuSelection]);
+			break;
+
+		case MENU_SET_EOT:
+			strcpy(String, gSubMenu_SET_TOT[gSubMenuSelection]); // Same as SET_TOT
 			break;
 
 		case MENU_SET_CTR:

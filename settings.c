@@ -287,10 +287,11 @@ void SETTINGS_InitEEPROM(void)
 	#ifdef ENABLE_FEAT_F4HWN
 		// 1FF0..0x1FF7
 		EEPROM_ReadBuffer(0x1FF0, Data, 8);
-		gSetting_set_low = (Data[7] < 5) ? Data[7] : 0;
-		
+		gSetting_set_low = (((Data[7] & 0xF0) >> 4) < 5) ? ((Data[7] & 0xF0) >> 4) : 0;
+		gSetting_set_ptt = (((Data[7] & 0x0F)) < 2) ? ((Data[7] & 0x0F)) : 0;
+
 		gSetting_set_tot = (((Data[6] & 0xF0) >> 4) < 4) ? ((Data[6] & 0xF0) >> 4) : 0;
-		gSetting_set_ptt = (((Data[6] & 0x0F)) < 2) ? ((Data[6] & 0x0F)) : 0;
+		gSetting_set_eot = (((Data[6] & 0x0F)) < 4) ? ((Data[6] & 0x0F)) : 0;
 
 		gSetting_set_inv = (((Data[5] & 0xF0) >> 4) < 2) ? ((Data[5] & 0xF0) >> 4) : 0;
 		gSetting_set_ctr = (((Data[5] & 0x0F)) < 16) ? ((Data[5] & 0x0F)) : 5;
@@ -624,8 +625,8 @@ void SETTINGS_SaveSettings(void)
 	memset(State, 0xFF, sizeof(State));
 
 	State[5] = ((gSetting_set_inv << 4) | (gSetting_set_ctr & 0x0F));
-	State[6] = ((gSetting_set_tot << 4) | (gSetting_set_ptt & 0x0F));
-	State[7] = gSetting_set_low;
+	State[6] = ((gSetting_set_tot << 4) | (gSetting_set_eot & 0x0F));
+	State[7] = ((gSetting_set_low << 4) | (gSetting_set_ptt & 0x0F));
 	EEPROM_WriteBuffer(0x1FF0, State);
 #endif
 }

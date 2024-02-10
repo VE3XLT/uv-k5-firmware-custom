@@ -36,6 +36,7 @@
 #include "ui/inputbox.h"
 #include "ui/main.h"
 #include "ui/ui.h"
+#include "audio.h"
 
 #ifdef ENABLE_FEAT_F4HWN
 	#include "driver/system.h"
@@ -445,8 +446,8 @@ void UI_MAIN_TimeSlice500ms(void)
 		if(FUNCTION_IsRx()) {
 			DisplayRSSIBar(true);
 		}
-#ifdef ENABLE_FEAT_F4HWN
-		else
+#ifdef ENABLE_FEAT_F4HWN // Blink Green Led for white...
+		else if(gSetting_set_eot > 0)
 		{
 			if(RXBlinkLed == 2)
 			{
@@ -454,13 +455,39 @@ void UI_MAIN_TimeSlice500ms(void)
 				{
 					if(RXBlinkLedCounter % 2 == 0)
 					{
-						BK4819_ToggleGpioOut(BK4819_GPIO6_PIN2_GREEN, false);
+						if(gSetting_set_eot > 1 )
+						{
+							BK4819_ToggleGpioOut(BK4819_GPIO6_PIN2_GREEN, false);
+						}
 					}
 					else
 					{
-						BK4819_ToggleGpioOut(BK4819_GPIO6_PIN2_GREEN, true);
-						if(RXBlinkLedCounter > 6)
-							SYSTEM_DelayMs(350);
+						if(gSetting_set_eot > 1 )
+						{
+							BK4819_ToggleGpioOut(BK4819_GPIO6_PIN2_GREEN, true);
+						}
+
+						if(RXBlinkLedCounter <= 6)
+						{
+							if(gSetting_set_eot == 1 || gSetting_set_eot == 3)
+							{
+								AUDIO_PlayBeep(BEEP_800HZ_30MS);
+							}
+						}
+						else
+						{
+							if(gSetting_set_eot == 1 || gSetting_set_eot == 3)
+							{
+								AUDIO_PlayBeep(BEEP_800HZ_30MS);
+								SYSTEM_DelayMs(100);
+								AUDIO_PlayBeep(BEEP_1000HZ_30MS);
+								SYSTEM_DelayMs(100);
+							}
+							else if(gSetting_set_eot == 2)
+							{
+								SYSTEM_DelayMs(350);
+							}
+						}
 					}
 					RXBlinkLedCounter += 1;
 				}
