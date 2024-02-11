@@ -79,7 +79,7 @@ void UI_DisplayWelcome(void)
 
 #ifdef ENABLE_FEAT_F4HWN
 		if(strlen(WelcomeString1) == 0) {
-			UI_PrintString("BONJOUR", 0, 127, 2, 10);
+			UI_PrintString("BIENVENUE", 0, 127, 2, 10);
 		}
 #endif
 
