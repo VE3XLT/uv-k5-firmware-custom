@@ -129,6 +129,7 @@ enum
 	MENU_SET_CTR,
 	MENU_SET_INV,
 	MENU_SET_LCK,
+	MENU_SET_MET,
 #endif
 	MENU_BATCAL,  // battery voltage calibration
 	MENU_F1SHRT,
@@ -167,6 +168,7 @@ extern const char        gSubMenu_D_RSP[4][11];
 	extern const char    gSubMenu_SET_PTT[2][8];
 	extern const char    gSubMenu_SET_TOT[4][7];
 	extern const char    gSubMenu_SET_LCK[2][9];
+	extern const char    gSubMenu_SET_MET[2][8];
 #endif
 
 extern const char* const gSubMenu_PTT_ID[5];

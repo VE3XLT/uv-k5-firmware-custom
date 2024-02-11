@@ -90,22 +90,7 @@ static void DrawSmallAntennaAndBars(uint8_t *p, unsigned int level)
 
 static void DrawLevelBar(uint8_t xpos, uint8_t line, uint8_t level)
 {
-#ifdef ENABLE_FEAT_F4HWN
-	const char hollowBar[] = {
-		0b00111110,
-		0b00100010,
-		0b00100010,
-		0b00111110
-	};
-
-	const char simpleBar[] = {
-		0b00111110,
-		0b00111110,
-		0b00111110,
-		0b00111110
-	};
-
-#else
+#ifndef ENABLE_FEAT_F4HWN
 	const char hollowBar[] = {
 		0b01111111,
 		0b01000001,
@@ -119,11 +104,45 @@ static void DrawLevelBar(uint8_t xpos, uint8_t line, uint8_t level)
 
 	for(uint8_t i = 0; i < level; i++) {
 #ifdef ENABLE_FEAT_F4HWN
-		if(i < 9) {
-			memcpy(p_line + (xpos + i * 5), &simpleBar, ARRAY_SIZE(simpleBar));
+		if(gSetting_set_met)
+		{
+			const char hollowBar[] = {
+				0b01111111,
+				0b01000001,
+				0b01000001,
+				0b01111111
+			};
+
+			if(i < 9) {
+				for(uint8_t j = 0; j < 4; j++)
+					p_line[xpos + i * 5 + j] = (~(0x7F >> (i+1))) & 0x7F;
+			}
+			else {
+				memcpy(p_line + (xpos + i * 5), &hollowBar, ARRAY_SIZE(hollowBar));
+			}
 		}
-		else {
-			memcpy(p_line + (xpos + i * 5), &hollowBar, ARRAY_SIZE(hollowBar));
+		else
+		{
+			const char hollowBar[] = {
+				0b00111110,
+				0b00100010,
+				0b00100010,
+				0b00111110
+			};
+
+			const char simpleBar[] = {
+				0b00111110,
+				0b00111110,
+				0b00111110,
+				0b00111110
+			};
+
+			if(i < 9) {
+				memcpy(p_line + (xpos + i * 5), &simpleBar, ARRAY_SIZE(simpleBar));
+			}
+			else {
+				memcpy(p_line + (xpos + i * 5), &hollowBar, ARRAY_SIZE(hollowBar));
+			}
 		}
 #else
 		if(i < 9) {

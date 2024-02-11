@@ -133,6 +133,7 @@ const t_menu_item MenuList[] =
 	{"SetCtr", VOICE_ID_INVALID,                       MENU_SET_CTR       },
 	{"SetInv", VOICE_ID_INVALID,                       MENU_SET_INV       },
 	{"SetLck", VOICE_ID_INVALID,                       MENU_SET_LCK       },
+	{"SetMet", VOICE_ID_INVALID,                       MENU_SET_MET       },
 #endif
 	// hidden menu items from here on
 	// enabled if pressing both the PTT and upper side button at power-on
@@ -376,6 +377,12 @@ const char gSubMenu_SCRAMBLER[][7] =
 	{
 		"KEYS",
 		"KEYS+PTT"
+	};
+
+	const char gSubMenu_SET_MET[][8] =
+	{
+		"TINY",
+		"CLASSIC"
 	};
 #endif
 
@@ -932,6 +939,10 @@ void UI_DisplayMenu(void)
 
 		case MENU_SET_LCK:
 			strcpy(String, gSubMenu_SET_LCK[gSubMenuSelection]);
+			break;
+
+		case MENU_SET_MET:
+			strcpy(String, gSubMenu_SET_MET[gSubMenuSelection]);
 			break;
 #endif
 

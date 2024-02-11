@@ -297,6 +297,7 @@ void SETTINGS_InitEEPROM(void)
 
 		gSetting_set_inv = (((tmp >> 0) & 0x01) < 2) ? ((tmp >> 0) & 0x01): 0;
 		gSetting_set_lck = (((tmp >> 1) & 0x01) < 2) ? ((tmp >> 1) & 0x01): 0;
+		gSetting_set_met = (((tmp >> 2) & 0x01) < 2) ? ((tmp >> 2) & 0x01): 0;
 		gSetting_set_ctr = (((Data[5] & 0x0F)) < 16) ? ((Data[5] & 0x0F)) : 5;
 
 		// And set special session settings for actions
@@ -637,9 +638,11 @@ void SETTINGS_SaveSettings(void)
 	*/
 
    	if(gSetting_set_inv == 1)
-      	tmp = tmp | (1 << 0);
+		tmp = tmp | (1 << 0);
    	if (gSetting_set_lck == 1)
-      	tmp = tmp | (1 << 1);
+		tmp = tmp | (1 << 1);
+	if (gSetting_set_met == 1)
+		tmp = tmp | (2 << 1);
 
 	State[5] = ((tmp << 4) | (gSetting_set_ctr & 0x0F));
 	State[6] = ((gSetting_set_tot << 4) | (gSetting_set_eot & 0x0F));

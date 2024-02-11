@@ -103,6 +103,7 @@ enum BacklightOnRxTx_t gSetting_backlight_on_tx_rx;
 	bool          gSetting_set_inv = false;
 	uint8_t       gSetting_set_eot = 0;
 	bool          gSetting_set_lck = false;
+	bool          gSetting_set_met = 0;
 	bool          gSetting_set_ptt_session;
 #endif
 
