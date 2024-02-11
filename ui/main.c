@@ -486,21 +486,12 @@ void UI_MAIN_TimeSlice500ms(void)
 							BK4819_ToggleGpioOut(BK4819_GPIO6_PIN2_GREEN, true);
 						}
 
-						if(RXBlinkLedCounter <= 6)
+						if(RXBlinkLedCounter > 6)
 						{
 							if(gSetting_set_eot == 1 || gSetting_set_eot == 3)
 							{
 								AUDIO_PlayBeep(BEEP_800HZ_30MS);
-							}
-						}
-						else
-						{
-							if(gSetting_set_eot == 1 || gSetting_set_eot == 3)
-							{
-								AUDIO_PlayBeep(BEEP_800HZ_30MS);
-								SYSTEM_DelayMs(100);
-								AUDIO_PlayBeep(BEEP_1000HZ_30MS);
-								SYSTEM_DelayMs(100);
+								SYSTEM_DelayMs(300);
 							}
 							else if(gSetting_set_eot == 2)
 							{
