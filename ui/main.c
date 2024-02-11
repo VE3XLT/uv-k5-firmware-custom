@@ -1156,6 +1156,22 @@ void UI_DisplayMain(void)
 		}
 	}
 
+#ifdef ENABLE_FEAT_F4HWN
+	if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
+	{
+		switch(activeTxVFO)
+		{
+			case 0: 
+				sprintf(String, "%s %s", "VFO", "A");
+				break;
+			case 1: 
+				sprintf(String, "%s %s", "VFO", "B");
+				break;
+		}
+		UI_PrintStringSmallBold(String, 49, 0, 6);
+	}
+#endif
+
 	ST7565_BlitFullScreen();
 }
 
