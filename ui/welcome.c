@@ -30,6 +30,9 @@
 void UI_DisplayReleaseKeys(void)
 {
 	memset(gStatusLine,  0, sizeof(gStatusLine));
+#ifdef ENABLE_FEAT_F4HWN
+		ST7565_ContrastAndInv();
+#endif
 	UI_DisplayClear();
 
 	UI_PrintString("RELEASE", 0, 127, 1, 10);
@@ -45,6 +48,10 @@ void UI_DisplayWelcome(void)
 	char WelcomeString1[16];
 
 	memset(gStatusLine,  0, sizeof(gStatusLine));
+
+#ifdef ENABLE_FEAT_F4HWN
+		ST7565_ContrastAndInv();
+#endif
 	UI_DisplayClear();
 
 	if (gEeprom.POWER_ON_DISPLAY_MODE == POWER_ON_DISPLAY_MODE_NONE || gEeprom.POWER_ON_DISPLAY_MODE == POWER_ON_DISPLAY_MODE_FULL_SCREEN) {
@@ -71,7 +78,12 @@ void UI_DisplayWelcome(void)
 		UI_PrintString(WelcomeString1, 0, 127, 2, 10);
 
 #ifdef ENABLE_FEAT_F4HWN
-		ST7565_ContrastAndInv();
+		if(strlen(WelcomeString1) == 0) {
+			UI_PrintString("BONJOUR", 0, 127, 2, 10);
+		}
+#endif
+
+#ifdef ENABLE_FEAT_F4HWN
 		UI_PrintStringSmallNormal(Credits, 0, 128, 5);
 		UI_PrintStringSmallNormal(Feat, 0, 128, 6);
 #else
