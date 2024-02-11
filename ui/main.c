@@ -518,6 +518,7 @@ void UI_DisplayMain(void)
 		return;
 	}
 
+#ifndef ENABLE_FEAT_F4HWN
 	if (gEeprom.KEY_LOCK && gKeypadLocked > 0)
 	{	// tell user how to unlock the keyboard
 		UI_PrintString("Long press #", 0, LCD_WIDTH, 1, 8);
@@ -525,6 +526,15 @@ void UI_DisplayMain(void)
 		ST7565_BlitFullScreen();
 		return;
 	}
+#else
+	if (gEeprom.KEY_LOCK && gKeypadLocked > 0)
+	{	// tell user how to unlock the keyboard
+		BK4819_ToggleGpioOut(BK4819_GPIO5_PIN1_RED, true);
+		SYSTEM_DelayMs(50);
+		BK4819_ToggleGpioOut(BK4819_GPIO5_PIN1_RED, false);
+		SYSTEM_DelayMs(50);
+	}
+#endif
 
 	unsigned int activeTxVFO = gRxVfoIsActive ? gEeprom.RX_VFO : gEeprom.TX_VFO;
 

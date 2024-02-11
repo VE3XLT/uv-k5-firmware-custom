@@ -132,6 +132,7 @@ const t_menu_item MenuList[] =
 	{"SetEot", VOICE_ID_INVALID,                       MENU_SET_EOT       },
 	{"SetCtr", VOICE_ID_INVALID,                       MENU_SET_CTR       },
 	{"SetInv", VOICE_ID_INVALID,                       MENU_SET_INV       },
+	{"SetLck", VOICE_ID_INVALID,                       MENU_SET_LCK       },
 #endif
 	// hidden menu items from here on
 	// enabled if pressing both the PTT and upper side button at power-on
@@ -369,6 +370,12 @@ const char gSubMenu_SCRAMBLER[][7] =
 		"SOUND",
 		"VISUAL",
 		"ALL"
+	};
+
+	const char gSubMenu_SET_LCK[][9] =
+	{
+		"KEYS",
+		"KEYS+PTT"
 	};
 #endif
 
@@ -921,6 +928,10 @@ void UI_DisplayMenu(void)
 		case MENU_SET_INV:
 			strcpy(String, gSubMenu_OFF_ON[gSubMenuSelection]);
 			ST7565_ContrastAndInv();
+			break;
+
+		case MENU_SET_LCK:
+			strcpy(String, gSubMenu_SET_LCK[gSubMenuSelection]);
 			break;
 #endif
 
