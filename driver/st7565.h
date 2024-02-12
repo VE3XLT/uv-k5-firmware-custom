@@ -40,6 +40,7 @@ void ST7565_WriteByte(uint8_t Value);
 
 #ifdef ENABLE_FEAT_F4HWN
 	void ST7565_ContrastAndInv(void);
+	void ST7565_Cmd(uint8_t);
 #endif
 
 #endif

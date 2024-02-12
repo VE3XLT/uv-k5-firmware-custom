@@ -157,12 +157,7 @@ void ST7565_Init(void)
 	for(uint8_t i = 0; i < 8; i++)
 	{
 #ifdef ENABLE_FEAT_F4HWN
-		if(i == 3)
-			ST7565_WriteByte(ST7565_CMD_INVERSE_DISPLAY | gSetting_set_inv);
-		else if(i == 7)
-			ST7565_WriteByte(21 + gSetting_set_ctr);
-		else
-			ST7565_WriteByte(cmds[i]);
+		ST7565_Cmd(i);
 #else
 		ST7565_WriteByte(cmds[i]);
 #endif
@@ -187,6 +182,20 @@ void ST7565_Init(void)
 }
 
 #ifdef ENABLE_FEAT_F4HWN
+	void ST7565_Cmd(uint8_t i)
+	{
+		switch(i) {
+			case 3:
+				ST7565_WriteByte(ST7565_CMD_INVERSE_DISPLAY | gSetting_set_inv);
+				break;
+			case 7:
+				ST7565_WriteByte(21 + gSetting_set_ctr);
+				break;
+			default:
+				ST7565_WriteByte(cmds[i]);
+		}
+	}
+
 	void ST7565_ContrastAndInv(void)
 	{
 		SPI_ToggleMasterMode(&SPI0->CR, false);
@@ -194,12 +203,7 @@ void ST7565_Init(void)
 
 		for(uint8_t i = 0; i < 8; i++)
 		{
-			if(i == 3)
-				ST7565_WriteByte(ST7565_CMD_INVERSE_DISPLAY | gSetting_set_inv);
-			else if(i == 7)
-				ST7565_WriteByte(21 + gSetting_set_ctr);
-			else
-				ST7565_WriteByte(cmds[i]);
+			ST7565_Cmd(i);
 		}
 	}
 #endif
@@ -209,12 +213,7 @@ void ST7565_FixInterfGlitch(void)
 	SPI_ToggleMasterMode(&SPI0->CR, false);
 	for(uint8_t i = 0; i < ARRAY_SIZE(cmds); i++)
 #ifdef ENABLE_FEAT_F4HWN
-			if(i == 3)
-				ST7565_WriteByte(ST7565_CMD_INVERSE_DISPLAY | gSetting_set_inv);
-			else if(i == 7)
-				ST7565_WriteByte(21 + gSetting_set_ctr);
-			else
-				ST7565_WriteByte(cmds[i]);
+		ST7565_Cmd(i);
 #else
 		ST7565_WriteByte(cmds[i]);
 #endif
