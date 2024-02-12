@@ -475,32 +475,26 @@ void RADIO_ConfigureSquelchAndOutputPower(VFO_Info_t *pInfo)
 #ifdef ENABLE_FEAT_F4HWN
 	// make low and mid even lower
 	if (pInfo->OUTPUT_POWER == OUTPUT_POWER_LOW) {
-		switch (gSetting_set_low) {
-			case 0:
-				Txp[0] = (Txp[0] * 4) / 19;
-				Txp[1] = (Txp[1] * 4) / 19;
-				Txp[2] = (Txp[2] * 4) / 19;
-				break;
-			case 1:
-				Txp[0] = (Txp[0] * 4) / 13;
-				Txp[1] = (Txp[1] * 4) / 13;
-				Txp[2] = (Txp[2] * 4) / 13;
-				break;
-			case 2:
-				Txp[0] = (Txp[0] * 4) / 10;
-				Txp[1] = (Txp[1] * 4) / 10;
-				Txp[2] = (Txp[2] * 4) / 10;
-				break;
-			case 3:
-				Txp[0] = (Txp[0] * 4) / 7;
-				Txp[1] = (Txp[1] * 4) / 7;
-				Txp[2] = (Txp[2] * 4) / 7;
-				break;
-			case 4:
-				Txp[0] = (Txp[0] * 4) / 25;
-				Txp[1] = (Txp[1] * 4) / 25;
-				Txp[2] = (Txp[2] * 4) / 25;
-				break;
+		for(uint8_t p = 0; p < 3; p++ )
+		{
+			switch (gSetting_set_low) {
+				case 0:
+					Txp[p] = (Txp[p] * 4) / 19;
+					break;
+				case 1:
+					Txp[p] = (Txp[p] * 4) / 13;
+					break;
+				case 2:
+					Txp[p] = (Txp[p] * 4) / 10;
+					break;
+				case 3:
+					Txp[p] = (Txp[p] * 4) / 7;
+					break;
+				case 4:
+					Txp[p] = (Txp[p] * 4) / 25;
+					break;
+			}
+
 		}
 	}
 	else if (pInfo->OUTPUT_POWER == OUTPUT_POWER_MID){
