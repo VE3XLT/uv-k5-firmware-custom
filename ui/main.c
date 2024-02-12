@@ -363,18 +363,16 @@ void DisplayRSSIBar(const bool now)
 #endif
 
 #ifdef ENABLE_FEAT_F4HWN
+	sprintf(str, "% 4d", -rssi_dBm);
+	UI_PrintStringSmallNormal(str, LCD_WIDTH + 8, 0, line - 1);
+
 	if(overS9Bars == 0) {
-		sprintf(str, "% 4d", -rssi_dBm);
-		UI_PrintStringSmallNormal(str, LCD_WIDTH + 8, 0, line - 1);
 		sprintf(str, "S%d", s_level);
-		UI_PrintStringSmallBold(str, LCD_WIDTH + 38, 0, line - 1);
 	}
 	else {
-		sprintf(str, "% 4d", -rssi_dBm);
-		UI_PrintStringSmallNormal(str, LCD_WIDTH + 8, 0, line - 1);
 		sprintf(str, "+%02d", overS9dBm);
-		UI_PrintStringSmallBold(str, LCD_WIDTH + 38, 0, line - 1);
 	}
+	UI_PrintStringSmallBold(str, LCD_WIDTH + 38, 0, line - 1);
 #else
 	if(overS9Bars == 0) {
 		sprintf(str, "% 4d S%d", -rssi_dBm, s_level);
