@@ -454,28 +454,17 @@ void ACTION_BlminTmpOff(void)
 void ACTION_RxMode(void)
 {
 	static bool cycle = 0;
-	static uint8_t a = 255;
-	static uint8_t b = 255;
 
-	if(a == 255 && b == 255)
-	{
-		a = gEeprom.DUAL_WATCH;
-		b = gEeprom.CROSS_BAND_RX_TX;
-	}
-	
 	switch(cycle) {
 		case 0:
-			a = (a == 0) ? 1 : 0;
+			gEeprom.DUAL_WATCH = (gEeprom.DUAL_WATCH == 0) ? 1 : 0;
 			cycle = 1;
 			break;
 		case 1:
-			b = (b == 0) ? 1 : 0;
+			gEeprom.CROSS_BAND_RX_TX = (gEeprom.CROSS_BAND_RX_TX == 0) ? 1 : 0;
 			cycle = 0;
 			break;
 	}
-
-	gEeprom.DUAL_WATCH = a;
-	gEeprom.CROSS_BAND_RX_TX = b;
 
 	gFlagReconfigureVfos = true;
 	gUpdateStatus        = true;
@@ -492,7 +481,6 @@ void ACTION_Wn(void)
 #ifdef ENABLE_AM_FIX
 	BK4819_SetFilterBandwidth(gTxVfo->CHANNEL_BANDWIDTH, true);
 #else
-
 	BK4819_SetFilterBandwidth(gTxVfo->CHANNEL_BANDWIDTH, false);
 #endif
 }
