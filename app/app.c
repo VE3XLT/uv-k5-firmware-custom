@@ -831,11 +831,7 @@ void APP_Update(void)
 		if(gSetting_set_tot >= 2)
 		{
 			if (gEeprom.BACKLIGHT_TIME == 0) {
-				if (gBlinkCounter == 0)
-				{
-					GPIO_FlipBit(&GPIOC->DATA, GPIOC_PIN_FLASHLIGHT);
-				}
-				else if(gBlinkCounter == 250)
+				if (gBlinkCounter == 0 || gBlinkCounter == 250)
 				{
 					GPIO_FlipBit(&GPIOC->DATA, GPIOC_PIN_FLASHLIGHT);
 				}
