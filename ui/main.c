@@ -45,10 +45,10 @@
 center_line_t center_line = CENTER_LINE_NONE;
 
 #ifdef ENABLE_FEAT_F4HWN
-	static bool RXBlink;
-	static int8_t RXBlinkLed = 0;
-	static int8_t RXBlinkLedCounter;
-	static int8_t RXLine;
+	static bool RxBlink;
+	static int8_t RxBlinkLed = 0;
+	static int8_t RxBlinkLedCounter;
+	static int8_t RxLine;
 	bool isMainOnlyInputDTMF = false;
 #endif
 
@@ -184,8 +184,8 @@ void UI_DisplayAudioBar(void)
 			return;
 
 #ifdef ENABLE_FEAT_F4HWN
-		RXBlinkLed = 0;
-		RXBlinkLedCounter = 0;
+		RxBlinkLed = 0;
+		RxBlinkLedCounter = 0;
 		BK4819_ToggleGpioOut(BK4819_GPIO6_PIN2_GREEN, false);
 		unsigned int line;
 		if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
@@ -267,28 +267,28 @@ void DisplayRSSIBar(const bool now)
 	}
 
 	char rx[4];
-	//sprintf(String, "%d", RXBlink);
-	//UI_PrintStringSmallBold(String, 80, 0, RXLine);
+	//sprintf(String, "%d", RxBlink);
+	//UI_PrintStringSmallBold(String, 80, 0, RxLine);
 
-	if(RXLine >= 0 && center_line != CENTER_LINE_IN_USE)
+	if(RxLine >= 0 && center_line != CENTER_LINE_IN_USE)
 	{
-		if(RXBlink == true)
+		if(RxBlink == true)
 		{
 			sprintf(rx, "%s", "RX");
-			//UI_PrintStringSmallBold("RX", 14, 0, RXLine);
-			RXBlink = false;
+			//UI_PrintStringSmallBold("RX", 14, 0, RxLine);
+			RxBlink = false;
 		}
 		else
 		{
 			sprintf(rx, "%s", "  ");
-			memcpy(gFrameBuffer[RXLine] + 14, &empty, ARRAY_SIZE(empty));
-			memcpy(gFrameBuffer[RXLine] + 21, &empty, ARRAY_SIZE(empty));
+			memcpy(gFrameBuffer[RxLine] + 14, &empty, ARRAY_SIZE(empty));
+			memcpy(gFrameBuffer[RxLine] + 21, &empty, ARRAY_SIZE(empty));
 
-			//UI_PrintStringSmallBold("  ", 14, 0, RXLine);
-			RXBlink = true;
+			//UI_PrintStringSmallBold("  ", 14, 0, RxLine);
+			RxBlink = true;
 		}
-		UI_PrintStringSmallBold(rx, 14, 0, RXLine);
-		ST7565_BlitLine(RXLine);
+		UI_PrintStringSmallBold(rx, 14, 0, RxLine);
+		ST7565_BlitLine(RxLine);
 	}
 #else
 	const unsigned int line = 3;
@@ -469,11 +469,11 @@ void UI_MAIN_TimeSlice500ms(void)
 #ifdef ENABLE_FEAT_F4HWN // Blink Green Led for white...
 		else if(gSetting_set_eot > 0)
 		{
-			if(RXBlinkLed == 2)
+			if(RxBlinkLed == 2)
 			{
-				if(RXBlinkLedCounter <= 10)
+				if(RxBlinkLedCounter <= 10)
 				{
-					if(RXBlinkLedCounter % 2 == 0)
+					if(RxBlinkLedCounter % 2 == 0)
 					{
 						if(gSetting_set_eot > 1 )
 						{
@@ -487,7 +487,7 @@ void UI_MAIN_TimeSlice500ms(void)
 							BK4819_ToggleGpioOut(BK4819_GPIO6_PIN2_GREEN, true);
 						}
 
-						if(RXBlinkLedCounter <= 6)
+						if(RxBlinkLedCounter <= 6)
 						{
 							if(gSetting_set_eot == 1 || gSetting_set_eot == 3)
 							{
@@ -498,7 +498,7 @@ void UI_MAIN_TimeSlice500ms(void)
 						{
 							if(gSetting_set_eot == 1 || gSetting_set_eot == 3)
 							{
-								if(RXBlinkLedCounter <= 8)
+								if(RxBlinkLedCounter <= 8)
 								{
 									AUDIO_PlayBeep(BEEP_600HZ_30MS);
 								}
@@ -514,11 +514,11 @@ void UI_MAIN_TimeSlice500ms(void)
 							}
 						}
 					}
-					RXBlinkLedCounter += 1;
+					RxBlinkLedCounter += 1;
 				}
 				else
 				{
-					RXBlinkLed = 0;
+					RxBlinkLed = 0;
 				}
 			}
 		}
@@ -710,15 +710,15 @@ void UI_DisplayMain(void)
 			mode = VFO_MODE_RX;
 			if (FUNCTION_IsRx() && gEeprom.RX_VFO == vfo_num) {
 #ifdef ENABLE_FEAT_F4HWN
-				RXBlinkLed = 1;
-				RXBlinkLedCounter = 0;
+				RxBlinkLed = 1;
+				RxBlinkLedCounter = 0;
 				if(!isMainVFO)
 				{
-					RXLine = line;
+					RxLine = line;
 				}
 				else
 				{
-					RXLine = -1;
+					RxLine = -1;
 					UI_PrintStringSmallBold("RX", 14, 0, line);
 				}
 #else
@@ -728,8 +728,8 @@ void UI_DisplayMain(void)
 #ifdef ENABLE_FEAT_F4HWN
 			else
 			{
-				if(RXBlinkLed == 1)
-					RXBlinkLed = 2;
+				if(RxBlinkLed == 1)
+					RxBlinkLed = 2;
 			}
 #endif
 		}
