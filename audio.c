@@ -46,8 +46,8 @@ void AUDIO_PlayBeep(BEEP_Type_t Beep)
 #endif
 #ifdef ENABLE_FEAT_F4HWN
 		Beep != BEEP_400HZ_30MS &&
+		Beep != BEEP_500HZ_30MS &&
 		Beep != BEEP_600HZ_30MS &&
-		Beep != BEEP_800HZ_30MS &&
 #endif
 	   !gEeprom.BEEP_CONTROL)
 		return;
@@ -108,12 +108,12 @@ void AUDIO_PlayBeep(BEEP_Type_t Beep)
 			ToneFrequency = 400;
 			BK4819_WriteRegister(BK4819_REG_70, BK4819_REG_70_ENABLE_TONE1 | ((1 & 0x7f) << BK4819_REG_70_SHIFT_TONE1_TUNING_GAIN));
 			break;
-		case BEEP_600HZ_30MS:
-			ToneFrequency = 600;
+		case BEEP_500HZ_30MS:
+			ToneFrequency = 500;
 			BK4819_WriteRegister(BK4819_REG_70, BK4819_REG_70_ENABLE_TONE1 | ((1 & 0x7f) << BK4819_REG_70_SHIFT_TONE1_TUNING_GAIN));
 			break;
-		case BEEP_800HZ_30MS:
-			ToneFrequency = 800;
+		case BEEP_600HZ_30MS:
+			ToneFrequency = 600;
 			BK4819_WriteRegister(BK4819_REG_70, BK4819_REG_70_ENABLE_TONE1 | ((1 & 0x7f) << BK4819_REG_70_SHIFT_TONE1_TUNING_GAIN));
 			break;
 #endif
@@ -158,8 +158,8 @@ void AUDIO_PlayBeep(BEEP_Type_t Beep)
 			break;
 #ifdef ENABLE_FEAT_F4HWN
 		case BEEP_400HZ_30MS:
+		case BEEP_500HZ_30MS:
 		case BEEP_600HZ_30MS:
-		case BEEP_800HZ_30MS:
 			BK4819_ExitTxMute();
 			Duration = 30;
 			break;

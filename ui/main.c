@@ -467,59 +467,51 @@ void UI_MAIN_TimeSlice500ms(void)
 			DisplayRSSIBar(true);
 		}
 #ifdef ENABLE_FEAT_F4HWN // Blink Green Led for white...
-		else if(gSetting_set_eot > 0)
+		else if(gSetting_set_eot > 0 && RxBlinkLed == 2)
 		{
-			if(RxBlinkLed == 2)
+			if(RxBlinkLedCounter <= 8)
 			{
-				if(RxBlinkLedCounter <= 10)
+				if(RxBlinkLedCounter % 2 == 0)
 				{
-					if(RxBlinkLedCounter % 2 == 0)
+					if(gSetting_set_eot > 1 )
 					{
-						if(gSetting_set_eot > 1 )
-						{
-							BK4819_ToggleGpioOut(BK4819_GPIO6_PIN2_GREEN, false);
-						}
+						BK4819_ToggleGpioOut(BK4819_GPIO6_PIN2_GREEN, false);
 					}
-					else
-					{
-						if(gSetting_set_eot > 1 )
-						{
-							BK4819_ToggleGpioOut(BK4819_GPIO6_PIN2_GREEN, true);
-						}
-
-						if(RxBlinkLedCounter <= 6)
-						{
-							if(gSetting_set_eot == 1 || gSetting_set_eot == 3)
-							{
-								AUDIO_PlayBeep(BEEP_400HZ_30MS);
-							}
-						}
-						else
-						{
-							if(gSetting_set_eot == 1 || gSetting_set_eot == 3)
-							{
-								if(RxBlinkLedCounter <= 8)
-								{
-									AUDIO_PlayBeep(BEEP_600HZ_30MS);
-								}
-								else
-								{
-									AUDIO_PlayBeep(BEEP_800HZ_30MS);
-								}
-								SYSTEM_DelayMs(200);
-							}
-							else if(gSetting_set_eot == 2)
-							{
-								SYSTEM_DelayMs(400);
-							}
-						}
-					}
-					RxBlinkLedCounter += 1;
 				}
 				else
 				{
-					RxBlinkLed = 0;
+					if(gSetting_set_eot > 1 )
+					{
+						BK4819_ToggleGpioOut(BK4819_GPIO6_PIN2_GREEN, true);
+					}
+
+					if(gSetting_set_eot == 1 || gSetting_set_eot == 3)
+					{
+						switch(RxBlinkLedCounter)
+						{
+							case 1:
+							AUDIO_PlayBeep(BEEP_400HZ_30MS);
+							break;
+
+							case 3:
+							AUDIO_PlayBeep(BEEP_400HZ_30MS);
+							break;
+
+							case 5:
+							AUDIO_PlayBeep(BEEP_500HZ_30MS);
+							break;
+
+							case 7:
+							AUDIO_PlayBeep(BEEP_600HZ_30MS);
+							break;
+						}
+					}
 				}
+				RxBlinkLedCounter += 1;
+			}
+			else
+			{
+				RxBlinkLed = 0;
 			}
 		}
 #endif
