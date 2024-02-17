@@ -130,6 +130,7 @@ enum
 	MENU_SET_INV,
 	MENU_SET_LCK,
 	MENU_SET_MET,
+	MENU_SET_GUI,
 #endif
 	MENU_BATCAL,  // battery voltage calibration
 	MENU_F1SHRT,

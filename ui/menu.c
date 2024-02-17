@@ -134,6 +134,7 @@ const t_menu_item MenuList[] =
 	{"SetInv", VOICE_ID_INVALID,                       MENU_SET_INV       },
 	{"SetLck", VOICE_ID_INVALID,                       MENU_SET_LCK       },
 	{"SetMet", VOICE_ID_INVALID,                       MENU_SET_MET       },
+	{"SetGui", VOICE_ID_INVALID,                       MENU_SET_GUI       },
 #endif
 	// hidden menu items from here on
 	// enabled if pressing both the PTT and upper side button at power-on
@@ -919,9 +920,6 @@ void UI_DisplayMenu(void)
 			break;
 
 		case MENU_SET_TOT:
-			strcpy(String, gSubMenu_SET_TOT[gSubMenuSelection]);
-			break;
-
 		case MENU_SET_EOT:
 			strcpy(String, gSubMenu_SET_TOT[gSubMenuSelection]); // Same as SET_TOT
 			break;
@@ -942,8 +940,10 @@ void UI_DisplayMenu(void)
 			break;
 
 		case MENU_SET_MET:
-			strcpy(String, gSubMenu_SET_MET[gSubMenuSelection]);
+		case MENU_SET_GUI:
+			strcpy(String, gSubMenu_SET_MET[gSubMenuSelection]); // Same as SET_MET
 			break;
+
 #endif
 
 	}

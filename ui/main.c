@@ -371,14 +371,14 @@ void DisplayRSSIBar(const bool now)
 #endif
 
 #ifdef ENABLE_FEAT_F4HWN
-	if (isMainOnly())
+	if (isMainOnly() || gSetting_set_gui)
 	{
 		sprintf(str, "%3d", -rssi_dBm);
 		UI_PrintStringSmallNormal(str, LCD_WIDTH + 8, 0, line - 1);
 	}
 	else
 	{
-		sprintf(str, "%04d %s", -rssi_dBm, "dBm");
+		sprintf(str, "% 4d %s", -rssi_dBm, "dBm");
 		GUI_DisplaySmallest(str, 2, 25, false, true);
 	}
 
@@ -1008,7 +1008,7 @@ void UI_DisplayMain(void)
 		}
 
 #if ENABLE_FEAT_F4HWN
-		if (isMainOnly())
+		if (isMainOnly() || gSetting_set_gui)
 		{
 			UI_PrintStringSmallNormal(s, LCD_WIDTH + 24, 0, line + 1);
 		}
@@ -1024,7 +1024,7 @@ void UI_DisplayMain(void)
 		{	// show the TX power
 			int i = vfoInfo->OUTPUT_POWER % 3;
 #if ENABLE_FEAT_F4HWN
-		if (isMainOnly())
+		if (isMainOnly() || gSetting_set_gui)
 		{
 			const char pwr_list[][2] = {"L","M","H"};
 			UI_PrintStringSmallNormal(pwr_list[i], LCD_WIDTH + 46, 0, line + 1);			
@@ -1045,7 +1045,7 @@ void UI_DisplayMain(void)
 			const char dir_list[][2] = {"", "+", "-"};
 			int i = vfoInfo->TX_OFFSET_FREQUENCY_DIRECTION % 3;
 #if ENABLE_FEAT_F4HWN
-		if (isMainOnly())
+		if (isMainOnly() || gSetting_set_gui)
 		{
 			UI_PrintStringSmallNormal(dir_list[i], LCD_WIDTH + 54, 0, line + 1);
 		}
@@ -1062,7 +1062,7 @@ void UI_DisplayMain(void)
 		if (vfoInfo->FrequencyReverse)
 #if ENABLE_FEAT_F4HWN
 		{
-			if (isMainOnly())
+			if (isMainOnly() || gSetting_set_gui)
 			{
 				UI_PrintStringSmallNormal("R", LCD_WIDTH + 62, 0, line + 1);
 			}
@@ -1076,7 +1076,7 @@ void UI_DisplayMain(void)
 #endif
 
 #if ENABLE_FEAT_F4HWN
-		if (isMainOnly())
+		if (isMainOnly() || gSetting_set_gui)
 		{
 			if (vfoInfo->CHANNEL_BANDWIDTH == BANDWIDTH_NARROW)
 				UI_PrintStringSmallNormal("N", LCD_WIDTH + 70, 0, line + 1);	
@@ -1111,7 +1111,7 @@ void UI_DisplayMain(void)
 				sprintf(String, "%s", "MONIT");
  			}
  			
-			if (isMainOnly())
+			if (isMainOnly() || gSetting_set_gui)
  			{
 				if(!gMonitor)
 	 		 	{
