@@ -615,12 +615,31 @@ void UI_DisplayMain(void)
 		{
 #ifdef ENABLE_SCAN_RANGES
 			if(gScanRangeStart) {
+
+#ifdef ENABLE_FEAT_F4HWN
+				uint8_t shift = 0;
+
+				if (isMainOnly())
+				{
+					shift = 4;
+				}
+
+				UI_PrintString("ScnRng", 5, 0, line + shift, 8);
+				sprintf(String, "%3u.%05u", gScanRangeStart / 100000, gScanRangeStart % 100000);
+				UI_PrintStringSmallNormal(String, 56, 0, line + shift);
+				sprintf(String, "%3u.%05u", gScanRangeStop / 100000, gScanRangeStop % 100000);
+				UI_PrintStringSmallNormal(String, 56, 0, line + shift + 1);
+
+				if (!isMainOnly())
+					continue;
+#else
 				UI_PrintString("ScnRng", 5, 0, line, 8);
 				sprintf(String, "%3u.%05u", gScanRangeStart / 100000, gScanRangeStart % 100000);
 				UI_PrintStringSmallNormal(String, 56, 0, line);
 				sprintf(String, "%3u.%05u", gScanRangeStop / 100000, gScanRangeStop % 100000);
 				UI_PrintStringSmallNormal(String, 56, 0, line + 1);
 				continue;
+#endif
 			}
 #endif
 
@@ -669,18 +688,20 @@ void UI_DisplayMain(void)
 				{
 					UI_PrintString(pPrintStr, 2, 0, 5, 8);
 					isMainOnlyInputDTMF = true;
+					center_line = CENTER_LINE_IN_USE;
 				}
 				else
 				{
 					UI_PrintString(pPrintStr, 2, 0, 0 + (vfo_num * 3), 8);
 					isMainOnlyInputDTMF = false;
+					center_line = CENTER_LINE_IN_USE;
+					continue;
 				}
 #else
 				UI_PrintString(pPrintStr, 2, 0, 0 + (vfo_num * 3), 8);
-#endif
-
 				center_line = CENTER_LINE_IN_USE;
 				continue;
+#endif
 			}
 
 			// highlight the selected/used VFO with a marker
@@ -1244,7 +1265,7 @@ void UI_DisplayMain(void)
 	}
 
 #ifdef ENABLE_FEAT_F4HWN
-	if (isMainOnly())
+	if (isMainOnly() && !gDTMF_InputMode)
 	{
 		sprintf(String, "VFO %s", activeTxVFO ? "B" : "A");
 		UI_PrintStringSmallBold(String, 49, 0, 6);
