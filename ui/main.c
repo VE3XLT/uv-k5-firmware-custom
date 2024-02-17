@@ -363,8 +363,16 @@ void DisplayRSSIBar(const bool now)
 #endif
 
 #ifdef ENABLE_FEAT_F4HWN
-	sprintf(str, "% 4d", -rssi_dBm);
-	UI_PrintStringSmallNormal(str, LCD_WIDTH + 8, 0, line - 1);
+	if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
+	{
+		sprintf(str, "%3d", -rssi_dBm);
+		UI_PrintStringSmallNormal(str, LCD_WIDTH + 8, 0, line - 1);
+	}
+	else
+	{
+		sprintf(str, "%04d %s", -rssi_dBm, "dBm");
+		GUI_DisplaySmallest(str, 2, 25, false, true);
+	}
 
 	if(overS9Bars == 0) {
 		sprintf(str, "S%d", s_level);
@@ -372,10 +380,8 @@ void DisplayRSSIBar(const bool now)
 	else {
 		sprintf(str, "+%02d", overS9dBm);
 	}
-	if(gSetting_set_met)
-		UI_PrintStringSmallNormal(str, LCD_WIDTH + 38, 0, line - 1);
-	else
-		UI_PrintStringSmallBold(str, LCD_WIDTH + 38, 0, line - 1);
+
+	UI_PrintStringSmallNormal(str, LCD_WIDTH + 38, 0, line - 1);
 #else
 	if(overS9Bars == 0) {
 		sprintf(str, "% 4d S%d", -rssi_dBm, s_level);
@@ -992,28 +998,93 @@ void UI_DisplayMain(void)
 				s = gModulationStr[mod];
 			break;
 		}
+
+#if ENABLE_FEAT_F4HWN
+		if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
+		{
+			UI_PrintStringSmallNormal(s, LCD_WIDTH + 24, 0, line + 1);
+		}
+		else
+		{
+			GUI_DisplaySmallest(s, 24, line == 0 ? 17 : 49, false, true);
+		}
+#else
 		UI_PrintStringSmallNormal(s, LCD_WIDTH + 24, 0, line + 1);
+#endif
 
 		if (state == VFO_STATE_NORMAL || state == VFO_STATE_ALARM)
 		{	// show the TX power
-			const char pwr_list[][2] = {"L","M","H"};
 			int i = vfoInfo->OUTPUT_POWER % 3;
+#if ENABLE_FEAT_F4HWN
+		if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
+		{
+			const char pwr_list[][2] = {"L","M","H"};
+			UI_PrintStringSmallNormal(pwr_list[i], LCD_WIDTH + 46, 0, line + 1);			
+		}
+		else
+		{
+			const char *powerNames[] = {"LOW", "MID", "HIGH"};
+			GUI_DisplaySmallest(powerNames[i], 37, line == 0 ? 17 : 49, false, true);
+		}
+#else
+			const char pwr_list[][2] = {"L","M","H"};
 			UI_PrintStringSmallNormal(pwr_list[i], LCD_WIDTH + 46, 0, line + 1);
+#endif
 		}
 
 		if (vfoInfo->freq_config_RX.Frequency != vfoInfo->freq_config_TX.Frequency)
 		{	// show the TX offset symbol
 			const char dir_list[][2] = {"", "+", "-"};
 			int i = vfoInfo->TX_OFFSET_FREQUENCY_DIRECTION % 3;
+#if ENABLE_FEAT_F4HWN
+		if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
+		{
 			UI_PrintStringSmallNormal(dir_list[i], LCD_WIDTH + 54, 0, line + 1);
+		}
+		else
+		{
+			UI_PrintStringSmallNormal(dir_list[i], LCD_WIDTH + 60, 0, line + 1);	
+		}
+#else
+			UI_PrintStringSmallNormal(dir_list[i], LCD_WIDTH + 54, 0, line + 1);
+#endif
 		}
 
 		// show the TX/RX reverse symbol
 		if (vfoInfo->FrequencyReverse)
+#if ENABLE_FEAT_F4HWN
+		{
+			if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
+			{
+				UI_PrintStringSmallNormal("R", LCD_WIDTH + 62, 0, line + 1);
+			}
+			else
+			{
+				GUI_DisplaySmallest("R", 62, line == 0 ? 17 : 49, false, true);
+			}
+		}
+#else
 			UI_PrintStringSmallNormal("R", LCD_WIDTH + 62, 0, line + 1);
+#endif
 
+#if ENABLE_FEAT_F4HWN
+		if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
+		{
+			if (vfoInfo->CHANNEL_BANDWIDTH == BANDWIDTH_NARROW)
+				UI_PrintStringSmallNormal("N", LCD_WIDTH + 70, 0, line + 1);	
+		}
+		else
+		{
+			const char *bandWidthNames[] = {"WIDE", "NARROW"};
+			if (vfoInfo->CHANNEL_BANDWIDTH == BANDWIDTH_NARROW)
+				GUI_DisplaySmallest(bandWidthNames[1], 76, line == 0 ? 17 : 49, false, true);
+			else			
+				GUI_DisplaySmallest(bandWidthNames[0], 76, line == 0 ? 17 : 49, false, true);
+		}
+#else
 		if (vfoInfo->CHANNEL_BANDWIDTH == BANDWIDTH_NARROW)
 			UI_PrintStringSmallNormal("N", LCD_WIDTH + 70, 0, line + 1);
+#endif
 
 #ifdef ENABLE_DTMF_CALLING
 		// show the DTMF decoding symbol
@@ -1030,22 +1101,30 @@ void UI_DisplayMain(void)
 #ifdef ENABLE_FEAT_F4HWN
  		if(isMainVFO)	
  		{
- 			if(gMonitor)
- 			{
-				sprintf(String, "%s", "MON");
- 			}
- 		 	else
- 		 	{
-				sprintf(String, "SQL %d", gEeprom.SQUELCH_LEVEL);
- 		 	}
 
 			if ((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
  			{
+				if(gMonitor)
+	 			{
+					sprintf(String, "%s", "MON");
+	 			}
+	 		 	else
+	 		 	{
+					sprintf(String, "SQL %d", gEeprom.SQUELCH_LEVEL);
+	 		 	}
 				UI_PrintStringSmallNormal(String, 91, 0, 2);
  			}
  			else
  			{
-				UI_PrintStringSmallNormal(String, 91, 0, line + 2);
+ 				if(gMonitor)
+	 			{
+					sprintf(String, "%s", "MONIT");
+	 			}
+	 		 	else
+	 		 	{
+					sprintf(String, "SQL %d", gEeprom.SQUELCH_LEVEL);
+	 		 	}
+ 				GUI_DisplaySmallest(String, 106, line == 0 ? 17 : 49, false, true);
  			}
  		}
 #endif
