@@ -1068,7 +1068,7 @@ void UI_DisplayMain(void)
 			}
 			else
 			{
-				GUI_DisplaySmallest("R", 62, line == 0 ? 17 : 49, false, true);
+				GUI_DisplaySmallest("R", 68, line == 0 ? 17 : 49, false, true);
 			}
 		}
 #else
