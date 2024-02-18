@@ -1075,12 +1075,28 @@ void UI_DisplayMain(void)
 		if (isMainOnly(true))
 		{
 			const char pwr_short[][2] = {"L","M","H"};
-			UI_PrintStringSmallNormal(pwr_short[i], LCD_WIDTH + 46, 0, line + 1);			
+			if(i == 0)
+			{
+				sprintf(String, "%s%d", pwr_short[i], gSetting_set_low + 1);
+			}
+			else
+			{
+				sprintf(String, "%s", pwr_short[i]);				
+			}
+			UI_PrintStringSmallNormal(String, LCD_WIDTH + 44, 0, line + 1);
 		}
 		else
 		{
 			const char pwr_long[][5] = {"LOW", "MID", "HIGH"};
-			GUI_DisplaySmallest(pwr_long[i], 37, line == 0 ? 17 : 49, false, true);
+			if(i == 0)
+			{
+				sprintf(String, "%s %d", pwr_long[i], gSetting_set_low + 1);
+			}
+			else
+			{
+				sprintf(String, "%s", pwr_long[i]);				
+			}
+			GUI_DisplaySmallest(String, 37, line == 0 ? 17 : 49, false, true);
 		}
 #else
 			const char pwr_list[][2] = {"L","M","H"};
@@ -1095,11 +1111,11 @@ void UI_DisplayMain(void)
 #if ENABLE_FEAT_F4HWN
 		if (isMainOnly(true))
 		{
-			UI_PrintStringSmallNormal(dir_list[i], LCD_WIDTH + 54, 0, line + 1);
+			UI_PrintStringSmallNormal(dir_list[i], LCD_WIDTH + 60, 0, line + 1);
 		}
 		else
 		{
-			UI_PrintStringSmallNormal(dir_list[i], LCD_WIDTH + 60, 0, line + 1);	
+			UI_PrintStringSmallNormal(dir_list[i], LCD_WIDTH + 58, 0, line + 1);	
 		}
 #else
 			UI_PrintStringSmallNormal(dir_list[i], LCD_WIDTH + 54, 0, line + 1);
@@ -1112,7 +1128,7 @@ void UI_DisplayMain(void)
 		{
 			if (isMainOnly(true))
 			{
-				UI_PrintStringSmallNormal("R", LCD_WIDTH + 62, 0, line + 1);
+				UI_PrintStringSmallNormal("R", LCD_WIDTH + 68, 0, line + 1);
 			}
 			else
 			{
@@ -1127,11 +1143,11 @@ void UI_DisplayMain(void)
 		if (isMainOnly(true))
 		{
 			if (vfoInfo->CHANNEL_BANDWIDTH == BANDWIDTH_NARROW)
-				UI_PrintStringSmallNormal("N", LCD_WIDTH + 70, 0, line + 1);	
+				UI_PrintStringSmallNormal("N", LCD_WIDTH + 80, 0, line + 1);	
 		}
 		else
 		{
-			const char *bandWidthNames[] = {"WIDE", "NARROW"};
+			const char *bandWidthNames[] = {"WIDE", "NAR"};
 			GUI_DisplaySmallest(bandWidthNames[vfoInfo->CHANNEL_BANDWIDTH], 76, line == 0 ? 17 : 49, false, true);
 		}
 #else

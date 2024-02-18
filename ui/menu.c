@@ -353,11 +353,11 @@ const char gSubMenu_SCRAMBLER[][7] =
 #ifdef ENABLE_FEAT_F4HWN
 	const char gSubMenu_SET_LOW[][7] =
 	{
+		"< 20mW",
 		"125mW",
 		"250mW",
 		"500mW",
-		"1W",
-		"< 20mW"
+		"1W"
 	};
 
 	const char gSubMenu_SET_PTT[][8] =
