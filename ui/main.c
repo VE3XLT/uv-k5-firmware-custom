@@ -631,7 +631,7 @@ void UI_DisplayMain(void)
 
 				if (isMainOnly(false))
 				{
-					shift = 4;
+					shift = 3;
 				}
 
 				UI_PrintString("ScnRng", 5, 0, line + shift, 8);
