@@ -1035,6 +1035,23 @@ void UI_DisplayMain(void)
 		}
 		else
 		{
+			// No free space
+			/*
+			const FREQ_Config_t *pConfig = (mode == VFO_MODE_TX) ? vfoInfo->pTX : vfoInfo->pRX;
+			switch((int)pConfig->CodeType)
+			{
+
+				case 1:
+				sprintf(String, "%u.%u", CTCSS_Options[pConfig->Code] / 10, CTCSS_Options[pConfig->Code] % 10);
+				break;
+
+				case 2:
+				sprintf(String, "%03o", DCS_Options[pConfig->Code]);
+				break;
+			}
+
+			GUI_DisplaySmallest(String, 0, line == 0 ? 17 : 49, false, true);
+			*/
 			GUI_DisplaySmallest(s, 24, line == 0 ? 17 : 49, false, true);
 		}
 #else
