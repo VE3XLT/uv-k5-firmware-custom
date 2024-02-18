@@ -1147,7 +1147,7 @@ void UI_DisplayMain(void)
 		}
 		else
 		{
-			const char *bandWidthNames[] = {"WIDE", "NAR"};
+			const char *bandWidthNames[] = {"WIDE", "NARROW"};
 			GUI_DisplaySmallest(bandWidthNames[vfoInfo->CHANNEL_BANDWIDTH], 76, line == 0 ? 17 : 49, false, true);
 		}
 #else
