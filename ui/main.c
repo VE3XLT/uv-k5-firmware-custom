@@ -51,12 +51,22 @@ center_line_t center_line = CENTER_LINE_NONE;
 	static int8_t RxLine;
 	bool isMainOnlyInputDTMF = false;
 
-	static bool isMainOnly(void)
+	static bool isMainOnly(bool checkGui)
 	{
-		if((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
-			return true;
+		if(checkGui)
+		{
+			if(((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0) || gSetting_set_gui)
+				return true;
+			else
+				return false;
+		}
 		else
-			return false;
+		{
+			if((gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2 == 0)
+				return true;
+			else
+				return false;			
+		}
 	}
 #endif
 
@@ -196,7 +206,7 @@ void UI_DisplayAudioBar(void)
 		RxBlinkLedCounter = 0;
 		BK4819_ToggleGpioOut(BK4819_GPIO6_PIN2_GREEN, false);
 		unsigned int line;
-		if (isMainOnly())
+		if (isMainOnly(false))
 		{
 			line = 5;
 		}
@@ -265,7 +275,7 @@ void DisplayRSSIBar(const bool now)
 	};
 
 	unsigned int line;
-	if (isMainOnly())
+	if (isMainOnly(false))
 	{
 		line = 5;
 	}
@@ -371,7 +381,7 @@ void DisplayRSSIBar(const bool now)
 #endif
 
 #ifdef ENABLE_FEAT_F4HWN
-	if (isMainOnly() || gSetting_set_gui)
+	if (isMainOnly(true))
 	{
 		sprintf(str, "%3d", -rssi_dBm);
 		UI_PrintStringSmallNormal(str, LCD_WIDTH + 8, 0, line - 1);
@@ -575,7 +585,7 @@ void UI_DisplayMain(void)
 		const unsigned int line0 = 0;  // text screen line
 		const unsigned int line1 = 4;
 		unsigned int line;
-		if (isMainOnly())
+		if (isMainOnly(false))
 		{
 			line       = 0;
 		}
@@ -598,7 +608,7 @@ void UI_DisplayMain(void)
 #endif
 
 #ifdef ENABLE_FEAT_F4HWN
-	if (isMainOnly())
+	if (isMainOnly(false))
 	{
 		if (activeTxVFO != vfo_num)
 		{
@@ -608,7 +618,7 @@ void UI_DisplayMain(void)
 #endif
 
 #ifdef ENABLE_FEAT_F4HWN
-		if (activeTxVFO != vfo_num || isMainOnly())
+		if (activeTxVFO != vfo_num || isMainOnly(false))
 #else
 		if (activeTxVFO != vfo_num) // this is not active TX VFO
 #endif
@@ -619,7 +629,7 @@ void UI_DisplayMain(void)
 #ifdef ENABLE_FEAT_F4HWN
 				uint8_t shift = 0;
 
-				if (isMainOnly())
+				if (isMainOnly(false))
 				{
 					shift = 4;
 				}
@@ -630,7 +640,7 @@ void UI_DisplayMain(void)
 				sprintf(String, "%3u.%05u", gScanRangeStop / 100000, gScanRangeStop % 100000);
 				UI_PrintStringSmallNormal(String, 56, 0, line + shift + 1);
 
-				if (!isMainOnly())
+				if (!isMainOnly(false))
 					continue;
 #else
 				UI_PrintString("ScnRng", 5, 0, line, 8);
@@ -684,7 +694,7 @@ void UI_DisplayMain(void)
 				}
 
 #ifdef ENABLE_FEAT_F4HWN
-				if (isMainOnly())
+				if (isMainOnly(false))
 				{
 					UI_PrintString(pPrintStr, 2, 0, 5, 8);
 					isMainOnlyInputDTMF = true;
@@ -900,7 +910,7 @@ void UI_DisplayMain(void)
 						}
 						else {
 #ifdef ENABLE_FEAT_F4HWN
-							if (isMainOnly())
+							if (isMainOnly(false))
 							{
 								UI_PrintString(String, 32, 0, line, 8);
 							}
@@ -919,7 +929,7 @@ void UI_DisplayMain(void)
 #endif
 
 #ifdef ENABLE_FEAT_F4HWN
-							if (isMainOnly())
+							if (isMainOnly(false))
 							{
 								sprintf(String, "%3u.%05u", frequency / 100000, frequency % 100000);
 								if(frequency < _1GHz_in_KHz) {
@@ -1029,7 +1039,7 @@ void UI_DisplayMain(void)
 		}
 
 #if ENABLE_FEAT_F4HWN
-		if (isMainOnly() || gSetting_set_gui)
+		if (isMainOnly(true))
 		{
 			UI_PrintStringSmallNormal(s, LCD_WIDTH + 24, 0, line + 1);
 		}
@@ -1062,15 +1072,15 @@ void UI_DisplayMain(void)
 		{	// show the TX power
 			int i = vfoInfo->OUTPUT_POWER % 3;
 #if ENABLE_FEAT_F4HWN
-		if (isMainOnly() || gSetting_set_gui)
+		if (isMainOnly(true))
 		{
-			const char pwr_list[][2] = {"L","M","H"};
-			UI_PrintStringSmallNormal(pwr_list[i], LCD_WIDTH + 46, 0, line + 1);			
+			const char pwr_short[][2] = {"L","M","H"};
+			UI_PrintStringSmallNormal(pwr_short[i], LCD_WIDTH + 46, 0, line + 1);			
 		}
 		else
 		{
-			const char pwr_names[][5] = {"LOW", "MID", "HIGH"};
-			GUI_DisplaySmallest(pwr_names[i], 37, line == 0 ? 17 : 49, false, true);
+			const char pwr_long[][5] = {"LOW", "MID", "HIGH"};
+			GUI_DisplaySmallest(pwr_long[i], 37, line == 0 ? 17 : 49, false, true);
 		}
 #else
 			const char pwr_list[][2] = {"L","M","H"};
@@ -1083,7 +1093,7 @@ void UI_DisplayMain(void)
 			const char dir_list[][2] = {"", "+", "-"};
 			int i = vfoInfo->TX_OFFSET_FREQUENCY_DIRECTION % 3;
 #if ENABLE_FEAT_F4HWN
-		if (isMainOnly() || gSetting_set_gui)
+		if (isMainOnly(true))
 		{
 			UI_PrintStringSmallNormal(dir_list[i], LCD_WIDTH + 54, 0, line + 1);
 		}
@@ -1100,7 +1110,7 @@ void UI_DisplayMain(void)
 		if (vfoInfo->FrequencyReverse)
 #if ENABLE_FEAT_F4HWN
 		{
-			if (isMainOnly() || gSetting_set_gui)
+			if (isMainOnly(true))
 			{
 				UI_PrintStringSmallNormal("R", LCD_WIDTH + 62, 0, line + 1);
 			}
@@ -1114,7 +1124,7 @@ void UI_DisplayMain(void)
 #endif
 
 #if ENABLE_FEAT_F4HWN
-		if (isMainOnly() || gSetting_set_gui)
+		if (isMainOnly(true))
 		{
 			if (vfoInfo->CHANNEL_BANDWIDTH == BANDWIDTH_NARROW)
 				UI_PrintStringSmallNormal("N", LCD_WIDTH + 70, 0, line + 1);	
@@ -1149,7 +1159,7 @@ void UI_DisplayMain(void)
 				sprintf(String, "%s", "MONIT");
  			}
  			
-			if (isMainOnly() || gSetting_set_gui)
+			if (isMainOnly(true))
  			{
 				if(!gMonitor)
 	 		 	{
@@ -1230,7 +1240,7 @@ void UI_DisplayMain(void)
 
 					sprintf(String, "DTMF %s", gDTMF_RX_live + idx);
 #ifdef ENABLE_FEAT_F4HWN
-					if (isMainOnly())
+					if (isMainOnly(false))
 					{
 						UI_PrintStringSmallNormal(String, 2, 0, 5);
 					}
@@ -1282,7 +1292,7 @@ void UI_DisplayMain(void)
 	}
 
 #ifdef ENABLE_FEAT_F4HWN
-	if (isMainOnly() && !gDTMF_InputMode)
+	if (isMainOnly(false) && !gDTMF_InputMode)
 	{
 		sprintf(String, "VFO %s", activeTxVFO ? "B" : "A");
 		UI_PrintStringSmallBold(String, 49, 0, 6);
