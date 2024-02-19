@@ -479,19 +479,19 @@ void RADIO_ConfigureSquelchAndOutputPower(VFO_Info_t *pInfo)
 		{
 			switch (gSetting_set_low) {
 				case 0:
-					Txp[p] = (Txp[p] * 4) / 19;
+					Txp[p] = (Txp[p] * 4) / 25;
 					break;
 				case 1:
-					Txp[p] = (Txp[p] * 4) / 13;
+					Txp[p] = (Txp[p] * 4) / 19;
 					break;
 				case 2:
-					Txp[p] = (Txp[p] * 4) / 10;
+					Txp[p] = (Txp[p] * 4) / 13;
 					break;
 				case 3:
-					Txp[p] = (Txp[p] * 4) / 7;
+					Txp[p] = (Txp[p] * 4) / 10;
 					break;
 				case 4:
-					Txp[p] = (Txp[p] * 4) / 25;
+					Txp[p] = (Txp[p] * 4) / 7;
 					break;
 			}
 
