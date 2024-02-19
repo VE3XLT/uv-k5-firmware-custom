@@ -1028,7 +1028,11 @@ void UI_DisplayMain(void)
 			case MODULATION_FM: {
 				const FREQ_Config_t *pConfig = (mode == VFO_MODE_TX) ? vfoInfo->pTX : vfoInfo->pRX;
 				const unsigned int code_type = pConfig->CodeType;
+#ifdef ENABLE_FEAT_F4HWN
+				const char *code_list[] = {"", "CT", "DC", "DCR"};
+#else
 				const char *code_list[] = {"", "CT", "DCS", "DCR"};
+#endif
 				if (code_type < ARRAY_SIZE(code_list))
 					s = code_list[code_type];
 				break;
@@ -1045,8 +1049,6 @@ void UI_DisplayMain(void)
 		}
 		else
 		{
-			// No free space
-			/*
 			const FREQ_Config_t *pConfig = (mode == VFO_MODE_TX) ? vfoInfo->pTX : vfoInfo->pRX;
 			switch((int)pConfig->CodeType)
 			{
@@ -1059,10 +1061,8 @@ void UI_DisplayMain(void)
 				sprintf(String, "%03o", DCS_Options[pConfig->Code]);
 				break;
 			}
-
-			GUI_DisplaySmallest(String, 0, line == 0 ? 17 : 49, false, true);
-			*/
-			GUI_DisplaySmallest(s, 24, line == 0 ? 17 : 49, false, true);
+			GUI_DisplaySmallest(s, 58, line == 0 ? 17 : 49, false, true);
+			GUI_DisplaySmallest(String, 68, line == 0 ? 17 : 49, false, true);
 		}
 #else
 		UI_PrintStringSmallNormal(s, LCD_WIDTH + 24, 0, line + 1);
@@ -1090,13 +1090,13 @@ void UI_DisplayMain(void)
 			const char pwr_long[][5] = {"LOW", "MID", "HIGH"};
 			if(i == 0)
 			{
-				sprintf(String, "%s %d", pwr_long[i], gSetting_set_low + 1);
+				sprintf(String, "%s%d", pwr_long[i], gSetting_set_low + 1);
 			}
 			else
 			{
 				sprintf(String, "%s", pwr_long[i]);				
 			}
-			GUI_DisplaySmallest(String, 37, line == 0 ? 17 : 49, false, true);
+			GUI_DisplaySmallest(String, 24, line == 0 ? 17 : 49, false, true);
 		}
 #else
 			const char pwr_list[][2] = {"L","M","H"};
@@ -1115,7 +1115,7 @@ void UI_DisplayMain(void)
 		}
 		else
 		{
-			UI_PrintStringSmallNormal(dir_list[i], LCD_WIDTH + 58, 0, line + 1);	
+			UI_PrintStringSmallNormal(dir_list[i], LCD_WIDTH + 41, 0, line + 1);	
 		}
 #else
 			UI_PrintStringSmallNormal(dir_list[i], LCD_WIDTH + 54, 0, line + 1);
@@ -1132,7 +1132,7 @@ void UI_DisplayMain(void)
 			}
 			else
 			{
-				GUI_DisplaySmallest("R", 68, line == 0 ? 17 : 49, false, true);
+				GUI_DisplaySmallest("R", 51, line == 0 ? 17 : 49, false, true);
 			}
 		}
 #else
@@ -1147,8 +1147,8 @@ void UI_DisplayMain(void)
 		}
 		else
 		{
-			const char *bandWidthNames[] = {"WIDE", "NARROW"};
-			GUI_DisplaySmallest(bandWidthNames[vfoInfo->CHANNEL_BANDWIDTH], 76, line == 0 ? 17 : 49, false, true);
+			const char *bandWidthNames[] = {"WIDE", "NAR"};
+			GUI_DisplaySmallest(bandWidthNames[vfoInfo->CHANNEL_BANDWIDTH], 91, line == 0 ? 17 : 49, false, true);
 		}
 #else
 		if (vfoInfo->CHANNEL_BANDWIDTH == BANDWIDTH_NARROW)
@@ -1172,24 +1172,24 @@ void UI_DisplayMain(void)
  		{
  			if(gMonitor)
  			{
-				sprintf(String, "%s", "MONIT");
+				sprintf(String, "%s", "MONI");
  			}
  			
 			if (isMainOnly(true))
  			{
 				if(!gMonitor)
 	 		 	{
-					sprintf(String, "SQL %d", gEeprom.SQUELCH_LEVEL);
+					sprintf(String, "SQL%d", gEeprom.SQUELCH_LEVEL);
 	 		 	}
-				UI_PrintStringSmallNormal(String, 91, 0, 2);
+				UI_PrintStringSmallNormal(String, 94, 0, 2);
  			}
  			else
  			{
  				if(!gMonitor)
 	 		 	{
-					sprintf(String, "SQL %d", gEeprom.SQUELCH_LEVEL);
+					sprintf(String, "SQL%d", gEeprom.SQUELCH_LEVEL);
 	 		 	}
- 				GUI_DisplaySmallest(String, 106, line == 0 ? 17 : 49, false, true);
+ 				GUI_DisplaySmallest(String, 110, line == 0 ? 17 : 49, false, true);
  			}
  		}
 #endif
