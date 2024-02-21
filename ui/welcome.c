@@ -54,8 +54,13 @@ void UI_DisplayWelcome(void)
 #endif
 	UI_DisplayClear();
 
+#ifdef ENABLE_FEAT_F4HWN
+	if (gEeprom.POWER_ON_DISPLAY_MODE == POWER_ON_DISPLAY_MODE_NONE || gEeprom.POWER_ON_DISPLAY_MODE == POWER_ON_DISPLAY_MODE_SOUND) {
+		ST7565_FillScreen(0x00);
+#else
 	if (gEeprom.POWER_ON_DISPLAY_MODE == POWER_ON_DISPLAY_MODE_NONE || gEeprom.POWER_ON_DISPLAY_MODE == POWER_ON_DISPLAY_MODE_FULL_SCREEN) {
 		ST7565_FillScreen(0xFF);
+#endif
 	} else {
 		memset(WelcomeString0, 0, sizeof(WelcomeString0));
 		memset(WelcomeString1, 0, sizeof(WelcomeString1));
@@ -68,20 +73,31 @@ void UI_DisplayWelcome(void)
 				gBatteryVoltageAverage % 100,
 				BATTERY_VoltsToPercent(gBatteryVoltageAverage));
 		}
+#ifdef ENABLE_FEAT_F4HWN
+		else if (gEeprom.POWER_ON_DISPLAY_MODE == POWER_ON_DISPLAY_MODE_MESSAGE || gEeprom.POWER_ON_DISPLAY_MODE == POWER_ON_DISPLAY_MODE_ALL)
+#else
 		else
+#endif
 		{
 			EEPROM_ReadBuffer(0x0EB0, WelcomeString0, 16);
 			EEPROM_ReadBuffer(0x0EC0, WelcomeString1, 16);
+
+#ifdef ENABLE_FEAT_F4HWN
+			if(gEeprom.POWER_ON_DISPLAY_MODE == POWER_ON_DISPLAY_MODE_ALL)
+			{
+				sprintf(WelcomeString1, "%u.%02uV %u%%",
+					gBatteryVoltageAverage / 100,
+					gBatteryVoltageAverage % 100,
+					BATTERY_VoltsToPercent(gBatteryVoltageAverage));
+			}	
+			else if(strlen(WelcomeString1) == 0) {
+				UI_PrintString("BIENVENUE", 0, 127, 2, 10);
+			}
+#endif
 		}
 
 		UI_PrintString(WelcomeString0, 0, 127, 0, 10);
 		UI_PrintString(WelcomeString1, 0, 127, 2, 10);
-
-#ifdef ENABLE_FEAT_F4HWN
-		if(strlen(WelcomeString1) == 0) {
-			UI_PrintString("BIENVENUE", 0, 127, 2, 10);
-		}
-#endif
 
 #ifdef ENABLE_FEAT_F4HWN
 		UI_PrintStringSmallNormal(Credits, 0, 128, 5);

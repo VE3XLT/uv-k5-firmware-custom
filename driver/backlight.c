@@ -23,6 +23,7 @@
 
 #ifdef ENABLE_FEAT_F4HWN
 	#include "driver/system.h"
+	#include "audio.h"
 #endif
 
 // this is decremented once every 500ms
@@ -74,6 +75,13 @@ void BACKLIGHT_TurnOn(void)
 			BACKLIGHT_SetBrightness(i);
 			SYSTEM_DelayMs(50);
 		}
+
+		if (gEeprom.POWER_ON_DISPLAY_MODE == POWER_ON_DISPLAY_MODE_SOUND || gEeprom.POWER_ON_DISPLAY_MODE == POWER_ON_DISPLAY_MODE_ALL)
+		{
+			AUDIO_PlayBeep(BEEP_880HZ_60MS_TRIPLE_BEEP);
+			AUDIO_PlayBeep(BEEP_880HZ_60MS_TRIPLE_BEEP);
+		}
+	
 		k5Startup = false;
 	}
 	else

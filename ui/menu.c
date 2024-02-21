@@ -269,7 +269,12 @@ const char* const gSubMenu_PTT_ID[] =
 
 const char gSubMenu_PONMSG[][8] =
 {
+#ifdef ENABLE_FEAT_F4HWN
+	"ALL",
+	"SOUND",
+#else
 	"FULL",
+#endif
 	"MESSAGE",
 	"VOLTAGE",
 	"NONE"
