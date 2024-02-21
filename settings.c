@@ -303,7 +303,7 @@ void SETTINGS_InitEEPROM(void)
 		gSetting_set_lck = (((tmp >> 1) & 0x01) < 2) ? ((tmp >> 1) & 0x01): 0;
 		gSetting_set_met = (((tmp >> 2) & 0x01) < 2) ? ((tmp >> 2) & 0x01): 0;
 		gSetting_set_gui = (((tmp >> 3) & 0x01) < 2) ? ((tmp >> 3) & 0x01): 0;
-		gSetting_set_ctr = (((Data[5] & 0x0F)) < 16) ? ((Data[5] & 0x0F)) : 5;
+		gSetting_set_ctr = (((Data[5] & 0x0F)) > 00 && ((Data[5] & 0x0F)) < 16) ? ((Data[5] & 0x0F)) : 10;
 
 		// And set special session settings for actions
 		gSetting_set_ptt_session = gSetting_set_ptt;
