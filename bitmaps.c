@@ -4,56 +4,69 @@
 // all these images are on their right sides
 // turn your monitor 90-deg anti-clockwise to see the images
 
-const uint8_t BITMAP_POWERSAVE[8] =
+
+const uint8_t gFontPowerSave[2][6] =
 {
-	// "PS"
-	0b00000000,
-	0b01111111,
-	0b00010001,
-	0b00001110,
-	0b00000000,
-	0b01000110,
-	0b01001001,
-	0b00110001
-
+	{0x00, 0x7f, 0x9, 0x9, 0x9, 0x6},
+	{0x00, 0x26, 0x49, 0x49, 0x49, 0x32},
 };
 
-const uint8_t BITMAP_TX[8] =
-{	// "TX"
-	0b00000000,
-	0b00000001,
-	0b00000001,
-	0b01111111,
-	0b00000001,
-	0b00000001,
-	0b00000000,
-	0b00000000
+const uint8_t gFontTx[1][5] =
+{
+	{0x3, 0x1, 0x7f, 0x1, 0x3},
 };
 
-const uint8_t BITMAP_RX[8] =
-{	// "RX"
-	0b00000000,
-	0b01111111,
-	0b00001001,
-	0b00011001,
-	0b01100110,
-	0b00000000,
-	0b00000000,
-	0b00000000
+const uint8_t gFontRx[1][5] =
+{
+	{0x7f, 0x9, 0x19, 0x29, 0x46},
 };
 
-const uint8_t BITMAP_FM[10] =
-{	// "FM"
-	0b00000000,
-	0b01111111,
-	0b00001001,
-	0b00000001,
-	0b00000000,
-	0b01111111,
-	0b00000010,
-	0b00001100,
-	0b00000010,
-	0b01111111
+const uint8_t gFontPttOnePush[2][6] =
+{
+	{0x00, 0x3e, 0x41, 0x41, 0x41, 0x3e},
+	{0x00, 0x7f, 0x9, 0x9, 0x9, 0x6},
+};
+
+const uint8_t gFontPttClassic[2][6] =
+{
+	{0x00, 0x3e, 0x41, 0x41, 0x41, 0x22},
+	{0x00, 0x7f, 0x40, 0x40, 0x40, 0x40},
+};
+
+const uint8_t gFontFM[2][6] =
+{
+	{0x00, 0x7f, 0x9, 0x9, 0x9, 0x1},
+	{0x00, 0x7f, 0x2, 0x1c, 0x2, 0x7f},
+};
+
+const uint8_t gFontKeyLock[1][6] =
+{
+	{0x7c, 0x46, 0x45, 0x45, 0x46, 0x7c}
+};
+
+const uint8_t gFontF[1][7] =
+{
+	{0x7f, 0x7f, 0x41, 0x75, 0x75, 0x7f, 0x7f},
+};
+
+const uint8_t gFontXB[2][6] =
+{	// "XB"
+	{0x00, 0x63, 0x14, 0x8, 0x14, 0x63},
+	{0x00, 0x7f, 0x49, 0x49, 0x49, 0x36},
+};
+
+const uint8_t gFontDWR[3][6] =
+{	// "DWR"
+
+	{0x00, 0x7f, 0x41, 0x41, 0x41, 0x3e},
+	{0x00, 0x3f, 0x40, 0x38, 0x40, 0x3f},
+	{0x00, 0x7f, 0x9, 0x19, 0x29, 0x46},
+};
+
+const uint8_t gFontHold[2][5] =
+{	// "><" .. DW on hold
+	{0x0, 0x41, 0x22, 0x14, 0x8},
+	{0x0, 0x8, 0x14, 0x22, 0x41},
 };
 
 const uint8_t BITMAP_BatteryLevel[2] =
@@ -62,54 +75,30 @@ const uint8_t BITMAP_BatteryLevel[2] =
 	0b01011101
 };
 
-#ifndef ENABLE_REVERSE_BAT_SYMBOL
-	// Quansheng way (+ pole to the left)
-	const uint8_t BITMAP_BatteryLevel1[17] =
-	{
-		0b00000000,
-		0b00111110,
-		0b00100010,
-		0b01000001,
-		0b01000001,
-		0b01000001,
-		0b01000001,
-		0b01000001,
-		0b01000001,
-		0b01000001,
-		0b01000001,
-		0b01000001,
-		0b01000001,
-		0b01000001,
-		0b01000001,
-		0b01000001,
-		0b01111111
-	};
-#else
-	// reversed (+ pole to the right)
-	const uint8_t BITMAP_BatteryLevel1[17] =
-	{
-		0b00000000,
-		0b01111111,
-		0b01000001,
-		0b01000001,
-		0b01000001,
-		0b01000001,
-		0b01000001,
-		0b01000001,
-		0b01000001,
-		0b01000001,
-		0b01000001,
-		0b01000001,
-		0b01000001,
-		0b01000001,
-		0b01000001,
-		0b00100010,
-		0b00111110
-	};
-#endif
+// Quansheng way (+ pole to the left)
+const uint8_t BITMAP_BatteryLevel1[17] =
+{
+	0b00000000,
+	0b00111110,
+	0b00100010,
+	0b01000001,
+	0b01000001,
+	0b01000001,
+	0b01000001,
+	0b01000001,
+	0b01000001,
+	0b01000001,
+	0b01000001,
+	0b01000001,
+	0b01000001,
+	0b01000001,
+	0b01000001,
+	0b01000001,
+	0b01111111
+};
 
 const uint8_t BITMAP_USB_C[9] =
-{	// USB symbol
+{
 	0b00000000,
 	0b00011100,
 	0b00100111,
@@ -121,185 +110,11 @@ const uint8_t BITMAP_USB_C[9] =
 	0b00011100
 };
 
-const uint8_t BITMAP_KeyLock[6] =
-{	// teeny padlock symbol
-	0b00000000,
-	0b01111100,
-	0b01000110,
-	0b01000101,
-	0b01000110,
-	0b01111100
-};
-
-const uint8_t BITMAP_F_Key[6] =
-{	// F-Key symbol
-	0b00000000,
-	0b01011111,
-	0b01000101,
-	0b01000101,
-	0b01000101,
-	0b01000001
-};
-
 #ifdef ENABLE_VOX
-
-#ifdef ENABLE_FEAT_F4HWN
-	const uint8_t BITMAP_VOX[12] =
-	{	// "VX"
-		0b00000000,
-		0b00011111,
-		0b00100000,
-		0b01000000,
-		0b00100000,
-		0b00011111,
-		0b00000000,
-		0b01100011,
-		0b00010100,
-		0b00001000,
-		0b00010100,
-		0b01100011
-	};
-#else
-	const uint8_t BITMAP_VOX[18] =
-	{	// "VOX"
-		0b00000000,
-		0b00011111,
-		0b00100000,
-		0b01000000,
-		0b00100000,
-		0b00011111,
-		0b00000000,
-		0b00111110,
-		0b01000001,
-		0b01000001,
-		0b01000001,
-		0b00111110,
-		0b00000000,
-		0b01100011,
-		0b00010100,
-		0b00001000,
-		0b00010100,
-		0b01100011
-	};
-#endif
-#endif
-
-
-#ifdef ENABLE_FEAT_F4HWN
-	const uint8_t BITMAP_PTT_ONE_PUSH[12] =
-	{	// "OnePush"
-		0b00000000,
-		0b00111110,
-		0b01000001,
-		0b01000001,
-		0b01000001,
-		0b00111110,
-		0b00000000,
-		0b01111110,
-		0b00010001,
-		0b00010001,
-		0b00010001,
-		0b00001110,
-	};
-
-	const uint8_t BITMAP_PTT_CLASSIC[12] =
-	{	// "Classic"
-		0b00000000,
-		0b00111110,
-		0b01000001,
-		0b01000001,
-		0b01000001,
-		0b00100010,
-		0b00000000,
-		0b00111111,
-		0b01000000,
-		0b01000000,
-		0b01000000,
-		0b01000000,
-	};
-#endif
-
-// 'XB' (cross-band/cross-VFO)
-const uint8_t BITMAP_XB[12] =
-{	// "XB"
-	0b00000000,
-	0b01100011,
-	0b00010100,
-	0b00001000,
-	0b00010100,
-	0b01100011,
-	0b00000000,
-	0b01111111,
-	0b01001001,
-	0b01001001,
-	0b01001001,
-	0b00110110
-};
-
-
-const uint8_t BITMAP_TDR1[16] =
-{	// "DWR"
-	0b00000000,
-	0b01111111,
-	0b01000001,
-	0b01000001,
-	0b00111110,
-	0b00000000,
-	0b01111111,
-	0b00100000,
-	0b00011000,
-	0b00100000,
-	0b01111111,
-	0b00000000,
-	0b01111111,
-	0b00011001,
-	0b00101001,
-	0b01000110
-};
-
-const uint8_t BITMAP_TDR2[10] =
-{	// "><" .. DW on hold
-	0b00000000,
-	0b00100010,
-	0b00110110,
-	0b00011100,
-	0b00001000,
-	0b00000000,
-	0b00001000,
-	0b00011100,
-	0b00110110,
-	0b00100010,
-};
-
-#ifdef ENABLE_VOICE
-	const uint8_t BITMAP_VoicePrompt[9] =
+	const uint8_t gFontVox[2][6] =
 	{
-		0b00000000,
-		0b00011000,
-		0b00011000,
-		0b00100100,
-		0b00100100,
-		0b01000010,
-		0b01000010,
-		0b11111111,
-		0b00011000
-	};
-#endif
-
-#ifdef ENABLE_NOAA
-	const uint8_t BITMAP_NOAA[11] =
-	{	// "NS"
-		0b00000000,
-		0b01111111,
-		0b00000100,
-		0b00001000,
-		0b00010000,
-		0b01111111,
-		0b00000000,
-		0b01000110,
-		0b01001001,
-		0b01001001,
-		0b00110001
+		{0x00, 0x1f, 0x20, 0x40, 0x20, 0x1f},
+		{0x00, 0x63, 0x14, 0x8, 0x14, 0x63},
 	};
 #endif
 

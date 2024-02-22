@@ -45,13 +45,13 @@ void UI_DisplayStatus()
 
 	// POWER-SAVE indicator
 	if (gCurrentFunction == FUNCTION_TRANSMIT) {
-		memcpy(line + x, BITMAP_TX, sizeof(BITMAP_TX));
+		memcpy(line + x, gFontTx, sizeof(gFontTx));
 	}
 	else if (FUNCTION_IsRx()) {
-		memcpy(line + x, BITMAP_RX, sizeof(BITMAP_RX));
+		memcpy(line + x, gFontRx, sizeof(gFontRx));
 	}
 	else if (gCurrentFunction == FUNCTION_POWER_SAVE) {
-		memcpy(line + x, BITMAP_POWERSAVE, sizeof(BITMAP_POWERSAVE));
+		memcpy(line + x, gFontPowerSave, sizeof(gFontPowerSave));
 	}
 	x += 8;
 	unsigned int x1 = x;
@@ -73,8 +73,8 @@ void UI_DisplayStatus()
 #endif
 #ifdef ENABLE_FMRADIO
 	if (gFmRadioMode) { // FM indicator
-		memcpy(line + x, BITMAP_FM, sizeof(BITMAP_FM));
-		x1 = x + sizeof(BITMAP_FM);
+		memcpy(line + x, gFontFM, sizeof(gFontFM));
+		x1 = x + sizeof(gFontFM);
 	}
 	else
 #endif
@@ -110,50 +110,50 @@ void UI_DisplayStatus()
 		uint8_t dw = (gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2;
 		if(dw == 1 || dw == 3) { // DWR - dual watch + respond
 			if(gDualWatchActive)
-				memcpy(line + x + (dw==1?0:2), BITMAP_TDR1, sizeof(BITMAP_TDR1) - (dw==1?0:5));
+				memcpy(line + x + (dw==1?0:2), gFontDWR, sizeof(gFontDWR) - (dw==1?0:5));
 			else
-				memcpy(line + x + 3, BITMAP_TDR2, sizeof(BITMAP_TDR2));
+				memcpy(line + x + 3, gFontHold, sizeof(gFontHold));
 		}
 		else if(dw == 2) { // XB - crossband
-			memcpy(line + x + 2, BITMAP_XB, sizeof(BITMAP_XB));
+			memcpy(line + x + 2, gFontXB, sizeof(gFontXB));
 		}
 	}
-	x += sizeof(BITMAP_TDR1) + 1;
+	x += sizeof(gFontDWR) + 3;
 
 #ifdef ENABLE_VOX
 	// VOX indicator
 	if (gEeprom.VOX_SWITCH) {
-		memcpy(line + x, BITMAP_VOX, sizeof(BITMAP_VOX));
-		x1 = x + sizeof(BITMAP_VOX) + 1;
+		memcpy(line + x, gFontVox, sizeof(gFontVox));
+		x1 = x + sizeof(gFontVox) + 1;
 	}
-	x += sizeof(BITMAP_VOX) + 1;
+	x += sizeof(gFontVox) + 3;
 #endif
 
 #ifdef ENABLE_FEAT_F4HWN
 	// PTT indicator
 	if (gSetting_set_ptt_session) {
-		memcpy(line + x, BITMAP_PTT_ONE_PUSH, sizeof(BITMAP_PTT_ONE_PUSH));
-		x1 = x + sizeof(BITMAP_PTT_ONE_PUSH) + 1;
+		memcpy(line + x, gFontPttOnePush, sizeof(gFontPttOnePush));
+		x1 = x + sizeof(gFontPttOnePush) + 1;
 	}
 	else
 	{
-		memcpy(line + x, BITMAP_PTT_CLASSIC, sizeof(BITMAP_PTT_CLASSIC));
-		x1 = x + sizeof(BITMAP_PTT_CLASSIC) + 1;		
+		memcpy(line + x, gFontPttClassic, sizeof(gFontPttClassic));
+		x1 = x + sizeof(gFontPttClassic) + 1;		
 	}
-	x += sizeof(BITMAP_PTT_CLASSIC) + 1;
+	x += sizeof(gFontPttClassic) + 3;
 #endif
 
-	x = MAX(x1, 61u);
+	x = MAX(x1, 70u);
 
 	// KEY-LOCK indicator
 	if (gEeprom.KEY_LOCK) {
-		memcpy(line + x, BITMAP_KeyLock, sizeof(BITMAP_KeyLock));
-		x += sizeof(BITMAP_KeyLock);
+		memcpy(line + x, gFontKeyLock, sizeof(gFontKeyLock));
+		x += sizeof(gFontKeyLock);
 		x1 = x;
 	}
 	else if (gWasFKeyPressed) {
-		memcpy(line + x, BITMAP_F_Key, sizeof(BITMAP_F_Key));
-		x += sizeof(BITMAP_F_Key);
+		memcpy(line + x, gFontF, sizeof(gFontF));
+		x += sizeof(gFontF);
 		x1 = x;
 	}
 
