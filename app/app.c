@@ -523,8 +523,13 @@ uint32_t APP_SetFreqByStepAndLimits(VFO_Info_t *pInfo, int8_t direction, uint32_
 {
 	uint32_t Frequency = FREQUENCY_RoundToStep(pInfo->freq_config_RX.Frequency + (direction * pInfo->StepFrequency), pInfo->StepFrequency);
 
+#ifdef ENABLE_FEAT_F4HWN
+	if (Frequency > upper)
+#else
 	if (Frequency >= upper)
+#endif
 		Frequency =  lower;
+
 	else if (Frequency < lower)
 		Frequency = FREQUENCY_RoundToStep(upper - pInfo->StepFrequency, pInfo->StepFrequency);
 
