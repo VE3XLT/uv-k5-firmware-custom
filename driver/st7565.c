@@ -146,6 +146,33 @@ uint8_t cmds[] = {
 	ST7565_CMD_DISPLAY_ON_OFF | 1,			// Display ON/OFF: ON
 };
 
+#ifdef ENABLE_FEAT_F4HWN
+	static void ST7565_Cmd(uint8_t i)
+	{
+		switch(i) {
+			case 3:
+				ST7565_WriteByte(ST7565_CMD_INVERSE_DISPLAY | gSetting_set_inv);
+				break;
+			case 7:
+				ST7565_WriteByte(21 + gSetting_set_ctr);
+				break;
+			default:
+				ST7565_WriteByte(cmds[i]);
+		}
+	}
+
+	void ST7565_ContrastAndInv(void)
+	{
+		SPI_ToggleMasterMode(&SPI0->CR, false);
+		ST7565_WriteByte(ST7565_CMD_SOFTWARE_RESET);   // software reset
+
+		for(uint8_t i = 0; i < 8; i++)
+		{
+			ST7565_Cmd(i);
+		}
+	}
+#endif
+	
 void ST7565_Init(void)
 {
 	SPI0_Init();
@@ -180,33 +207,6 @@ void ST7565_Init(void)
 
 	ST7565_FillScreen(0x00);
 }
-
-#ifdef ENABLE_FEAT_F4HWN
-	void ST7565_Cmd(uint8_t i)
-	{
-		switch(i) {
-			case 3:
-				ST7565_WriteByte(ST7565_CMD_INVERSE_DISPLAY | gSetting_set_inv);
-				break;
-			case 7:
-				ST7565_WriteByte(21 + gSetting_set_ctr);
-				break;
-			default:
-				ST7565_WriteByte(cmds[i]);
-		}
-	}
-
-	void ST7565_ContrastAndInv(void)
-	{
-		SPI_ToggleMasterMode(&SPI0->CR, false);
-		ST7565_WriteByte(ST7565_CMD_SOFTWARE_RESET);   // software reset
-
-		for(uint8_t i = 0; i < 8; i++)
-		{
-			ST7565_Cmd(i);
-		}
-	}
-#endif
 
 void ST7565_FixInterfGlitch(void)
 {
