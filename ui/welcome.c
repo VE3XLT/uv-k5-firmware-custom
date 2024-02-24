@@ -55,6 +55,9 @@ void UI_DisplayWelcome(void)
 	UI_DisplayClear();
 
 #ifdef ENABLE_FEAT_F4HWN
+	ST7565_BlitStatusLine();  // blank status line
+	ST7565_BlitFullScreen();
+
 	if (gEeprom.POWER_ON_DISPLAY_MODE == POWER_ON_DISPLAY_MODE_NONE || gEeprom.POWER_ON_DISPLAY_MODE == POWER_ON_DISPLAY_MODE_SOUND) {
 		ST7565_FillScreen(0x00);
 #else
