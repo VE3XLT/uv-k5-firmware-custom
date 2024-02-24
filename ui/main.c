@@ -1050,9 +1050,10 @@ void UI_DisplayMain(void)
 		else
 		{
 			const FREQ_Config_t *pConfig = (mode == VFO_MODE_TX) ? vfoInfo->pTX : vfoInfo->pRX;
+			int8_t shift = 0;
+
 			switch((int)pConfig->CodeType)
 			{
-
 				case 1:
 				sprintf(String, "%u.%u", CTCSS_Options[pConfig->Code] / 10, CTCSS_Options[pConfig->Code] % 10);
 				break;
@@ -1060,9 +1061,16 @@ void UI_DisplayMain(void)
 				case 2:
 				sprintf(String, "%03o", DCS_Options[pConfig->Code]);
 				break;
+
+				default:
+				sprintf(String, "%d.%02u", vfoInfo->StepFrequency / 100, vfoInfo->StepFrequency % 100);
+				shift = -10;
 			}
 			GUI_DisplaySmallest(s, 58, line == 0 ? 17 : 49, false, true);
-			GUI_DisplaySmallest(String, 68, line == 0 ? 17 : 49, false, true);
+			GUI_DisplaySmallest(String, 68 + shift, line == 0 ? 17 : 49, false, true);
+
+			//sprintf(String, "%d.%02u", vfoInfo->StepFrequency / 100, vfoInfo->StepFrequency % 100);
+			//GUI_DisplaySmallest(String, 91, line == 0 ? 2 : 34, false, true);
 		}
 #else
 		UI_PrintStringSmallNormal(s, LCD_WIDTH + 24, 0, line + 1);
