@@ -105,7 +105,7 @@ void UI_DisplayWelcome(void)
 #ifdef ENABLE_FEAT_F4HWN
 		UI_PrintStringSmallNormal(Version, 0, 128, 4);
 
-		for (uint8_t i = 24; i < 104; i++)
+		for (uint8_t i = 18; i < 110; i++)
 		{
 			gFrameBuffer[4][i] ^= 0xFF;
 		}
