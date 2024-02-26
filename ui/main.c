@@ -1023,6 +1023,9 @@ void UI_DisplayMain(void)
 
 		// show the modulation symbol
 		const char * s = "";
+#ifdef ENABLE_FEAT_F4HWN
+		const char * t = "";
+#endif
 		const ModulationMode_t mod = vfoInfo->Modulation;
 		switch (mod){
 			case MODULATION_FM: {
@@ -1035,10 +1038,14 @@ void UI_DisplayMain(void)
 #endif
 				if (code_type < ARRAY_SIZE(code_list))
 					s = code_list[code_type];
+#ifdef ENABLE_FEAT_F4HWN
+				if(gCurrentFunction != FUNCTION_TRANSMIT)
+					t = gModulationStr[mod];
+#endif
 				break;
 			}
 			default:
-				s = gModulationStr[mod];
+				t = gModulationStr[mod];
 			break;
 		}
 
@@ -1066,7 +1073,15 @@ void UI_DisplayMain(void)
 				sprintf(String, "%d.%02uK", vfoInfo->StepFrequency / 100, vfoInfo->StepFrequency % 100);
 				shift = -10;
 			}
-			GUI_DisplaySmallest(s, 58, line == 0 ? 17 : 49, false, true);
+
+			if ((s != NULL) && (s[0] != '\0')) {
+				GUI_DisplaySmallest(s, 58, line == 0 ? 17 : 49, false, true);
+			}
+
+			if ((t != NULL) && (t[0] != '\0')) {
+				GUI_DisplaySmallest(t, 3, line == 0 ? 17 : 49, false, true);
+			}
+
 			GUI_DisplaySmallest(String, 68 + shift, line == 0 ? 17 : 49, false, true);
 
 			//sprintf(String, "%d.%02u", vfoInfo->StepFrequency / 100, vfoInfo->StepFrequency % 100);
