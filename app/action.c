@@ -399,6 +399,9 @@ static void ACTION_Scan_FM(bool bRestart)
 static void ACTION_AlarmOr1750(const bool b1750)
 {
 
+	if(gSetting_set_lck)
+		return;
+
 	#if defined(ENABLE_ALARM)
 		const AlarmState_t alarm_mode = (gEeprom.ALARM_MODE == ALARM_MODE_TONE) ? ALARM_STATE_TXALARM : ALARM_STATE_SITE_ALARM;
 		gAlarmRunningCounter = 0;
