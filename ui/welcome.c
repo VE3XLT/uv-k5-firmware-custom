@@ -103,11 +103,17 @@ void UI_DisplayWelcome(void)
 		UI_PrintString(WelcomeString1, 0, 127, 2, 10);
 
 #ifdef ENABLE_FEAT_F4HWN
-		UI_PrintStringSmallBold(Version, 0, 128, 4);
-		UI_PrintStringSmallNormal(Based, 0, 128, 5);
-		UI_PrintStringSmallNormal(Credits, 0, 128, 6);
+		UI_PrintStringSmallNormal(Version, 0, 128, 4);
+
+		for (uint8_t i = 24; i < 104; i++)
+		{
+			gFrameBuffer[4][i] ^= 0xFF;
+		}
+
+		UI_PrintStringSmallNormal(Based, 0, 127, 5);
+		UI_PrintStringSmallNormal(Credits, 0, 127, 6);
 #else
-		UI_PrintStringSmallNormal(Version, 0, 128, 6);
+		UI_PrintStringSmallNormal(Version, 0, 127, 6);
 #endif
 
 		ST7565_BlitStatusLine();  // blank status line
