@@ -307,6 +307,7 @@ void SETTINGS_InitEEPROM(void)
 
 		// And set special session settings for actions
 		gSetting_set_ptt_session = gSetting_set_ptt;
+		gEeprom.KEY_LOCK_PTT = gSetting_set_lck;
 	#endif
 }
 
@@ -647,6 +648,9 @@ void SETTINGS_SaveSettings(void)
 	State[5] = ((tmp << 4) | (gSetting_set_ctr & 0x0F));
 	State[6] = ((gSetting_set_tot << 4) | (gSetting_set_eot & 0x0F));
 	State[7] = ((gSetting_set_low << 4) | (gSetting_set_ptt & 0x0F));
+
+	gEeprom.KEY_LOCK_PTT = gSetting_set_lck;
+
 	EEPROM_WriteBuffer(0x1FF0, State);
 #endif
 }

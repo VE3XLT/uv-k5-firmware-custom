@@ -165,6 +165,9 @@ typedef struct {
 	uint8_t               SQUELCH_LEVEL;
 	uint8_t               TX_TIMEOUT_TIMER;
 	bool                  KEY_LOCK;
+#ifdef ENABLE_FEAT_F4HWN
+	bool                  KEY_LOCK_PTT;
+#endif
 	bool                  VOX_SWITCH;
 	uint8_t               VOX_LEVEL;
 #ifdef ENABLE_VOICE
