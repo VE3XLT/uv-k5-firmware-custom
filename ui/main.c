@@ -1032,7 +1032,7 @@ void UI_DisplayMain(void)
 				const FREQ_Config_t *pConfig = (mode == VFO_MODE_TX) ? vfoInfo->pTX : vfoInfo->pRX;
 				const unsigned int code_type = pConfig->CodeType;
 #ifdef ENABLE_FEAT_F4HWN
-				const char *code_list[] = {"", "CT", "DC", "DCR"};
+				const char *code_list[] = {"", "CT", "DC", "DC"};
 #else
 				const char *code_list[] = {"", "CT", "DCS", "DCR"};
 #endif
@@ -1066,7 +1066,11 @@ void UI_DisplayMain(void)
 				break;
 
 				case 2:
-				sprintf(String, "%03o", DCS_Options[pConfig->Code]);
+				sprintf(String, "%03oN", DCS_Options[pConfig->Code]);
+				break;
+
+				case 3:
+				sprintf(String, "%03oI", DCS_Options[pConfig->Code]);
 				break;
 
 				default:
