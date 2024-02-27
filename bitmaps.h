@@ -10,8 +10,10 @@ extern const uint8_t gFontRx[1][5];
 extern const uint8_t gFontPttOnePush[2][6];
 extern const uint8_t gFontPttClassic[2][6];
 extern const uint8_t gFontFM[2][6];
-extern const uint8_t gFontKeyLock[1][6];
+extern const uint8_t gFontKeyLock[1][8];
+/*
 extern const uint8_t gFontF[1][7];
+*/
 extern const uint8_t gFontXB[2][6];
 extern const uint8_t gFontDWR[3][6];
 extern const uint8_t gFontHold[2][5];

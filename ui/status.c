@@ -147,13 +147,40 @@ void UI_DisplayStatus()
 
 	// KEY-LOCK indicator
 	if (gEeprom.KEY_LOCK) {
-		memcpy(line + x, gFontKeyLock, sizeof(gFontKeyLock));
+		static uint8_t blink = 0;
+
+		if(blink < 5)
+		{
+			memcpy(line + x + 1, gFontKeyLock, sizeof(gFontKeyLock));
+			blink++;
+		}
+		else
+		{
+			if(blink < 9)
+			{
+				blink++;
+			}
+			else
+			{
+				blink = 0;
+			}
+		}
 		x += sizeof(gFontKeyLock);
 		x1 = x;
 	}
 	else if (gWasFKeyPressed) {
+		/*
 		memcpy(line + x, gFontF, sizeof(gFontF));
 		x += sizeof(gFontF);
+		*/
+
+		UI_PrintStringSmallBufferNormal("F", line + x + 1);
+		x += sizeof(gFontKeyLock);
+		
+		for (uint8_t i = 71; i < 79; i++)
+		{
+			gFrameBuffer[-1][i] ^= 0x7F;
+		}
 		x1 = x;
 	}
 
