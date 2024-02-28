@@ -111,7 +111,6 @@ void UI_DisplayWelcome(void)
 		}
 
 		UI_DrawLineBuffer(gFrameBuffer, 0, 31, 126, 31, 1);
-		//UI_DrawLineDottedBuffer(gFrameBuffer, 0, 39, 126, 39, 1);
 
 		UI_PrintStringSmallNormal(Based, 0, 127, 5);
 		UI_PrintStringSmallNormal(Credits, 0, 127, 6);

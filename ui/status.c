@@ -149,22 +149,15 @@ void UI_DisplayStatus()
 	if (gEeprom.KEY_LOCK) {
 		static uint8_t blink = 0;
 
+		if(FUNCTION_IsRx()) blink = 0;
+
 		if(blink < 5)
 		{
 			memcpy(line + x + 1, gFontKeyLock, sizeof(gFontKeyLock));
-			blink++;
 		}
-		else
-		{
-			if(blink < 9)
-			{
-				blink++;
-			}
-			else
-			{
-				blink = 0;
-			}
-		}
+		
+		blink = (blink++ < 10) ? blink : 0;
+
 		x += sizeof(gFontKeyLock);
 		x1 = x;
 	}
@@ -187,7 +180,6 @@ void UI_DisplayStatus()
 	{	// battery voltage or percentage
 		char         s[8] = "";
 		unsigned int x2 = LCD_WIDTH - sizeof(BITMAP_BatteryLevel1) - 0;
-
 		if (gChargingWithTypeC)
 			x2 -= sizeof(BITMAP_USB_C);  // the radio is on charge
 
@@ -198,7 +190,11 @@ void UI_DisplayStatus()
 
 			case 1:	{	// voltage
 				const uint16_t voltage = (gBatteryVoltageAverage <= 999) ? gBatteryVoltageAverage : 999; // limit to 9.99V
+#ifdef ENABLE_FEAT_F4HWN
+				sprintf(s, "%u.%02u", voltage / 100, voltage % 100);
+#else
 				sprintf(s, "%u.%02uV", voltage / 100, voltage % 100);
+#endif
 				break;
 			}
 
