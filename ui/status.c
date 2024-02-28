@@ -85,13 +85,19 @@ void UI_DisplayStatus()
 				switch(gEeprom.SCAN_LIST_DEFAULT) {
 					case 0: s = "1"; break;
 					case 1: s = "2"; break;
-					case 2: s = "*"; break;
+					case 2: s = ""; break;
 				}
 			}
 			else {	// frequency mode
 				s = "S";
 			}
-			UI_PrintStringSmallBufferNormal(s, line + x + 1);
+			if ((s != NULL) && (s[0] != '\0')) {
+				UI_PrintStringSmallBufferNormal(s, line + x + 1);
+			}
+			else
+			{
+				memcpy(line + x, gFontScanAll, sizeof(gFontScanAll));
+			}
 			x1 = x + 10;
 		}
 	}
