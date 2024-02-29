@@ -80,23 +80,21 @@ void UI_DisplayStatus()
 #endif
 	{ // SCAN indicator
 		if (gScanStateDir != SCAN_OFF || SCANNER_IsScanning()) {
-			char * s = "";
 			if (IS_MR_CHANNEL(gNextMrChannel) && !SCANNER_IsScanning()) { // channel mode
 				switch(gEeprom.SCAN_LIST_DEFAULT) {
-					case 0: s = "1"; break;
-					case 1: s = "2"; break;
-					case 2: s = ""; break;
+					case 0: 
+						memcpy(line + x + 2, BITMAP_ScanList1, sizeof(BITMAP_ScanList1));
+						break;
+					case 1:
+						memcpy(line + x + 2, BITMAP_ScanList2, sizeof(BITMAP_ScanList2));
+						break;
+					case 2:
+						memcpy(line + x, gFontScanAll, sizeof(gFontScanAll));
+						break;
 				}
 			}
 			else {	// frequency mode
-				s = "S";
-			}
-			if ((s != NULL) && (s[0] != '\0')) {
-				UI_PrintStringSmallBufferNormal(s, line + x + 1);
-			}
-			else
-			{
-				memcpy(line + x, gFontScanAll, sizeof(gFontScanAll));
+				UI_PrintStringSmallBufferNormal("S", line + x + 1);
 			}
 			x1 = x + 10;
 		}
@@ -155,7 +153,7 @@ void UI_DisplayStatus()
 	if (gEeprom.KEY_LOCK) {
 		static uint8_t blink = 0;
 
-		if(FUNCTION_IsRx()) blink = 0;
+		if(FUNCTION_IsRx() || gCurrentFunction == FUNCTION_TRANSMIT) blink = 0;
 
 		if(blink < 5)
 		{
