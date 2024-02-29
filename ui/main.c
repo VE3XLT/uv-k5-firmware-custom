@@ -1053,6 +1053,7 @@ void UI_DisplayMain(void)
 		if (isMainOnly(true))
 		{
 			UI_PrintStringSmallNormal(s, LCD_WIDTH + 24, 0, line + 1);
+			UI_PrintStringSmallNormal(t, LCD_WIDTH + 2, 0, line + 1);	
 		}
 		else
 		{
