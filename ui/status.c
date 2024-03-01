@@ -151,17 +151,7 @@ void UI_DisplayStatus()
 
 	// KEY-LOCK indicator
 	if (gEeprom.KEY_LOCK) {
-		static uint8_t blink = 0;
-
-		if(FUNCTION_IsRx() || gCurrentFunction == FUNCTION_TRANSMIT) blink = 0;
-
-		if(blink < 5)
-		{
-			memcpy(line + x + 1, gFontKeyLock, sizeof(gFontKeyLock));
-		}
-		
-		blink = (blink++ < 10) ? blink : 0;
-
+		memcpy(line + x + 1, gFontKeyLock, sizeof(gFontKeyLock));
 		x += sizeof(gFontKeyLock);
 		x1 = x;
 	}

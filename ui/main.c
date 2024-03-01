@@ -570,10 +570,29 @@ void UI_DisplayMain(void)
 #else
 	if (gEeprom.KEY_LOCK && gKeypadLocked > 0)
 	{	// tell user how to unlock the keyboard
+		uint8_t shift = 3;
+
+		/*
 		BK4819_ToggleGpioOut(BK4819_GPIO5_PIN1_RED, true);
 		SYSTEM_DelayMs(50);
 		BK4819_ToggleGpioOut(BK4819_GPIO5_PIN1_RED, false);
 		SYSTEM_DelayMs(50);
+		*/
+
+		if(isMainOnly(false))
+		{
+			shift = 5;
+		}
+		//memcpy(gFrameBuffer[shift] + 2, gFontKeyLock, sizeof(gFontKeyLock));
+		UI_PrintStringSmallBold("UNLOCK KEYBOARD", 12, 0, shift);
+		//memcpy(gFrameBuffer[shift] + 120, gFontKeyLock, sizeof(gFontKeyLock));
+
+		/*
+		for (uint8_t i = 12; i < 116; i++)
+		{
+			gFrameBuffer[shift][i] ^= 0xFF;
+		}
+		*/
 	}
 #endif
 
@@ -1050,35 +1069,49 @@ void UI_DisplayMain(void)
 		}
 
 #if ENABLE_FEAT_F4HWN
+		const FREQ_Config_t *pConfig = (mode == VFO_MODE_TX) ? vfoInfo->pTX : vfoInfo->pRX;
+		int8_t shift = 0;
+
+		switch((int)pConfig->CodeType)
+		{
+			case 1:
+			sprintf(String, "%u.%u", CTCSS_Options[pConfig->Code] / 10, CTCSS_Options[pConfig->Code] % 10);
+			break;
+
+			case 2:
+			sprintf(String, "%03oN", DCS_Options[pConfig->Code]);
+			break;
+
+			case 3:
+			sprintf(String, "%03oI", DCS_Options[pConfig->Code]);
+			break;
+
+			default:
+			sprintf(String, "%d.%02uK", vfoInfo->StepFrequency / 100, vfoInfo->StepFrequency % 100);
+			shift = -10;
+		}
+
 		if (isMainOnly(true))
 		{
-			UI_PrintStringSmallNormal(s, LCD_WIDTH + 24, 0, line + 1);
-			UI_PrintStringSmallNormal(t, LCD_WIDTH + 2, 0, line + 1);	
+			UI_PrintStringSmallNormal(s, 24, 0, 2);
+			UI_PrintStringSmallNormal(t, 2, 0, 2);
+			if(shift == 0)
+			{
+				UI_PrintStringSmallNormal(String, 2, 0, 6);
+			}
+
+			if((vfoInfo->StepFrequency / 100) < 100)
+			{
+				sprintf(String, "%d.%02uK", vfoInfo->StepFrequency / 100, vfoInfo->StepFrequency % 100);
+			}
+			else
+			{
+				sprintf(String, "%dK", vfoInfo->StepFrequency / 100);				
+			}
+			UI_PrintStringSmallNormal(String, 46, 0, 6);
 		}
 		else
 		{
-			const FREQ_Config_t *pConfig = (mode == VFO_MODE_TX) ? vfoInfo->pTX : vfoInfo->pRX;
-			int8_t shift = 0;
-
-			switch((int)pConfig->CodeType)
-			{
-				case 1:
-				sprintf(String, "%u.%u", CTCSS_Options[pConfig->Code] / 10, CTCSS_Options[pConfig->Code] % 10);
-				break;
-
-				case 2:
-				sprintf(String, "%03oN", DCS_Options[pConfig->Code]);
-				break;
-
-				case 3:
-				sprintf(String, "%03oI", DCS_Options[pConfig->Code]);
-				break;
-
-				default:
-				sprintf(String, "%d.%02uK", vfoInfo->StepFrequency / 100, vfoInfo->StepFrequency % 100);
-				shift = -10;
-			}
-
 			if ((s != NULL) && (s[0] != '\0')) {
 				GUI_DisplaySmallest(s, 58, line == 0 ? 17 : 49, false, true);
 			}
@@ -1339,7 +1372,11 @@ void UI_DisplayMain(void)
 	if (isMainOnly(false) && !gDTMF_InputMode)
 	{
 		sprintf(String, "VFO %s", activeTxVFO ? "B" : "A");
-		UI_PrintStringSmallBold(String, 49, 0, 6);
+		UI_PrintStringSmallBold(String, 92, 0, 6);
+		for (uint8_t i = 92; i < 128; i++)
+		{
+			gFrameBuffer[6][i] ^= 0xFF;
+		}
 	}
 #endif
 
