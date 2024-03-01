@@ -1058,7 +1058,7 @@ void UI_DisplayMain(void)
 				if (code_type < ARRAY_SIZE(code_list))
 					s = code_list[code_type];
 #ifdef ENABLE_FEAT_F4HWN
-				if(gCurrentFunction != FUNCTION_TRANSMIT)
+				if(gCurrentFunction != FUNCTION_TRANSMIT || activeTxVFO != vfo_num)
 					t = gModulationStr[mod];
 #endif
 				break;
@@ -1093,22 +1093,26 @@ void UI_DisplayMain(void)
 
 		if (isMainOnly(true))
 		{
-			UI_PrintStringSmallNormal(s, 24, 0, 2);
-			UI_PrintStringSmallNormal(t, 2, 0, 2);
-			if(shift == 0)
-			{
-				UI_PrintStringSmallNormal(String, 2, 0, 6);
-			}
+			UI_PrintStringSmallNormal(s, LCD_WIDTH + 24, 0, line + 1);
+			UI_PrintStringSmallNormal(t, LCD_WIDTH + 2, 0, line + 1);
 
-			if((vfoInfo->StepFrequency / 100) < 100)
+			if (isMainOnly(false))
 			{
-				sprintf(String, "%d.%02uK", vfoInfo->StepFrequency / 100, vfoInfo->StepFrequency % 100);
+				if(shift == 0)
+				{
+					UI_PrintStringSmallNormal(String, 2, 0, 6);
+				}
+
+				if((vfoInfo->StepFrequency / 100) < 100)
+				{
+					sprintf(String, "%d.%02uK", vfoInfo->StepFrequency / 100, vfoInfo->StepFrequency % 100);
+				}
+				else
+				{
+					sprintf(String, "%dK", vfoInfo->StepFrequency / 100);				
+				}
+				UI_PrintStringSmallNormal(String, 46, 0, 6);
 			}
-			else
-			{
-				sprintf(String, "%dK", vfoInfo->StepFrequency / 100);				
-			}
-			UI_PrintStringSmallNormal(String, 46, 0, 6);
 		}
 		else
 		{
@@ -1203,8 +1207,8 @@ void UI_DisplayMain(void)
 #if ENABLE_FEAT_F4HWN
 		if (isMainOnly(true))
 		{
-			if (vfoInfo->CHANNEL_BANDWIDTH == BANDWIDTH_NARROW)
-				UI_PrintStringSmallNormal("N", LCD_WIDTH + 80, 0, line + 1);	
+			const char *bandWidthNames[] = {"W", "N"};
+			UI_PrintStringSmallNormal(bandWidthNames[vfoInfo->CHANNEL_BANDWIDTH], LCD_WIDTH + 80, 0, line + 1);
 		}
 		else
 		{
@@ -1242,7 +1246,7 @@ void UI_DisplayMain(void)
 	 		 	{
 					sprintf(String, "SQL%d", gEeprom.SQUELCH_LEVEL);
 	 		 	}
-				UI_PrintStringSmallNormal(String, 94, 0, 2);
+				UI_PrintStringSmallNormal(String, LCD_WIDTH + 98, 0, line + 1);
  			}
  			else
  			{

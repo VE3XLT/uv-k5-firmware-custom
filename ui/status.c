@@ -121,6 +121,10 @@ void UI_DisplayStatus()
 		else if(dw == 2) { // XB - crossband
 			memcpy(line + x + 2, gFontXB, sizeof(gFontXB));
 		}
+		else
+		{
+			memcpy(line + x + 2, gFontMO, sizeof(gFontMO));
+		}
 	}
 	x += sizeof(gFontDWR) + 3;
 

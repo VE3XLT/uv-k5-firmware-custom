@@ -16,6 +16,7 @@ extern const uint8_t gFontScanAll[10];
 extern const uint8_t gFontF[1][7];
 */
 extern const uint8_t gFontXB[2][6];
+extern const uint8_t gFontMO[2][6];
 extern const uint8_t gFontDWR[3][6];
 extern const uint8_t gFontHold[2][5];
 
