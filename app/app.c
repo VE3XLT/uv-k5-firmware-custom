@@ -1834,7 +1834,11 @@ static void ProcessKey(KEY_Code_t Key, bool bKeyPressed, bool bKeyHeld)
 		}
 	}
 
+#ifdef ENABLE_FEAT_F4HWN // For F + SIDE1 or F + SIDE2
+	if (gWasFKeyPressed && (Key == KEY_PTT || Key == KEY_EXIT)) { 
+#else
 	if (gWasFKeyPressed && (Key == KEY_PTT || Key == KEY_EXIT || Key == KEY_SIDE1 || Key == KEY_SIDE2)) { 
+#endif
 		// cancel the F-key
 		gWasFKeyPressed = false;
 		gUpdateStatus   = true;
@@ -1914,9 +1918,18 @@ static void ProcessKey(KEY_Code_t Key, bool bKeyPressed, bool bKeyHeld)
 		}
 #endif
 	}
+#ifdef ENABLE_FEAT_F4HWN // For F + SIDE1 or F + SIDE2
+	else if (gWasFKeyPressed && (Key == KEY_SIDE1 || Key == KEY_SIDE2)) {
+		ProcessKeysFunctions[gScreenToDisplay](Key, bKeyPressed, bKeyHeld);
+	}
 	else if (Key != KEY_SIDE1 && Key != KEY_SIDE2 && gScreenToDisplay != DISPLAY_INVALID) {
 		ProcessKeysFunctions[gScreenToDisplay](Key, bKeyPressed, bKeyHeld);
 	}
+#else
+	else if (Key != KEY_SIDE1 && Key != KEY_SIDE2 && gScreenToDisplay != DISPLAY_INVALID) {
+		ProcessKeysFunctions[gScreenToDisplay](Key, bKeyPressed, bKeyHeld);
+	}
+#endif
 	else if (!SCANNER_IsScanning()
 #ifdef ENABLE_AIRCOPY
 			&& gScreenToDisplay != DISPLAY_AIRCOPY

@@ -250,7 +250,7 @@ static void processFKeyFunction(const KEY_Code_t Key, const bool beep)
 				gBeepToPlay = BEEP_500HZ_60MS_DOUBLE_BEEP_OPTIONAL;
 			break;
 
-#ifdef ENABLE_FEAT_F4HWN // Set Squelch F + UP or Down
+#ifdef ENABLE_FEAT_F4HWN // Set Squelch F + UP or Down and Step F + SIDE1 or F + SIDE2
 		case KEY_UP:
 			gEeprom.SQUELCH_LEVEL = (gEeprom.SQUELCH_LEVEL < 9) ? gEeprom.SQUELCH_LEVEL + 1: 9;
 			gVfoConfigureMode     = VFO_CONFIGURE;
@@ -261,6 +261,33 @@ static void processFKeyFunction(const KEY_Code_t Key, const bool beep)
 			gEeprom.SQUELCH_LEVEL = (gEeprom.SQUELCH_LEVEL > 0) ? gEeprom.SQUELCH_LEVEL - 1: 0;
 			gVfoConfigureMode     = VFO_CONFIGURE;
 			//gRequestDisplayScreen = DISPLAY_MAIN;
+			gWasFKeyPressed = false;
+			break;
+
+		case KEY_SIDE1:
+			uint8_t a = FREQUENCY_GetSortedIdxFromStepIdx(gTxVfo->STEP_SETTING);
+			if (a < STEP_N_ELEM - 1)
+			{
+				gTxVfo->STEP_SETTING = FREQUENCY_GetStepIdxFromSortedIdx(a + 1);
+			}
+			if (IS_FREQ_CHANNEL(gTxVfo->CHANNEL_SAVE))
+			{
+				gRequestSaveChannel = 1;
+			}
+			gVfoConfigureMode     = VFO_CONFIGURE;
+			gWasFKeyPressed = false;
+			break;
+		case KEY_SIDE2:
+			uint8_t b = FREQUENCY_GetSortedIdxFromStepIdx(gTxVfo->STEP_SETTING);
+			if (b > 0)
+			{
+				gTxVfo->STEP_SETTING = FREQUENCY_GetStepIdxFromSortedIdx(b - 1);
+			}
+			if (IS_FREQ_CHANNEL(gTxVfo->CHANNEL_SAVE))
+			{
+				gRequestSaveChannel = 1;
+			}
+			gVfoConfigureMode     = VFO_CONFIGURE;
 			gWasFKeyPressed = false;
 			break;
 #endif
@@ -742,6 +769,8 @@ void MAIN_ProcessKeys(KEY_Code_t Key, bool bKeyPressed, bool bKeyHeld)
 //	}
 
 	switch (Key) {
+		case KEY_SIDE1:
+		case KEY_SIDE2:
 		case KEY_0...KEY_9:
 			MAIN_Key_DIGITS(Key, bKeyPressed, bKeyHeld);
 			break;
