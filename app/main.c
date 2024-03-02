@@ -769,8 +769,10 @@ void MAIN_ProcessKeys(KEY_Code_t Key, bool bKeyPressed, bool bKeyHeld)
 //	}
 
 	switch (Key) {
+#ifdef ENABLE_FEAT_F4HWN
 		case KEY_SIDE1:
 		case KEY_SIDE2:
+#endif
 		case KEY_0...KEY_9:
 			MAIN_Key_DIGITS(Key, bKeyPressed, bKeyHeld);
 			break;
