@@ -1096,7 +1096,7 @@ void UI_DisplayMain(void)
 			UI_PrintStringSmallNormal(s, LCD_WIDTH + 24, 0, line + 1);
 			UI_PrintStringSmallNormal(t, LCD_WIDTH + 2, 0, line + 1);
 
-			if (isMainOnly(false))
+			if (isMainOnly(false) && !gDTMF_InputMode)
 			{
 				if(shift == 0)
 				{
