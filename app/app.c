@@ -881,6 +881,16 @@ void APP_Update(void)
 #ifdef ENABLE_FEAT_F4HWN
 		gTxTimeoutReachedAlert = false;
 		gTxTimeoutToneAlert = 800;
+
+		if (gSetting_set_ptt_session) // Improve OnePush if TOT
+		{
+			ProcessKey(KEY_PTT, false, false);
+			gPttIsPressed = false;
+			gPttOnePushCounter = 0;
+			if (gKeyReading1 != KEY_INVALID)
+				gPttWasReleased = true;
+			ST7565_ContrastAndInv();
+		}
 #endif
 
 		APP_EndTransmission();
@@ -1067,7 +1077,7 @@ static void CheckKeys(void)
 
 // -------------------- PTT ------------------------
 #ifdef ENABLE_FEAT_F4HWN
-	if (gSetting_set_ptt_session == true)
+	if (gSetting_set_ptt_session)
 	{
 		if (!GPIO_CheckBit(&GPIOC->DATA, GPIOC_PIN_PTT) && !SerialConfigInProgress() && gPttOnePushCounter == 0)
 		{	// PTT pressed
