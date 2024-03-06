@@ -1,24 +1,30 @@
 # Open re-implementation of the Quansheng UV-K5/K6/5R v2.1.27 firmware
 
-This repository is a merge of [OneOfEleven custom firmware](https://github.com/OneOfEleven/uv-k5-firmware-custom) with [fagci spectrum analizer](https://github.com/fagci/uv-k5-firmware-fagci-mod/tree/refactor) plus my few changes.<br>
+This repository is a fork of[Egzumer custom firmware](https://github.com/egzumer/uv-k5-firmware-custom), who was a merge of [OneOfEleven custom firmware](https://github.com/OneOfEleven/uv-k5-firmware-custom) with [fagci spectrum analizer](https://github.com/fagci/uv-k5-firmware-fagci-mod/tree/refactor) plus my few changes.
+
 All is a cloned and customized version of DualTachyon's open firmware found [here](https://github.com/DualTachyon/uv-k5-firmware) ... a cool achievement !
 
-> [!TIP]
-> There is a work done by others on forks of this repository. I encourage you to take a look at those too.
-You can use below links to see comparison between forks.<br>
-https://gitpop2.vercel.app/egzumer/uv-k5-firmware-custom<br>
-https://useful-forks.github.io/?repo=egzumer/uv-k5-firmware-custom
-
-> [!WARNING]  
-> Use this firmware at your own risk (entirely). There is absolutely no guarantee that it will work in any way shape or form on your radio(s), it may even brick your radio(s), in which case, you'd need to buy another radio.
+> [!WARNING]
+> EN - Use this firmware at your own risk (entirely). There is absolutely no guarantee that it will work in any way shape or form on your radio(s), it may even brick your radio(s), in which case, you'd need to buy another radio.
 Anyway, have fun.
+>
+> _FR - Utilisez ce firmware à vos risques et périls. Il n'y a absolument aucune garantie qu'il fonctionnera d'une manière ou d'une autre sur votre (vos) radio(s), il peut même bousiller votre (vos) radio(s), dans ce cas, vous devrez acheter une autre radio. Quoi qu'il en soit, amusez-vous bien._
+
+> [!CAUTION]
+> EN - I recommend to backup your eeprom with [k5prog](https://github.com/sq5bpf/k5prog) before playing with alternative firmwares. It's a good reflex to have. 
+>
+> _FR - Je recommande de sauvegarder votre eeprom avec [k5prog](https://github.com/sq5bpf/k5prog) avant de jouer avec des firmwares alternatifs. C'est un bon réflexe à avoir._
+
+# Donations
+
+Special thanks to Jean-Cyrille F6IWW, Fabrice 14RC123, David F4BPP, Olivier, Frédéric F4ESO and Stéphane F5LGW for their [donations](https://www.paypal.com/paypalme/F4HWN). That’s so kind of them. Thanks so much 🙏🏻
 
 ## Table of Contents
 
-* [Main Features](#main-features)
+* [My Features](#main-features)
+* [Main Features from Egzumer](#main-features-from-egzumer)
 * [Manual](#manual)
 * [Radio Performance](#radio-performance)
-* [User Customization](#user-customization)
 * [Compiler](#compiler)
 * [Building](#building)
 * [Credits](#credits)
@@ -27,6 +33,59 @@ Anyway, have fun.
 * [Example changes/updates](#example-changesupdates)
 
 ## Main features:
+
+* improve default power settings level (Low ~125mW, Mid ~2W and High ~5W),
+* improve s-meter (IARU recommandations),
+* improve UI: 
+    * menu index, 
+    * s-meter design, 
+    * MAIN ONLY screen mode, 
+    * DUAL and CROSS screen mode, 
+    * RX blink on VFO RX, 
+    * RX LED blink, 
+    * Squelch level and Monitor,
+    * Step value,
+    * CTCSS or DCS value,
+    * KeyLock message,
+    * and more...
+* new menu entries:
+    * add SetLow menu to set low power (<20mW, 125mW, 250mW, 500mW and 1W),
+    * add SetPtt menu to set PTT mode (Classic or OnePush),
+    * add SetTot menu to set TOT alert (Off, Sound, Visual, All),
+    * add SetCtr menu to set contrast (0 to 15),
+    * add SetInv menu to set screen in invert mode (Off or On),
+    * add SetEot menu to set EOT (End Of Transmission) alert (Off, Sound, Visual, All),
+    * add SetMet menu to set s-meter style (Classic or Tiny),
+    * add SetLck menu to set what is locked (Keys or Keys + PTT),
+    * add SetGui menu to set font size on the VFO baseline (Classic or Tiny),
+    * improve PonMsg menu,
+* improve status bar,
+    * add SetPtt mode in status bar,
+    * change font and bitmaps,
+* new actions:
+    * SWITCH RxMode, 
+    * SWITCH PTT, 
+    * SWITCH WIDE NARROW,
+    * 1750Hz,
+    * BlMin Tmp Pff,
+* new key combinations:
+    * add the F + UP or F + DOWN key combination to dynamically change the Squelch level,
+    * add the F + F1 or F + F2 key combination to dynamically change the Step,
+* many fix:
+    * squelch, 
+    * s-meter,
+    * DTMF overlaying, 
+    * scan list 2 ignored, 
+    * scan range limit,
+    * and more...
+* enabled ENABLE_CTCSS_TAIL_PHASE_SHIFT,
+* enabled ENABLE_BLMIN_TMP_OFF,
+* disabled ENABLE_DTMF_CALLING,
+* disabled SCRAMBLER,
+* unlock TX on all bands needs only to be repeat 3 times,
+* and more...
+
+## Main features from Egzumer:
 * many of OneOfEleven mods:
    * AM fix, huge improvement in reception quality
    * long press buttons functions replicating F+ action
@@ -76,64 +135,6 @@ non-existent (just like Quansheng's firmware).
 On the other hand, FM RX audio will/should be fine.
 
 But, they are nice toys for the price, fun to play with.
-
-## User customization
-
-You can customize the firmware by enabling/disabling various compile options, this allows
-us to remove certain firmware features in order to make room in the flash for others.
-You'll find the options at the top of "Makefile" ('0' = disable, '1' = enable) ..
-
-
-|Build option | Description |
-| --- | ---- |
-|🧰 **STOCK QUANSHENG FERATURES**||
-| ENABLE_UART | without this you can't configure radio via PC ! |
-| ENABLE_AIRCOPY | easier to just enter frequency with butts |
-| ENABLE_FMRADIO | WBFM VHF broadcast band receiver |
-| ENABLE_NOAA | everything NOAA (only of any use in the USA) |
-| ENABLE_VOICE | want to hear voices ? |
-| ENABLE_VOX | |
-| ENABLE_ALARM | TX alarms |
-| ENABLE_TX1750 | side key 1750Hz TX tone (older style repeater access)|
-| ENABLE_PWRON_PASSWORD | power-on password stuff |
-| ENABLE_DTMF_CALLING | DTMF calling fuctionality, sending calls, receiving calls, group calls, contacts list etc. |
-| ENABLE_FLASHLIGHT | enable top flashlight LED (on, blink, SOS) |
-|🧰 **CUSTOM MODS**||
-| ENABLE_BIG_FREQ | big font frequencies (like original QS firmware) |
-| ENABLE_SMALL_BOLD | bold channel name/no. (when name + freq channel display mode) |
-| ENABLE_CUSTOM_MENU_LAYOUT | changes how the menu looks like |
-| ENABLE_KEEP_MEM_NAME | maintain channel name when (re)saving memory channel|
-| ENABLE_WIDE_RX | full 18MHz to 1300MHz RX (though front-end/PA not designed for full range)|
-| ENABLE_TX_WHEN_AM | allow TX (always FM) when RX is set to AM|
-| ENABLE_F_CAL_MENU | enable the radios hidden frequency calibration menu |
-| ENABLE_CTCSS_TAIL_PHASE_SHIFT | standard CTCSS tail phase shift rather than QS's own 55Hz tone method|
-| ENABLE_BOOT_BEEPS | gives user audio feedback on volume knob position at boot-up |
-| ENABLE_SHOW_CHARGE_LEVEL | show the charge level when the radio is on charge |
-| ENABLE_REVERSE_BAT_SYMBOL | mirror the battery symbol on the status bar (+ pole on the right) |
-| ENABLE_NO_CODE_SCAN_TIMEOUT | disable 32-sec CTCSS/DCS scan timeout (press exit butt instead of time-out to end scan) |
-| ENABLE_AM_FIX | dynamically adjust the front end gains when in AM mode to help prevent AM demodulator saturation, ignore the on-screen RSSI level (for now) |
-| ENABLE_AM_FIX_SHOW_DATA | show debug data for the AM fix |
-| ENABLE_SQUELCH_MORE_SENSITIVE | make squelch levels a little bit more sensitive - I plan to let user adjust the values themselves |
-| ENABLE_FASTER_CHANNEL_SCAN | increases the channel scan speed, but the squelch is also made more twitchy |
-| ENABLE_RSSI_BAR | enable a dBm/Sn RSSI bar graph level in place of the little antenna symbols |
-| ENABLE_AUDIO_BAR | experimental, display an audio bar level when TX'ing |
-| ENABLE_COPY_CHAN_TO_VFO | copy current channel settings into frequency mode. Long press `1 BAND` when in channel mode |
-| ENABLE_SPECTRUM | fagci spectrum analyzer, activated with `F` + `5 NOAA`|
-| ENABLE_REDUCE_LOW_MID_TX_POWER | makes medium and low power settings even lower |
-| ENABLE_BYP_RAW_DEMODULATORS | additional BYP (bypass?) and RAW demodulation options, proved not to be very useful, but it is there if you want to experiment |
-| ENABLE_BLMIN_TMP_OFF | additional function for configurable buttons that toggles `BLMin` on and off wihout saving it to the EEPROM |
-| ENABLE_SCAN_RANGES | scan range mode for frequency scanning, see wiki for instructions (radio operation -> frequency scanning) |
-| ENABLE_FEAT_F4HWN | improve by F4HWN |
-
-|🧰 **DEBUGGING** ||
-| ENABLE_AM_FIX_SHOW_DATA| displays settings used by  AM-fix when AM transmission is received |
-| ENABLE_AGC_SHOW_DATA | displays AGC settings |
-| ENABLE_UART_RW_BK_REGS | adds 2 extra commands that allow to read and write BK4819 registers |
-|🧰 **COMPILER/LINKER OPTIONS**||
-| ENABLE_CLANG | **experimental, builds with clang instead of gcc (LTO will be disabled if you enable this) |
-| ENABLE_SWD | only needed if using CPU's SWD port (debugging/programming) |
-| ENABLE_OVERLAY | cpu FLASH stuff, not needed |
-| ENABLE_LTO | reduces size of compiled firmware but might break EEPROM reads (OVERLAY will be disabled if you enable this) |
 
 ## Compiler
 
@@ -199,8 +200,9 @@ I've left some notes in the win_make.bat file to maybe help with stuff.
 
 ## Credits
 
-Many thanks to various people on Telegram for putting up with me during this effort and helping:
+Many thanks to various people:
 
+* [Egzumer](https://github.com/egzumer)
 * [OneOfEleven](https://github.com/OneOfEleven)
 * [DualTachyon](https://github.com/DualTachyon)
 * [Mikhail](https://github.com/fagci)
@@ -239,14 +241,23 @@ You may obtain a copy of the License at
 
 ## Example changes/updates
 
-<p float="left">
-  <img src="/images/image1.png" width=300 />
-  <img src="/images/image2.png" width=300 />
-  <img src="/images/image3.png" width=300 />
-</p>
+Here are a few photos.
 
-Video showing the AM fix working ..
+|![SetPtt Option](https://github.com/armel/uv-k5-firmware-custom-feat-F4HWN/blob/main/photos/IMG_3080.jpeg)|
+|:--:|
+| SetPtt Option |
 
-<video src="/images/AM_fix.mp4"></video>
 
-<video src="https://github.com/OneOfEleven/uv-k5-firmware-custom/assets/51590168/2a3a9cdc-97da-4966-bf0d-1ce6ad09779c"></video>
+|![Dual RX Respond](https://github.com/armel/uv-k5-firmware-custom-feat-F4HWN/blob/main/photos/IMG_3082.jpeg)|
+|:--:|
+| Dual RX Respond |
+
+
+|![Main Only](https://github.com/armel/uv-k5-firmware-custom-feat-F4HWN/blob/main/photos/IMG_3081.jpeg)|
+|:--:|
+| Main Only |
+
+
+|![Main TX Dual RX](https://github.com/armel/uv-k5-firmware-custom-feat-F4HWN/blob/main/photos/IMG_3079.jpeg)|
+|:--:|
+| Main TX Dual RX |
