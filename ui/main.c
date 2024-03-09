@@ -646,21 +646,29 @@ void UI_DisplayMain(void)
 			if(gScanRangeStart) {
 
 #ifdef ENABLE_FEAT_F4HWN
-				uint8_t shift = 0;
+				//if(IS_FREQ_CHANNEL(gEeprom.ScreenChannel[0]) && IS_FREQ_CHANNEL(gEeprom.ScreenChannel[1])) {
+				if(IS_FREQ_CHANNEL(gEeprom.ScreenChannel[activeTxVFO])) {
 
-				if (isMainOnly(false))
-				{
-					shift = 3;
+					uint8_t shift = 0;
+
+					if (isMainOnly(false))
+					{
+						shift = 3;
+					}
+
+					UI_PrintString("ScnRng", 5, 0, line + shift, 8);
+					sprintf(String, "%3u.%05u", gScanRangeStart / 100000, gScanRangeStart % 100000);
+					UI_PrintStringSmallNormal(String, 56, 0, line + shift);
+					sprintf(String, "%3u.%05u", gScanRangeStop / 100000, gScanRangeStop % 100000);
+					UI_PrintStringSmallNormal(String, 56, 0, line + shift + 1);
+
+					if (!isMainOnly(false))
+						continue;
 				}
-
-				UI_PrintString("ScnRng", 5, 0, line + shift, 8);
-				sprintf(String, "%3u.%05u", gScanRangeStart / 100000, gScanRangeStart % 100000);
-				UI_PrintStringSmallNormal(String, 56, 0, line + shift);
-				sprintf(String, "%3u.%05u", gScanRangeStop / 100000, gScanRangeStop % 100000);
-				UI_PrintStringSmallNormal(String, 56, 0, line + shift + 1);
-
-				if (!isMainOnly(false))
-					continue;
+				else
+				{
+					gScanRangeStart = 0;
+				}
 #else
 				UI_PrintString("ScnRng", 5, 0, line, 8);
 				sprintf(String, "%3u.%05u", gScanRangeStart / 100000, gScanRangeStart % 100000);
