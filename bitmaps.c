@@ -58,9 +58,8 @@ const uint8_t gFontScanAll[10] =
 	0b00111110
 };
 
-const uint8_t gFontLight[11] =
+const uint8_t gFontLight[10] =
 {
-	0b00000000,
 	0b00001100,
 	0b00010010,
 	0b00100001,
