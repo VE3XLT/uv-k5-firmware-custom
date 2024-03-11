@@ -24,6 +24,7 @@
 #ifdef ENABLE_FEAT_F4HWN
 	#include "driver/system.h"
 	#include "audio.h"
+	uint8_t gBacklightBrightnessOld = 0;
 #endif
 
 // this is decremented once every 500ms
@@ -59,6 +60,10 @@ void BACKLIGHT_InitHardware()
 
 void BACKLIGHT_TurnOn(void)
 {
+	#ifdef ENABLE_FEAT_F4HWN
+		gBacklightBrightnessOld = BACKLIGHT_GetBrightness();
+	#endif
+
 	if (gEeprom.BACKLIGHT_TIME == 0) {
 		BACKLIGHT_TurnOff();
 		return;

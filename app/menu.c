@@ -559,6 +559,9 @@ void MENU_AcceptSetting(void)
 
 		case MENU_ABR:
 			gEeprom.BACKLIGHT_TIME = gSubMenuSelection;
+			#ifdef ENABLE_FEAT_F4HWN
+				gBackLight = false;
+			#endif
 			break;
 
 		case MENU_ABR_MIN:

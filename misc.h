@@ -343,6 +343,7 @@ extern uint8_t               gIsLocked;
 extern volatile uint8_t      boot_counter_10ms;
 
 #ifdef ENABLE_FEAT_F4HWN
+	extern bool                  gBackLight;
 	extern uint8_t               gPttOnePushCounter;
 	extern uint32_t              gBlinkCounter;
 #endif

@@ -105,6 +105,7 @@ void (*action_opt_table[])(void) = {
 	[ACTION_OPT_RXMODE] = &ACTION_RxMode,
 	[ACTION_OPT_PTT] = &ACTION_Ptt,
 	[ACTION_OPT_WN] = &ACTION_Wn,
+	[ACTION_OPT_BACKLIGHT] = &ACTION_BackLight,
 #else
 	[ACTION_OPT_RXMODE] = &FUNCTION_NOP,
 #endif
@@ -486,5 +487,19 @@ void ACTION_Wn(void)
 #else
 	BK4819_SetFilterBandwidth(gTxVfo->CHANNEL_BANDWIDTH, false);
 #endif
+}
+
+void ACTION_BackLight(void)
+{
+	gBackLight = true;
+	if(gBacklightBrightnessOld == gEeprom.BACKLIGHT_MAX)
+	{
+		gEeprom.BACKLIGHT_TIME = 0;
+	}
+	else
+	{
+		gEeprom.BACKLIGHT_TIME = 7;
+	}
+	BACKLIGHT_TurnOn();
 }
 #endif
