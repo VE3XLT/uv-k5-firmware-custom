@@ -39,6 +39,7 @@ void ACTION_SwitchDemodul(void);
 	void ACTION_RxMode(void);
 	void ACTION_Ptt(void);
 	void ACTION_Wn(void);
+	void ACTION_BackLightOnDemand(void);
 	void ACTION_BackLight(void);
 #endif
 

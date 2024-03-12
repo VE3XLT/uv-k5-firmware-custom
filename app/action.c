@@ -491,15 +491,34 @@ void ACTION_Wn(void)
 
 void ACTION_BackLight(void)
 {
-	gBackLight = true;
-	if(gBacklightBrightnessOld == gEeprom.BACKLIGHT_MAX)
+	if(gBackLight)
 	{
-		gEeprom.BACKLIGHT_TIME = 0;
+		gEeprom.BACKLIGHT_TIME = gBacklightTimeOriginal;
+	}
+	gBackLight = false;
+	BACKLIGHT_TurnOn();
+}
+
+void ACTION_BackLightOnDemand(void)
+{
+	if(gBackLight == false)
+	{
+		gBacklightTimeOriginal = gEeprom.BACKLIGHT_TIME;
+		gEeprom.BACKLIGHT_TIME = 7;
+		gBackLight = true;
 	}
 	else
 	{
-		gEeprom.BACKLIGHT_TIME = 7;
+		if(gBacklightBrightnessOld == gEeprom.BACKLIGHT_MAX)
+		{
+			gEeprom.BACKLIGHT_TIME = 0;
+		}
+		else
+		{
+			gEeprom.BACKLIGHT_TIME = 7;
+		}
 	}
+	
 	BACKLIGHT_TurnOn();
 }
 #endif

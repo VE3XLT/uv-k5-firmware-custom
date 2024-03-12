@@ -1010,7 +1010,18 @@ void MENU_ShowCurrentSetting(void)
 #endif
 
 		case MENU_ABR:
-			gSubMenuSelection = gEeprom.BACKLIGHT_TIME;
+			#ifdef ENABLE_FEAT_F4HWN
+				if(gBackLight)
+				{
+					gSubMenuSelection = gBacklightTimeOriginal;
+				}
+				else
+				{
+					gSubMenuSelection = gEeprom.BACKLIGHT_TIME;
+				}
+			#else
+				gSubMenuSelection = gEeprom.BACKLIGHT_TIME;
+			#endif
 			break;
 
 		case MENU_ABR_MIN:

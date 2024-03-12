@@ -456,6 +456,17 @@ static void MAIN_Key_DIGITS(KEY_Code_t Key, bool bKeyPressed, bool bKeyHeld)
 	gWasFKeyPressed = false;
 	gUpdateStatus   = true;
 
+	if(Key == 8)
+	{
+		ACTION_BackLightOnDemand();
+		return;
+	}
+	else if(Key == 9)
+	{
+		ACTION_BackLight();
+		return;
+	}
+
 	processFKeyFunction(Key, true);
 }
 
