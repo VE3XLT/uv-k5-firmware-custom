@@ -38,8 +38,4 @@ bool BACKLIGHT_IsOn();
 void BACKLIGHT_SetBrightness(uint8_t brigtness);
 uint8_t BACKLIGHT_GetBrightness(void);
 
-#ifdef ENABLE_FEAT_F4HWN
-    extern uint8_t gBacklightBrightnessOld;
-#endif
-
 #endif

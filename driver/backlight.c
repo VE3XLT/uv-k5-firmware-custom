@@ -24,7 +24,7 @@
 #ifdef ENABLE_FEAT_F4HWN
 	#include "driver/system.h"
 	#include "audio.h"
-	uint8_t gBacklightBrightnessOld = 0;
+	#include "misc.h"
 #endif
 
 // this is decremented once every 500ms
