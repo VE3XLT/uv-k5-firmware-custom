@@ -528,7 +528,20 @@ void SETTINGS_SaveSettings(void)
 	State[2] = gEeprom.CROSS_BAND_RX_TX;
 	State[3] = gEeprom.BATTERY_SAVE;
 	State[4] = gEeprom.DUAL_WATCH;
-	State[5] = gEeprom.BACKLIGHT_TIME;
+
+	#ifdef ENABLE_FEAT_F4HWN
+		if(gBackLight)
+		{
+			State[5] = gBacklightTimeOriginal;
+		}
+		else
+		{
+			State[5] = gEeprom.BACKLIGHT_TIME;
+		}
+	#else
+		State[5] = gEeprom.BACKLIGHT_TIME;
+	#endif
+
 	State[6] = gEeprom.TAIL_TONE_ELIMINATION;
 	State[7] = gEeprom.VFO_OPEN;
 	EEPROM_WriteBuffer(0x0E78, State);
