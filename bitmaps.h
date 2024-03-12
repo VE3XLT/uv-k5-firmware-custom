@@ -11,8 +11,8 @@ extern const uint8_t gFontPttOnePush[2][6];
 extern const uint8_t gFontPttClassic[2][6];
 extern const uint8_t gFontFM[2][6];
 extern const uint8_t gFontKeyLock[1][8];
-extern const uint8_t gFontScanAll[10];
-extern const uint8_t gFontLight[10];
+extern const uint8_t gFontScanAll[9];
+extern const uint8_t gFontLight[9];
 
 extern const uint8_t gFontXB[2][6];
 extern const uint8_t gFontMO[2][6];
