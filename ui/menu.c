@@ -469,7 +469,12 @@ void UI_DisplayMenu(void)
 
 #ifdef ENABLE_FEAT_F4HWN
 	UI_DrawLineBuffer(gFrameBuffer, 50, 0, 50, 55, 1); // Be ware, status zone = 8 lines, the rest = 56 ->total 64
-	UI_DrawLineDottedBuffer(gFrameBuffer, 0, 46, 50, 46, 1);
+	//UI_DrawLineDottedBuffer(gFrameBuffer, 0, 46, 50, 46, 1);
+
+	for (uint8_t i = 0; i < 50; i += 2)
+	{
+		gFrameBuffer[5][i] = 0x40;
+	}
 #endif
 
 #ifndef ENABLE_CUSTOM_MENU_LAYOUT

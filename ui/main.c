@@ -45,10 +45,12 @@
 center_line_t center_line = CENTER_LINE_NONE;
 
 #ifdef ENABLE_FEAT_F4HWN
-	static bool RxBlink;
+	static int8_t RxBlink;
 	static int8_t RxBlinkLed = 0;
 	static int8_t RxBlinkLedCounter;
 	static int8_t RxLine;
+	static uint32_t RxOnVfofrequency;
+
 	bool isMainOnlyInputDTMF = false;
 
 	static bool isMainOnly(bool checkGui)
@@ -264,6 +266,7 @@ void DisplayRSSIBar(const bool now)
 	const unsigned int bar_x        = 2 + txt_width + 4;     // X coord of bar graph
 
 #ifdef ENABLE_FEAT_F4HWN
+	/*
 	const char empty[] = {
 		0b00000000,
 		0b00000000,
@@ -273,6 +276,7 @@ void DisplayRSSIBar(const bool now)
 		0b00000000,
 		0b00000000,
 	};
+	*/
 
 	unsigned int line;
 	if (isMainOnly(false))
@@ -284,28 +288,29 @@ void DisplayRSSIBar(const bool now)
 		line = 3;
 	}
 
-	char rx[4];
+	//char rx[4];
 	//sprintf(String, "%d", RxBlink);
 	//UI_PrintStringSmallBold(String, 80, 0, RxLine);
 
 	if(RxLine >= 0 && center_line != CENTER_LINE_IN_USE)
 	{
-		if(RxBlink == true)
+		switch(RxBlink)
 		{
-			sprintf(rx, "%s", "RX");
-			//UI_PrintStringSmallBold("RX", 14, 0, RxLine);
-			RxBlink = false;
+			case 0:
+				UI_PrintStringSmallBold("RX", 14, 0, RxLine);
+				break;
+			case 1:
+				UI_PrintStringSmallBold("RX", 14, 0, RxLine);
+				RxBlink = 2;
+				break;
+			case 2:
+				for (uint8_t i = 14; i < 30; i++)
+				{
+					gFrameBuffer[RxLine][i] = 0x00;
+				}
+				RxBlink = 1;
+				break;
 		}
-		else
-		{
-			sprintf(rx, "%s", "  ");
-			memcpy(gFrameBuffer[RxLine] + 14, &empty, ARRAY_SIZE(empty));
-			memcpy(gFrameBuffer[RxLine] + 21, &empty, ARRAY_SIZE(empty));
-
-			//UI_PrintStringSmallBold("  ", 14, 0, RxLine);
-			RxBlink = true;
-		}
-		UI_PrintStringSmallBold(rx, 14, 0, RxLine);
 		ST7565_BlitLine(RxLine);
 	}
 #else
@@ -753,6 +758,8 @@ void UI_DisplayMain(void)
 				memcpy(p_line0 + 0, BITMAP_VFO_NotDefault, sizeof(BITMAP_VFO_NotDefault));
 		}
 
+		uint32_t frequency = gEeprom.VfoInfo[vfo_num].pRX->Frequency;
+
 		if (gCurrentFunction == FUNCTION_TRANSMIT)
 		{	// transmitting
 
@@ -776,14 +783,15 @@ void UI_DisplayMain(void)
 #ifdef ENABLE_FEAT_F4HWN
 				RxBlinkLed = 1;
 				RxBlinkLedCounter = 0;
+				RxLine = line;
+				RxOnVfofrequency = frequency;
 				if(!isMainVFO)
 				{
-					RxLine = line;
+					RxBlink = 1;
 				}
 				else
 				{
-					RxLine = -1;
-					UI_PrintStringSmallBold("RX", 14, 0, line);
+					RxBlink = 0;
 				}
 #else
 				UI_PrintStringSmallBold("RX", 14, 0, line);
@@ -792,6 +800,12 @@ void UI_DisplayMain(void)
 #ifdef ENABLE_FEAT_F4HWN
 			else
 			{
+				if(RxOnVfofrequency == frequency && !isMainOnly(false))
+				{
+					UI_PrintStringSmallNormal(">>", 14, 0, line);
+					//memcpy(p_line0 + 14, BITMAP_VFO_Default, sizeof(BITMAP_VFO_Default));
+				}
+
 				if(RxBlinkLed == 1)
 					RxBlinkLed = 2;
 			}
@@ -841,9 +855,6 @@ void UI_DisplayMain(void)
 				state = VFO_STATE_ALARM;
 		}
 #endif
-
-		uint32_t frequency = gEeprom.VfoInfo[vfo_num].pRX->Frequency;
-
 		if (state != VFO_STATE_NORMAL)
 		{
 			if (state < ARRAY_SIZE(VfoStateStr))
