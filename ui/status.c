@@ -160,11 +160,6 @@ void UI_DisplayStatus()
 		x1 = x;
 	}
 	else if (gWasFKeyPressed) {
-		/*
-		memcpy(line + x, gFontF, sizeof(gFontF));
-		x += sizeof(gFontF);
-		*/
-
 		UI_PrintStringSmallBufferNormal("F", line + x + 1);
 		x += sizeof(gFontKeyLock);
 		
@@ -172,6 +167,12 @@ void UI_DisplayStatus()
 		{
 			gFrameBuffer[-1][i] ^= 0x7F;
 		}
+		x1 = x;
+	}
+	else if(gBackLight)
+	{
+		memcpy(line + x + 1, gFontLight, sizeof(gFontLight));
+		x += sizeof(gFontLight);
 		x1 = x;
 	}
 

@@ -47,6 +47,7 @@ Special thanks to Jean-Cyrille F6IWW, Fabrice 14RC123, David F4BPP, Olivier, Fr√
     * Step value,
     * CTCSS or DCS value,
     * KeyLock message,
+    * last RX,
     * and more...
 * new menu entries:
     * add SetLow menu to set low power (<20mW, 125mW, 250mW, 500mW and 1W),
@@ -71,6 +72,8 @@ Special thanks to Jean-Cyrille F6IWW, Fabrice 14RC123, David F4BPP, Olivier, Fr√
 * new key combinations:
     * add the F + UP or F + DOWN key combination to dynamically change the Squelch level,
     * add the F + F1 or F + F2 key combination to dynamically change the Step,
+    * add F+8 to quickly switch backlight between BLMin and BLMax on demand (this bypass BackLt strategy),
+    * add F+9 to return to BackLt strategy.
 * many fix:
     * squelch, 
     * s-meter,
@@ -79,7 +82,6 @@ Special thanks to Jean-Cyrille F6IWW, Fabrice 14RC123, David F4BPP, Olivier, Fr√
     * scan range limit,
     * and more...
 * enabled ENABLE_CTCSS_TAIL_PHASE_SHIFT,
-* enabled ENABLE_BLMIN_TMP_OFF,
 * disabled ENABLE_DTMF_CALLING,
 * disabled SCRAMBLER,
 * unlock TX on all bands needs only to be repeat 3 times,

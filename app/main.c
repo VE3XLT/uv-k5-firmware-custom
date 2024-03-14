@@ -161,15 +161,19 @@ static void processFKeyFunction(const KEY_Code_t Key, const bool beep)
 			break;
 
 		case KEY_2:
+			#ifdef ENABLE_FEAT_F4HWN
+				gVfoConfigureMode     = VFO_CONFIGURE;
+			#endif
 			COMMON_SwitchVFOs();
-
 			if (beep)
 				gBeepToPlay = BEEP_1KHZ_60MS_OPTIONAL;
 			break;
 
 		case KEY_3:
+			#ifdef ENABLE_FEAT_F4HWN
+				gVfoConfigureMode     = VFO_CONFIGURE;
+			#endif
 			COMMON_SwitchVFOMode();
-
 			if (beep)
 				gBeepToPlay = BEEP_500HZ_60MS_DOUBLE_BEEP_OPTIONAL;
 
@@ -455,6 +459,17 @@ static void MAIN_Key_DIGITS(KEY_Code_t Key, bool bKeyPressed, bool bKeyHeld)
 
 	gWasFKeyPressed = false;
 	gUpdateStatus   = true;
+
+	if(Key == 8)
+	{
+		ACTION_BackLightOnDemand();
+		return;
+	}
+	else if(Key == 9)
+	{
+		ACTION_BackLight();
+		return;
+	}
 
 	processFKeyFunction(Key, true);
 }

@@ -24,6 +24,7 @@
 #ifdef ENABLE_FEAT_F4HWN
 	#include "driver/system.h"
 	#include "audio.h"
+	#include "misc.h"
 #endif
 
 // this is decremented once every 500ms
@@ -57,32 +58,45 @@ void BACKLIGHT_InitHardware()
 		0;
 }
 
+static void BACKLIGHT_Sound(void)
+{
+	if (gEeprom.POWER_ON_DISPLAY_MODE == POWER_ON_DISPLAY_MODE_SOUND || gEeprom.POWER_ON_DISPLAY_MODE == POWER_ON_DISPLAY_MODE_ALL)
+	{
+		AUDIO_PlayBeep(BEEP_880HZ_60MS_TRIPLE_BEEP);
+		AUDIO_PlayBeep(BEEP_880HZ_60MS_TRIPLE_BEEP);
+		gK5startup = false;
+	}
+}
+
+
 void BACKLIGHT_TurnOn(void)
 {
+	#ifdef ENABLE_FEAT_F4HWN
+		gBacklightBrightnessOld = BACKLIGHT_GetBrightness();
+	#endif
+
 	if (gEeprom.BACKLIGHT_TIME == 0) {
 		BACKLIGHT_TurnOff();
+		#ifdef ENABLE_FEAT_F4HWN
+			if(gK5startup == true) 
+			{
+				BACKLIGHT_Sound();
+			}
+		#endif
 		return;
 	}
 
 	backlightOn = true;
 
 #ifdef ENABLE_FEAT_F4HWN
-	static bool k5Startup = true;
-	
-	if(k5Startup == true) {
+	if(gK5startup == true) {
 		for(uint8_t i = 0; i <= gEeprom.BACKLIGHT_MAX; i++)
 		{
 			BACKLIGHT_SetBrightness(i);
 			SYSTEM_DelayMs(50);
 		}
 
-		if (gEeprom.POWER_ON_DISPLAY_MODE == POWER_ON_DISPLAY_MODE_SOUND || gEeprom.POWER_ON_DISPLAY_MODE == POWER_ON_DISPLAY_MODE_ALL)
-		{
-			AUDIO_PlayBeep(BEEP_880HZ_60MS_TRIPLE_BEEP);
-			AUDIO_PlayBeep(BEEP_880HZ_60MS_TRIPLE_BEEP);
-		}
-	
-		k5Startup = false;
+		BACKLIGHT_Sound();
 	}
 	else
 	{

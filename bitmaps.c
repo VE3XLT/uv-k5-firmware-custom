@@ -44,9 +44,8 @@ const uint8_t gFontKeyLock[1][8] =
 	{0x7c, 0x46, 0x45, 0x45, 0x45, 0x45, 0x46, 0x7c}
 };
 
-const uint8_t gFontScanAll[10] =
+const uint8_t gFontScanAll[9] =
 {
-	0b00000000,
 	0b00111110,
 	0b01000001,
 	0b01000001,
@@ -58,12 +57,18 @@ const uint8_t gFontScanAll[10] =
 	0b00111110
 };
 
-/*
-const uint8_t gFontF[1][7] =
+const uint8_t gFontLight[9] =
 {
-	{0x7f, 0x7f, 0x41, 0x75, 0x75, 0x7f, 0x7f},
+	0b00001100,
+	0b00010010,
+	0b00100001,
+	0b01101101,
+	0b01111001,
+	0b01101101,
+	0b00100001,
+	0b00010010,
+	0b00001100,
 };
-*/
 
 const uint8_t gFontXB[2][6] =
 {	// "XB"
