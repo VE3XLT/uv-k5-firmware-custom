@@ -1303,8 +1303,10 @@ void APP_TimeSlice10ms(void)
 		return;
 #endif
 
-#ifdef ENABLE_FLASHLIGHT
-	FlashlightTimeSlice();
+#ifndef ENABLE_FEAT_F4HWN
+	#ifdef ENABLE_FLASHLIGHT
+		FlashlightTimeSlice();
+	#endif
 #endif
 
 #ifdef ENABLE_VOX
