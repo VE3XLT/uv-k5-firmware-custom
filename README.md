@@ -81,7 +81,6 @@ Special thanks to Jean-Cyrille F6IWW, Fabrice 14RC123, David F4BPP, Olivier 14RC
     * scan list 2 ignored, 
     * scan range limit,
     * and more...
-* enabled ENABLE_CTCSS_TAIL_PHASE_SHIFT,
 * disabled ENABLE_DTMF_CALLING,
 * disabled SCRAMBLER,
 * unlock TX on all bands needs only to be repeat 3 times,
