@@ -436,7 +436,6 @@ void MENU_AcceptSetting(void)
 			if (IS_FREQ_CHANNEL(gTxVfo->CHANNEL_SAVE))
 			{
 				gRequestSaveChannel = 1;
-				return;
 			}
 			return;
 

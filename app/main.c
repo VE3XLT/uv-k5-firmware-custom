@@ -43,7 +43,7 @@
 #include "ui/ui.h"
 #include <stdlib.h>
 
-void toggle_chan_scanlist(void)
+static void toggle_chan_scanlist(void)
 {	// toggle the selected channels scanlist setting
 
 	if (SCANNER_IsScanning())
@@ -258,13 +258,11 @@ static void processFKeyFunction(const KEY_Code_t Key, const bool beep)
 		case KEY_UP:
 			gEeprom.SQUELCH_LEVEL = (gEeprom.SQUELCH_LEVEL < 9) ? gEeprom.SQUELCH_LEVEL + 1: 9;
 			gVfoConfigureMode     = VFO_CONFIGURE;
-			//gRequestDisplayScreen = DISPLAY_MAIN;
 			gWasFKeyPressed = false;
 			break;
 		case KEY_DOWN:
 			gEeprom.SQUELCH_LEVEL = (gEeprom.SQUELCH_LEVEL > 0) ? gEeprom.SQUELCH_LEVEL - 1: 0;
 			gVfoConfigureMode     = VFO_CONFIGURE;
-			//gRequestDisplayScreen = DISPLAY_MAIN;
 			gWasFKeyPressed = false;
 			break;
 
