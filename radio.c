@@ -474,24 +474,38 @@ void RADIO_ConfigureSquelchAndOutputPower(VFO_Info_t *pInfo)
 
 #ifdef ENABLE_FEAT_F4HWN
 	// make low and mid even lower
+
+	uint8_t shift[] = {0, 0, 0, 0, 0};
+
+	/*
+	if(Band == 5)
+	{
+		shift[0] = 3;
+		shift[1] = 3;
+		shift[2] = 4;
+		shift[3] = 7;
+		shift[4] = 8;
+	}
+	*/
+	
 	if (pInfo->OUTPUT_POWER == OUTPUT_POWER_LOW) {
 		for(uint8_t p = 0; p < 3; p++ )
 		{
 			switch (gSetting_set_low) {
 				case 0:
-					Txp[p] = (Txp[p] * 4) / 25;
+					Txp[p] = (Txp[p] * 4) / 25 - shift[gSetting_set_low];
 					break;
 				case 1:
-					Txp[p] = (Txp[p] * 4) / 19;
+					Txp[p] = (Txp[p] * 4) / 19 + shift[gSetting_set_low];
 					break;
 				case 2:
-					Txp[p] = (Txp[p] * 4) / 13;
+					Txp[p] = (Txp[p] * 4) / 13 + shift[gSetting_set_low];
 					break;
 				case 3:
-					Txp[p] = (Txp[p] * 4) / 10;
+					Txp[p] = (Txp[p] * 4) / 10 + shift[gSetting_set_low];
 					break;
 				case 4:
-					Txp[p] = (Txp[p] * 4) / 7;
+					Txp[p] = (Txp[p] * 4) / 7 + shift[gSetting_set_low];
 					break;
 			}
 
