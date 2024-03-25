@@ -540,6 +540,30 @@ static void MAIN_Key_MENU(const bool bKeyPressed, const bool bKeyHeld)
 		gBeepToPlay = BEEP_1KHZ_60MS_OPTIONAL;
 
 	if (bKeyHeld) { // menu key held down (long press)
+
+		#ifdef ENABLE_FEAT_F4HWN
+		if(gScanStateDir != SCAN_OFF)
+		{
+			gTxVfo->SCANLIST1_PARTICIPATION = 0;
+			gTxVfo->SCANLIST2_PARTICIPATION = 0;
+
+			gWriteChannel = false;
+			SETTINGS_UpdateChannel(gTxVfo->CHANNEL_SAVE, gTxVfo, true);
+			gWriteChannel = true;
+
+			gVfoConfigureMode = VFO_CONFIGURE;
+			gFlagResetVfos    = true;
+
+			//gDebug = (uint8_t)lastFoundFrqOrChanOld;
+
+			lastFoundFrqOrChan = lastFoundFrqOrChanOld;
+
+			CHFRSCANNER_ContinueScanning();
+
+			return;
+		}
+		#endif
+
 		if (bKeyPressed) { // long press MENU key
 
 			gWasFKeyPressed = false;

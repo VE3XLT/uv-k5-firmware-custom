@@ -776,7 +776,15 @@ void SETTINGS_UpdateChannel(uint8_t channel, const VFO_Info_t *pVFO, bool keep)
 		}
 
 		state[channel & 7u] = att.__val;
+
+#ifdef ENABLE_FEAT_F4HWN
+		if(gWriteChannel)
+		{
+			EEPROM_WriteBuffer(offset, state);
+		}
+#else
 		EEPROM_WriteBuffer(offset, state);
+#endif
 
 		gMR_ChannelAttributes[channel] = att;
 
