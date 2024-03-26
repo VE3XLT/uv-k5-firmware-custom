@@ -714,7 +714,7 @@ void SETTINGS_SaveChannel(uint8_t Channel, uint8_t VFO, const VFO_Info_t *pVFO, 
 #endif
 		EEPROM_WriteBuffer(OffsetVFO + 8, State._8);
 
-		SETTINGS_UpdateChannel(Channel, pVFO, true, true);
+		SETTINGS_UpdateChannel(Channel, pVFO, true, true, true);
 
 		if (IS_MR_CHANNEL(Channel)) {
 #ifndef ENABLE_KEEP_MEM_NAME
@@ -749,7 +749,7 @@ void SETTINGS_SaveChannelName(uint8_t channel, const char * name)
 	EEPROM_WriteBuffer(0x0F58 + offset, buf + 8);
 }
 
-void SETTINGS_UpdateChannel(uint8_t channel, const VFO_Info_t *pVFO, bool keep, bool save)
+void SETTINGS_UpdateChannel(uint8_t channel, const VFO_Info_t *pVFO, bool keep, bool check, bool save)
 {
 #ifdef ENABLE_NOAA
 	if (!IS_NOAA_CHANNEL(channel))
@@ -771,7 +771,7 @@ void SETTINGS_UpdateChannel(uint8_t channel, const VFO_Info_t *pVFO, bool keep, 
 			att.scanlist1 = pVFO->SCANLIST1_PARTICIPATION;
 			att.scanlist2 = pVFO->SCANLIST2_PARTICIPATION;
 			att.compander = pVFO->Compander;
-			if (state[channel & 7u] == att.__val)
+			if (check && state[channel & 7u] == att.__val)
 				return; // no change in the attributes
 		}
 
