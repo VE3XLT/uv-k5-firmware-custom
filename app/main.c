@@ -544,19 +544,22 @@ static void MAIN_Key_MENU(const bool bKeyPressed, const bool bKeyHeld)
 		#ifdef ENABLE_FEAT_F4HWN
 		if(gScanStateDir != SCAN_OFF)
 		{
-			gTxVfo->SCANLIST1_PARTICIPATION = 0;
-			gTxVfo->SCANLIST2_PARTICIPATION = 0;
+			if(FUNCTION_IsRx())
+			{
+				gTxVfo->SCANLIST1_PARTICIPATION = 0;
+				gTxVfo->SCANLIST2_PARTICIPATION = 0;
 
-			SETTINGS_UpdateChannel(gTxVfo->CHANNEL_SAVE, gTxVfo, true, true, false);
+				SETTINGS_UpdateChannel(gTxVfo->CHANNEL_SAVE, gTxVfo, true, true, false);
 
-			gVfoConfigureMode = VFO_CONFIGURE;
-			gFlagResetVfos    = true;
+				gVfoConfigureMode = VFO_CONFIGURE;
+				gFlagResetVfos    = true;
 
-			//gDebug = (uint8_t)lastFoundFrqOrChanOld;
+				//gDebug = (uint8_t)lastFoundFrqOrChanOld;
 
-			lastFoundFrqOrChan = lastFoundFrqOrChanOld;
+				lastFoundFrqOrChan = lastFoundFrqOrChanOld;
 
-			CHFRSCANNER_ContinueScanning();
+				CHFRSCANNER_ContinueScanning();
+			}
 
 			return;
 		}
