@@ -350,7 +350,6 @@ extern volatile uint8_t      boot_counter_10ms;
 	extern uint8_t               gPttOnePushCounter;
 	extern uint32_t              gBlinkCounter;
 	extern uint8_t               gDebug;
-	extern bool                  gWriteChannel;
 #endif
 
 int32_t NUMBER_AddWithWraparound(int32_t Base, int32_t Add, int32_t LowerLimit, int32_t UpperLimit);

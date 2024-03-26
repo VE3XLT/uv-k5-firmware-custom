@@ -65,7 +65,7 @@ static void toggle_chan_scanlist(void)
 		gTxVfo->SCANLIST1_PARTICIPATION = !gTxVfo->SCANLIST1_PARTICIPATION;
 	}
 
-	SETTINGS_UpdateChannel(gTxVfo->CHANNEL_SAVE, gTxVfo, true);
+	SETTINGS_UpdateChannel(gTxVfo->CHANNEL_SAVE, gTxVfo, true, false);
 
 	gVfoConfigureMode = VFO_CONFIGURE;
 	gFlagResetVfos    = true;
@@ -547,9 +547,7 @@ static void MAIN_Key_MENU(const bool bKeyPressed, const bool bKeyHeld)
 			gTxVfo->SCANLIST1_PARTICIPATION = 0;
 			gTxVfo->SCANLIST2_PARTICIPATION = 0;
 
-			gWriteChannel = false;
-			SETTINGS_UpdateChannel(gTxVfo->CHANNEL_SAVE, gTxVfo, true);
-			gWriteChannel = true;
+			SETTINGS_UpdateChannel(gTxVfo->CHANNEL_SAVE, gTxVfo, true, true);
 
 			gVfoConfigureMode = VFO_CONFIGURE;
 			gFlagResetVfos    = true;

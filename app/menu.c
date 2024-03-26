@@ -616,14 +616,14 @@ void MENU_AcceptSetting(void)
 
 		case MENU_S_ADD1:
 			gTxVfo->SCANLIST1_PARTICIPATION = gSubMenuSelection;
-			SETTINGS_UpdateChannel(gTxVfo->CHANNEL_SAVE, gTxVfo, true);
+			SETTINGS_UpdateChannel(gTxVfo->CHANNEL_SAVE, gTxVfo, true, true);
 			gVfoConfigureMode = VFO_CONFIGURE;
 			gFlagResetVfos    = true;
 			return;
 
 		case MENU_S_ADD2:
 			gTxVfo->SCANLIST2_PARTICIPATION = gSubMenuSelection;
-			SETTINGS_UpdateChannel(gTxVfo->CHANNEL_SAVE, gTxVfo, true);
+			SETTINGS_UpdateChannel(gTxVfo->CHANNEL_SAVE, gTxVfo, true, true);
 			gVfoConfigureMode = VFO_CONFIGURE;
 			gFlagResetVfos    = true;
 			return;
@@ -650,7 +650,7 @@ void MENU_AcceptSetting(void)
 
 		case MENU_COMPAND:
 			gTxVfo->Compander = gSubMenuSelection;
-			SETTINGS_UpdateChannel(gTxVfo->CHANNEL_SAVE, gTxVfo, true);
+			SETTINGS_UpdateChannel(gTxVfo->CHANNEL_SAVE, gTxVfo, true, true);
 			gVfoConfigureMode = VFO_CONFIGURE;
 			gFlagResetVfos    = true;
 //			gRequestSaveChannel = 1;
@@ -756,7 +756,7 @@ void MENU_AcceptSetting(void)
 		#endif
 
 		case MENU_DEL_CH:
-			SETTINGS_UpdateChannel(gSubMenuSelection, NULL, false);
+			SETTINGS_UpdateChannel(gSubMenuSelection, NULL, false, true);
 			gVfoConfigureMode = VFO_CONFIGURE_RELOAD;
 			gFlagResetVfos    = true;
 			return;
