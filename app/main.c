@@ -65,7 +65,7 @@ static void toggle_chan_scanlist(void)
 		gTxVfo->SCANLIST1_PARTICIPATION = !gTxVfo->SCANLIST1_PARTICIPATION;
 	}
 
-	SETTINGS_UpdateChannel(gTxVfo->CHANNEL_SAVE, gTxVfo, true, false);
+	SETTINGS_UpdateChannel(gTxVfo->CHANNEL_SAVE, gTxVfo, true, true);
 
 	gVfoConfigureMode = VFO_CONFIGURE;
 	gFlagResetVfos    = true;
