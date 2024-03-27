@@ -122,7 +122,11 @@ const t_menu_item MenuList[] =
 #ifdef ENABLE_VOX
 	{"VOX",    VOICE_ID_VOX,                           MENU_VOX           },
 #endif
+#ifdef ENABLE_FEAT_F4HWN
+	{"SysInf", VOICE_ID_INVALID,                       MENU_VOL           }, // was "VOL"
+#else
 	{"BatVol", VOICE_ID_INVALID,                       MENU_VOL           }, // was "VOL"
+#endif
 	{"RxMode", VOICE_ID_DUAL_STANDBY,                  MENU_TDR           },
 	{"Sql",    VOICE_ID_SQUELCH,                       MENU_SQL           },
 #ifdef ENABLE_FEAT_F4HWN
@@ -870,9 +874,18 @@ void UI_DisplayMenu(void)
 			break;
 
 		case MENU_VOL:
+#ifdef ENABLE_FEAT_F4HWN
+			sprintf(String, "%u.%02uV %u%%\n%s\n%s",
+				gBatteryVoltageAverage / 100, gBatteryVoltageAverage % 100,
+				BATTERY_VoltsToPercent(gBatteryVoltageAverage),
+				AUTHOR_STRING_2,
+				VERSION_STRING_2
+				);
+#else
 			sprintf(String, "%u.%02uV\n%u%%",
 				gBatteryVoltageAverage / 100, gBatteryVoltageAverage % 100,
 				BATTERY_VoltsToPercent(gBatteryVoltageAverage));
+#endif
 			break;
 
 		case MENU_RESET:
