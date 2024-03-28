@@ -59,7 +59,7 @@ Special thanks to Jean-Cyrille F6IWW, Fabrice 14RC123, David F4BPP, Olivier 14RC
     * add SetMet menu to set s-meter style (Classic or Tiny),
     * add SetLck menu to set what is locked (Keys or Keys + PTT),
     * add SetGui menu to set font size on the VFO baseline (Classic or Tiny),
-    * rename BatVal menu (52/63) to SysInf, which displays the firmware version in addition to the battery status,
+    * rename BatVol menu (52/63) to SysInf, which displays the firmware version in addition to the battery status,
     * improve PonMsg menu,
 * improve status bar,
     * add SetPtt mode in status bar,
