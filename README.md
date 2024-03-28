@@ -59,6 +59,7 @@ Special thanks to Jean-Cyrille F6IWW, Fabrice 14RC123, David F4BPP, Olivier 14RC
     * add SetMet menu to set s-meter style (Classic or Tiny),
     * add SetLck menu to set what is locked (Keys or Keys + PTT),
     * add SetGui menu to set font size on the VFO baseline (Classic or Tiny),
+    * rename BatVal menu (52/63) to SysInf, which displays the firmware version in addition to the battery status,
     * improve PonMsg menu,
 * improve status bar,
     * add SetPtt mode in status bar,
@@ -72,18 +73,22 @@ Special thanks to Jean-Cyrille F6IWW, Fabrice 14RC123, David F4BPP, Olivier 14RC
 * new key combinations:
     * add the F + UP or F + DOWN key combination to dynamically change the Squelch level,
     * add the F + F1 or F + F2 key combination to dynamically change the Step,
-    * add F+8 to quickly switch backlight between BLMin and BLMax on demand (this bypass BackLt strategy),
-    * add F+9 to return to BackLt strategy.
+    * add F + 8 to quickly switch backlight between BLMin and BLMax on demand (this bypass BackLt strategy),
+    * add F + 9 to return to BackLt strategy,
+    * add long press on MENU, in * SCAN mode, to temporarily exclude a memory channel if (not working with * SCAN ALL).
 * many fix:
     * squelch, 
     * s-meter,
     * DTMF overlaying, 
     * scan list 2 ignored, 
     * scan range limit,
+    * clean display on startup,
     * and more...
 * disabled ENABLE_DTMF_CALLING,
 * disabled SCRAMBLER,
 * unlock TX on all bands needs only to be repeat 3 times,
+* remove blink and SOS functionality, 
+* code refactoring and many memory optimization,
 * and more...
 
 ## Main features from Egzumer:
