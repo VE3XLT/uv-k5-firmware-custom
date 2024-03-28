@@ -534,39 +534,41 @@ static void MAIN_Key_EXIT(bool bKeyPressed, bool bKeyHeld)
 	}
 }
 
-static void MAIN_Key_MENU(const bool bKeyPressed, const bool bKeyHeld)
+static void MAIN_Key_MENU(bool bKeyPressed, bool bKeyHeld)
 {
+	//static uint8_t block = 0;
+
 	if (bKeyPressed && !bKeyHeld) // menu key pressed
 		gBeepToPlay = BEEP_1KHZ_60MS_OPTIONAL;
 
 	if (bKeyHeld) { // menu key held down (long press)
-
-		#ifdef ENABLE_FEAT_F4HWN
-		if(gScanStateDir != SCAN_OFF)
-		{
-			if(FUNCTION_IsRx())
-			{
-				gTxVfo->SCANLIST1_PARTICIPATION = 0;
-				gTxVfo->SCANLIST2_PARTICIPATION = 0;
-
-				SETTINGS_UpdateChannel(gTxVfo->CHANNEL_SAVE, gTxVfo, true, true, false);
-
-				gVfoConfigureMode = VFO_CONFIGURE;
-				gFlagResetVfos    = true;
-
-				//gDebug = (uint8_t)lastFoundFrqOrChanOld;
-
-				lastFoundFrqOrChan = lastFoundFrqOrChanOld;
-
-				CHFRSCANNER_ContinueScanning();
-			}
-
-			return;
-		}
-		#endif
-
 		if (bKeyPressed) { // long press MENU key
 
+			#ifdef ENABLE_FEAT_F4HWN
+			if(gScanStateDir != SCAN_OFF && gEeprom.SCAN_LIST_DEFAULT < 2)
+			{
+				if(FUNCTION_IsRx())
+				{
+					gTxVfo->SCANLIST1_PARTICIPATION = 0;
+					gTxVfo->SCANLIST2_PARTICIPATION = 0;
+
+					SETTINGS_UpdateChannel(gTxVfo->CHANNEL_SAVE, gTxVfo, true, true, false);
+
+					gVfoConfigureMode = VFO_CONFIGURE;
+					gFlagResetVfos    = true;
+
+					//block++;
+					//gDebug = block;
+
+					lastFoundFrqOrChan = lastFoundFrqOrChanOld;
+
+					CHFRSCANNER_ContinueScanning();
+				}
+
+				return;
+			}
+			#endif
+			
 			gWasFKeyPressed = false;
 
 			if (gScreenToDisplay == DISPLAY_MAIN) {
