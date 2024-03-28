@@ -43,7 +43,7 @@
 #include "ui/ui.h"
 #include <stdlib.h>
 
-void toggle_chan_scanlist(void)
+static void toggle_chan_scanlist(void)
 {	// toggle the selected channels scanlist setting
 
 	if (SCANNER_IsScanning())
@@ -65,7 +65,7 @@ void toggle_chan_scanlist(void)
 		gTxVfo->SCANLIST1_PARTICIPATION = !gTxVfo->SCANLIST1_PARTICIPATION;
 	}
 
-	SETTINGS_UpdateChannel(gTxVfo->CHANNEL_SAVE, gTxVfo, true);
+	SETTINGS_UpdateChannel(gTxVfo->CHANNEL_SAVE, gTxVfo, true, true, true);
 
 	gVfoConfigureMode = VFO_CONFIGURE;
 	gFlagResetVfos    = true;
@@ -258,13 +258,11 @@ static void processFKeyFunction(const KEY_Code_t Key, const bool beep)
 		case KEY_UP:
 			gEeprom.SQUELCH_LEVEL = (gEeprom.SQUELCH_LEVEL < 9) ? gEeprom.SQUELCH_LEVEL + 1: 9;
 			gVfoConfigureMode     = VFO_CONFIGURE;
-			//gRequestDisplayScreen = DISPLAY_MAIN;
 			gWasFKeyPressed = false;
 			break;
 		case KEY_DOWN:
 			gEeprom.SQUELCH_LEVEL = (gEeprom.SQUELCH_LEVEL > 0) ? gEeprom.SQUELCH_LEVEL - 1: 0;
 			gVfoConfigureMode     = VFO_CONFIGURE;
-			//gRequestDisplayScreen = DISPLAY_MAIN;
 			gWasFKeyPressed = false;
 			break;
 
@@ -536,14 +534,41 @@ static void MAIN_Key_EXIT(bool bKeyPressed, bool bKeyHeld)
 	}
 }
 
-static void MAIN_Key_MENU(const bool bKeyPressed, const bool bKeyHeld)
+static void MAIN_Key_MENU(bool bKeyPressed, bool bKeyHeld)
 {
+	//static uint8_t block = 0;
+
 	if (bKeyPressed && !bKeyHeld) // menu key pressed
 		gBeepToPlay = BEEP_1KHZ_60MS_OPTIONAL;
 
 	if (bKeyHeld) { // menu key held down (long press)
 		if (bKeyPressed) { // long press MENU key
 
+			#ifdef ENABLE_FEAT_F4HWN
+			if(gScanStateDir != SCAN_OFF && gEeprom.SCAN_LIST_DEFAULT < 2)
+			{
+				if(FUNCTION_IsRx())
+				{
+					gTxVfo->SCANLIST1_PARTICIPATION = 0;
+					gTxVfo->SCANLIST2_PARTICIPATION = 0;
+
+					SETTINGS_UpdateChannel(gTxVfo->CHANNEL_SAVE, gTxVfo, true, true, false);
+
+					gVfoConfigureMode = VFO_CONFIGURE;
+					gFlagResetVfos    = true;
+
+					//block++;
+					//gDebug = block;
+
+					lastFoundFrqOrChan = lastFoundFrqOrChanOld;
+
+					CHFRSCANNER_ContinueScanning();
+				}
+
+				return;
+			}
+			#endif
+			
 			gWasFKeyPressed = false;
 
 			if (gScreenToDisplay == DISPLAY_MAIN) {

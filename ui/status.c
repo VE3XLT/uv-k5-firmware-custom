@@ -101,32 +101,48 @@ void UI_DisplayStatus()
 	}
 	x += 10;  // font character width
 
-#ifdef ENABLE_VOICE
-	// VOICE indicator
-	if (gEeprom.VOICE_PROMPT != VOICE_PROMPT_OFF){
-		memcpy(line + x, BITMAP_VoicePrompt, sizeof(BITMAP_VoicePrompt));
-		x1 = x + sizeof(BITMAP_VoicePrompt);
+	// Only for debug
+	// Only for debug
+	// Only for debug
+	
+	bool debug = false;
+	if(debug)
+	{
+		char         sDebug[8] = "";
+		sprintf(sDebug, "%d", gDebug);
+		UI_PrintStringSmallBufferNormal(sDebug, line + x + 1);
+		x += 16;
 	}
-	x += sizeof(BITMAP_VoicePrompt);
-#endif
+	else
+	{
 
-	if(!SCANNER_IsScanning()) {
-		uint8_t dw = (gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2;
-		if(dw == 1 || dw == 3) { // DWR - dual watch + respond
-			if(gDualWatchActive)
-				memcpy(line + x + (dw==1?0:2), gFontDWR, sizeof(gFontDWR) - (dw==1?0:5));
+	#ifdef ENABLE_VOICE
+		// VOICE indicator
+		if (gEeprom.VOICE_PROMPT != VOICE_PROMPT_OFF){
+			memcpy(line + x, BITMAP_VoicePrompt, sizeof(BITMAP_VoicePrompt));
+			x1 = x + sizeof(BITMAP_VoicePrompt);
+		}
+		x += sizeof(BITMAP_VoicePrompt);
+	#endif
+
+		if(!SCANNER_IsScanning()) {
+			uint8_t dw = (gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2;
+			if(dw == 1 || dw == 3) { // DWR - dual watch + respond
+				if(gDualWatchActive)
+					memcpy(line + x + (dw==1?0:2), gFontDWR, sizeof(gFontDWR) - (dw==1?0:5));
+				else
+					memcpy(line + x + 3, gFontHold, sizeof(gFontHold));
+			}
+			else if(dw == 2) { // XB - crossband
+				memcpy(line + x + 2, gFontXB, sizeof(gFontXB));
+			}
 			else
-				memcpy(line + x + 3, gFontHold, sizeof(gFontHold));
+			{
+				memcpy(line + x + 2, gFontMO, sizeof(gFontMO));
+			}
 		}
-		else if(dw == 2) { // XB - crossband
-			memcpy(line + x + 2, gFontXB, sizeof(gFontXB));
-		}
-		else
-		{
-			memcpy(line + x + 2, gFontMO, sizeof(gFontMO));
-		}
+		x += sizeof(gFontDWR) + 3;
 	}
-	x += sizeof(gFontDWR) + 3;
 
 #ifdef ENABLE_VOX
 	// VOX indicator

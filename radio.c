@@ -474,40 +474,104 @@ void RADIO_ConfigureSquelchAndOutputPower(VFO_Info_t *pInfo)
 
 #ifdef ENABLE_FEAT_F4HWN
 	// make low and mid even lower
+	// and fix values 
+	// because of toxic fucking closed firmwares
+
+	uint8_t shift[] = {0, 0, 0, 0, 0, 0, 0};
+
+	if(Band == 5)
+	{
+		shift[0] = 2;
+		shift[1] = 1;
+		shift[2] = 2;
+		shift[3] = 2;
+		shift[4] = 2;
+		shift[5] = 2;
+		shift[6] = 2;
+	}
+	
 	if (pInfo->OUTPUT_POWER == OUTPUT_POWER_LOW) {
 		for(uint8_t p = 0; p < 3; p++ )
 		{
 			switch (gSetting_set_low) {
 				case 0:
-					Txp[p] = (Txp[p] * 4) / 25;
+					Txp[p] = 16 - shift[gSetting_set_low];
 					break;
 				case 1:
-					Txp[p] = (Txp[p] * 4) / 19;
+					Txp[p] = 21 + shift[gSetting_set_low];
 					break;
 				case 2:
-					Txp[p] = (Txp[p] * 4) / 13;
+					Txp[p] = 29 + shift[gSetting_set_low];
 					break;
 				case 3:
-					Txp[p] = (Txp[p] * 4) / 10;
+					Txp[p] = 37 + shift[gSetting_set_low];
 					break;
 				case 4:
-					Txp[p] = (Txp[p] * 4) / 7;
+					Txp[p] = 50 + shift[gSetting_set_low];
 					break;
 			}
 
 		}
 	}
 	else if (pInfo->OUTPUT_POWER == OUTPUT_POWER_MID){
-		Txp[0] = (Txp[0] * 3) / 4;
-		Txp[1] = (Txp[1] * 3) / 4;
-		Txp[2] = (Txp[2] * 3) / 4;
+		Txp[0] = 77 + shift[5];
+		Txp[1] = 77 + shift[5];
+		Txp[2] = 77 + shift[5];
 	}
 	// increase high
 	else if (pInfo->OUTPUT_POWER == OUTPUT_POWER_HIGH){
-		Txp[0] = Txp[0] + 30;
-		Txp[1] = Txp[1] + 30;
-		Txp[2] = Txp[2] + 30;
+		Txp[0] = 165 + shift[6];
+		Txp[1] = 165 + shift[6];
+		Txp[2] = 165 + shift[6];
 	}
+
+	// uint8_t shift[] = {0, 0, 0, 0, 0};
+
+	// /*
+	// if(Band == 5)
+	// {
+	// 	shift[0] = 3;
+	// 	shift[1] = 3;
+	// 	shift[2] = 4;
+	// 	shift[3] = 7;
+	// 	shift[4] = 8;
+	// }
+	// */
+	
+	// if (pInfo->OUTPUT_POWER == OUTPUT_POWER_LOW) {
+	// 	for(uint8_t p = 0; p < 3; p++ )
+	// 	{
+	// 		switch (gSetting_set_low) {
+	// 			case 0:
+	// 				Txp[p] = (Txp[p] * 4) / 25 + shift[gSetting_set_low]; 
+	// 				break;
+	// 			case 1:
+	// 				Txp[p] = (Txp[p] * 4) / 19 + shift[gSetting_set_low];
+	// 				break;
+	// 			case 2:
+	// 				Txp[p] = (Txp[p] * 4) / 13 + shift[gSetting_set_low];
+	// 				break;
+	// 			case 3:
+	// 				Txp[p] = (Txp[p] * 4) / 10 + shift[gSetting_set_low];
+	// 				break;
+	// 			case 4:
+	// 				Txp[p] = (Txp[p] * 4) / 7 + shift[gSetting_set_low];
+	// 				break;
+	// 		}
+
+	// 	}
+	// }
+	// else if (pInfo->OUTPUT_POWER == OUTPUT_POWER_MID){
+	// 	Txp[0] = (Txp[0] * 3) / 4;
+	// 	Txp[1] = (Txp[1] * 3) / 4;
+	// 	Txp[2] = (Txp[2] * 3) / 4;
+	// }
+	// // increase high
+	// else if (pInfo->OUTPUT_POWER == OUTPUT_POWER_HIGH){
+	// 	Txp[0] = Txp[0] + 30;
+	// 	Txp[1] = Txp[1] + 30;
+	// 	Txp[2] = Txp[2] + 30;
+	// }
 #else
 	#ifdef ENABLE_REDUCE_LOW_MID_TX_POWER
 		// make low and mid even lower

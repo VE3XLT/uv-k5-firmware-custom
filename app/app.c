@@ -356,7 +356,7 @@ static void HandleReceive(void)
 	     Mode == END_OF_RX_MODE_SKIP   &&
 	     gNextTimeslice40ms            &&
 	     gEeprom.TAIL_TONE_ELIMINATION &&
-	    (gCurrentCodeType == CODE_TYPE_DIGITAL || gCurrentCodeType == CODE_TYPE_REVERSE_DIGITAL) &&
+	     (gCurrentCodeType == CODE_TYPE_DIGITAL || gCurrentCodeType == CODE_TYPE_REVERSE_DIGITAL) &&
 	     BK4819_GetCTCType() == 1)
 		Mode = END_OF_RX_MODE_TTE;
 	else
@@ -399,8 +399,7 @@ Skip:
 			break;
 
 		case END_OF_RX_MODE_TTE:
-			if (gEeprom.TAIL_TONE_ELIMINATION)
-			{
+			if (gEeprom.TAIL_TONE_ELIMINATION) {
 				AUDIO_AudioPathOff();
 
 				gTailNoteEliminationCountdown_10ms = 20;
@@ -1303,8 +1302,10 @@ void APP_TimeSlice10ms(void)
 		return;
 #endif
 
-#ifdef ENABLE_FLASHLIGHT
-	FlashlightTimeSlice();
+#ifndef ENABLE_FEAT_F4HWN
+	#ifdef ENABLE_FLASHLIGHT
+		FlashlightTimeSlice();
+	#endif
 #endif
 
 #ifdef ENABLE_VOX
