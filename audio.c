@@ -104,17 +104,19 @@ void AUDIO_PlayBeep(BEEP_Type_t Beep)
 #ifdef ENABLE_FEAT_F4HWN
 		case BEEP_400HZ_30MS:
 			ToneFrequency = 400;
-			BK4819_WriteRegister(BK4819_REG_70, BK4819_REG_70_ENABLE_TONE1 | ((1 & 0x7f) << BK4819_REG_70_SHIFT_TONE1_TUNING_GAIN));
 			break;
 		case BEEP_500HZ_30MS:
 			ToneFrequency = 500;
-			BK4819_WriteRegister(BK4819_REG_70, BK4819_REG_70_ENABLE_TONE1 | ((1 & 0x7f) << BK4819_REG_70_SHIFT_TONE1_TUNING_GAIN));
 			break;
 		case BEEP_600HZ_30MS:
 			ToneFrequency = 600;
-			BK4819_WriteRegister(BK4819_REG_70, BK4819_REG_70_ENABLE_TONE1 | ((1 & 0x7f) << BK4819_REG_70_SHIFT_TONE1_TUNING_GAIN));
 			break;
 #endif
+	}
+
+	if(Beep == BEEP_400HZ_30MS || Beep == BEEP_500HZ_30MS || Beep == BEEP_600HZ_30MS)
+	{
+		BK4819_WriteRegister(BK4819_REG_70, BK4819_REG_70_ENABLE_TONE1 | ((1 & 0x7f) << BK4819_REG_70_SHIFT_TONE1_TUNING_GAIN));
 	}
 
 	BK4819_PlayTone(ToneFrequency, true);
