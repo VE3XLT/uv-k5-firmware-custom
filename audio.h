@@ -39,7 +39,7 @@ enum BEEP_Type_t
 	BEEP_500HZ_30MS,
 	BEEP_600HZ_30MS,
 #endif
-	BEEP_880HZ_60MS_TRIPLE_BEEP
+	BEEP_880HZ_60MS_DOUBLE_BEEP
 };
 
 typedef enum BEEP_Type_t BEEP_Type_t;

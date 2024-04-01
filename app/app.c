@@ -894,7 +894,7 @@ void APP_Update(void)
 
 		APP_EndTransmission();
 
-		AUDIO_PlayBeep(BEEP_880HZ_60MS_TRIPLE_BEEP);
+		AUDIO_PlayBeep(BEEP_880HZ_60MS_DOUBLE_BEEP);
 
 		RADIO_SetVfoState(VFO_STATE_TIMEOUT);
 
