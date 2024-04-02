@@ -248,6 +248,8 @@ static void RestoreRegisters() {
   for (uint32_t i = 0; i < ARRAY_SIZE(registers_to_save); i++){
     BK4819_WriteRegister(registers_to_save[i], registers_stack[i]);
   }
+
+  gVfoConfigureMode     = VFO_CONFIGURE;
 }
 
 static void ToggleAFDAC(bool on) {
