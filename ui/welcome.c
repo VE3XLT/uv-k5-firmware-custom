@@ -121,7 +121,7 @@ void UI_DisplayWelcome(void)
 		UI_PrintStringSmallNormal(Version, 0, 127, 6);
 #endif
 
-		ST7565_BlitStatusLine();  // blank status line
+		//ST7565_BlitStatusLine();  // blank status line : I think it's useless
 		ST7565_BlitFullScreen();
 	}
 }

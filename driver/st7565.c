@@ -46,6 +46,53 @@ void ST7565_DrawLine(const unsigned int Column, const unsigned int Line, const u
 	SPI_ToggleMasterMode(&SPI0->CR, true);
 }
 
+
+// Optimization
+//
+// ST7565_BlitScreen(0) = ST7565_BlitStatusLine()
+// ST7565_BlitScreen(1..7) = ST7565_BlitLine()
+// ST7565_BlitScreen(8) = ST7565_BlitFullScreen()
+//
+
+static void ST7565_BlitScreen(uint8_t line)
+{
+	SPI_ToggleMasterMode(&SPI0->CR, false);
+	ST7565_WriteByte(0x40);
+
+	if(line == 0)
+	{
+		DrawLine(0, 0, gStatusLine, LCD_WIDTH);
+	}
+	else if(line <= FRAME_LINES)
+	{
+		DrawLine(0, line, gFrameBuffer[line - 1], LCD_WIDTH);
+	}
+	else
+	{
+		for (line = 1; line <= FRAME_LINES; line++) {
+			DrawLine(0, line, gFrameBuffer[line - 1], LCD_WIDTH);
+		}
+	}
+
+	SPI_ToggleMasterMode(&SPI0->CR, true);
+}
+
+void ST7565_BlitFullScreen(void)
+{
+	ST7565_BlitScreen(8);
+}
+
+void ST7565_BlitLine(unsigned line)
+{
+	ST7565_BlitScreen(line + 1);
+}
+
+void ST7565_BlitStatusLine(void)
+{
+	ST7565_BlitScreen(0);
+}
+
+/*
 void ST7565_BlitFullScreen(void)
 {
 	SPI_ToggleMasterMode(&SPI0->CR, false);
@@ -71,6 +118,9 @@ void ST7565_BlitStatusLine(void)
 	DrawLine(0, 0, gStatusLine, LCD_WIDTH);
 	SPI_ToggleMasterMode(&SPI0->CR, true);
 }
+*/
+
+
 
 void ST7565_FillScreen(uint8_t value)
 {
