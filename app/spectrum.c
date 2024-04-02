@@ -249,7 +249,9 @@ static void RestoreRegisters() {
     BK4819_WriteRegister(registers_to_save[i], registers_stack[i]);
   }
 
+#ifdef ENABLE_FEAT_F4HWN
   gVfoConfigureMode     = VFO_CONFIGURE;
+#endif
 }
 
 static void ToggleAFDAC(bool on) {
