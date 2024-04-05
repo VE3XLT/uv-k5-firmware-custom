@@ -45,7 +45,7 @@ void SETTINGS_InitEEPROM(void)
 	EEPROM_ReadBuffer(0x0E70, Data, 8);
 	gEeprom.CHAN_1_CALL          = IS_MR_CHANNEL(Data[0]) ? Data[0] : MR_CHANNEL_FIRST;
 	gEeprom.SQUELCH_LEVEL        = (Data[1] < 10) ? Data[1] : 1;
-	gEeprom.TX_TIMEOUT_TIMER     = (Data[2] < 11) ? Data[2] : 1;
+	gEeprom.TX_TIMEOUT_TIMER     = (Data[2] > 4 && Data[2] < 180) ? Data[2] : 11;
 	#ifdef ENABLE_NOAA
 		gEeprom.NOAA_AUTO_SCAN   = (Data[3] <  2) ? Data[3] : false;
 	#endif

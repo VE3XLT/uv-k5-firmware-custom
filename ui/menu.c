@@ -197,6 +197,7 @@ const char gSubMenu_SAVE[][4] =
 	"1:4"
 };
 
+/*
 const char gSubMenu_TOT[][7] =
 {
 	"30 sec",
@@ -211,6 +212,7 @@ const char gSubMenu_TOT[][7] =
 	"9 min",
 	"15 min"
 };
+*/
 
 const char* const gSubMenu_RXMode[] =
 {
@@ -791,7 +793,7 @@ void UI_DisplayMenu(void)
 			break;
 
 		case MENU_TOT:
-			strcpy(String, gSubMenu_TOT[gSubMenuSelection]);
+			sprintf(String, "%02dm:%02ds", (((gSubMenuSelection + 1) * 5) / 60), (((gSubMenuSelection + 1) * 5) % 60));
 			break;
 
 		#ifdef ENABLE_VOICE

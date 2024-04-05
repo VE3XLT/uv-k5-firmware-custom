@@ -269,7 +269,8 @@ int MENU_GetLimits(uint8_t menu_id, int32_t *pMin, int32_t *pMax)
 
 		case MENU_TOT:
 			//*pMin = 0;
-			*pMax = ARRAY_SIZE(gSubMenu_TOT) - 1;
+			*pMin = 5;
+			*pMax = 179;
 			break;
 
 		#ifdef ENABLE_VOX
