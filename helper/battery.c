@@ -219,7 +219,7 @@ void BATTERY_TimeSlice500ms(void)
 
 	ST7565_HardwareReset();
 
-	if (gEeprom.BACKLIGHT_TIME < (ARRAY_SIZE(gSubMenu_BACKLIGHT) - 1)) {
+	if (gEeprom.BACKLIGHT_TIME < 17) {
 		BACKLIGHT_TurnOff();
 	}
 }

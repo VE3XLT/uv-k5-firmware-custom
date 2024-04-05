@@ -312,18 +312,6 @@ const char * const gSubMenu_F_LOCK[] =
 	"UNLOCK\nALL",
 };
 
-const char gSubMenu_BACKLIGHT[][7] =
-{
-	"OFF",
-	"5 sec",
-	"10 sec",
-	"20 sec",
-	"1 min",
-	"2 min",
-	"4 min",
-	"ON"
-};
-
 const char gSubMenu_RX_TX[][6] =
 {
 	"OFF",
@@ -668,7 +656,23 @@ void UI_DisplayMenu(void)
 		#endif
 
 		case MENU_ABR:
-			strcpy(String, gSubMenu_BACKLIGHT[gSubMenuSelection]);
+			if(gSubMenuSelection == 0)
+			{
+				sprintf(String, "%s", "OFF");
+			}
+			else if(gSubMenuSelection < 12)
+			{
+				sprintf(String, "%d sec", gSubMenuSelection * 5);
+			}
+			else if(gSubMenuSelection < 17)
+			{
+				sprintf(String, "%d min", gSubMenuSelection - 11);
+			}
+			else
+			{
+				sprintf(String, "%s", "ON");	
+			}
+
 			if(BACKLIGHT_GetBrightness() < 4)
 				BACKLIGHT_SetBrightness(4);
 			break;
