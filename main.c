@@ -151,7 +151,7 @@ void Main(void)
 	{
 		FUNCTION_Select(FUNCTION_POWER_SAVE);
 
-		if (gEeprom.BACKLIGHT_TIME < 17) // backlight is not set to be always on
+		if (gEeprom.BACKLIGHT_TIME < 61) // backlight is not set to be always on
 			BACKLIGHT_TurnOff();	// turn the backlight OFF
 		else
 			BACKLIGHT_TurnOn();  	// turn the backlight ON

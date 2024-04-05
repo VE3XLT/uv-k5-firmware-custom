@@ -129,7 +129,7 @@ int MENU_GetLimits(uint8_t menu_id, int32_t *pMin, int32_t *pMax)
 
 		case MENU_ABR:
 			//*pMin = 0;
-			*pMax = 17;
+			*pMax = 61;
 			break;
 
 		case MENU_ABR_MIN:

@@ -110,13 +110,10 @@ void BACKLIGHT_TurnOn(void)
 
 	switch (gEeprom.BACKLIGHT_TIME) {
 		default:
-		case 1 ... 11:	// 5 sec * value
+		case 1 ... 60:	// 5 sec * value
 			gBacklightCountdown_500ms = 1 + (gEeprom.BACKLIGHT_TIME * 5) * 2;
 			break;
-		case 12 ... 16:	// 1 min $ value
-			gBacklightCountdown_500ms = 1 + ((gEeprom.BACKLIGHT_TIME - 11) * 60) * 2;
-			break;
-		case 17:	// always on
+		case 61:	// always on
 			gBacklightCountdown_500ms = 0;
 			break;
 	}

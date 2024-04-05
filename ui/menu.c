@@ -662,13 +662,9 @@ void UI_DisplayMenu(void)
 			{
 				sprintf(String, "%s", "OFF");
 			}
-			else if(gSubMenuSelection < 12)
+			else if(gSubMenuSelection < 61)
 			{
-				sprintf(String, "%d sec", gSubMenuSelection * 5);
-			}
-			else if(gSubMenuSelection < 17)
-			{
-				sprintf(String, "%d min", gSubMenuSelection - 11);
+				sprintf(String, "%02dm:%02ds", (((gSubMenuSelection) * 5) / 60), (((gSubMenuSelection) * 5) % 60));
 			}
 			else
 			{
