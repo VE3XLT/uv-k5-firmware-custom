@@ -39,7 +39,7 @@
 
 const t_menu_item MenuList[] =
 {
-//   text,     voice ID,                               menu ID
+//   text,          menu ID
 	{"Step",		MENU_STEP          },
 	{"TxPwr",		MENU_TXP           }, // was "TXP"
 	{"RxDCS",		MENU_R_DCS         }, // was "R_DCS"
@@ -196,23 +196,6 @@ const char gSubMenu_SAVE[][4] =
 	"1:3",
 	"1:4"
 };
-
-/*
-const char gSubMenu_TOT[][7] =
-{
-	"30 sec",
-	"1 min",
-	"2 min",
-	"3 min",
-	"4 min",
-	"5 min",
-	"6 min",
-	"7 min",
-	"8 min",
-	"9 min",
-	"15 min"
-};
-*/
 
 const char* const gSubMenu_RXMode[] =
 {
