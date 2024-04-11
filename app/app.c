@@ -894,7 +894,7 @@ void APP_Update(void)
 
 		APP_EndTransmission();
 
-		AUDIO_PlayBeep(BEEP_880HZ_60MS_TRIPLE_BEEP);
+		AUDIO_PlayBeep(BEEP_880HZ_60MS_DOUBLE_BEEP);
 
 		RADIO_SetVfoState(VFO_STATE_TIMEOUT);
 
@@ -1253,12 +1253,6 @@ void APP_TimeSlice10ms(void)
 	gNextTimeslice = false;
 	gFlashLightBlinkCounter++;
 
-#ifdef ENABLE_BOOT_BEEPS
-	if (boot_counter_10ms > 0 && (boot_counter_10ms % 25) == 0) {
-		AUDIO_PlayBeep(BEEP_880HZ_40MS_OPTIONAL);
-	}
-#endif
-
 #ifdef ENABLE_AM_FIX
 	if (gRxVfo->Modulation == MODULATION_AM) {
 		AM_fix_10ms(gEeprom.RX_VFO);
@@ -1489,7 +1483,7 @@ void APP_TimeSlice500ms(void)
 		// don't turn off backlight if user is in backlight menu option
 		&& !(gScreenToDisplay == DISPLAY_MENU && (UI_MENU_GetCurrentMenuId() == MENU_ABR || UI_MENU_GetCurrentMenuId() == MENU_ABR_MAX))
 		&& --gBacklightCountdown_500ms == 0
-		&& gEeprom.BACKLIGHT_TIME < (ARRAY_SIZE(gSubMenu_BACKLIGHT) - 1)
+		&& gEeprom.BACKLIGHT_TIME < 61
 	) {
 		BACKLIGHT_TurnOff();
 	}

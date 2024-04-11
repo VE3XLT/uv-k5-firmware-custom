@@ -39,125 +39,125 @@
 
 const t_menu_item MenuList[] =
 {
-//   text,     voice ID,                               menu ID
-	{"Step",   VOICE_ID_FREQUENCY_STEP,                MENU_STEP          },
-	{"TxPwr",  VOICE_ID_POWER,                         MENU_TXP           }, // was "TXP"
-	{"RxDCS",  VOICE_ID_DCS,                           MENU_R_DCS         }, // was "R_DCS"
-	{"RxCTCS", VOICE_ID_CTCSS,                         MENU_R_CTCS        }, // was "R_CTCS"
-	{"TxDCS",  VOICE_ID_DCS,                           MENU_T_DCS         }, // was "T_DCS"
-	{"TxCTCS", VOICE_ID_CTCSS,                         MENU_T_CTCS        }, // was "T_CTCS"
-	{"TxODir", VOICE_ID_TX_OFFSET_FREQUENCY_DIRECTION, MENU_SFT_D         }, // was "SFT_D"
-	{"TxOffs", VOICE_ID_TX_OFFSET_FREQUENCY,           MENU_OFFSET        }, // was "OFFSET"
-	{"W/N",    VOICE_ID_CHANNEL_BANDWIDTH,             MENU_W_N           },
+//   text,          menu ID
+	{"Step",		MENU_STEP          },
+	{"TxPwr",		MENU_TXP           }, // was "TXP"
+	{"RxDCS",		MENU_R_DCS         }, // was "R_DCS"
+	{"RxCTCS",		MENU_R_CTCS        }, // was "R_CTCS"
+	{"TxDCS",		MENU_T_DCS         }, // was "T_DCS"
+	{"TxCTCS",		MENU_T_CTCS        }, // was "T_CTCS"
+	{"TxODir",  	MENU_SFT_D         }, // was "SFT_D"
+	{"TxOffs",		MENU_OFFSET        }, // was "OFFSET"
+	{"W/N",			MENU_W_N           },
 #ifndef ENABLE_FEAT_F4HWN
-	{"Scramb", VOICE_ID_SCRAMBLER_ON,                  MENU_SCR           }, // was "SCR"
+	{"Scramb",		MENU_SCR           }, // was "SCR"
 #endif
-	{"BusyCL", VOICE_ID_BUSY_LOCKOUT,                  MENU_BCL           }, // was "BCL"
-	{"Compnd", VOICE_ID_INVALID,                       MENU_COMPAND       },
-	{"Demodu", VOICE_ID_INVALID,                       MENU_AM            }, // was "AM"
-	{"ScAdd1", VOICE_ID_INVALID,                       MENU_S_ADD1        },
-	{"ScAdd2", VOICE_ID_INVALID,                       MENU_S_ADD2        },
-	{"ChSave", VOICE_ID_MEMORY_CHANNEL,                MENU_MEM_CH        }, // was "MEM-CH"
-	{"ChDele", VOICE_ID_DELETE_CHANNEL,                MENU_DEL_CH        }, // was "DEL-CH"
-	{"ChName", VOICE_ID_INVALID,                       MENU_MEM_NAME      },
+	{"BusyCL",		MENU_BCL           }, // was "BCL"
+	{"Compnd",		MENU_COMPAND       },
+	{"Demodu",		MENU_AM            }, // was "AM"
+	{"ScAdd1",		MENU_S_ADD1        },
+	{"ScAdd2",		MENU_S_ADD2        },
+	{"ChSave",		MENU_MEM_CH        }, // was "MEM-CH"
+	{"ChDele",		MENU_DEL_CH        }, // was "DEL-CH"
+	{"ChName",		MENU_MEM_NAME      },
 
-	{"SList",  VOICE_ID_INVALID,                       MENU_S_LIST        },
-	{"SList1", VOICE_ID_INVALID,                       MENU_SLIST1        },
-	{"SList2", VOICE_ID_INVALID,                       MENU_SLIST2        },
-	{"ScnRev", VOICE_ID_INVALID,                       MENU_SC_REV        },
+	{"SList",		MENU_S_LIST        },
+	{"SList1",		MENU_SLIST1        },
+	{"SList2",		MENU_SLIST2        },
+	{"ScnRev",		MENU_SC_REV        },
 #ifdef ENABLE_NOAA
-	{"NOAA-S", VOICE_ID_INVALID,                       MENU_NOAA_S        },
+	{"NOAA-S",		MENU_NOAA_S        },
 #endif
-	{"F1Shrt",    VOICE_ID_INVALID,                    MENU_F1SHRT        },
-	{"F1Long",    VOICE_ID_INVALID,                    MENU_F1LONG        },
-	{"F2Shrt",    VOICE_ID_INVALID,                    MENU_F2SHRT        },
-	{"F2Long",    VOICE_ID_INVALID,                    MENU_F2LONG        },
-	{"M Long",    VOICE_ID_INVALID,                    MENU_MLONG         },
+	{"F1Shrt",		MENU_F1SHRT        },
+	{"F1Long",		MENU_F1LONG        },
+	{"F2Shrt",		MENU_F2SHRT        },
+	{"F2Long",		MENU_F2LONG        },
+	{"M Long",		MENU_MLONG         },
 
-	{"KeyLck", VOICE_ID_INVALID,                       MENU_AUTOLK        }, // was "AUTOLk"
-	{"TxTOut", VOICE_ID_TRANSMIT_OVER_TIME,            MENU_TOT           }, // was "TOT"
-	{"BatSav", VOICE_ID_SAVE_MODE,                     MENU_SAVE          }, // was "SAVE"
-	{"Mic",    VOICE_ID_INVALID,                       MENU_MIC           },
+	{"KeyLck",		MENU_AUTOLK        }, // was "AUTOLk"
+	{"TxTOut",		MENU_TOT           }, // was "TOT"
+	{"BatSav",		MENU_SAVE          }, // was "SAVE"
+	{"Mic",			MENU_MIC           },
 #ifdef ENABLE_AUDIO_BAR
-	{"MicBar", VOICE_ID_INVALID,                       MENU_MIC_BAR       },
+	{"MicBar",		MENU_MIC_BAR       },
 #endif
-	{"ChDisp", VOICE_ID_INVALID,                       MENU_MDF           }, // was "MDF"
-	{"POnMsg", VOICE_ID_INVALID,                       MENU_PONMSG        },
-	{"BatTxt", VOICE_ID_INVALID,                       MENU_BAT_TXT       },
-	{"BackLt", VOICE_ID_INVALID,                       MENU_ABR           }, // was "ABR"
-	{"BLMin",  VOICE_ID_INVALID,                       MENU_ABR_MIN       },
-	{"BLMax",  VOICE_ID_INVALID,                       MENU_ABR_MAX       },
-	{"BltTRX", VOICE_ID_INVALID,                       MENU_ABR_ON_TX_RX  },
-	{"Beep",   VOICE_ID_BEEP_PROMPT,                   MENU_BEEP          },
+	{"ChDisp",		MENU_MDF           }, // was "MDF"
+	{"POnMsg",		MENU_PONMSG        },
+	{"BatTxt",		MENU_BAT_TXT       },
+	{"BackLt",		MENU_ABR           }, // was "ABR"
+	{"BLMin",		MENU_ABR_MIN       },
+	{"BLMax",		MENU_ABR_MAX       },
+	{"BltTRX",		MENU_ABR_ON_TX_RX  },
+	{"Beep",		MENU_BEEP          },
 #ifdef ENABLE_VOICE
-	{"Voice",  VOICE_ID_VOICE_PROMPT,                  MENU_VOICE         },
+	{"Voice",		MENU_VOICE         },
 #endif
-	{"Roger",  VOICE_ID_INVALID,                       MENU_ROGER         },
-	{"STE",    VOICE_ID_INVALID,                       MENU_STE           },
-	{"RP STE", VOICE_ID_INVALID,                       MENU_RP_STE        },
-	{"1 Call", VOICE_ID_INVALID,                       MENU_1_CALL        },
+	{"Roger",		MENU_ROGER         },
+	{"STE",			MENU_STE           },
+	{"RP STE",		MENU_RP_STE        },
+	{"1 Call",		MENU_1_CALL        },
 #ifdef ENABLE_ALARM
-	{"AlarmT", VOICE_ID_INVALID,                       MENU_AL_MOD        },
+	{"AlarmT",		MENU_AL_MOD        },
 #endif
 #ifdef ENABLE_DTMF_CALLING
-	{"ANI ID", VOICE_ID_ANI_CODE,                      MENU_ANI_ID        },
+	{"ANI ID",		MENU_ANI_ID        },
 #endif
-	{"UPCode", VOICE_ID_INVALID,                       MENU_UPCODE        },
-	{"DWCode", VOICE_ID_INVALID,                       MENU_DWCODE        },
-	{"PTT ID", VOICE_ID_INVALID,                       MENU_PTT_ID        },
-	{"D ST",   VOICE_ID_INVALID,                       MENU_D_ST          },
+	{"UPCode",		MENU_UPCODE        },
+	{"DWCode",		MENU_DWCODE        },
+	{"PTT ID",		MENU_PTT_ID        },
+	{"D ST",		MENU_D_ST          },
 #ifdef ENABLE_DTMF_CALLING
-    {"D Resp", VOICE_ID_INVALID,                       MENU_D_RSP         },
-	{"D Hold", VOICE_ID_INVALID,                       MENU_D_HOLD        },
+    {"D Resp",		MENU_D_RSP         },
+	{"D Hold",		MENU_D_HOLD        },
 #endif
-	{"D Prel", VOICE_ID_INVALID,                       MENU_D_PRE         },
+	{"D Prel",		MENU_D_PRE         },
 #ifdef ENABLE_DTMF_CALLING
-	{"D Decd", VOICE_ID_INVALID,                       MENU_D_DCD         },
-	{"D List", VOICE_ID_INVALID,                       MENU_D_LIST        },
+	{"D Decd",		MENU_D_DCD         },
+	{"D List",		MENU_D_LIST        },
 #endif
-	{"D Live", VOICE_ID_INVALID,                       MENU_D_LIVE_DEC    }, // live DTMF decoder
+	{"D Live",		MENU_D_LIVE_DEC    }, // live DTMF decoder
 #ifdef ENABLE_AM_FIX
-	{"AM Fix", VOICE_ID_INVALID,                       MENU_AM_FIX        },
+	{"AM Fix",		MENU_AM_FIX        },
 #endif
 #ifdef ENABLE_VOX
-	{"VOX",    VOICE_ID_VOX,                           MENU_VOX           },
+	{"VOX",			MENU_VOX           },
 #endif
 #ifdef ENABLE_FEAT_F4HWN
-	{"SysInf", VOICE_ID_INVALID,                       MENU_VOL           }, // was "VOL"
+	{"SysInf",		MENU_VOL           }, // was "VOL"
 #else
-	{"BatVol", VOICE_ID_INVALID,                       MENU_VOL           }, // was "VOL"
+	{"BatVol",		MENU_VOL           }, // was "VOL"
 #endif
-	{"RxMode", VOICE_ID_DUAL_STANDBY,                  MENU_TDR           },
-	{"Sql",    VOICE_ID_SQUELCH,                       MENU_SQL           },
+	{"RxMode",		MENU_TDR           },
+	{"Sql",			MENU_SQL           },
 #ifdef ENABLE_FEAT_F4HWN
-	{"SetLow", VOICE_ID_INVALID,                       MENU_SET_LOW       },
-	{"SetPtt", VOICE_ID_INVALID,                       MENU_SET_PTT       },
-	{"SetTot", VOICE_ID_INVALID,                       MENU_SET_TOT       },
-	{"SetEot", VOICE_ID_INVALID,                       MENU_SET_EOT       },
-	{"SetCtr", VOICE_ID_INVALID,                       MENU_SET_CTR       },
-	{"SetInv", VOICE_ID_INVALID,                       MENU_SET_INV       },
-	{"SetLck", VOICE_ID_INVALID,                       MENU_SET_LCK       },
-	{"SetMet", VOICE_ID_INVALID,                       MENU_SET_MET       },
-	{"SetGui", VOICE_ID_INVALID,                       MENU_SET_GUI       },
+	{"SetLow",		MENU_SET_LOW       },
+	{"SetPtt",		MENU_SET_PTT       },
+	{"SetTot",		MENU_SET_TOT       },
+	{"SetEot",		MENU_SET_EOT       },
+	{"SetCtr",		MENU_SET_CTR       },
+	{"SetInv",		MENU_SET_INV       },
+	{"SetLck",		MENU_SET_LCK       },
+	{"SetMet",		MENU_SET_MET       },
+	{"SetGui",		MENU_SET_GUI       },
 #endif
 	// hidden menu items from here on
 	// enabled if pressing both the PTT and upper side button at power-on
-	{"F Lock", VOICE_ID_INVALID,                       MENU_F_LOCK        },
-	{"Tx 200", VOICE_ID_INVALID,                       MENU_200TX         }, // was "200TX"
-	{"Tx 350", VOICE_ID_INVALID,                       MENU_350TX         }, // was "350TX"
-	{"Tx 500", VOICE_ID_INVALID,                       MENU_500TX         }, // was "500TX"
-	{"350 En", VOICE_ID_INVALID,                       MENU_350EN         }, // was "350EN"
+	{"F Lock",		MENU_F_LOCK        },
+	{"Tx 200",		MENU_200TX         }, // was "200TX"
+	{"Tx 350",		MENU_350TX         }, // was "350TX"
+	{"Tx 500",		MENU_500TX         }, // was "500TX"
+	{"350 En",		MENU_350EN         }, // was "350EN"
 #ifndef ENABLE_FEAT_F4HWN
-	{"ScraEn", VOICE_ID_INVALID,                       MENU_SCREN         }, // was "SCREN"
+	{"ScraEn",		MENU_SCREN         }, // was "SCREN"
 #endif
 #ifdef ENABLE_F_CAL_MENU
-	{"FrCali", VOICE_ID_INVALID,                       MENU_F_CALI        }, // reference xtal calibration
+	{"FrCali",		MENU_F_CALI        }, // reference xtal calibration
 #endif
-	{"BatCal", VOICE_ID_INVALID,                       MENU_BATCAL        }, // battery voltage calibration
-	{"BatTyp", VOICE_ID_INVALID,                       MENU_BATTYP        }, // battery type 1600/2200mAh
-	{"Reset",  VOICE_ID_INITIALISATION,                MENU_RESET         }, // might be better to move this to the hidden menu items ?
+	{"BatCal",		MENU_BATCAL        }, // battery voltage calibration
+	{"BatTyp",		MENU_BATTYP        }, // battery type 1600/2200mAh
+	{"Reset",		MENU_RESET         }, // might be better to move this to the hidden menu items ?
 
-	{"",       VOICE_ID_INVALID,                       0xff               }  // end of list - DO NOT delete or move this this
+	{"",                              0xff               }  // end of list - DO NOT delete or move this this
 };
 
 const uint8_t FIRST_HIDDEN_MENU_ITEM = MENU_F_LOCK;
@@ -195,21 +195,6 @@ const char gSubMenu_SAVE[][4] =
 	"1:2",
 	"1:3",
 	"1:4"
-};
-
-const char gSubMenu_TOT[][7] =
-{
-	"30 sec",
-	"1 min",
-	"2 min",
-	"3 min",
-	"4 min",
-	"5 min",
-	"6 min",
-	"7 min",
-	"8 min",
-	"9 min",
-	"15 min"
 };
 
 const char* const gSubMenu_RXMode[] =
@@ -305,20 +290,11 @@ const char * const gSubMenu_F_LOCK[] =
 	"GB HAM\n144-148\n430-440",
 	"137-174\n400-430",
 	"137-174\n400-438",
+#ifdef ENABLE_FEAT_F4HWN
+	"PMR 446",
+#endif
 	"DISABLE\nALL",
 	"UNLOCK\nALL",
-};
-
-const char gSubMenu_BACKLIGHT[][7] =
-{
-	"OFF",
-	"5 sec",
-	"10 sec",
-	"20 sec",
-	"1 min",
-	"2 min",
-	"4 min",
-	"ON"
 };
 
 const char gSubMenu_RX_TX[][6] =
@@ -542,10 +518,11 @@ void UI_DisplayMenu(void)
 			// draw the menu index number/count
 #ifdef ENABLE_FEAT_F4HWN
 			sprintf(String, "%02u/%u", 1 + gMenuCursor, gMenuListCount);
+			UI_PrintStringSmallNormal(String, 6, 0, 6);
 #else
 			sprintf(String, "%2u.%u", 1 + gMenuCursor, gMenuListCount);
-#endif
 			UI_PrintStringSmallNormal(String, 2, 0, 6);
+#endif
 		}
 		else if (menu_index >= 0 && menu_index < (int)gMenuListCount)
 		{	// current menu item
@@ -665,7 +642,19 @@ void UI_DisplayMenu(void)
 		#endif
 
 		case MENU_ABR:
-			strcpy(String, gSubMenu_BACKLIGHT[gSubMenuSelection]);
+			if(gSubMenuSelection == 0)
+			{
+				sprintf(String, "%s", "OFF");
+			}
+			else if(gSubMenuSelection < 61)
+			{
+				sprintf(String, "%02dm:%02ds", (((gSubMenuSelection) * 5) / 60), (((gSubMenuSelection) * 5) % 60));
+			}
+			else
+			{
+				sprintf(String, "%s", "ON");	
+			}
+
 			if(BACKLIGHT_GetBrightness() < 4)
 				BACKLIGHT_SetBrightness(4);
 			break;
@@ -784,7 +773,7 @@ void UI_DisplayMenu(void)
 			break;
 
 		case MENU_TOT:
-			strcpy(String, gSubMenu_TOT[gSubMenuSelection]);
+			sprintf(String, "%02dm:%02ds", (((gSubMenuSelection + 1) * 5) / 60), (((gSubMenuSelection + 1) * 5) % 60));
 			break;
 
 		#ifdef ENABLE_VOICE

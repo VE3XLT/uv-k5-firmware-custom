@@ -68,35 +68,28 @@ void UI_DisplayWelcome(void)
 		memset(WelcomeString0, 0, sizeof(WelcomeString0));
 		memset(WelcomeString1, 0, sizeof(WelcomeString1));
 
-		if (gEeprom.POWER_ON_DISPLAY_MODE == POWER_ON_DISPLAY_MODE_VOLTAGE)
-		{
-			strcpy(WelcomeString0, "VOLTAGE");
-			sprintf(WelcomeString1, "%u.%02uV %u%%",
+		sprintf(WelcomeString1, "%u.%02uV %u%%",
 				gBatteryVoltageAverage / 100,
 				gBatteryVoltageAverage % 100,
 				BATTERY_VoltsToPercent(gBatteryVoltageAverage));
+
+		if (gEeprom.POWER_ON_DISPLAY_MODE == POWER_ON_DISPLAY_MODE_VOLTAGE)
+		{
+			strcpy(WelcomeString0, "VOLTAGE");
 		}
-#ifdef ENABLE_FEAT_F4HWN
-		else if (gEeprom.POWER_ON_DISPLAY_MODE == POWER_ON_DISPLAY_MODE_MESSAGE || gEeprom.POWER_ON_DISPLAY_MODE == POWER_ON_DISPLAY_MODE_ALL)
-#else
-		else
-#endif
+		else if(gEeprom.POWER_ON_DISPLAY_MODE == POWER_ON_DISPLAY_MODE_ALL)
+		{
+			EEPROM_ReadBuffer(0x0EB0, WelcomeString0, 16);
+		}
+		else if(gEeprom.POWER_ON_DISPLAY_MODE == POWER_ON_DISPLAY_MODE_MESSAGE)
 		{
 			EEPROM_ReadBuffer(0x0EB0, WelcomeString0, 16);
 			EEPROM_ReadBuffer(0x0EC0, WelcomeString1, 16);
 
-#ifdef ENABLE_FEAT_F4HWN
-			if(gEeprom.POWER_ON_DISPLAY_MODE == POWER_ON_DISPLAY_MODE_ALL)
+			if(strlen(WelcomeString1) == 0)
 			{
-				sprintf(WelcomeString1, "%u.%02uV %u%%",
-					gBatteryVoltageAverage / 100,
-					gBatteryVoltageAverage % 100,
-					BATTERY_VoltsToPercent(gBatteryVoltageAverage));
-			}	
-			else if(strlen(WelcomeString1) == 0) {
-				UI_PrintString("BIENVENUE", 0, 127, 2, 10);
+				strcpy(WelcomeString1, "BIENVENUE");
 			}
-#endif
 		}
 
 		UI_PrintString(WelcomeString0, 0, 127, 0, 10);
@@ -121,7 +114,7 @@ void UI_DisplayWelcome(void)
 		UI_PrintStringSmallNormal(Version, 0, 127, 6);
 #endif
 
-		ST7565_BlitStatusLine();  // blank status line
+		//ST7565_BlitStatusLine();  // blank status line : I think it's useless
 		ST7565_BlitFullScreen();
 	}
 }

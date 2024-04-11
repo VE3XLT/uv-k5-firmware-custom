@@ -62,8 +62,8 @@ static void BACKLIGHT_Sound(void)
 {
 	if (gEeprom.POWER_ON_DISPLAY_MODE == POWER_ON_DISPLAY_MODE_SOUND || gEeprom.POWER_ON_DISPLAY_MODE == POWER_ON_DISPLAY_MODE_ALL)
 	{
-		AUDIO_PlayBeep(BEEP_880HZ_60MS_TRIPLE_BEEP);
-		AUDIO_PlayBeep(BEEP_880HZ_60MS_TRIPLE_BEEP);
+		AUDIO_PlayBeep(BEEP_880HZ_60MS_DOUBLE_BEEP);
+		AUDIO_PlayBeep(BEEP_880HZ_60MS_DOUBLE_BEEP);
 		gK5startup = false;
 	}
 	else
@@ -110,17 +110,10 @@ void BACKLIGHT_TurnOn(void)
 
 	switch (gEeprom.BACKLIGHT_TIME) {
 		default:
-		case 1:	// 5 sec
-		case 2:	// 10 sec
-		case 3:	// 20 sec
-			gBacklightCountdown_500ms = 1 + (2 << (gEeprom.BACKLIGHT_TIME - 1)) * 5;
+		case 1 ... 60:	// 5 sec * value
+			gBacklightCountdown_500ms = 1 + (gEeprom.BACKLIGHT_TIME * 5) * 2;
 			break;
-		case 4:	// 1 min
-		case 5:	// 2 min
-		case 6:	// 4 min
-			gBacklightCountdown_500ms = 1 + (2 << (gEeprom.BACKLIGHT_TIME - 4)) * 60;
-			break;
-		case 7:	// always on
+		case 61:	// always on
 			gBacklightCountdown_500ms = 0;
 			break;
 	}

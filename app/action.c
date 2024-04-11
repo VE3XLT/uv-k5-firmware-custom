@@ -504,7 +504,7 @@ void ACTION_BackLightOnDemand(void)
 	if(gBackLight == false)
 	{
 		gBacklightTimeOriginal = gEeprom.BACKLIGHT_TIME;
-		gEeprom.BACKLIGHT_TIME = 7;
+		gEeprom.BACKLIGHT_TIME = 61;
 		gBackLight = true;
 	}
 	else
@@ -515,7 +515,7 @@ void ACTION_BackLightOnDemand(void)
 		}
 		else
 		{
-			gEeprom.BACKLIGHT_TIME = 7;
+			gEeprom.BACKLIGHT_TIME = 61;
 		}
 	}
 	

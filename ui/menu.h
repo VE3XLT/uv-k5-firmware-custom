@@ -25,7 +25,6 @@
 
 typedef struct {
 	const char  name[7];    // menu display area only has room for 6 characters
-	VOICE_ID_t  voice_id;
 	uint8_t     menu_id;
 } t_menu_item;
 
@@ -181,7 +180,6 @@ extern const char* const gSubMenu_PTT_ID[5];
 extern const char        gSubMenu_ROGER[3][6];
 extern const char        gSubMenu_RESET[2][4];
 extern const char* const gSubMenu_F_LOCK[F_LOCK_LEN];
-extern const char        gSubMenu_BACKLIGHT[8][7];
 extern const char        gSubMenu_RX_TX[4][6];
 extern const char        gSubMenu_BAT_TXT[3][8];
 extern const char 		 gSubMenu_BATTYP[2][9];

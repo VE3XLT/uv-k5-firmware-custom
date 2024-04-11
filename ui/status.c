@@ -181,7 +181,7 @@ void UI_DisplayStatus()
 		
 		for (uint8_t i = 71; i < 79; i++)
 		{
-			gFrameBuffer[-1][i] ^= 0x7F;
+			gStatusLine[i] ^= 0x7F;
 		}
 		x1 = x;
 	}

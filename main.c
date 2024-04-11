@@ -151,7 +151,7 @@ void Main(void)
 	{
 		FUNCTION_Select(FUNCTION_POWER_SAVE);
 
-		if (gEeprom.BACKLIGHT_TIME < (ARRAY_SIZE(gSubMenu_BACKLIGHT) - 1)) // backlight is not set to be always on
+		if (gEeprom.BACKLIGHT_TIME < 61) // backlight is not set to be always on
 			BACKLIGHT_TurnOff();	// turn the backlight OFF
 		else
 			BACKLIGHT_TurnOn();  	// turn the backlight ON
@@ -177,11 +177,8 @@ void Main(void)
 					boot_counter_10ms = 0;
 					break;
 				}
-#ifdef ENABLE_BOOT_BEEPS
-				if ((boot_counter_10ms % 25) == 0)
-					AUDIO_PlayBeep(BEEP_880HZ_40MS_OPTIONAL);
-#endif
 			}
+			RADIO_SetupRegisters(true);
 		}
 
 #ifdef ENABLE_PWRON_PASSWORD
