@@ -178,6 +178,7 @@ void Main(void)
 					break;
 				}
 			}
+			RADIO_SetupRegisters(true);
 		}
 
 #ifdef ENABLE_PWRON_PASSWORD
