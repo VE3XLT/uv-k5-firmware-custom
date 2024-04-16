@@ -39,23 +39,16 @@ static void convertTime(uint8_t *line, uint8_t type) {
     uint16_t t;
     char str[7];
 
-    if(type == 0)
+    if(type == 0) // Tx timer
 		t = ((gEeprom.TX_TIMEOUT_TIMER + 1) * 5) - (gTxTimerCountdown_500ms / 2);
-    else
-		t = (7200 - gRxTimerCountdown_500ms) / 2;    	
+    else          // Rx timer
+		t = 3600 - (gRxTimerCountdown_500ms / 2);
 
     m = t / 60;
     s = t - (m * 60);
 
     sprintf(str, "%02d:%02d", m, s);
     UI_PrintStringSmallBufferNormal(str, line + 0);
-    //GUI_DisplaySmallest(str, 2, 26, false, true);
-    /*
-    for (uint8_t i = 0; i < 27; i++)
-    {
-            gStatusLine[i] ^= 0x7F;
-    }
-    */
 
     gUpdateStatus = true;
 }

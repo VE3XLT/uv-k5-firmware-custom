@@ -250,8 +250,6 @@ void UI_DisplayAudioBar(void)
 
 		DrawLevelBar(62, line, bars);
 
-		gUpdateStatus = true;
-
 		if (gCurrentFunction == FUNCTION_TRANSMIT)
 			ST7565_BlitFullScreen();
 	}
