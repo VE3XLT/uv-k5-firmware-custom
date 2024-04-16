@@ -58,6 +58,7 @@ void SystickHandler(void)
 
 #ifdef ENABLE_FEAT_F4HWN
 		DECREMENT_AND_TRIGGER(gTxTimerCountdownAlert_500ms - ALERT_TOT * 2, gTxTimeoutReachedAlert);
+		DECREMENT(gRxTimerCountdown_500ms);
 #endif
 		
 		DECREMENT_AND_TRIGGER(gTxTimerCountdown_500ms, gTxTimeoutReached);

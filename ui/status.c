@@ -34,6 +34,32 @@
 #include "ui/ui.h"
 #include "ui/status.h"
 
+static void convertTime(uint8_t *line, uint8_t type) {
+    uint8_t m, s; // Declare variables for seconds, hours, minutes, and seconds
+    uint16_t t;
+    char str[7];
+
+    if(type == 0)
+		t = ((gEeprom.TX_TIMEOUT_TIMER + 1) * 5) - (gTxTimerCountdown_500ms / 2);
+    else
+		t = (7200 - gRxTimerCountdown_500ms) / 2;    	
+
+    m = t / 60;
+    s = t - (m * 60);
+
+    sprintf(str, "%02d:%02d", m, s);
+    UI_PrintStringSmallBufferNormal(str, line + 0);
+    //GUI_DisplaySmallest(str, 2, 26, false, true);
+    /*
+    for (uint8_t i = 0; i < 27; i++)
+    {
+            gStatusLine[i] ^= 0x7F;
+    }
+    */
+
+    gUpdateStatus = true;
+}
+
 void UI_DisplayStatus()
 {
 	gUpdateStatus = false;
@@ -44,13 +70,7 @@ void UI_DisplayStatus()
 	// **************
 
 	// POWER-SAVE indicator
-	if (gCurrentFunction == FUNCTION_TRANSMIT) {
-		memcpy(line + x, gFontTx, sizeof(gFontTx));
-	}
-	else if (FUNCTION_IsRx()) {
-		memcpy(line + x, gFontRx, sizeof(gFontRx));
-	}
-	else if (gCurrentFunction == FUNCTION_POWER_SAVE) {
+	if (gCurrentFunction == FUNCTION_POWER_SAVE) {
 		memcpy(line + x, gFontPowerSave, sizeof(gFontPowerSave));
 	}
 	x += 8;
@@ -126,19 +146,30 @@ void UI_DisplayStatus()
 	#endif
 
 		if(!SCANNER_IsScanning()) {
-			uint8_t dw = (gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2;
-			if(dw == 1 || dw == 3) { // DWR - dual watch + respond
-				if(gDualWatchActive)
-					memcpy(line + x + (dw==1?0:2), gFontDWR, sizeof(gFontDWR) - (dw==1?0:5));
-				else
-					memcpy(line + x + 3, gFontHold, sizeof(gFontHold));
+			if(gCurrentFunction == FUNCTION_TRANSMIT)
+			{
+				convertTime(line, 0);
 			}
-			else if(dw == 2) { // XB - crossband
-				memcpy(line + x + 2, gFontXB, sizeof(gFontXB));
+			else if(FUNCTION_IsRx())
+			{
+				convertTime(line, 1);
 			}
 			else
 			{
-				memcpy(line + x + 2, gFontMO, sizeof(gFontMO));
+				uint8_t dw = (gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2;
+				if(dw == 1 || dw == 3) { // DWR - dual watch + respond
+					if(gDualWatchActive)
+						memcpy(line + x + (dw==1?0:2), gFontDWR, sizeof(gFontDWR) - (dw==1?0:5));
+					else
+						memcpy(line + x + 3, gFontHold, sizeof(gFontHold));
+				}
+				else if(dw == 2) { // XB - crossband
+					memcpy(line + x + 2, gFontXB, sizeof(gFontXB));
+				}
+				else
+				{
+					memcpy(line + x + 2, gFontMO, sizeof(gFontMO));
+				}
 			}
 		}
 		x += sizeof(gFontDWR) + 3;

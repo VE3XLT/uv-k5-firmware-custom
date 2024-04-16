@@ -159,6 +159,7 @@ volatile bool     gTxTimeoutReached;
 	volatile uint16_t gTxTimerCountdownAlert_500ms;
 	volatile bool     gTxTimeoutReachedAlert;
 	volatile uint16_t gTxTimeoutToneAlert = 800;
+	volatile uint16_t gRxTimerCountdown_500ms;
 #endif
 
 volatile uint16_t gTailNoteEliminationCountdown_10ms;

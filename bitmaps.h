@@ -5,8 +5,6 @@
 #include <stdint.h>
 
 extern const uint8_t gFontPowerSave[2][6];
-extern const uint8_t gFontTx[1][5];
-extern const uint8_t gFontRx[1][5];
 extern const uint8_t gFontPttOnePush[2][6];
 extern const uint8_t gFontPttClassic[2][6];
 extern const uint8_t gFontFM[2][6];

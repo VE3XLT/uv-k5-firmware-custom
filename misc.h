@@ -222,6 +222,7 @@ extern volatile bool         gTxTimeoutReached;
 	extern volatile uint16_t gTxTimerCountdownAlert_500ms;
 	extern volatile bool     gTxTimeoutReachedAlert;
 	extern volatile uint16_t gTxTimeoutToneAlert;
+	extern volatile uint16_t gRxTimerCountdown_500ms;
 #endif
 
 extern volatile uint16_t     gTailNoteEliminationCountdown_10ms;
