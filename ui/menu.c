@@ -516,10 +516,7 @@ void UI_DisplayMenu(void)
 			}
 
 			// draw the menu index number/count
-#ifdef ENABLE_FEAT_F4HWN
-			sprintf(String, "%02u/%u", 1 + gMenuCursor, gMenuListCount);
-			UI_PrintStringSmallNormal(String, 6, 0, 6);
-#else
+#ifndef ENABLE_FEAT_F4HWN
 			sprintf(String, "%2u.%u", 1 + gMenuCursor, gMenuListCount);
 			UI_PrintStringSmallNormal(String, 2, 0, 6);
 #endif
@@ -530,6 +527,11 @@ void UI_DisplayMenu(void)
 			UI_PrintString(MenuList[menu_index].name, 0, 0, 0, 8);
 //			UI_PrintStringSmallNormal(String, 0, 0, 0);
 		}
+
+#ifdef ENABLE_FEAT_F4HWN
+		sprintf(String, "%02u/%u", 1 + gMenuCursor, gMenuListCount);
+		UI_PrintStringSmallNormal(String, 6, 0, 6);
+#endif
 	}
 #endif
 
