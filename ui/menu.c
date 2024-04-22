@@ -77,17 +77,17 @@ const t_menu_item MenuList[] =
 	{"KeyLck",		MENU_AUTOLK        }, // was "AUTOLk"
 	{"TxTOut",		MENU_TOT           }, // was "TOT"
 	{"BatSav",		MENU_SAVE          }, // was "SAVE"
+	{"BatTxt",		MENU_BAT_TXT       },
 	{"Mic",			MENU_MIC           },
 #ifdef ENABLE_AUDIO_BAR
 	{"MicBar",		MENU_MIC_BAR       },
 #endif
 	{"ChDisp",		MENU_MDF           }, // was "MDF"
 	{"POnMsg",		MENU_PONMSG        },
-	{"BatTxt",		MENU_BAT_TXT       },
-	{"BackLt",		MENU_ABR           }, // was "ABR"
+	{"BLTime",		MENU_ABR           }, // was "ABR"
 	{"BLMin",		MENU_ABR_MIN       },
 	{"BLMax",		MENU_ABR_MAX       },
-	{"BltTRX",		MENU_ABR_ON_TX_RX  },
+	{"BLTxRx",		MENU_ABR_ON_TX_RX  },
 	{"Beep",		MENU_BEEP          },
 #ifdef ENABLE_VOICE
 	{"Voice",		MENU_VOICE         },
