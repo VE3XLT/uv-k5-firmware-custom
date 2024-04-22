@@ -34,10 +34,13 @@
 #include "ui/ui.h"
 #include "ui/status.h"
 
-static void convertTime(uint8_t *line, uint8_t type) {
+
+static void convertTime(uint8_t *line, uint8_t type) 
+{
+	char str[8] = "";
+
     uint8_t m, s; // Declare variables for seconds, hours, minutes, and seconds
     uint16_t t;
-    char str[7];
 
     if(type == 0) // Tx timer
 		t = (gTxTimerCountdown_500ms / 2);
@@ -56,6 +59,8 @@ static void convertTime(uint8_t *line, uint8_t type) {
 
 void UI_DisplayStatus()
 {
+	char str[8] = "";
+
 	gUpdateStatus = false;
 	memset(gStatusLine, 0, sizeof(gStatusLine));
 
@@ -122,9 +127,8 @@ void UI_DisplayStatus()
 	bool debug = false;
 	if(debug)
 	{
-		char         sDebug[8] = "";
-		sprintf(sDebug, "%d", gDebug);
-		UI_PrintStringSmallBufferNormal(sDebug, line + x + 1);
+		sprintf(str, "%d", gDebug);
+		UI_PrintStringSmallBufferNormal(str, line + x + 1);
 		x += 16;
 	}
 	else
@@ -197,67 +201,51 @@ void UI_DisplayStatus()
 	// KEY-LOCK indicator
 	if (gEeprom.KEY_LOCK) {
 		memcpy(line + x + 1, gFontKeyLock, sizeof(gFontKeyLock));
-		x += sizeof(gFontKeyLock);
-		x1 = x;
 	}
 	else if (gWasFKeyPressed) {
 		UI_PrintStringSmallBufferNormal("F", line + x + 1);
-		x += sizeof(gFontKeyLock);
 		
 		for (uint8_t i = 71; i < 79; i++)
 		{
 			gStatusLine[i] ^= 0x7F;
 		}
-		x1 = x;
 	}
-	else if(gBackLight)
+	else if (gBackLight)
 	{
 		memcpy(line + x + 1, gFontLight, sizeof(gFontLight));
-		x += sizeof(gFontLight);
-		x1 = x;
+	}
+	else if (gChargingWithTypeC)
+	{
+		memcpy(line + x + 1, BITMAP_USB_C, sizeof(BITMAP_USB_C));
 	}
 
-	{	// battery voltage or percentage
-		char         s[8] = "";
-		unsigned int x2 = LCD_WIDTH - sizeof(BITMAP_BatteryLevel1) - 0;
-		if (gChargingWithTypeC)
-			x2 -= sizeof(BITMAP_USB_C);  // the radio is on charge
+	// Battery
+	unsigned int x2 = LCD_WIDTH - sizeof(BITMAP_BatteryLevel1) - 0;
 
-		switch (gSetting_battery_text) {
-			default:
-			case 0:
-				break;
+	UI_DrawBattery(line + x2, gBatteryDisplayLevel, gLowBatteryBlink);
 
-			case 1:	{	// voltage
-				const uint16_t voltage = (gBatteryVoltageAverage <= 999) ? gBatteryVoltageAverage : 999; // limit to 9.99V
+	switch (gSetting_battery_text) {
+		default:
+		case 0:
+			break;
+
+		case 1:	{	// voltage
+			const uint16_t voltage = (gBatteryVoltageAverage <= 999) ? gBatteryVoltageAverage : 999; // limit to 9.99V
 #ifdef ENABLE_FEAT_F4HWN
-				sprintf(s, "%u.%02u", voltage / 100, voltage % 100);
+			sprintf(str, "%u.%02u", voltage / 100, voltage % 100);
 #else
-				sprintf(s, "%u.%02uV", voltage / 100, voltage % 100);
+			sprintf(str, "%u.%02uV", voltage / 100, voltage % 100);
 #endif
-				break;
-			}
-
-			case 2:		// percentage
-				sprintf(s, "%u%%", BATTERY_VoltsToPercent(gBatteryVoltageAverage));
-				break;
+			break;
 		}
 
-		unsigned int space_needed = (7 * strlen(s));
-		if (x2 >= (x1 + space_needed))
-			UI_PrintStringSmallBufferNormal(s, line + x2 - space_needed);
+		case 2:		// percentage
+			sprintf(str, "%u%%", BATTERY_VoltsToPercent(gBatteryVoltageAverage));
+			break;
 	}
 
-	// move to right side of the screen
-	x = LCD_WIDTH - sizeof(BITMAP_BatteryLevel1) - sizeof(BITMAP_USB_C);
-
-	// USB-C charge indicator
-	if (gChargingWithTypeC)
-		memcpy(line + x, BITMAP_USB_C, sizeof(BITMAP_USB_C));
-	x += sizeof(BITMAP_USB_C);
-
-	// BATTERY LEVEL indicator
-	UI_DrawBattery(line + x, gBatteryDisplayLevel, gLowBatteryBlink);
+	x2 -= (7 * strlen(str));
+	UI_PrintStringSmallBufferNormal(str, line + x2);
 
 	// **************
 
