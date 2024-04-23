@@ -22,7 +22,7 @@ Anyway, have fun.
 
 # Donations
 
-Special thanks to Jean-Cyrille F6IWW, Fabrice 14RC123, David F4BPP, Olivier 14RC206, Frédéric F4ESO, Stéphane F5LGW, Jorge Ornelas, Laurent F4AXK, Christophe Morel, Clayton W0LED, Pierre Antoine F6FWB and Jean-Claude 14FRS3306 for their [donations](https://www.paypal.com/paypalme/F4HWN). That’s so kind of them. Thanks so much 🙏🏻
+Special thanks to Jean-Cyrille F6IWW, Fabrice 14RC123, David F4BPP, Olivier 14RC206, Frédéric F4ESO, Stéphane F5LGW, Jorge Ornelas, Laurent F4AXK, Christophe Morel, Clayton W0LED, Pierre Antoine F6FWB, Jean-Claude 14FRS3306 and Thierry F4GVO for their [donations](https://www.paypal.com/paypalme/F4HWN). That’s so kind of them. Thanks so much 🙏🏻
 
 ## Table of Contents
 
@@ -42,8 +42,8 @@ Special thanks to Jean-Cyrille F6IWW, Fabrice 14RC123, David F4BPP, Olivier 14RC
 * improve default power settings level (Low ~125mW, Mid ~2W and High ~5W),
 * improve s-meter (IARU recommandations),
 * improve UI: 
-    * menu index, 
-    * s-meter design, 
+    * menu index is always visible, even if a menu is selected,
+    * s-meter new design (Classic or Tiny), 
     * MAIN ONLY screen mode, 
     * DUAL and CROSS screen mode, 
     * RX blink on VFO RX, 
@@ -53,6 +53,9 @@ Special thanks to Jean-Cyrille F6IWW, Fabrice 14RC123, David F4BPP, Olivier 14RC
     * CTCSS or DCS value,
     * KeyLock message,
     * last RX,
+    * move BatTxt  menu from 34/63 to 30/63 (just after BatSave menu 29/63),
+    * rename BackLt to BLTime,
+    * rename BltTRX to BLTxRx,
     * and more...
 * new menu entries:
     * add SetLow menu to set low power (<20mW, 125mW, 250mW, 500mW and 1W),
@@ -71,12 +74,14 @@ Special thanks to Jean-Cyrille F6IWW, Fabrice 14RC123, David F4BPP, Olivier 14RC
 * improve status bar,
     * add SetPtt mode in status bar,
     * change font and bitmaps,
+    * move USB icon to left of battery information,
+    * add RX and TX timers,
 * new actions:
     * SWITCH RxMode, 
     * SWITCH PTT, 
     * SWITCH WIDE NARROW,
     * 1750Hz,
-    * BlMin Tmp Pff,
+    * BlMin Tmp Off,
 * new key combinations:
     * add the F + UP or F + DOWN key combination to dynamically change the Squelch level,
     * add the F + F1 or F + F2 key combination to dynamically change the Step,

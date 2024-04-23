@@ -53,6 +53,10 @@ center_line_t center_line = CENTER_LINE_NONE;
 
 	bool isMainOnlyInputDTMF = false;
 
+	static int16_t map(int16_t x, int16_t in_min, int16_t in_max, int16_t out_min, int16_t out_max) {
+		return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+	}
+
 	static bool isMainOnly(bool checkGui)
 	{
 		if(checkGui)
@@ -250,12 +254,6 @@ void UI_DisplayAudioBar(void)
 			ST7565_BlitFullScreen();
 	}
 }
-#endif
-
-#ifdef ENABLE_FEAT_F4HWN
-	static int16_t map(int16_t x, int16_t in_min, int16_t in_max, int16_t out_min, int16_t out_max) {
-		return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-	}
 #endif
 
 void DisplayRSSIBar(const bool now)
@@ -800,6 +798,8 @@ void UI_DisplayMain(void)
 #ifdef ENABLE_FEAT_F4HWN
 			else
 			{
+				gRxTimerCountdown_500ms = 7200;
+
 				if(RxOnVfofrequency == frequency && !isMainOnly(false))
 				{
 					UI_PrintStringSmallNormal(">>", 14, 0, line);

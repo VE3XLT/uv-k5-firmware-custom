@@ -210,6 +210,7 @@ void FUNCTION_Transmit()
 		AUDIO_AudioPathOn();
 		gEnableSpeaker = true;
 
+		gVfoConfigureMode = VFO_CONFIGURE;
 		return;
 	}
 #endif
