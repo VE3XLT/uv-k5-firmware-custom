@@ -51,6 +51,8 @@ static void convertTime(uint8_t *line, uint8_t type)
     m = t / 60;
     s = t - (m * 60);
 
+	gStatusLine[14] = 0x00; // Quick fix on display (on scanning I, II, etc.)
+
     sprintf(str, "%02d:%02d", m, s);
     UI_PrintStringSmallBufferNormal(str, line + 0);
 
