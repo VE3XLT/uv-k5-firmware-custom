@@ -39,6 +39,7 @@
 #include "driver/gpio.h"
 #include "driver/system.h"
 #include "driver/systick.h"
+#include "driver/eeprom.h"
 #ifdef ENABLE_UART
 	#include "driver/uart.h"
 #endif
@@ -118,7 +119,12 @@ void Main(void)
 	{
 		gF_LOCK = true;            // flag to say include the hidden menu items
 		#ifdef ENABLE_FEAT_F4HWN
+			uint8_t Data[8] = {0};
+			EEPROM_ReadBuffer(0x0E70, Data, 8);
 			gEeprom.KEY_LOCK = 0;
+			Data[4] = 0;
+			EEPROM_WriteBuffer(0x0E70, Data);
+
 			gMenuCursor = 63; // move to hidden section, fix me if change... !!!
 		#endif
 	}
