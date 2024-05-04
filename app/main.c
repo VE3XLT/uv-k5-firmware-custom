@@ -126,7 +126,7 @@ static void processFKeyFunction(const KEY_Code_t Key, const bool beep)
 					//SETTINGS_SaveChannel(channel, gEeprom.RX_VFO, gRxVfo, 1);
 
 					gRequestSaveChannel = 1;
-
+					gRequestSaveVFO = true;
 					gUpdateDisplay = true;
 				}
 #endif
