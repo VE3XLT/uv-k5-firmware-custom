@@ -168,24 +168,26 @@ const uint8_t BITMAP_VFO_NotDefault[8] =
 	0b00001000
 };
 
-const uint8_t BITMAP_ScanList1[6] =
+const uint8_t BITMAP_ScanList1[7] =
 {	// 'I' symbol
-	0b00000000,
-	0b00000000,
+	0b01111111,
+	0b01111111,
+	0b01111011,
 	0b01000001,
 	0b01111111,
-	0b01000001,
-	0b00000000
+	0b01111111,
+	0b01111111,
 };
 
-const uint8_t BITMAP_ScanList2[6] =
+const uint8_t BITMAP_ScanList2[7] =
 {	// 'II' symbol
-	0b00000000,
-	0b01000001,
 	0b01111111,
-	0b01000001,
 	0b01111111,
-	0b01000001
+	0b01001101,
+	0b01010101,
+	0b01011011,
+	0b01111111,
+	0b01111111,
 };
 
 const uint8_t BITMAP_compand[6] =

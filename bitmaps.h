@@ -28,8 +28,8 @@ extern const uint8_t BITMAP_USB_C[9];
 extern const uint8_t BITMAP_Antenna[5];
 extern const uint8_t BITMAP_VFO_Default[8];
 extern const uint8_t BITMAP_VFO_NotDefault[8];
-extern const uint8_t BITMAP_ScanList1[6];
-extern const uint8_t BITMAP_ScanList2[6];
+extern const uint8_t BITMAP_ScanList1[7];
+extern const uint8_t BITMAP_ScanList2[7];
 extern const uint8_t BITMAP_compand[6];
 
 #ifndef ENABLE_CUSTOM_MENU_LAYOUT
