@@ -1054,6 +1054,7 @@ void RADIO_PrepareTX(void)
 	){
 		// TX frequency not allowed
 		State = VFO_STATE_TX_DISABLE;
+		gVfoConfigureMode = VFO_CONFIGURE;
 	} else if (SerialConfigInProgress()) {
 		// TX is disabled or config upload/download in progress
 		State = VFO_STATE_TX_DISABLE;

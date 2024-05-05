@@ -777,7 +777,8 @@ void UI_DisplayMain(void)
 		else
 		{	// receiving .. show the RX symbol
 			mode = VFO_MODE_RX;
-			if (FUNCTION_IsRx() && gEeprom.RX_VFO == vfo_num) {
+			//if (FUNCTION_IsRx() && gEeprom.RX_VFO == vfo_num) {
+			if (FUNCTION_IsRx() && gEeprom.RX_VFO == vfo_num && VfoState[vfo_num] == VFO_STATE_NORMAL) {
 #ifdef ENABLE_FEAT_F4HWN
 				RxBlinkLed = 1;
 				RxBlinkLedCounter = 0;

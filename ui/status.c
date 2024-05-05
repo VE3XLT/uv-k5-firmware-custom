@@ -51,6 +51,8 @@ static void convertTime(uint8_t *line, uint8_t type)
     m = t / 60;
     s = t - (m * 60);
 
+	gStatusLine[14] = 0x00; // Quick fix on display (on scanning I, II, etc.)
+
     sprintf(str, "%02d:%02d", m, s);
     UI_PrintStringSmallBufferNormal(str, line + 0);
 
@@ -113,7 +115,8 @@ void UI_DisplayStatus()
 				}
 			}
 			else {	// frequency mode
-				UI_PrintStringSmallBufferNormal("S", line + x + 1);
+				memcpy(line + x + 1, gFontS, sizeof(gFontS));
+				//UI_PrintStringSmallBufferNormal("S", line + x + 1);
 			}
 			x1 = x + 10;
 		}
@@ -203,12 +206,15 @@ void UI_DisplayStatus()
 		memcpy(line + x + 1, gFontKeyLock, sizeof(gFontKeyLock));
 	}
 	else if (gWasFKeyPressed) {
+		memcpy(line + x + 1, gFontF, sizeof(gFontF));
+		/*
 		UI_PrintStringSmallBufferNormal("F", line + x + 1);
 		
 		for (uint8_t i = 71; i < 79; i++)
 		{
 			gStatusLine[i] ^= 0x7F;
 		}
+		*/
 	}
 	else if (gBackLight)
 	{

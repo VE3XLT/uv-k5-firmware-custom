@@ -844,11 +844,13 @@ void APP_Update(void)
 			{
 				if (gBlinkCounter == 0)
 				{
-					BACKLIGHT_TurnOn();
+					//BACKLIGHT_TurnOn();
+					BACKLIGHT_SetBrightness(gEeprom.BACKLIGHT_MAX);
 				}
 				else if(gBlinkCounter == 15000)
 				{
-					BACKLIGHT_TurnOff();
+					//BACKLIGHT_TurnOff();
+					BACKLIGHT_SetBrightness(gEeprom.BACKLIGHT_MIN);
 				}
 			}
 		}
@@ -878,9 +880,33 @@ void APP_Update(void)
 		gTxTimeoutReached = false;
 
 #ifdef ENABLE_FEAT_F4HWN
+		if(gBacklightCountdown_500ms > 0 || gEeprom.BACKLIGHT_TIME == 61)
+		{
+			//BACKLIGHT_TurnOn();
+			BACKLIGHT_SetBrightness(gEeprom.BACKLIGHT_MAX);
+		}
+
 		gTxTimeoutReachedAlert = false;
 		gTxTimeoutToneAlert = 800;
 
+		if (gSetting_set_ptt_session) // Improve OnePush if TOT
+		{
+			if(gPttOnePushCounter == 1)
+			{
+				gPttOnePushCounter = 3;
+			}
+			else if(gPttOnePushCounter == 2)
+			{
+				ProcessKey(KEY_PTT, false, false);
+				gPttIsPressed = false;
+				gPttOnePushCounter = 0;
+				gPttWasReleased = true;
+				//if (gKeyReading1 != KEY_INVALID)
+				//	gPttWasReleased = true;
+			}
+			ST7565_ContrastAndInv();
+		}
+		/*
 		if (gSetting_set_ptt_session) // Improve OnePush if TOT
 		{
 			ProcessKey(KEY_PTT, false, false);
@@ -890,6 +916,7 @@ void APP_Update(void)
 				gPttWasReleased = true;
 			ST7565_ContrastAndInv();
 		}
+		*/
 #endif
 
 		APP_EndTransmission();
@@ -1101,23 +1128,25 @@ static void CheckKeys(void)
 		{	// PTT pressed again			
 			if (++gPttDebounceCounter >= 3 || SerialConfigInProgress())	    // 30ms
 			{	// stop transmitting
-				ProcessKey(KEY_PTT, false, false);
-				gPttIsPressed = false;
 				gPttOnePushCounter = 3;
-				if (gKeyReading1 != KEY_INVALID)
-					gPttWasReleased = true;
-				ST7565_ContrastAndInv();
 			}
 		}
 		else if ((GPIO_CheckBit(&GPIOC->DATA, GPIOC_PIN_PTT) || SerialConfigInProgress()) && gPttOnePushCounter == 3)
 		{	// PTT released or serial comms config in progress
 			if (++gPttDebounceCounter >= 3 || SerialConfigInProgress())	    // 30ms
 			{	// stop transmitting
+				ProcessKey(KEY_PTT, false, false);
+				gPttIsPressed = false;
+				if (gKeyReading1 != KEY_INVALID)
+					gPttWasReleased = true;
 				gPttOnePushCounter = 0;
+				ST7565_ContrastAndInv();			
 			}
 		}
 		else
 			gPttDebounceCounter = 0;
+
+		//gDebug = gPttOnePushCounter;
 	}
 	else
 	{

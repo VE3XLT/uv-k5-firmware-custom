@@ -29,6 +29,16 @@ const uint8_t gFontFM[2][6] =
 	{0x00, 0x7f, 0x2, 0x1c, 0x2, 0x7f},
 };
 
+const uint8_t gFontF[1][8] =
+{
+	{0x7f, 0x00, 0x76, 0x76, 0x76, 0x76, 0x7e, 0x7f}, // 'F'
+};
+
+const uint8_t gFontS[1][6] =
+{
+	{0x26, 0x49, 0x49, 0x49, 0x49, 0x32}, // 'S'
+};
+
 const uint8_t gFontKeyLock[1][9] =
 {
 	{0x7c, 0x46, 0x45, 0x45, 0x45, 0x45, 0x45, 0x46, 0x7c}
@@ -168,24 +178,26 @@ const uint8_t BITMAP_VFO_NotDefault[8] =
 	0b00001000
 };
 
-const uint8_t BITMAP_ScanList1[6] =
+const uint8_t BITMAP_ScanList1[7] =
 {	// 'I' symbol
-	0b00000000,
-	0b00000000,
+	0b01111111,
+	0b01111111,
+	0b01111011,
 	0b01000001,
 	0b01111111,
-	0b01000001,
-	0b00000000
+	0b01111111,
+	0b01111111,
 };
 
-const uint8_t BITMAP_ScanList2[6] =
+const uint8_t BITMAP_ScanList2[7] =
 {	// 'II' symbol
-	0b00000000,
-	0b01000001,
 	0b01111111,
-	0b01000001,
 	0b01111111,
-	0b01000001
+	0b01001101,
+	0b01010101,
+	0b01011011,
+	0b01111111,
+	0b01111111,
 };
 
 const uint8_t BITMAP_compand[6] =
