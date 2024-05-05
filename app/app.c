@@ -844,11 +844,13 @@ void APP_Update(void)
 			{
 				if (gBlinkCounter == 0)
 				{
-					BACKLIGHT_TurnOn();
+					//BACKLIGHT_TurnOn();
+					BACKLIGHT_SetBrightness(gEeprom.BACKLIGHT_MAX);
 				}
 				else if(gBlinkCounter == 15000)
 				{
-					BACKLIGHT_TurnOff();
+					//BACKLIGHT_TurnOff();
+					BACKLIGHT_SetBrightness(gEeprom.BACKLIGHT_MIN);
 				}
 			}
 		}
@@ -878,6 +880,12 @@ void APP_Update(void)
 		gTxTimeoutReached = false;
 
 #ifdef ENABLE_FEAT_F4HWN
+		if(gBacklightCountdown_500ms > 0 || gEeprom.BACKLIGHT_TIME == 61)
+		{
+			//BACKLIGHT_TurnOn();
+			BACKLIGHT_SetBrightness(gEeprom.BACKLIGHT_MAX);
+		}
+
 		gTxTimeoutReachedAlert = false;
 		gTxTimeoutToneAlert = 800;
 
