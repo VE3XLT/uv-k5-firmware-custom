@@ -115,7 +115,8 @@ void UI_DisplayStatus()
 				}
 			}
 			else {	// frequency mode
-				UI_PrintStringSmallBufferNormal("S", line + x + 1);
+				memcpy(line + x + 1, gFontS, sizeof(gFontS));
+				//UI_PrintStringSmallBufferNormal("S", line + x + 1);
 			}
 			x1 = x + 10;
 		}
@@ -205,12 +206,15 @@ void UI_DisplayStatus()
 		memcpy(line + x + 1, gFontKeyLock, sizeof(gFontKeyLock));
 	}
 	else if (gWasFKeyPressed) {
+		memcpy(line + x + 1, gFontF, sizeof(gFontF));
+		/*
 		UI_PrintStringSmallBufferNormal("F", line + x + 1);
 		
 		for (uint8_t i = 71; i < 79; i++)
 		{
 			gStatusLine[i] ^= 0x7F;
 		}
+		*/
 	}
 	else if (gBackLight)
 	{
