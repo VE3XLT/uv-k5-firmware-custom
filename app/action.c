@@ -43,6 +43,10 @@
 #include "ui/inputbox.h"
 #include "ui/ui.h"
 
+#ifdef ENABLE_FEAT_F4HWN_SCREENSHOT
+  #include "screenshot.h"
+#endif
+
 #if defined(ENABLE_FMRADIO)
 static void ACTION_Scan_FM(bool bRestart);
 #endif
@@ -313,6 +317,11 @@ void ACTION_Handle(KEY_Code_t Key, bool bKeyPressed, bool bKeyHeld)
 	if (bKeyHeld || bKeyPressed) // held
 	{
 		funcShort = funcLong;
+
+		// For screenshot
+		#ifdef ENABLE_FEAT_F4HWN_SCREENSHOT
+			getScreenShot();
+		#endif
 
 		if (!bKeyPressed) //ignore release if held
 			return;

@@ -27,6 +27,10 @@
 #include "ui/helper.h"
 #include "ui/main.h"
 
+#ifdef ENABLE_FEAT_F4HWN_SCREENSHOT
+  #include "screenshot.h"
+#endif
+
 struct FrequencyBandInfo {
   uint32_t lower;
   uint32_t upper;
@@ -572,6 +576,10 @@ static void ToggleBacklight() {
   } else {
     BACKLIGHT_TurnOff();
   }
+  // For screenshot
+  #ifdef ENABLE_FEAT_F4HWN_SCREENSHOT
+    getScreenShot();
+  #endif
 }
 
 static void ToggleStepsCount() {
