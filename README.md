@@ -175,7 +175,7 @@ This is the least demanding option as you don't have to install enything on your
 1. Change tab from `Local` to `Codespace`
 1. Click green `Create codespace on main` button
 
-<img src="images/codespace1.png" width=700 />
+<img src="images/Code_Space_1.png" width=700 />
 
 5. Open `Makefile`
 1. Edit build options, save `Makefile` changes
@@ -184,7 +184,7 @@ This is the least demanding option as you don't have to install enything on your
 1. Right click `firmware.packed.bin`
 1. Click `Download`, now you should have a firmware on your computer that you can proceed to flash on your radio. You can use [online flasher](https://egzumer.github.io/uvtools)
 
-<img src="images/codespace2.png" width=700 />
+<img src="images/Code_Space_2.png" width=700 />
 
 ### Docker build method
 
