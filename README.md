@@ -137,7 +137,7 @@ Special thanks to Jean-Cyrille F6IWW, Fabrice 14RC123, David F4BPP, Olivier 14RC
 
  ## Manual
 
-Up to date manual is available in the [Wiki section](https://github.com/egzumer/uv-k5-firmware-custom/wiki)
+Up to date manual is available in the [Wiki section](https://github.com/armel/uv-k5-firmware-custom/wiki)
 
 ## Radio performance
 
@@ -170,7 +170,7 @@ You can get it from: https://releases.llvm.org/download.html
 
 This is the least demanding option as you don't have to install enything on your computer. All you need is Github account.
 
-1. Go to https://github.com/egzumer/uv-k5-firmware-custom
+1. Go to https://github.com/armel/uv-k5-firmware-custom
 1. Click green `Code` button
 1. Change tab from `Local` to `Codespace`
 1. Click green `Create codespace on main` button
@@ -202,7 +202,7 @@ If you have docker installed you can use [compile-with-docker.bat](./compile-wit
     pip install --user --upgrade pip
     pip install crcmod
     mkdir c:\projects & cd /D c:/projects
-    git clone https://github.com/egzumer/uv-k5-firmware-custom.git
+    git clone https://github.com/armel/uv-k5-firmware-custom.git
     ```
 3. From now on you can build the firmware by going to `c:\projects\uv-k5-firmware-custom` and running `win_make.bat` or by running a command line:
     ```
