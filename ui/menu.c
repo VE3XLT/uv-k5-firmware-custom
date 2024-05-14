@@ -54,7 +54,7 @@ const t_menu_item MenuList[] =
 #endif
 	{"BusyCL",		MENU_BCL           }, // was "BCL"
 	{"Compnd",		MENU_COMPAND       },
-	{"Demodu",		MENU_AM            }, // was "AM"
+	{"Mode",		MENU_AM            }, // was "AM"
 	{"ScAdd1",		MENU_S_ADD1        },
 	{"ScAdd2",		MENU_S_ADD2        },
 	{"ChSave",		MENU_MEM_CH        }, // was "MEM-CH"
