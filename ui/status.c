@@ -92,13 +92,6 @@ void UI_DisplayStatus()
 	}
 	else
 #endif
-#ifdef ENABLE_FMRADIO
-	if (gFmRadioMode) { // FM indicator
-		memcpy(line + x, gFontFM, sizeof(gFontFM));
-		x1 = x + sizeof(gFontFM);
-	}
-	else
-#endif
 	{ // SCAN indicator
 		if (gScanStateDir != SCAN_OFF || SCANNER_IsScanning()) {
 			if (IS_MR_CHANNEL(gNextMrChannel) && !SCANNER_IsScanning()) { // channel mode

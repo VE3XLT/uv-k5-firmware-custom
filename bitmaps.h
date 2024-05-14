@@ -7,7 +7,6 @@
 extern const uint8_t gFontPowerSave[2][6];
 extern const uint8_t gFontPttOnePush[2][6];
 extern const uint8_t gFontPttClassic[2][6];
-extern const uint8_t gFontFM[2][6];
 extern const uint8_t gFontF[1][8];
 extern const uint8_t gFontS[1][6];
 
