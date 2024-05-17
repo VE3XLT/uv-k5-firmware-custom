@@ -26,6 +26,7 @@
 #include "ui/welcome.h"
 #include "ui/status.h"
 #include "version.h"
+#include "bitmaps.h"
 
 void UI_DisplayReleaseKeys(void)
 {
@@ -108,8 +109,20 @@ void UI_DisplayWelcome(void)
 			gFrameBuffer[4][i] ^= 0xFF;
 		}
 
-		UI_PrintStringSmallNormal(Based, 0, 127, 5);
-		UI_PrintStringSmallNormal(Credits, 0, 127, 6);
+		#ifdef ENABLE_SPECTRUM
+			#ifdef ENABLE_FMRADIO
+					UI_PrintStringSmallNormal(Based, 0, 127, 5);
+					UI_PrintStringSmallNormal(Credits, 0, 127, 6);
+			#else
+					UI_PrintStringSmallNormal("Bandscope  ", 0, 127, 5);
+					memcpy(gFrameBuffer[5] + 95, BITMAP_Ready, sizeof(BITMAP_Ready));
+					UI_PrintStringSmallNormal("Broadcast  ", 0, 127, 6);
+			#endif
+		#else
+			UI_PrintStringSmallNormal("Bandscope  ", 0, 127, 5);
+			UI_PrintStringSmallNormal("Broadcast  ", 0, 127, 6);
+			memcpy(gFrameBuffer[6] + 95, BITMAP_Ready, sizeof(BITMAP_Ready));
+		#endif
 #else
 		UI_PrintStringSmallNormal(Version, 0, 127, 6);
 #endif
