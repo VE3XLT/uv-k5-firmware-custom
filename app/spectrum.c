@@ -740,6 +740,38 @@ static void DrawStatus() {
   }
 }
 
+#ifndef ENABLE_FMRADIO
+  static void ShowChannelName(uint32_t f) {
+    unsigned int i;
+    char s[12];
+    memset(String, 0, sizeof(String));
+
+    if ( isListening ) { 
+      for (i = 0; IS_MR_CHANNEL(i); i++) {
+          if (RADIO_CheckValidChannel(i, false, 0)) {
+            if (SETTINGS_FetchChannelFrequency(i) == f) {
+              memset(s, 0, sizeof(s));
+              SETTINGS_FetchChannelName(s, i);
+              if (s[0] != 0) {
+                if ( strlen(String) != 0 )
+                  strcat(String, "/");   // Add a space to result
+                strcat(String, s);
+              }
+              break;
+            }
+          }
+      }
+    }
+
+    if (String[0] != 0) {
+      if ( strlen(String) > 19 ) {
+        String[19] = 0;
+      }
+      UI_PrintStringSmallBold(String, 8, 127, 1);
+    }
+  }
+#endif
+
 static void DrawF(uint32_t f) {
   sprintf(String, "%u.%05u", f / 100000, f % 100000);
   UI_PrintStringSmallNormal(String, 8, 127, 0);
@@ -748,6 +780,10 @@ static void DrawF(uint32_t f) {
   GUI_DisplaySmallest(String, 116, 1, false, true);
   sprintf(String, "%s", bwOptions[settings.listenBw]);
   GUI_DisplaySmallest(String, 108, 7, false, true);
+
+#ifndef ENABLE_FMRADIO
+  ShowChannelName(f);
+#endif
 }
 
 static void DrawNums() {
