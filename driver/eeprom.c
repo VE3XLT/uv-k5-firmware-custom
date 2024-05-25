@@ -63,6 +63,6 @@ void EEPROM_WriteBuffer(uint16_t Address, const void *pBuffer)
 	// give the EEPROM time to burn the data in (apparently takes 5ms)
 	SYSTEM_DelayMs(20);
 
-	BK4819_ToggleGpioOut(BK4819_GPIO5_PIN1_RED, true);
+	BK4819_ToggleGpioOut(BK4819_GPIO5_PIN1_RED, false);
 
 }
