@@ -36,7 +36,11 @@ void COMMON_SwitchVFOs()
 
     gRequestSaveSettings  = 1;
     gFlagReconfigureVfos  = true;
-    gScheduleDualWatch = true;
+    
+    gScheduleDualWatch = false;
+    gDualWatchCountdown_10ms = dual_watch_count_toggle_10ms;
+    gDualWatchActive = false;
+	gUpdateStatus = true;
 
     gRequestDisplayScreen = DISPLAY_MAIN;
 }
