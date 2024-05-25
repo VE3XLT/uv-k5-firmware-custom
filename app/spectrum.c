@@ -68,7 +68,7 @@ const uint8_t modTypeReg47Values[] = {1, 7, 5};
 
 SpectrumSettings settings = {.stepsCount = STEPS_64,
                              .scanStepIndex = S_STEP_25_0kHz,
-                             .frequencyChangeStep = 80000,
+                             .frequencyChangeStep = 2 * 80000,
                              .scanDelay = 3200,
                              .rssiTriggerLevel = 150,
                              .backlightState = true,
@@ -502,7 +502,7 @@ static void UpdateScanStep(bool inc) {
     settings.scanStepIndex = settings.scanStepIndex != 0 ? settings.scanStepIndex - 1 : S_STEP_100_0kHz;
   }
 
-  settings.frequencyChangeStep = GetBW() >> 1;
+  settings.frequencyChangeStep = 2 * GetBW() >> 1;
   RelaunchScan();
   ResetBlacklist();
   redrawScreen = true;
