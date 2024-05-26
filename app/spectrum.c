@@ -580,7 +580,7 @@ static void ToggleStepsCount() {
   } else {
     settings.stepsCount--;
   }
-  settings.frequencyChangeStep = GetBW() >> 1;
+  settings.frequencyChangeStep = 2 * GetBW() >> 1;
   RelaunchScan();
   ResetBlacklist();
   redrawScreen = true;
