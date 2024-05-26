@@ -40,7 +40,7 @@ void COMMON_SwitchVFOs()
     gScheduleDualWatch = false;
     gDualWatchCountdown_10ms = dual_watch_count_toggle_10ms;
     gDualWatchActive = false;
-	gUpdateStatus = true;
+    gUpdateStatus = true;
 
     gRequestDisplayScreen = DISPLAY_MAIN;
 }
