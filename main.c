@@ -183,6 +183,10 @@ void Main(void)
 					boot_counter_10ms = 0;
 					break;
 				}
+#ifdef ENABLE_BOOT_BEEPS
+				if ((boot_counter_10ms % 25) == 0)
+					AUDIO_PlayBeep(BEEP_880HZ_60MS_DOUBLE_BEEP);
+#endif
 			}
 			RADIO_SetupRegisters(true);
 		}
