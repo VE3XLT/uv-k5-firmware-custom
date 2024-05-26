@@ -2018,7 +2018,7 @@ Skip:
 	}
 
 	if (gRequestSaveChannel > 0) { // TODO: remove the gRequestSaveChannel, why use global variable for that??
-		if (!bKeyHeld && !bKeyPressed) {
+		if (!bKeyHeld) {
 			SETTINGS_SaveChannel(gTxVfo->CHANNEL_SAVE, gEeprom.TX_VFO, gTxVfo, gRequestSaveChannel);
 
 			if (!SCANNER_IsScanning() && gVfoConfigureMode == VFO_CONFIGURE_NONE)
