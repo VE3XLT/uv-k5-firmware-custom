@@ -290,7 +290,7 @@ const char * const gSubMenu_F_LOCK[] =
 	"GB HAM\n144-148\n430-440",
 	"137-174\n400-430",
 	"137-174\n400-438",
-#ifdef ENABLE_FEAT_F4HWN
+#ifdef ENABLE_FEAT_F4HWN_PMR
 	"PMR 446",
 #endif
 	"DISABLE\nALL",

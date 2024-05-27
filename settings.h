@@ -45,7 +45,7 @@ enum TxLockModes_t {
 	F_LOCK_GB,
 	F_LOCK_430,
 	F_LOCK_438,
-#ifdef ENABLE_FEAT_F4HWN
+#ifdef ENABLE_FEAT_F4HWN_PMR
 	F_LOCK_PMR,
 #endif
 	F_LOCK_ALL,	// disable TX on all frequencies
