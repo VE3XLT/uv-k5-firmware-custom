@@ -482,9 +482,9 @@ static void UpdateRssiTriggerLevel(bool inc) {
 
 static void UpdateDBMax(bool inc) {
   if (inc && settings.dbMax < 10) {
-    settings.dbMax += 1;
+    settings.dbMax += 5;
   } else if (!inc && settings.dbMax > settings.dbMin) {
-    settings.dbMax -= 1;
+    settings.dbMax -= 5;
   } else {
     return;
   }
