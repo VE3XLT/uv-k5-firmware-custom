@@ -128,8 +128,10 @@ void SETTINGS_InitEEPROM(void)
 #endif
 
 	// 0E98..0E9F
-	EEPROM_ReadBuffer(0x0E98, Data, 8);
-	memcpy(&gEeprom.POWER_ON_PASSWORD, Data, 4);
+	#ifdef ENABLE_PWRON_PASSWORD
+		EEPROM_ReadBuffer(0x0E98, Data, 8);
+		memcpy(&gEeprom.POWER_ON_PASSWORD, Data, 4);
+	#endif
 
 	// 0EA0..0EA7
 	EEPROM_ReadBuffer(0x0EA0, Data, 8);
@@ -502,7 +504,9 @@ void SETTINGS_SaveVfoIndices(void)
 void SETTINGS_SaveSettings(void)
 {
 	uint8_t  State[8];
-	uint32_t Password[2];
+	#ifdef ENABLE_PWRON_PASSWORD
+		uint32_t Password[2];
+	#endif
 
 	State[0] = gEeprom.CHAN_1_CALL;
 	State[1] = gEeprom.SQUELCH_LEVEL;
@@ -530,6 +534,11 @@ void SETTINGS_SaveSettings(void)
 	State[4] = gEeprom.DUAL_WATCH;
 
 	#ifdef ENABLE_FEAT_F4HWN
+		if(!gSaveRxMode)
+		{
+			State[2] = gCB;
+			State[4] = gDW;
+		}
 		if(gBackLight)
 		{
 			State[5] = gBacklightTimeOriginal;
@@ -557,11 +566,11 @@ void SETTINGS_SaveSettings(void)
 	State[7] = gEeprom.POWER_ON_DISPLAY_MODE;
 	EEPROM_WriteBuffer(0x0E90, State);
 
-	memset(Password, 0xFF, sizeof(Password));
 	#ifdef ENABLE_PWRON_PASSWORD
+		memset(Password, 0xFF, sizeof(Password));
 		Password[0] = gEeprom.POWER_ON_PASSWORD;
+		EEPROM_WriteBuffer(0x0E98, Password);
 	#endif
-	EEPROM_WriteBuffer(0x0E98, Password);
 
 	memset(State, 0xFF, sizeof(State));
 #ifdef ENABLE_VOICE

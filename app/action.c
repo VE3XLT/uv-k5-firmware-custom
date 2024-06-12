@@ -465,6 +465,13 @@ void ACTION_BlminTmpOff(void)
 #endif
 
 #ifdef ENABLE_FEAT_F4HWN
+void ACTION_Update(void)
+{
+	gSaveRxMode          = false;
+	gFlagReconfigureVfos = true;
+	gUpdateStatus        = true;
+}
+
 void ACTION_RxMode(void)
 {
 	static bool cycle = 0;
@@ -480,8 +487,7 @@ void ACTION_RxMode(void)
 			break;
 	}
 
-	gFlagReconfigureVfos = true;
-	gUpdateStatus        = true;
+	ACTION_Update();
 }
 
 void ACTION_MainOnly(void)
@@ -506,8 +512,7 @@ void ACTION_MainOnly(void)
 			break;
 	}
 
-	gFlagReconfigureVfos = true;
-	gUpdateStatus        = true;
+	ACTION_Update();
 }
 
 void ACTION_Ptt(void)

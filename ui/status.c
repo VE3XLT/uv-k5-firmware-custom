@@ -34,7 +34,6 @@
 #include "ui/ui.h"
 #include "ui/status.h"
 
-
 static void convertTime(uint8_t *line, uint8_t type) 
 {
 	char str[8] = "";

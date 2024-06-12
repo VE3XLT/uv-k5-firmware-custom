@@ -168,6 +168,9 @@ extern enum BacklightOnRxTx_t gSetting_backlight_on_tx_rx;
 	extern bool               gSetting_set_gui;
 	extern bool               gSetting_set_ptt_session;
 	extern uint8_t            gDebug;
+	extern uint8_t            gDW;
+	extern uint8_t            gCB;
+	extern bool               gSaveRxMode;
 #endif
 
 #ifdef ENABLE_AUDIO_BAR
