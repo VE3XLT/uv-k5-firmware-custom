@@ -83,7 +83,7 @@ const t_menu_item MenuList[] =
 	{"MicBar",		MENU_MIC_BAR       },
 #endif
 	{"ChDisp",		MENU_MDF           }, // was "MDF"
-	{"POnMsg",		MENU_PONMSG        },
+	{"PMsg",		MENU_PONMSG        },
 	{"BLTime",		MENU_ABR           }, // was "ABR"
 	{"BLMin",		MENU_ABR_MIN       },
 	{"BLMax",		MENU_ABR_MAX       },
@@ -92,61 +92,61 @@ const t_menu_item MenuList[] =
 #ifdef ENABLE_VOICE
 	{"Voice",		MENU_VOICE         },
 #endif
-	{"Roger",		MENU_ROGER         },
+	{"Rgr",		MENU_ROGER         },
 	{"STE",			MENU_STE           },
-	{"RP STE",		MENU_RP_STE        },
-	{"1 Call",		MENU_1_CALL        },
+	{"RPSTE",		MENU_RP_STE        },
+	{"1Call",		MENU_1_CALL        },
 #ifdef ENABLE_ALARM
 	{"AlarmT",		MENU_AL_MOD        },
 #endif
 #ifdef ENABLE_DTMF_CALLING
-	{"ANI ID",		MENU_ANI_ID        },
+	{"ANIID",		MENU_ANI_ID        },
 #endif
-	{"UPCode",		MENU_UPCODE        },
-	{"DWCode",		MENU_DWCODE        },
-	{"PTT ID",		MENU_PTT_ID        },
-	{"D ST",		MENU_D_ST          },
+	{"UPCd",		MENU_UPCODE        },
+	{"DWCd",		MENU_DWCODE        },
+	{"PTTID",		MENU_PTT_ID        },
+	{"DST",		MENU_D_ST          },
 #ifdef ENABLE_DTMF_CALLING
-    {"D Resp",		MENU_D_RSP         },
-	{"D Hold",		MENU_D_HOLD        },
+    {"DResp",		MENU_D_RSP         },
+	{"DHold",		MENU_D_HOLD        },
 #endif
-	{"D Prel",		MENU_D_PRE         },
+	{"DPrel",		MENU_D_PRE         },
 #ifdef ENABLE_DTMF_CALLING
-	{"D Decd",		MENU_D_DCD         },
-	{"D List",		MENU_D_LIST        },
+	{"DDecd",		MENU_D_DCD         },
+	{"DList",		MENU_D_LIST        },
 #endif
-	{"D Live",		MENU_D_LIVE_DEC    }, // live DTMF decoder
+	{"DLive",		MENU_D_LIVE_DEC    }, // live DTMF decoder
 #ifdef ENABLE_AM_FIX
-	{"AM Fix",		MENU_AM_FIX        },
+	{"AMFix",		MENU_AM_FIX        },
 #endif
 #ifdef ENABLE_VOX
 	{"VOX",			MENU_VOX           },
 #endif
 #ifdef ENABLE_FEAT_F4HWN
-	{"SysInf",		MENU_VOL           }, // was "VOL"
+	{"SysI",		MENU_VOL           }, // was "VOL"
 #else
-	{"BatVol",		MENU_VOL           }, // was "VOL"
+	{"BatV",		MENU_VOL           }, // was "VOL"
 #endif
-	{"RxMode",		MENU_TDR           },
+	{"RxMo",		MENU_TDR           },
 	{"Sql",			MENU_SQL           },
 #ifdef ENABLE_FEAT_F4HWN
-	{"SetLow",		MENU_SET_LOW       },
-	{"SetPtt",		MENU_SET_PTT       },
-	{"SetTot",		MENU_SET_TOT       },
-	{"SetEot",		MENU_SET_EOT       },
-	{"SetCtr",		MENU_SET_CTR       },
-	{"SetInv",		MENU_SET_INV       },
-	{"SetLck",		MENU_SET_LCK       },
-	{"SetMet",		MENU_SET_MET       },
-	{"SetGui",		MENU_SET_GUI       },
+	{"LowP",		MENU_SET_LOW       },
+	{"Ptt",		MENU_SET_PTT       },
+	{"Tot",		MENU_SET_TOT       },
+	{"Eot",		MENU_SET_EOT       },
+	{"Ctr",		MENU_SET_CTR       },
+	{"Inv",		MENU_SET_INV       },
+	{"Lck",		MENU_SET_LCK       },
+	{"Met",		MENU_SET_MET       },
+	{"Gui",		MENU_SET_GUI       },
 #endif
 	// hidden menu items from here on
 	// enabled if pressing both the PTT and upper side button at power-on
 	{"F Lock",		MENU_F_LOCK        },
-	{"Tx 200",		MENU_200TX         }, // was "200TX"
-	{"Tx 350",		MENU_350TX         }, // was "350TX"
-	{"Tx 500",		MENU_500TX         }, // was "500TX"
-	{"350 En",		MENU_350EN         }, // was "350EN"
+	{"Tx200",		MENU_200TX         }, // was "200TX"
+	{"Tx350",		MENU_350TX         }, // was "350TX"
+	{"Tx500",		MENU_500TX         }, // was "500TX"
+	{"350En",		MENU_350EN         }, // was "350EN"
 #ifndef ENABLE_FEAT_F4HWN
 	{"ScraEn",		MENU_SCREN         }, // was "SCREN"
 #endif
@@ -164,9 +164,9 @@ const uint8_t FIRST_HIDDEN_MENU_ITEM = MENU_F_LOCK;
 
 const char gSubMenu_TXP[][5] =
 {
-	"LOW",
-	"MID",
-	"HIGH"
+	"L",
+	"M",
+	"H"
 };
 
 const char gSubMenu_SFT_D[][4] =
@@ -179,7 +179,7 @@ const char gSubMenu_SFT_D[][4] =
 const char gSubMenu_W_N[][7] =
 {
 	"WIDE",
-	"NARROW"
+	"NAR"
 };
 
 const char gSubMenu_OFF_ON[][4] =
@@ -200,7 +200,7 @@ const char gSubMenu_SAVE[][4] =
 const char* const gSubMenu_RXMode[] =
 {
 	"MAIN\nONLY", 		// TX and RX on main only
-	"DUAL RX\nRESPOND", // Watch both and respond
+	"DUAL RX\nRESP", // Watch both and respond
 	"CROSS\nBAND", 		// TX on main, RX on secondary
 	"MAIN TX\nDUAL RX" 	// always TX on main, but RX on both
 };
@@ -224,7 +224,7 @@ const char gSubMenu_SC_REV[][8] =
 const char* const gSubMenu_MDF[] =
 {
 	"FREQ",
-	"CHANNEL\nNUMBER",
+	"CHAN\nNUM",
 	"NAME",
 	"NAME\n+\nFREQ"
 };
@@ -250,29 +250,29 @@ const char gSubMenu_D_RSP[][11] =
 const char* const gSubMenu_PTT_ID[] =
 {
 	"OFF",
-	"UP CODE",
-	"DOWN CODE",
-	"UP+DOWN\nCODE",
-	"APOLLO\nQUINDAR"
+	"UP",
+	"DOWN",
+	"UP+DOWN",
+	"APOLLO"
 };
 
 const char gSubMenu_PONMSG[][8] =
 {
 #ifdef ENABLE_FEAT_F4HWN
 	"ALL",
-	"SOUND",
+	"SND",
 #else
 	"FULL",
 #endif
-	"MESSAGE",
-	"VOLTAGE",
+	"MSG",
+	"VOLT",
 	"NONE"
 };
 
 const char gSubMenu_ROGER[][6] =
 {
 	"OFF",
-	"ROGER",
+	"RGR",
 	"MDC"
 };
 
@@ -284,10 +284,10 @@ const char gSubMenu_RESET[][4] =
 
 const char * const gSubMenu_F_LOCK[] =
 {
-	"DEFAULT+\n137-174\n400-470",
-	"FCC HAM\n144-148\n420-450",
-	"CE HAM\n144-146\n430-440",
-	"GB HAM\n144-148\n430-440",
+	"DEF+\n137-174\n400-470",
+	"FCC\n144-148\n420-450",
+	"CE\n144-146\n430-440",
+	"GB\n144-148\n430-440",
 	"137-174\n400-430",
 	"137-174\n400-438",
 #ifdef ENABLE_FEAT_F4HWN_PMR
@@ -308,14 +308,14 @@ const char gSubMenu_RX_TX[][6] =
 const char gSubMenu_BAT_TXT[][8] =
 {
 	"NONE",
-	"VOLTAGE",
-	"PERCENT"
+	"V",
+	"%"
 };
 
 const char gSubMenu_BATTYP[][9] =
 {
-	"1600mAh",
-	"2200mAh"
+	"1.6Ah",
+	"2.2Ah"
 };
 
 #ifndef ENABLE_FEAT_F4HWN
@@ -338,24 +338,24 @@ const char gSubMenu_SCRAMBLER[][7] =
 #ifdef ENABLE_FEAT_F4HWN
 	const char gSubMenu_SET_LOW[][7] =
 	{
-		"< 20mW",
-		"125mW",
-		"250mW",
-		"500mW",
+		"<20mW",
+		"1/8W",
+		"1/4W",
+		"1/2W",
 		"1W"
 	};
 
 	const char gSubMenu_SET_PTT[][8] =
 	{
-		"CLASSIC",
-		"ONEPUSH"
+		"HOLD",
+		"TOGGLE"
 	};
 
 	const char gSubMenu_SET_TOT[][7] =	// Use by SET_EOT too
 	{
 		"OFF",
-		"SOUND",
-		"VISUAL",
+		"SND",
+		"VIS",
 		"ALL"
 	};
 
@@ -368,7 +368,7 @@ const char gSubMenu_SCRAMBLER[][7] =
 	const char gSubMenu_SET_MET[][8] =
 	{
 		"TINY",
-		"CLASSIC"
+		"DEF"
 	};
 #endif
 
@@ -378,8 +378,8 @@ const t_sidefunction gSubMenu_SIDEFUNCTIONS[] =
 #ifdef ENABLE_FLASHLIGHT
 	{"FLASH\nLIGHT",	ACTION_OPT_FLASHLIGHT},
 #endif
-	{"POWER",			ACTION_OPT_POWER},
-	{"MONITOR",			ACTION_OPT_MONITOR},
+	{"PWR",			ACTION_OPT_POWER},
+	{"MONI",			ACTION_OPT_MONITOR},
 	{"SCAN",			ACTION_OPT_SCAN},
 #ifdef ENABLE_VOX
 	{"VOX",				ACTION_OPT_VOX},
@@ -388,23 +388,23 @@ const t_sidefunction gSubMenu_SIDEFUNCTIONS[] =
 	{"ALARM",			ACTION_OPT_ALARM},
 #endif
 #ifdef ENABLE_FMRADIO
-	{"FM RADIO",		ACTION_OPT_FM},
+	{"FMRADIO",		ACTION_OPT_FM},
 #endif
 #ifdef ENABLE_TX1750
 	{"1750Hz",			ACTION_OPT_1750},
 #endif
-	{"LOCK\nKEYPAD",	ACTION_OPT_KEYLOCK},
-	{"VFO A\nVFO B",	ACTION_OPT_A_B},
-	{"VFO\nMEM",		ACTION_OPT_VFO_MR},
+	{"KEYPAD",			ACTION_OPT_KEYLOCK},
+	{"VFO A/B",			ACTION_OPT_A_B},
+	{"VFO/MR",		ACTION_OPT_VFO_MR},
 	{"MODE",			ACTION_OPT_SWITCH_DEMODUL},
 #ifdef ENABLE_BLMIN_TMP_OFF
 	{"BLMIN\nTMP OFF",  ACTION_OPT_BLMIN_TMP_OFF}, 		//BackLight Minimum Temporay OFF
 #endif
 #ifdef ENABLE_FEAT_F4HWN
-	{"RX MODE",   		ACTION_OPT_RXMODE},
-	{"MAIN ONLY",   	ACTION_OPT_MAINONLY},
+	{"RXMODE",   		ACTION_OPT_RXMODE},
+	{"MAIN TOG", 	  	ACTION_OPT_MAINONLY},
 	{"PTT",  	    	ACTION_OPT_PTT},
-	{"WIDE\nNARROW", 	ACTION_OPT_WN},
+	{"W/N", 			ACTION_OPT_WN},
 #endif
 };
 
