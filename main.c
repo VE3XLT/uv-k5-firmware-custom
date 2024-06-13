@@ -94,6 +94,12 @@ void Main(void)
 	BOARD_ADC_GetBatteryInfo(&gBatteryCurrentVoltage, &gBatteryCurrent);
 
 	SETTINGS_InitEEPROM();
+
+	#ifdef ENABLE_FEAT_F4HWN
+		gDW = gEeprom.DUAL_WATCH;
+		gCB = gEeprom.CROSS_BAND_RX_TX;
+	#endif
+
 	SETTINGS_WriteBuildOptions();
 	SETTINGS_LoadCalibration();
 

@@ -116,6 +116,9 @@ enum BacklightOnRxTx_t gSetting_backlight_on_tx_rx;
 	bool          gSetting_set_gui = 0;
 	bool          gSetting_set_ptt_session;
 	uint8_t       gDebug;
+	uint8_t       gDW = 0;
+	uint8_t       gCB = 0;
+	bool          gSaveRxMode = false;
 #endif
 
 #ifdef ENABLE_AUDIO_BAR

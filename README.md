@@ -77,11 +77,11 @@ Special thanks to Jean-Cyrille F6IWW, Fabrice 14RC123, David F4BPP, Olivier 14RC
     * move USB icon to left of battery information,
     * add RX and TX timers,
 * new actions:
-    * SWITCH RxMode, 
-    * SWITCH PTT, 
-    * SWITCH WIDE NARROW,
+    * RX MODE,
+    * MAIN ONLY,
+    * PTT, 
+    * WIDE NARROW,
     * 1750Hz,
-    * BlMin Tmp Off,
 * new key combinations:
     * add the F + UP or F + DOWN key combination to dynamically change the Squelch level,
     * add the F + F1 or F + F2 key combination to dynamically change the Step,

@@ -43,6 +43,10 @@
 #include "ui/inputbox.h"
 #include "ui/ui.h"
 
+#ifdef ENABLE_FEAT_F4HWN_SCREENSHOT
+  #include "screenshot.h"
+#endif
+
 #if defined(ENABLE_FMRADIO)
 static void ACTION_Scan_FM(bool bRestart);
 #endif
@@ -103,6 +107,7 @@ void (*action_opt_table[])(void) = {
 
 #ifdef ENABLE_FEAT_F4HWN
 	[ACTION_OPT_RXMODE] = &ACTION_RxMode,
+	[ACTION_OPT_MAINONLY] = &ACTION_MainOnly,
 	[ACTION_OPT_PTT] = &ACTION_Ptt,
 	[ACTION_OPT_WN] = &ACTION_Wn,
 	[ACTION_OPT_BACKLIGHT] = &ACTION_BackLight,
@@ -314,6 +319,11 @@ void ACTION_Handle(KEY_Code_t Key, bool bKeyPressed, bool bKeyHeld)
 	{
 		funcShort = funcLong;
 
+		// For screenshot
+		#ifdef ENABLE_FEAT_F4HWN_SCREENSHOT
+			getScreenShot();
+		#endif
+
 		if (!bKeyPressed) //ignore release if held
 			return;
 	}
@@ -455,23 +465,54 @@ void ACTION_BlminTmpOff(void)
 #endif
 
 #ifdef ENABLE_FEAT_F4HWN
+void ACTION_Update(void)
+{
+	gSaveRxMode          = false;
+	gFlagReconfigureVfos = true;
+	gUpdateStatus        = true;
+}
+
 void ACTION_RxMode(void)
 {
 	static bool cycle = 0;
 
 	switch(cycle) {
 		case 0:
-			gEeprom.DUAL_WATCH = (gEeprom.DUAL_WATCH == 0) ? 1 : 0;
+			gEeprom.DUAL_WATCH = !gEeprom.DUAL_WATCH;
 			cycle = 1;
 			break;
 		case 1:
-			gEeprom.CROSS_BAND_RX_TX = (gEeprom.CROSS_BAND_RX_TX == 0) ? 1 : 0;
+			gEeprom.CROSS_BAND_RX_TX = !gEeprom.CROSS_BAND_RX_TX;
 			cycle = 0;
 			break;
 	}
 
-	gFlagReconfigureVfos = true;
-	gUpdateStatus        = true;
+	ACTION_Update();
+}
+
+void ACTION_MainOnly(void)
+{
+	static bool cycle = 0;
+	static uint8_t dw = 0;
+	static uint8_t cb = 0;
+
+	switch(cycle) {
+		case 0:
+			dw = gEeprom.DUAL_WATCH;
+			cb = gEeprom.CROSS_BAND_RX_TX;
+
+			gEeprom.DUAL_WATCH = 0;
+			gEeprom.CROSS_BAND_RX_TX = 0;
+			cycle = 1;
+			break;
+		case 1:
+			gEeprom.DUAL_WATCH = dw;
+			gEeprom.CROSS_BAND_RX_TX = cb;
+			cycle = 0;
+			break;
+	}
+
+	ACTION_Update();
 }
 
 void ACTION_Ptt(void)
