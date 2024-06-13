@@ -41,7 +41,7 @@ const t_menu_item MenuList[] =
 {
 //   text,          menu ID
 	{"Step",		MENU_STEP          },
-	{"TxPwr",		MENU_TXP           }, // was "TXP"
+	{"Power",		MENU_TXP           }, // was "TXP"
 	{"RxDCS",		MENU_R_DCS         }, // was "R_DCS"
 	{"RxCTCS",		MENU_R_CTCS        }, // was "R_CTCS"
 	{"TxDCS",		MENU_T_DCS         }, // was "T_DCS"
@@ -54,7 +54,7 @@ const t_menu_item MenuList[] =
 #endif
 	{"BusyCL",		MENU_BCL           }, // was "BCL"
 	{"Compnd",		MENU_COMPAND       },
-	{"Demodu",		MENU_AM            }, // was "AM"
+	{"Mode",		MENU_AM            }, // was "AM"
 	{"ScAdd1",		MENU_S_ADD1        },
 	{"ScAdd2",		MENU_S_ADD2        },
 	{"ChSave",		MENU_MEM_CH        }, // was "MEM-CH"
@@ -290,7 +290,7 @@ const char * const gSubMenu_F_LOCK[] =
 	"GB HAM\n144-148\n430-440",
 	"137-174\n400-430",
 	"137-174\n400-438",
-#ifdef ENABLE_FEAT_F4HWN
+#ifdef ENABLE_FEAT_F4HWN_PMR
 	"PMR 446",
 #endif
 	"DISABLE\nALL",
@@ -394,16 +394,17 @@ const t_sidefunction gSubMenu_SIDEFUNCTIONS[] =
 	{"1750Hz",			ACTION_OPT_1750},
 #endif
 	{"LOCK\nKEYPAD",	ACTION_OPT_KEYLOCK},
-	{"SWITCH\nVFO",		ACTION_OPT_A_B},
-	{"VFO/MR",			ACTION_OPT_VFO_MR},
-	{"SWITCH\nDEMODUL",	ACTION_OPT_SWITCH_DEMODUL},
+	{"VFO A\nVFO B",	ACTION_OPT_A_B},
+	{"VFO\nMEM",		ACTION_OPT_VFO_MR},
+	{"MODE",			ACTION_OPT_SWITCH_DEMODUL},
 #ifdef ENABLE_BLMIN_TMP_OFF
 	{"BLMIN\nTMP OFF",  ACTION_OPT_BLMIN_TMP_OFF}, 		//BackLight Minimum Temporay OFF
 #endif
 #ifdef ENABLE_FEAT_F4HWN
-	{"SWITCH\nRX MODE",   ACTION_OPT_RXMODE},
-	{"SWITCH\nPTT",  	    ACTION_OPT_PTT},
-	{"SWITCH\nWIDE\nNARROW", ACTION_OPT_WN},
+	{"RX MODE",   		ACTION_OPT_RXMODE},
+	{"MAIN ONLY",   	ACTION_OPT_MAINONLY},
+	{"PTT",  	    	ACTION_OPT_PTT},
+	{"WIDE\nNARROW", 	ACTION_OPT_WN},
 #endif
 };
 

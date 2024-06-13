@@ -34,7 +34,6 @@
 #include "ui/ui.h"
 #include "ui/status.h"
 
-
 static void convertTime(uint8_t *line, uint8_t type) 
 {
 	char str[8] = "";
@@ -89,13 +88,6 @@ void UI_DisplayStatus()
 	if (gSetting_KILLED) {
 		memset(line + x, 0xFF, 10);
 		x1 = x + 10;
-	}
-	else
-#endif
-#ifdef ENABLE_FMRADIO
-	if (gFmRadioMode) { // FM indicator
-		memcpy(line + x, gFontFM, sizeof(gFontFM));
-		x1 = x + sizeof(gFontFM);
 	}
 	else
 #endif

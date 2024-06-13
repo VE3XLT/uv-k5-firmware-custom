@@ -167,6 +167,10 @@ extern enum BacklightOnRxTx_t gSetting_backlight_on_tx_rx;
 	extern bool               gSetting_set_met;
 	extern bool               gSetting_set_gui;
 	extern bool               gSetting_set_ptt_session;
+	extern uint8_t            gDebug;
+	extern uint8_t            gDW;
+	extern uint8_t            gCB;
+	extern bool               gSaveRxMode;
 #endif
 
 #ifdef ENABLE_AUDIO_BAR
@@ -350,7 +354,6 @@ extern volatile uint8_t      boot_counter_10ms;
 	extern uint8_t               gBacklightBrightnessOld;
 	extern uint8_t               gPttOnePushCounter;
 	extern uint32_t              gBlinkCounter;
-	extern uint8_t               gDebug;
 #endif
 
 int32_t NUMBER_AddWithWraparound(int32_t Base, int32_t Add, int32_t LowerLimit, int32_t UpperLimit);

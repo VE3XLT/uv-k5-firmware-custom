@@ -799,8 +799,6 @@ void UI_DisplayMain(void)
 #ifdef ENABLE_FEAT_F4HWN
 			else
 			{
-				gRxTimerCountdown_500ms = 7200;
-
 				if(RxOnVfofrequency == frequency && !isMainOnly(false))
 				{
 					UI_PrintStringSmallNormal(">>", 14, 0, line);

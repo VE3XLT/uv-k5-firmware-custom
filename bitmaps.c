@@ -23,12 +23,6 @@ const uint8_t gFontPttClassic[2][6] =
 	{0x00, 0x7f, 0x40, 0x40, 0x40, 0x40},
 };
 
-const uint8_t gFontFM[2][6] =
-{
-	{0x00, 0x7f, 0x9, 0x9, 0x9, 0x1},
-	{0x00, 0x7f, 0x2, 0x1c, 0x2, 0x7f},
-};
-
 const uint8_t gFontF[1][8] =
 {
 	{0x7f, 0x00, 0x76, 0x76, 0x76, 0x76, 0x7e, 0x7f}, // 'F'
@@ -208,6 +202,17 @@ const uint8_t BITMAP_compand[6] =
 	0b01000010,
 	0b01000010,
 	0b00100100
+};
+
+const uint8_t BITMAP_Ready[7] =
+{
+	0b00001000,
+	0b00010000,
+	0b00100000,
+	0b00010000,
+	0b00001000,
+	0b00000100,
+	0b00000010,
 };
 
 #ifndef ENABLE_CUSTOM_MENU_LAYOUT
