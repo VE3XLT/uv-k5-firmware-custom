@@ -4,7 +4,7 @@
 # 1 = enable
 
 # ---- STOCK QUANSHENG FERATURES ----
-ENABLE_FMRADIO                ?= 1
+ENABLE_FMRADIO                ?= 0
 ENABLE_UART                   ?= 1
 ENABLE_AIRCOPY                ?= 0
 ENABLE_NOAA                   ?= 0
