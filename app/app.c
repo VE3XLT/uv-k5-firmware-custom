@@ -439,6 +439,10 @@ void APP_StartListening(FUNCTION_Type_t function)
 {
 	const unsigned int vfo = gEeprom.RX_VFO;
 
+#ifdef ENABLE_FEAT_F4HWN
+    gRxTimerCountdown_500ms = 7200;
+#endif
+
 #ifdef ENABLE_DTMF_CALLING
 	if (gSetting_KILLED)
 		return;

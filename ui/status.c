@@ -212,11 +212,13 @@ void UI_DisplayStatus()
 	{
 		memcpy(line + x + 1, gFontLight, sizeof(gFontLight));
 	}
+	/*
 	else if (gChargingWithTypeC)
 	{
 		memcpy(line + x + 1, BITMAP_USB_C, sizeof(BITMAP_USB_C));
 	}
-
+	*/
+	
 	// Battery
 	unsigned int x2 = LCD_WIDTH - sizeof(BITMAP_BatteryLevel1) - 0;
 
