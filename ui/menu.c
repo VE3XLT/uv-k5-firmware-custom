@@ -116,8 +116,10 @@ const t_menu_item MenuList[] =
 	{"D List",		MENU_D_LIST        },
 #endif
 	{"D Live",		MENU_D_LIVE_DEC    }, // live DTMF decoder
-#ifdef ENABLE_AM_FIX
-	{"AM Fix",		MENU_AM_FIX        },
+#ifndef ENABLE_FEAT_F4HWN
+	#ifdef ENABLE_AM_FIX
+		{"AM Fix",		MENU_AM_FIX        },
+	#endif
 #endif
 #ifdef ENABLE_VOX
 	{"VOX",			MENU_VOX           },
@@ -684,8 +686,10 @@ void UI_DisplayMenu(void)
 			strcpy(String, gSubMenu_RX_TX[gSubMenuSelection]);
 			break;
 
-		#ifdef ENABLE_AM_FIX
-			case MENU_AM_FIX:
+		#ifndef ENABLE_FEAT_F4HWN
+			#ifdef ENABLE_AM_FIX
+				case MENU_AM_FIX:
+			#endif
 		#endif
 		case MENU_BCL:
 		case MENU_BEEP:
