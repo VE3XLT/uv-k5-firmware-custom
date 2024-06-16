@@ -190,11 +190,11 @@ void GENERIC_Key_PTT(bool bKeyPressed)
 			gDTMF_CallMode = DTMF_CALL_MODE_DTMF;
 
 		gDTMF_State      = DTMF_STATE_0;
+		gDTMF_ReplyState = DTMF_REPLY_ANI;
 #endif
 		// remember the DTMF string
 		gDTMF_PreviousIndex = gDTMF_InputBox_Index;
 		strcpy(gDTMF_String, gDTMF_InputBox);
-		gDTMF_ReplyState = DTMF_REPLY_ANI;
 	}
 
 	DTMF_clear_input_box();
