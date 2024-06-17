@@ -97,6 +97,20 @@ unsigned int BATTERY_VoltsToPercent(const unsigned int voltage_10mV)
 	return 0;
 }
 
+unsigned int BATTERY_PercentMonotonic(unsigned int percent)
+{
+	static uint8_t prev = 101;
+
+	if (gChargingWithTypeC) {
+		if (percent > prev)
+			prev = percent;
+	} else {
+		if (percent < prev)
+			prev = percent;
+	}
+	return prev;
+}
+
 void BATTERY_GetReadings(const bool bDisplayBatteryLevel)
 {
 	const uint8_t  PreviousBatteryLevel = gBatteryDisplayLevel;
@@ -111,7 +125,7 @@ void BATTERY_GetReadings(const bool bDisplayBatteryLevel)
 	else {
 		gBatteryDisplayLevel = 1;
 		const uint8_t levels[] = {5,17,41,65,88};
-		uint8_t perc = BATTERY_VoltsToPercent(gBatteryVoltageAverage);
+		uint8_t perc = BATTERY_PercentMonotonic(BATTERY_VoltsToPercent(gBatteryVoltageAverage));
 		for(uint8_t i = 6; i >= 1; i--){
 			if (perc > levels[i-2]) {
 				gBatteryDisplayLevel = i;
