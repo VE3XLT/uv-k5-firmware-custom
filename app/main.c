@@ -678,7 +678,7 @@ static void MAIN_Key_STAR(bool bKeyPressed, bool bKeyHeld)
 		gRequestDisplayScreen = DISPLAY_SCANNER;
 	}
 	
-	gPttWasReleased = true;
+	//gPttWasReleased = true;
 	gUpdateStatus   = true;
 }
 
