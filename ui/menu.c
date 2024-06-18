@@ -577,8 +577,8 @@ void UI_DisplayMenu(void)
 			strcpy(String, gSubMenu_TXP[gSubMenuSelection]);
 			break;
 
-		case MENU_R_DCS:
 		case MENU_T_DCS:
+		case MENU_R_DCS:
 			if (gSubMenuSelection == 0)
 				strcpy(String, "OFF");
 			else if (gSubMenuSelection < 105)
@@ -587,8 +587,8 @@ void UI_DisplayMenu(void)
 				sprintf(String, "D%03oI", DCS_Options[gSubMenuSelection - 105]);
 			break;
 
-		case MENU_R_CTCS:
 		case MENU_T_CTCS:
+		case MENU_R_CTCS:
 		{
 			if (gSubMenuSelection == 0)
 				strcpy(String, "OFF");

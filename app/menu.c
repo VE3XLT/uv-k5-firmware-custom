@@ -1555,7 +1555,7 @@ static void MENU_Key_MENU(const bool bKeyPressed, const bool bKeyHeld)
 //		if (UI_MENU_GetCurrentMenuId() != MENU_D_LIST)
 		{
 			gInputBoxIndex      = 0;
-			edit_index          = -1;
+//			edit_index          = -1;
 		}
 
 		return;
@@ -1595,6 +1595,7 @@ static void MENU_Key_MENU(const bool bKeyPressed, const bool bKeyHeld)
 			if (memcmp(edit_original, edit, sizeof(edit_original)) == 0) {
 				// no change - drop it
 				gIsInSubMenu = false;
+				edit_index = -1;
 			}
 		}
 	}
