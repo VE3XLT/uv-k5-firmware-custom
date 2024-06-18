@@ -1006,6 +1006,7 @@ void MENU_ShowCurrentSetting(void)
 
 		case MENU_MEM_NAME:
 			gSubMenuSelection = gEeprom.MrChannel[gEeprom.TX_VFO];
+			edit_index = -1;
 			break;
 
 		case MENU_SAVE:
