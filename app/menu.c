@@ -1006,7 +1006,7 @@ void MENU_ShowCurrentSetting(void)
 
 		case MENU_MEM_NAME:
 			gSubMenuSelection = gEeprom.MrChannel[gEeprom.TX_VFO];
-			edit_index = -1;
+//			edit_index = -1;
 			break;
 
 		case MENU_SAVE:
@@ -1595,7 +1595,7 @@ static void MENU_Key_MENU(const bool bKeyPressed, const bool bKeyHeld)
 			if (memcmp(edit_original, edit, sizeof(edit_original)) == 0) {
 				// no change - drop it
 				gIsInSubMenu = false;
-				edit_index = -1;
+//				edit_index = -1;
 			}
 		}
 	}
