@@ -141,7 +141,7 @@ void FM_Tune(uint16_t Frequency, int8_t Step, bool bFlag)
 	if (!bFlag) {
 		Frequency += Step;
 		if (Frequency < BK1080_GetFreqLoLimit(gEeprom.FM_Band))
-			Frequency = BK1080_GetFreqHiLimit(gEeprom.FM_Band);
+			Frequency = BK1080_GetFreqHiLimit(gEeprom.FM_Band) - BK1080_GetFreqLoLimit(gEeprom.FM_Band)%2;
 		else if (Frequency > BK1080_GetFreqHiLimit(gEeprom.FM_Band))
 			Frequency = BK1080_GetFreqLoLimit(gEeprom.FM_Band);
 
@@ -483,7 +483,7 @@ static void Key_UP_DOWN(uint8_t state, int8_t Step)
 			return;
 		}
 
-		FM_Tune(gEeprom.FM_FrequencyPlaying, Step, false);
+		FM_Tune(gEeprom.FM_FrequencyPlaying, Step*2, false);
 		gRequestDisplayScreen = DISPLAY_FM;
 		return;
 	}
@@ -500,7 +500,7 @@ static void Key_UP_DOWN(uint8_t state, int8_t Step)
 		uint16_t Frequency = gEeprom.FM_SelectedFrequency + Step*2;
 
 		if (Frequency < BK1080_GetFreqLoLimit(gEeprom.FM_Band))
-			Frequency = BK1080_GetFreqHiLimit(gEeprom.FM_Band);
+			Frequency = BK1080_GetFreqHiLimit(gEeprom.FM_Band) - BK1080_GetFreqLoLimit(gEeprom.FM_Band)%2;
 		else if (Frequency > BK1080_GetFreqHiLimit(gEeprom.FM_Band))
 			Frequency = BK1080_GetFreqLoLimit(gEeprom.FM_Band);
 
@@ -531,10 +531,10 @@ void FM_ProcessKeys(KEY_Code_t Key, bool bKeyPressed, bool bKeyHeld)
 			Key_MENU(state);
 			break;
 		case KEY_UP:
-			Key_UP_DOWN(state, 2);
+			Key_UP_DOWN(state, 1);
 			break;
 		case KEY_DOWN:
-			Key_UP_DOWN(state, -2);
+			Key_UP_DOWN(state, -1);
 			break;;
 		case KEY_EXIT:
 			Key_EXIT(state);
