@@ -531,10 +531,10 @@ void FM_ProcessKeys(KEY_Code_t Key, bool bKeyPressed, bool bKeyHeld)
 			Key_MENU(state);
 			break;
 		case KEY_UP:
-			Key_UP_DOWN(state, 1);
+			Key_UP_DOWN(state, 2);
 			break;
 		case KEY_DOWN:
-			Key_UP_DOWN(state, -1);
+			Key_UP_DOWN(state, -2);
 			break;;
 		case KEY_EXIT:
 			Key_EXIT(state);
