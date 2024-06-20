@@ -395,7 +395,7 @@ static void ACTION_Scan_FM(bool bRestart)
 	}
 
 	BK1080_GetFrequencyDeviation(freq);
-	FM_Tune(freq, 1, bRestart);
+	FM_Tune(freq, 2, bRestart);
 
 #ifdef ENABLE_VOICE
 	gAnotherVoiceID = VOICE_ID_SCANNING_BEGIN;
