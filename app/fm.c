@@ -497,7 +497,7 @@ static void Key_UP_DOWN(uint8_t state, int8_t Step)
 		gEeprom.FM_FrequencyPlaying = gFM_Channels[Channel];
 	}
 	else {
-		uint16_t Frequency = gEeprom.FM_SelectedFrequency + Step;
+		uint16_t Frequency = gEeprom.FM_SelectedFrequency + Step*2;
 
 		if (Frequency < BK1080_GetFreqLoLimit(gEeprom.FM_Band))
 			Frequency = BK1080_GetFreqHiLimit(gEeprom.FM_Band);
