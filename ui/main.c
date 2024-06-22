@@ -1381,8 +1381,8 @@ void UI_DisplayMain(void)
 
 				center_line = CENTER_LINE_CHARGE_DATA;
 
-				sprintf(String, "Charge %u.%02uV %u%%",
-					gBatteryVoltageAverage / 100, gBatteryVoltageAverage % 100,
+				sprintf(String, "Charge %u.%03uV %u%%",
+					gBatteryVoltageAverage / 1000, gBatteryVoltageAverage % 1000,
 					BATTERY_VoltsToPercent(gBatteryVoltageAverage));
 				UI_PrintStringSmallNormal(String, 2, 0, 3);
 			}
