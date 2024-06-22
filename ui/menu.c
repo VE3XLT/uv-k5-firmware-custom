@@ -869,16 +869,16 @@ void UI_DisplayMenu(void)
 
 		case MENU_VOL:
 #ifdef ENABLE_FEAT_F4HWN
-			sprintf(String, "%u.%02uV %u%%\n%s\n%s",
-				gBatteryVoltageAverage / 100, gBatteryVoltageAverage % 100,
-				BATTERY_VoltsToPercent(gBatteryVoltageAverage),
+			sprintf(String, "%u.%03uV\n%u%% %s\n%s",
+				gBatteryVoltageAverage / 1000, gBatteryVoltageAverage % 1000,
+				gBatteryPercent,
 				AUTHOR_STRING_2,
 				VERSION_STRING_2
 				);
 #else
-			sprintf(String, "%u.%02uV\n%u%%",
-				gBatteryVoltageAverage / 100, gBatteryVoltageAverage % 100,
-				BATTERY_VoltsToPercent(gBatteryVoltageAverage));
+			sprintf(String, "%u.%03uV\n%u%%",
+				gBatteryVoltageAverage / 1000, gBatteryVoltageAverage % 1000,
+				gBatteryPercent);
 #endif
 			break;
 
