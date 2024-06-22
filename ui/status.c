@@ -230,7 +230,7 @@ void UI_DisplayStatus()
 			break;
 
 		case 1:	{	// voltage
-			const uint16_t voltage = (gBatteryVoltageAverage <= 999) ? gBatteryVoltageAverage : 999; // limit to 9.99V
+			const uint16_t voltage = (gBatteryVoltageAverage <= 9999) ? gBatteryVoltageAverage/10 : 999; // limit to 9.99V
 #ifdef ENABLE_FEAT_F4HWN
 			sprintf(str, "%u.%02u", voltage / 100, voltage % 100);
 #else
@@ -240,7 +240,7 @@ void UI_DisplayStatus()
 		}
 
 		case 2:		// percentage
-			sprintf(str, "%u%%", BATTERY_VoltsToPercent(gBatteryVoltageAverage));
+			sprintf(str, "%u%%", gBatteryPercent);
 			break;
 	}
 
