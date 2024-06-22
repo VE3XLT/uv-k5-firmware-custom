@@ -911,7 +911,7 @@ void UI_DisplayMenu(void)
 		case MENU_BATCAL:
 		{
 			const uint16_t vol = (uint32_t)gBatteryVoltageAverage * gBatteryCalibration[3] / gSubMenuSelection;
-			sprintf(String, "%u.%02uV\n%u", vol / 100, vol % 100, gSubMenuSelection);
+			sprintf(String, "%u.%03uV\n%u", vol / 1000, vol % 1000, gSubMenuSelection);
 			break;
 		}
 
