@@ -349,7 +349,7 @@ static void CMD_0529(void)
 	Reply.Header.Size = sizeof(Reply.Data);
 
 	// Original doesn't actually send current!
-	BOARD_ADC_GetBatteryInfo(&Reply.Data.Voltage, &Reply.Data.Current);
+	BOARD_ADC_GetBatteryInfo(&Reply.Data.Voltage);
 
 	SendReply(&Reply, sizeof(Reply));
 }

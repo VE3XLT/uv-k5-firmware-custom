@@ -91,7 +91,7 @@ void Main(void)
 
 	BK4819_Init();
 
-	BOARD_ADC_GetBatteryInfo(&gBatteryCurrentVoltage, &gBatteryCurrent);
+	BOARD_ADC_GetBatteryInfo(&gBatteryCurrentVoltage);
 
 	SETTINGS_InitEEPROM();
 
@@ -111,7 +111,7 @@ void Main(void)
 	RADIO_SetupRegisters(true);
 
 	for (unsigned int i = 0; i < ARRAY_SIZE(gBatteryVoltages); i++)
-		BOARD_ADC_GetBatteryInfo(&gBatteryVoltages[i], &gBatteryCurrent);
+		BOARD_ADC_GetBatteryInfo(&gBatteryVoltages[i]);
 
 	BATTERY_GetReadings(false);
 
