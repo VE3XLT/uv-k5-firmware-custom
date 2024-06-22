@@ -96,9 +96,9 @@ unsigned int BATTERY_VoltsToPercent(const unsigned int voltage_10mV)
 void BATTERY_GetReadings(const bool bDisplayBatteryLevel)
 {
 	const uint8_t  PreviousBatteryLevel = gBatteryDisplayLevel;
-	const uint16_t Voltage              = (gBatteryVoltages[0] + gBatteryVoltages[1] + gBatteryVoltages[2] + gBatteryVoltages[3]) / 4;
+	const uint16_t Voltage              = (gBatteryVoltages[0] + gBatteryVoltages[1] + gBatteryVoltages[2] + gBatteryVoltages[3]);
 
-	gBatteryVoltageAverage = (Voltage * 760) / gBatteryCalibration[3];
+	gBatteryVoltageAverage = (Voltage * 760) / gBatteryCalibration[3] / 4;
 
 	if(gBatteryVoltageAverage > 890)
 		gBatteryDisplayLevel = 7; // battery overvoltage
