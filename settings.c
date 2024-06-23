@@ -276,7 +276,7 @@ void SETTINGS_InitEEPROM(void)
 		ChannelAttributes_t *att = &gMR_ChannelAttributes[i];
 		if(att->__val == 0xff){
 			att->__val = 0;
-			att->band = 0xf;
+			att->band = 0x7;
 		}
 	}
 
@@ -770,10 +770,11 @@ void SETTINGS_UpdateChannel(uint8_t channel, const VFO_Info_t *pVFO, bool keep, 
 	{
 		uint8_t  state[8];
 		ChannelAttributes_t  att = {
-			.band = 0xf,
+			.band = 0x7,
 			.compander = 0,
 			.scanlist1 = 0,
 			.scanlist2 = 0,
+			.scanlist3 = 0,
 			};        // default attributes
 
 		uint16_t offset = 0x0D60 + (channel & ~7u);
@@ -783,6 +784,7 @@ void SETTINGS_UpdateChannel(uint8_t channel, const VFO_Info_t *pVFO, bool keep, 
 			att.band = pVFO->Band;
 			att.scanlist1 = pVFO->SCANLIST1_PARTICIPATION;
 			att.scanlist2 = pVFO->SCANLIST2_PARTICIPATION;
+			att.scanlist3 = pVFO->SCANLIST3_PARTICIPATION;
 			att.compander = pVFO->Compander;
 			if (check && state[channel & 7u] == att.__val)
 				return; // no change in the attributes

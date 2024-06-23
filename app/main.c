@@ -59,10 +59,31 @@ static void toggle_chan_scanlist(void)
 		return;
 	}
 	
+	/*
 	if (gTxVfo->SCANLIST1_PARTICIPATION ^ gTxVfo->SCANLIST2_PARTICIPATION){
 		gTxVfo->SCANLIST2_PARTICIPATION = gTxVfo->SCANLIST1_PARTICIPATION;
 	} else {
 		gTxVfo->SCANLIST1_PARTICIPATION = !gTxVfo->SCANLIST1_PARTICIPATION;
+	}
+	*/
+
+	if(gTxVfo->SCANLIST1_PARTICIPATION == 1)
+	{
+		gTxVfo->SCANLIST1_PARTICIPATION = 0;
+		gTxVfo->SCANLIST2_PARTICIPATION = 1;
+		gTxVfo->SCANLIST3_PARTICIPATION = 0;
+	}
+	else if(gTxVfo->SCANLIST2_PARTICIPATION == 1)
+	{
+		gTxVfo->SCANLIST1_PARTICIPATION = 0;
+		gTxVfo->SCANLIST2_PARTICIPATION = 0;
+		gTxVfo->SCANLIST3_PARTICIPATION = 1;
+	}
+	else if(gTxVfo->SCANLIST3_PARTICIPATION == 1)
+	{
+		gTxVfo->SCANLIST1_PARTICIPATION = 1;
+		gTxVfo->SCANLIST2_PARTICIPATION = 0;
+		gTxVfo->SCANLIST3_PARTICIPATION = 0;
 	}
 
 	SETTINGS_UpdateChannel(gTxVfo->CHANNEL_SAVE, gTxVfo, true, true, true);
@@ -547,12 +568,13 @@ static void MAIN_Key_MENU(bool bKeyPressed, bool bKeyHeld)
 		if (bKeyPressed) { // long press MENU key
 
 			#ifdef ENABLE_FEAT_F4HWN
-			if(gScanStateDir != SCAN_OFF && gEeprom.SCAN_LIST_DEFAULT < 2)
+			if(gScanStateDir != SCAN_OFF && gEeprom.SCAN_LIST_DEFAULT < 3)
 			{
 				if(FUNCTION_IsRx())
 				{
 					gTxVfo->SCANLIST1_PARTICIPATION = 0;
 					gTxVfo->SCANLIST2_PARTICIPATION = 0;
+					gTxVfo->SCANLIST3_PARTICIPATION = 0;
 
 					SETTINGS_UpdateChannel(gTxVfo->CHANNEL_SAVE, gTxVfo, true, true, false);
 

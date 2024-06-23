@@ -238,6 +238,7 @@ int MENU_GetLimits(uint8_t menu_id, int32_t *pMin, int32_t *pMax)
 		case MENU_AUTOLK:
 		case MENU_S_ADD1:
 		case MENU_S_ADD2:
+		case MENU_S_ADD3:
 		case MENU_STE:
 		case MENU_D_ST:
 #ifdef ENABLE_DTMF_CALLING
@@ -293,6 +294,7 @@ int MENU_GetLimits(uint8_t menu_id, int32_t *pMin, int32_t *pMax)
 
 		case MENU_SLIST1:
 		case MENU_SLIST2:
+		case MENU_SLIST3:
 			*pMin = -1;
 			*pMax = MR_CHANNEL_LAST;
 			break;
@@ -309,7 +311,7 @@ int MENU_GetLimits(uint8_t menu_id, int32_t *pMin, int32_t *pMax)
 
 		case MENU_S_LIST:
 			//*pMin = 0;
-			*pMax = 2;
+			*pMax = 3;
 			break;
 
 #ifdef ENABLE_DTMF_CALLING
@@ -633,6 +635,13 @@ void MENU_AcceptSetting(void)
 
 		case MENU_S_ADD2:
 			gTxVfo->SCANLIST2_PARTICIPATION = gSubMenuSelection;
+			SETTINGS_UpdateChannel(gTxVfo->CHANNEL_SAVE, gTxVfo, true, false, true);
+			gVfoConfigureMode = VFO_CONFIGURE;
+			gFlagResetVfos    = true;
+			return;
+
+		case MENU_S_ADD3:
+			gTxVfo->SCANLIST3_PARTICIPATION = gSubMenuSelection;
 			SETTINGS_UpdateChannel(gTxVfo->CHANNEL_SAVE, gTxVfo, true, false, true);
 			gVfoConfigureMode = VFO_CONFIGURE;
 			gFlagResetVfos    = true;
@@ -1087,6 +1096,10 @@ void MENU_ShowCurrentSetting(void)
 			gSubMenuSelection = gTxVfo->SCANLIST2_PARTICIPATION;
 			break;
 
+		case MENU_S_ADD3:
+			gSubMenuSelection = gTxVfo->SCANLIST3_PARTICIPATION;
+			break;
+
 		case MENU_STE:
 			gSubMenuSelection = gEeprom.TAIL_TONE_ELIMINATION;
 			break;
@@ -1123,6 +1136,10 @@ void MENU_ShowCurrentSetting(void)
 
 		case MENU_SLIST2:
 			gSubMenuSelection = RADIO_FindNextChannel(0, 1, true, 1);
+			break;
+
+		case MENU_SLIST3:
+			gSubMenuSelection = RADIO_FindNextChannel(0, 1, true, 2);
 			break;
 
 		#ifdef ENABLE_ALARM
@@ -1804,10 +1821,16 @@ static void MENU_Key_UP_DOWN(bool bKeyPressed, bool bKeyHeld, int8_t Direction)
 			bCheckScanList = false;
 			break;
 
+		case MENU_SLIST3:
+			bCheckScanList = true;
+			VFO = 2;
+			break;
 		case MENU_SLIST2:
+			bCheckScanList = true;
 			VFO = 1;
-			[[fallthrough]];
+			break;
 		case MENU_SLIST1:
+			VFO = 0;
 			bCheckScanList = true;
 			break;
 
