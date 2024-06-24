@@ -922,6 +922,11 @@ void UI_DisplayMain(void)
 					memcpy(p_line0 + 128 - (shiftList * 7), BITMAP_ScanList3, sizeof(BITMAP_ScanList3));
 				}
 
+				if(countList == 0)
+				{
+					memcpy(p_line0 + 128 - (1 * 7), BITMAP_ScanList4, sizeof(BITMAP_ScanList4));
+				}
+
 				/*
 				if (att.scanlist1)
 					memcpy(p_line0 + 107, BITMAP_ScanList1, sizeof(BITMAP_ScanList1));

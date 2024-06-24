@@ -203,33 +203,29 @@ const uint8_t BITMAP_ScanList4[7] =
 	0b01111111,
 };
 
-const uint8_t BITMAP_ScanList5[11] =
+const uint8_t BITMAP_ScanList5[9] =
 {
 	// 'All List' symbol
 	0b11111111,
 	0b11000011,
 	0b10111101,
-	0b10111101,
 	0b11011011,
 	0b11100111,
 	0b11011011,
-	0b10111101,
 	0b10111101,
 	0b11000011,
 	0b11111111
 };
 
-const uint8_t BITMAP_ScanList6[11] =
+const uint8_t BITMAP_ScanList6[9] =
 {
 	// 'All' symbol
 	0b00000000,
 	0b00111100,
 	0b01000010,
-	0b01000010,
 	0b00100100,
 	0b00011000,
 	0b00100100,
-	0b01000010,
 	0b01000010,
 	0b00111100,
 	0b00000000
