@@ -11,7 +11,6 @@ extern const uint8_t gFontF[1][8];
 extern const uint8_t gFontS[1][6];
 
 extern const uint8_t gFontKeyLock[1][9];
-extern const uint8_t gFontScanAll[9];
 extern const uint8_t gFontLight[9];
 
 extern const uint8_t gFontXB[2][6];
@@ -34,6 +33,9 @@ extern const uint8_t BITMAP_VFO_NotDefault[8];
 extern const uint8_t BITMAP_ScanList1[7];
 extern const uint8_t BITMAP_ScanList2[7];
 extern const uint8_t BITMAP_ScanList3[7];
+extern const uint8_t BITMAP_ScanList4[7];
+extern const uint8_t BITMAP_ScanList5[11];
+extern const uint8_t BITMAP_ScanList6[11];
 extern const uint8_t BITMAP_compand[6];
 
 #ifndef ENABLE_CUSTOM_MENU_LAYOUT

@@ -73,7 +73,7 @@ bool RADIO_CheckValidChannel(uint16_t channel, bool checkScanList, uint8_t scanL
 	if (att.band > BAND7_470MHz)
 		return false;
 
-	if (!checkScanList || scanList > 2)
+	if (!checkScanList || scanList > 4)
 		return true;
 
 	//sprintf(str, "scanList %d / att.scanlist1 %d / att.scanlist2 %d / att.scanlist3 %d\n", scanList, att.scanlist1, att.scanlist2, att.scanlist3);
@@ -89,6 +89,14 @@ bool RADIO_CheckValidChannel(uint16_t channel, bool checkScanList, uint8_t scanL
 		return false;
 	}
 	else if(scanList == 2 && att.scanlist3 != 1)
+	{
+		return false;
+	}
+	else if(scanList == 3 && (att.scanlist1 == 1 || att.scanlist2 == 1 || att.scanlist3 == 1))
+	{
+		return false;
+	}
+	else if(scanList == 4 && (att.scanlist1 == 0 && att.scanlist2 == 0 && att.scanlist3 == 0))
 	{
 		return false;
 	}

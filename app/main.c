@@ -568,7 +568,7 @@ static void MAIN_Key_MENU(bool bKeyPressed, bool bKeyHeld)
 		if (bKeyPressed) { // long press MENU key
 
 			#ifdef ENABLE_FEAT_F4HWN
-			if(gScanStateDir != SCAN_OFF && gEeprom.SCAN_LIST_DEFAULT < 3)
+			if(gScanStateDir != SCAN_OFF && gEeprom.SCAN_LIST_DEFAULT < 5)
 			{
 				if(FUNCTION_IsRx())
 				{

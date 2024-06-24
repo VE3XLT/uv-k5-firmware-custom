@@ -810,7 +810,11 @@ void UI_DisplayMenu(void)
 		case MENU_S_LIST:
 			if (gSubMenuSelection < 3)
 				sprintf(String, "LIST%u", 1 + gSubMenuSelection);
-			else
+			else if (gSubMenuSelection == 3)
+				strcpy(String, "NOT\nIN LISTS");
+			else if (gSubMenuSelection == 4)
+				strcpy(String, "ALL\nIN LISTS");
+			else if (gSubMenuSelection == 5)
 				strcpy(String, "ALL");
 			break;
 
