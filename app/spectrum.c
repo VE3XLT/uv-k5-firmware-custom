@@ -719,7 +719,7 @@ static void DrawStatus() {
 
   uint16_t voltage = (gBatteryVoltages[0] + gBatteryVoltages[1] +
                       gBatteryVoltages[2] + gBatteryVoltages[3]) /
-                     4 * 760 / gBatteryCalibration[3];
+                     4 * 7600 / gBatteryCalibration[3];
 
   unsigned perc = BATTERY_VoltsToPercent(voltage);
 
