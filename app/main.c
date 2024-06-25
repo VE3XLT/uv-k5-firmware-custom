@@ -79,7 +79,7 @@ static void toggle_chan_scanlist(void)
 		gTxVfo->SCANLIST2_PARTICIPATION = 0;
 		gTxVfo->SCANLIST3_PARTICIPATION = 1;
 	}
-	else if(gTxVfo->SCANLIST3_PARTICIPATION == 1)
+	else //if(gTxVfo->SCANLIST3_PARTICIPATION == 1)
 	{
 		gTxVfo->SCANLIST1_PARTICIPATION = 1;
 		gTxVfo->SCANLIST2_PARTICIPATION = 0;
