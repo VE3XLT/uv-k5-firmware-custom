@@ -86,11 +86,11 @@ unsigned int BATTERY_VoltsToPercent(const unsigned int voltage_mV)
 {
 	const struct v2p *v2p = Voltage2PercentageTable[gEeprom.BATTERY_TYPE];
 	for (unsigned int i = 1; i < ARRAY_SIZE(Voltage2PercentageTable[BATTERY_TYPE_2200_MAH]); i++) {
-		if (voltage_10mV > crv[i][0]) {
-			const int a = (crv[i - 1][1] - crv[i][1]) * mulipl / (crv[i - 1][0] - crv[i][0]);
-			const int b = crv[i][1] - a * crv[i][0] / mulipl;
-			const int p = a * voltage_10mV / mulipl + b;
-			return MIN(p, 100);
+		if (voltage_mV > v2p[i].v) {
+			const int a = ((v2p[i - 1].p - v2p[i].p) << 10) / (v2p[i - 1].v - v2p[i].v);
+			const int b = v2p[i].p - ((a * v2p[i].v) >> 10);
+			const int p = ((a * voltage_mV) >> 10) + b;
+			return MIN(p, 100);	
 		}
 	}
 
@@ -142,9 +142,9 @@ void BATTERY_GetReadings(const bool bDisplayBatteryLevel)
 			gUpdateDisplay = true;
 			BACKLIGHT_TurnOn();
 		}
-*/
 		gChargingWithTypeC = true;
 	}
+*/
 
 	if (PreviousBatteryLevel != gBatteryDisplayLevel)
 	{

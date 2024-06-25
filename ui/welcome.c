@@ -72,7 +72,7 @@ void UI_DisplayWelcome(void)
 		sprintf(WelcomeString1, "%u.%03uV %u%%",
 				gBatteryVoltageAverage / 1000,
 				gBatteryVoltageAverage % 1000,
-				gBatteryPerecent);
+				gBatteryPercent);
 
 		if (gEeprom.POWER_ON_DISPLAY_MODE == POWER_ON_DISPLAY_MODE_VOLTAGE)
 		{
