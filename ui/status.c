@@ -119,7 +119,7 @@ void UI_DisplayStatus()
 				memcpy(line + x + 1, gFontS, sizeof(gFontS));
 				//UI_PrintStringSmallBufferNormal("S", line + x + 1);
 			}
-			x1 = x + 10;
+			x1 += 10;
 		}
 	}
 	x += 10;  // font character width

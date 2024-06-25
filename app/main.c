@@ -79,12 +79,18 @@ static void toggle_chan_scanlist(void)
 		gTxVfo->SCANLIST2_PARTICIPATION = 0;
 		gTxVfo->SCANLIST3_PARTICIPATION = 1;
 	}
-	else //if(gTxVfo->SCANLIST3_PARTICIPATION == 1)
+	else if(gTxVfo->SCANLIST3_PARTICIPATION == 1)
+	{
+		gTxVfo->SCANLIST1_PARTICIPATION = 0;
+		gTxVfo->SCANLIST2_PARTICIPATION = 0;
+		gTxVfo->SCANLIST3_PARTICIPATION = 0;
+	}
+	else
 	{
 		gTxVfo->SCANLIST1_PARTICIPATION = 1;
 		gTxVfo->SCANLIST2_PARTICIPATION = 0;
 		gTxVfo->SCANLIST3_PARTICIPATION = 0;
-	}
+	}	
 
 	SETTINGS_UpdateChannel(gTxVfo->CHANNEL_SAVE, gTxVfo, true, true, true);
 

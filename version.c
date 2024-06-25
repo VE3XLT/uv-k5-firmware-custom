@@ -7,10 +7,10 @@
 
 #ifdef ENABLE_FEAT_F4HWN
 	const char Version[]      = AUTHOR_STRING_2 " " VERSION_STRING_2;
-	const char Based[]         = "based on";
+	const char Based[]         = "";
 	const char Credits[]      = AUTHOR_STRING_1 " " VERSION_STRING_1;
 #else
 	const char Version[]      = AUTHOR_STRING VER;
 #endif
 
-const char UART_Version[] = "UV-K5\r\n";
+const char UART_Version[] = "K5\r\n";
