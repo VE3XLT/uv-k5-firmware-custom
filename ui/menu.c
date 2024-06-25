@@ -117,7 +117,7 @@ const t_menu_item MenuList[] =
 #endif
 	{"DLive",		MENU_D_LIVE_DEC    }, // live DTMF decoder
 #ifdef ENABLE_AM_FIX
-	{"AMFix",		MENU_AM_FIX        },
+//	{"AMFix",		MENU_AM_FIX        },
 #endif
 #ifdef ENABLE_VOX
 	{"VOX",			MENU_VOX           },
@@ -685,7 +685,7 @@ void UI_DisplayMenu(void)
 			break;
 
 		#ifdef ENABLE_AM_FIX
-			case MENU_AM_FIX:
+//			case MENU_AM_FIX:
 		#endif
 		case MENU_BCL:
 		case MENU_BEEP:

@@ -226,7 +226,7 @@ int MENU_GetLimits(uint8_t menu_id, int32_t *pMin, int32_t *pMax)
 			break;
 
 		#ifdef ENABLE_AM_FIX
-			case MENU_AM_FIX:
+			//case MENU_AM_FIX:
 		#endif
 		#ifdef ENABLE_AUDIO_BAR
 			case MENU_MIC_BAR:
@@ -749,11 +749,13 @@ void MENU_AcceptSetting(void)
 			return;
 
 		#ifdef ENABLE_AM_FIX
+			/*
 			case MENU_AM_FIX:
 				gSetting_AM_fix = gSubMenuSelection;
 				gVfoConfigureMode = VFO_CONFIGURE_RELOAD;
 				gFlagResetVfos    = true;
 				break;
+			*/
 		#endif
 
 		#ifdef ENABLE_NOAA
@@ -1179,9 +1181,11 @@ void MENU_ShowCurrentSetting(void)
 			break;
 
 #ifdef ENABLE_AM_FIX
+		/*
 		case MENU_AM_FIX:
 			gSubMenuSelection = gSetting_AM_fix;
 			break;
+		*/
 #endif
 		#ifdef ENABLE_NOAA
 			case MENU_NOAA_S:
