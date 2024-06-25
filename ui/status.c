@@ -102,7 +102,16 @@ void UI_DisplayStatus()
 						memcpy(line + x + 2, BITMAP_ScanList2, sizeof(BITMAP_ScanList2));
 						break;
 					case 2:
-						memcpy(line + x, gFontScanAll, sizeof(gFontScanAll));
+						memcpy(line + x + 2, BITMAP_ScanList3, sizeof(BITMAP_ScanList3));
+						break;
+					case 3:
+						memcpy(line + x + 2, BITMAP_ScanList4, sizeof(BITMAP_ScanList4));
+						break;
+					case 4:
+						memcpy(line + x + 0, BITMAP_ScanList5, sizeof(BITMAP_ScanList5));
+						break;
+					case 5:
+						memcpy(line + x + 1, BITMAP_ScanList6, sizeof(BITMAP_ScanList6));
 						break;
 				}
 			}

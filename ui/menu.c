@@ -57,6 +57,7 @@ const t_menu_item MenuList[] =
 	{"Mode",		MENU_AM            }, // was "AM"
 	{"ScAdd1",		MENU_S_ADD1        },
 	{"ScAdd2",		MENU_S_ADD2        },
+	{"ScAdd3",		MENU_S_ADD3        },
 	{"ChSave",		MENU_MEM_CH        }, // was "MEM-CH"
 	{"ChDele",		MENU_DEL_CH        }, // was "DEL-CH"
 	{"ChName",		MENU_MEM_NAME      },
@@ -64,6 +65,7 @@ const t_menu_item MenuList[] =
 	{"SList",		MENU_S_LIST        },
 	{"SList1",		MENU_SLIST1        },
 	{"SList2",		MENU_SLIST2        },
+	{"SList3",		MENU_SLIST3        },
 	{"ScnRev",		MENU_SC_REV        },
 #ifdef ENABLE_NOAA
 	{"NOAA-S",		MENU_NOAA_S        },
@@ -691,6 +693,7 @@ void UI_DisplayMenu(void)
 		case MENU_BEEP:
 		case MENU_S_ADD1:
 		case MENU_S_ADD2:
+		case MENU_S_ADD3:
 		case MENU_STE:
 		case MENU_D_ST:
 #ifdef ENABLE_DTMF_CALLING
@@ -803,9 +806,13 @@ void UI_DisplayMenu(void)
 			break;
 
 		case MENU_S_LIST:
-			if (gSubMenuSelection < 2)
-				sprintf(String, "LIST%u", 1 + gSubMenuSelection);
-			else
+			if (gSubMenuSelection < 3)
+				sprintf(String, "LIST [%u]", 1 + gSubMenuSelection);
+			else if (gSubMenuSelection == 3)
+				strcpy(String, "LIST [0]\nNO LIST");
+			else if (gSubMenuSelection == 4)
+				strcpy(String, "LISTS\n[1, 2, 3]");
+			else if (gSubMenuSelection == 5)
 				strcpy(String, "ALL");
 			break;
 
@@ -1019,7 +1026,7 @@ void UI_DisplayMenu(void)
 		}
 	}
 
-	if (UI_MENU_GetCurrentMenuId() == MENU_SLIST1 || UI_MENU_GetCurrentMenuId() == MENU_SLIST2)
+	if (UI_MENU_GetCurrentMenuId() == MENU_SLIST1 || UI_MENU_GetCurrentMenuId() == MENU_SLIST2 || UI_MENU_GetCurrentMenuId() == MENU_SLIST3)
 	{
 		i = (UI_MENU_GetCurrentMenuId() == MENU_SLIST1) ? 0 : 1;
 		char *pPrintStr = String;

@@ -67,11 +67,32 @@ bool RADIO_CheckValidChannel(uint16_t channel, bool checkScanList, uint8_t scanL
 	if (att.band > BAND7_470MHz)
 		return false;
 
-	if (!checkScanList || scanList > 1)
+	if (!checkScanList || scanList > 4)
 		return true;
 
-	if (scanList ? !att.scanlist2 : !att.scanlist1)
+	//if (scanList ? !att.scanlist2 : !att.scanlist1)
+	//	return false;
+	if(scanList == 0 && att.scanlist1 != 1)
+	{
 		return false;
+	}
+	else if(scanList == 1 && att.scanlist2 != 1)
+	{
+		return false;
+	}
+	else if(scanList == 2 && att.scanlist2 != 1)
+	{
+		return false;
+	}
+	else if(scanList == 3 && (att.scanlist1 == 1 || att.scanlist2 == 1 || att.scanlist3 == 1))
+	{
+		return false;
+	}
+	else if(scanList == 4 && (att.scanlist1 == 0 && att.scanlist2 == 0 && att.scanlist3 == 0))
+	{
+		return false;
+	}
+	return true;
 
 	const uint8_t PriorityCh1 = gEeprom.SCANLIST_PRIORITY_CH1[scanList];
 	const uint8_t PriorityCh2 = gEeprom.SCANLIST_PRIORITY_CH2[scanList];
@@ -103,6 +124,7 @@ void RADIO_InitInfo(VFO_Info_t *pInfo, const uint8_t ChannelSave, const uint32_t
 	pInfo->Band                     = FREQUENCY_GetBand(Frequency);
 	pInfo->SCANLIST1_PARTICIPATION  = false;
 	pInfo->SCANLIST2_PARTICIPATION  = false;
+	pInfo->SCANLIST3_PARTICIPATION  = false;
 	pInfo->STEP_SETTING             = STEP_12_5kHz;
 	pInfo->StepFrequency            = gStepFrequencyTable[pInfo->STEP_SETTING];
 	pInfo->CHANNEL_SAVE             = ChannelSave;
@@ -186,19 +208,23 @@ void RADIO_ConfigureChannel(const unsigned int VFO, const unsigned int configure
 
 	bool bParticipation1;
 	bool bParticipation2;
+	bool bParticipation3;
 	if (IS_MR_CHANNEL(channel)) {
 		bParticipation1 = att.scanlist1;
 		bParticipation2 = att.scanlist2;
+		bParticipation3 = att.scanlist3;
 	}
 	else {
 		band = channel - FREQ_CHANNEL_FIRST;
 		bParticipation1 = true;
 		bParticipation2 = true;
+		bParticipation3 = true;
 	}
 
 	pVfo->Band                    = band;
 	pVfo->SCANLIST1_PARTICIPATION = bParticipation1;
 	pVfo->SCANLIST2_PARTICIPATION = bParticipation2;
+	pVfo->SCANLIST3_PARTICIPATION = bParticipation3;
 	pVfo->CHANNEL_SAVE            = channel;
 
 	uint16_t base;

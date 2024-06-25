@@ -195,8 +195,9 @@ extern uint16_t              gEEPROM_1F8C;
 typedef union {
     struct {
         uint8_t
-            band : 4,
+            band : 3,
             compander : 2,
+            scanlist3 : 1,
             scanlist2 : 1,
             scanlist1 : 1;
     };

@@ -219,7 +219,7 @@ void ACTION_Scan(bool bRestart)
 		}
 
 		// channel mode. Keep scanning but toggle between scan lists
-		gEeprom.SCAN_LIST_DEFAULT = (gEeprom.SCAN_LIST_DEFAULT + 1) % 3;
+		gEeprom.SCAN_LIST_DEFAULT = (gEeprom.SCAN_LIST_DEFAULT + 1) % 6;
 
 		// jump to the next channel
 		CHFRSCANNER_Start(false, gScanStateDir);

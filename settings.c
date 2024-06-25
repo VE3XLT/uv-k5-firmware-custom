@@ -225,11 +225,11 @@ void SETTINGS_InitEEPROM(void)
 
 	// 0F18..0F1F
 	EEPROM_ReadBuffer(0x0F18, Data, 8);
-	gEeprom.SCAN_LIST_DEFAULT = (Data[0] < 3) ? Data[0] : 0;  // we now have 'all' channel scan option
+	gEeprom.SCAN_LIST_DEFAULT = (Data[0] < 5) ? Data[0] : 0;  // we now have 'all' channel scan option
 	for (unsigned int i = 0; i < 2; i++)
 	{
 		const unsigned int j = 1 + (i * 3);
-		gEeprom.SCAN_LIST_ENABLED[i]     = (Data[j + 0] < 2) ? Data[j] : false;
+		gEeprom.SCAN_LIST_ENABLED[i]     = (Data[j + 0] < 5) ? Data[j] : false;
 		gEeprom.SCANLIST_PRIORITY_CH1[i] =  Data[j + 1];
 		gEeprom.SCANLIST_PRIORITY_CH2[i] =  Data[j + 2];
 	}
@@ -274,7 +274,7 @@ void SETTINGS_InitEEPROM(void)
 		ChannelAttributes_t *att = &gMR_ChannelAttributes[i];
 		if(att->__val == 0xff){
 			att->__val = 0;
-			att->band = 0xf;
+			att->band = 0x7;
 		}
 	}
 
@@ -766,10 +766,11 @@ void SETTINGS_UpdateChannel(uint8_t channel, const VFO_Info_t *pVFO, bool keep, 
 	{
 		uint8_t  state[8];
 		ChannelAttributes_t  att = {
-			.band = 0xf,
+			.band = 0x7,
 			.compander = 0,
 			.scanlist1 = 0,
 			.scanlist2 = 0,
+			.scanlist3 = 0,
 			};        // default attributes
 
 		uint16_t offset = 0x0D60 + (channel & ~7u);
@@ -779,6 +780,7 @@ void SETTINGS_UpdateChannel(uint8_t channel, const VFO_Info_t *pVFO, bool keep, 
 			att.band = pVFO->Band;
 			att.scanlist1 = pVFO->SCANLIST1_PARTICIPATION;
 			att.scanlist2 = pVFO->SCANLIST2_PARTICIPATION;
+			att.scanlist3 = pVFO->SCANLIST3_PARTICIPATION;
 			att.compander = pVFO->Compander;
 			if (check && state[channel & 7u] == att.__val)
 				return; // no change in the attributes
