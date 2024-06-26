@@ -67,7 +67,7 @@ static void toggle_chan_scanlist(void)
 	}
 	*/
 
-	uint8_t scanTmp = (gTxVfo->SCANLIST1_PARTICIPATION << 2) | (gTxVfo->SCANLIST2_PARTICIPATION << 1) | gTxVfo->SCANLIST3_PARTICIPATION; 
+	uint8_t scanTmp = gTxVfo->SCANLIST1_PARTICIPATION | (gTxVfo->SCANLIST2_PARTICIPATION << 1) | (gTxVfo->SCANLIST3_PARTICIPATION << 2);
 
 	scanTmp = (scanTmp++ < 7) ? scanTmp: 0;
 
