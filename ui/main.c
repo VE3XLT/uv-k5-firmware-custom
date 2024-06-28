@@ -909,22 +909,22 @@ void UI_DisplayMain(void)
 
 				if (att.scanlist1)
 				{
-					memcpy(p_line0 + 128 - (shiftList * 5), BITMAP_ScanList1, sizeof(BITMAP_ScanList1));
+					memcpy(p_line0 + 127 - (shiftList * 6), BITMAP_ScanList1, sizeof(BITMAP_ScanList1));
 					shiftList--;
 				}
 				if (att.scanlist2)
 				{
-					memcpy(p_line0 + 128 - (shiftList * 5), BITMAP_ScanList2, sizeof(BITMAP_ScanList2));
+					memcpy(p_line0 + 127 - (shiftList * 6), BITMAP_ScanList2, sizeof(BITMAP_ScanList2));
 					shiftList--;
 				}
 				if (att.scanlist3)
 				{
-					memcpy(p_line0 + 128 - (shiftList * 5), BITMAP_ScanList3, sizeof(BITMAP_ScanList3));
+					memcpy(p_line0 + 127 - (shiftList * 6), BITMAP_ScanList3, sizeof(BITMAP_ScanList3));
 				}
 
 				if(countList == 0)
 				{
-					memcpy(p_line0 + 128 - (1 * 5), BITMAP_ScanList0, sizeof(BITMAP_ScanList0));
+					memcpy(p_line0 + 127 - (1 * 6), BITMAP_ScanList0, sizeof(BITMAP_ScanList0));
 				}
 
 				/*
