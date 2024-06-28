@@ -36,7 +36,6 @@
 #include "radio.h"
 #include "settings.h"
 #include "ui/menu.h"
-#include "debugging.h"
 
 VFO_Info_t    *gTxVfo;
 VFO_Info_t    *gRxVfo;
@@ -59,11 +58,6 @@ const char gModulationStr[MODULATION_UKNOWN][4] = {
 
 bool RADIO_CheckValidChannel(uint16_t channel, bool checkScanList, uint8_t scanList)
 {
-
-	//char str[64] = "";
-	//sprintf(str, "RADIO_CheckValidChannel channel %d / checkScanList %d / scanList %d\n", channel, checkScanList, scanList);
-	//LogUart(str);
-
 	// return true if the channel appears valid
 	if (!IS_MR_CHANNEL(channel))
 		return false;
@@ -76,10 +70,7 @@ bool RADIO_CheckValidChannel(uint16_t channel, bool checkScanList, uint8_t scanL
 	if (!checkScanList || scanList > 4)
 		return true;
 
-	//sprintf(str, "scanList %d / att.scanlist1 %d / att.scanlist2 %d / att.scanlist3 %d\n", scanList, att.scanlist1, att.scanlist2, att.scanlist3);
-	//LogUart(str);
-
-
+	/*
 	if(scanList == 0 && (att.scanlist1 == 1 || att.scanlist2 == 1 || att.scanlist3 == 1))
 	{
 		return false;
@@ -100,24 +91,30 @@ bool RADIO_CheckValidChannel(uint16_t channel, bool checkScanList, uint8_t scanL
 	{
 		return false;
 	}
+	*/
 
-	//sprintf(str, ">>> %d\n", scanList);
-	//LogUart(str);
+	if ((scanList == 0 && (att.scanlist1 == 1 || att.scanlist2 == 1 || att.scanlist3 == 1)) ||
+	    (scanList == 1 && att.scanlist1 != 1) ||
+	    (scanList == 2 && att.scanlist2 != 1) ||
+	    (scanList == 3 && att.scanlist3 != 1) ||
+	    (scanList == 4 && (att.scanlist1 == 0 && att.scanlist2 == 0 && att.scanlist3 == 0))) {
+	    return false;
+	}
 
 	return true;
 
+	/*
+	// I don't understand what this code is for...
+	
 	const uint8_t PriorityCh1 = gEeprom.SCANLIST_PRIORITY_CH1[scanList];
 	const uint8_t PriorityCh2 = gEeprom.SCANLIST_PRIORITY_CH2[scanList];
 
 	return PriorityCh1 != channel && PriorityCh2 != channel;
+	*/
 }
 
 uint8_t RADIO_FindNextChannel(uint8_t Channel, int8_t Direction, bool bCheckScanList, uint8_t VFO)
 {
-	//char str[64] = "";
-	//sprintf(str, "RADIO_FindNextChannel Channel %d / VFO %d\n", Channel, VFO);
-	//LogUart(str);
-
 	for (unsigned int i = 0; IS_MR_CHANNEL(i); i++, Channel += Direction) {
 		if (Channel == 0xFF) {
 			Channel = MR_CHANNEL_LAST;
@@ -128,8 +125,6 @@ uint8_t RADIO_FindNextChannel(uint8_t Channel, int8_t Direction, bool bCheckScan
 		if (RADIO_CheckValidChannel(Channel, bCheckScanList, VFO)) {
 			return Channel;
 		}
-		//sprintf(str, "VFO %d...\n", VFO);
-		//LogUart(str);
 	}
 
 	return 0xFF;
