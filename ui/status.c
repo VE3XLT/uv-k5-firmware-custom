@@ -110,9 +110,7 @@ void UI_DisplayStatus()
 						memcpy(line + 0, BITMAP_ScanList3, sizeof(BITMAP_ScanList3));
 						break;
 					case 4:
-						memcpy(line + 0, BITMAP_ScanList1, sizeof(BITMAP_ScanList1));
-						memcpy(line + 6, BITMAP_ScanList2, sizeof(BITMAP_ScanList2));
-						memcpy(line + 12, BITMAP_ScanList3, sizeof(BITMAP_ScanList3));
+						memcpy(line + 0, BITMAP_ScanList123, sizeof(BITMAP_ScanList123));
 						break;
 					case 5:
 						memcpy(line + 0, BITMAP_ScanListAll, sizeof(BITMAP_ScanListAll));
