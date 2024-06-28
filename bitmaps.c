@@ -159,78 +159,60 @@ const uint8_t BITMAP_VFO_NotDefault[8] =
 	0b00001000
 };
 
-const uint8_t BITMAP_ScanList1[7] =
-{	// '1' symbol
-	0b01111111,
-	0b01111111,
-	0b01111011,
-	0b01000001,
-	0b01111111,
-	0b01111111,
-	0b01111111,
-};
-
-const uint8_t BITMAP_ScanList2[7] =
-{	// '2' symbol
-	0b01111111,
-	0b01111111,
-	0b01001101,
-	0b01010101,
-	0b01011011,
-	0b01111111,
-	0b01111111,
-};
-
-const uint8_t BITMAP_ScanList3[7] =
-{	// '3' symbol
-	0b01111111,
-	0b01111111,
-	0b01011101,
-	0b01010101,
-	0b01101011,
-	0b01111111,
-	0b01111111,
-};
-
-const uint8_t BITMAP_ScanList4[7] =
+const uint8_t BITMAP_ScanList0[5] =
 {	// '0' symbol
-	0b01111111,
 	0b01111111,
 	0b01000011,
 	0b01011101,
 	0b01100001,
 	0b01111111,
+};
+
+const uint8_t BITMAP_ScanList1[5] =
+{	// '1' symbol
+	0b01111111,
+	0b01111011,
+	0b01000001,
+	0b01111111,
 	0b01111111,
 };
 
-const uint8_t BITMAP_ScanList5[11] =
-{
-	// 'All List' symbol
+const uint8_t BITMAP_ScanList2[5] =
+{	// '2' symbol
 	0b01111111,
-	0b01100011,
-	0b01011101,
-	0b01011101,
-	0b01101011,
-	0b01110111,
-	0b01101011,
-	0b01011101,
-	0b01011101,
-	0b01100011,
-	0b01111111	
+	0b01001101,
+	0b01010101,
+	0b01011011,
+	0b01111111,
 };
 
-const uint8_t BITMAP_ScanList6[9] =
+const uint8_t BITMAP_ScanList3[5] =
+{	// '3' symbol
+	0b01111111,
+	0b01011101,
+	0b01010101,
+	0b01101011,
+	0b01111111,
+};
+
+const uint8_t BITMAP_ScanListAll[15] =
 {
 	// 'All' symbol
-	0b00011100,
-	0b00100010,
-	0b00100010,
-	0b00010100,
-	0b00001000,
-	0b00010100,
-	0b00100010,
-	0b00100010,
-	0b00011100
+	0b01111111,
+	0b01000011,
+	0b01110101,
+	0b01000011,
+	0b01111111,
+	0b01111111,
+	0b01000001,
+	0b01011111,
+	0b01011111,
+	0b01111111,
+	0b01111111,
+	0b01000001,
+	0b01011111,
+	0b01011111,
+	0b01111111,
 };
 
 const uint8_t BITMAP_compand[6] =

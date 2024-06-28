@@ -909,22 +909,22 @@ void UI_DisplayMain(void)
 
 				if (att.scanlist1)
 				{
-					memcpy(p_line0 + 128 - (shiftList * 7), BITMAP_ScanList1, sizeof(BITMAP_ScanList1));
+					memcpy(p_line0 + 128 - (shiftList * 5), BITMAP_ScanList1, sizeof(BITMAP_ScanList1));
 					shiftList--;
 				}
 				if (att.scanlist2)
 				{
-					memcpy(p_line0 + 128 - (shiftList * 7), BITMAP_ScanList2, sizeof(BITMAP_ScanList2));
+					memcpy(p_line0 + 128 - (shiftList * 5), BITMAP_ScanList2, sizeof(BITMAP_ScanList2));
 					shiftList--;
 				}
 				if (att.scanlist3)
 				{
-					memcpy(p_line0 + 128 - (shiftList * 7), BITMAP_ScanList3, sizeof(BITMAP_ScanList3));
+					memcpy(p_line0 + 128 - (shiftList * 5), BITMAP_ScanList3, sizeof(BITMAP_ScanList3));
 				}
 
 				if(countList == 0)
 				{
-					memcpy(p_line0 + 128 - (1 * 7), BITMAP_ScanList4, sizeof(BITMAP_ScanList4));
+					memcpy(p_line0 + 128 - (1 * 5), BITMAP_ScanList0, sizeof(BITMAP_ScanList0));
 				}
 
 				/*
@@ -977,14 +977,6 @@ void UI_DisplayMain(void)
 						if (String[0] == 0)
 						{	// no channel name, show the channel number instead
 							sprintf(String, "CH-%03u", gEeprom.ScreenChannel[vfo_num] + 1);
-						}
-						else
-						{
-							// Too many list, so remove last character name
-							if(String[9] != 0 && countList == 3)
-							{
-								String[9] = 0;
-							}
 						}
 
 						if (gEeprom.CHANNEL_DISPLAY_MODE == MDF_NAME) {

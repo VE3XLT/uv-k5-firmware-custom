@@ -558,7 +558,7 @@ static void MAIN_Key_MENU(bool bKeyPressed, bool bKeyHeld)
 
 			#ifdef ENABLE_FEAT_F4HWN
 			// Exclude work with list 1, 2, 3 or all list
-			if(gScanStateDir != SCAN_OFF && (gEeprom.SCAN_LIST_DEFAULT < 3 || gEeprom.SCAN_LIST_DEFAULT == 4))
+			if(gScanStateDir != SCAN_OFF && (gEeprom.SCAN_LIST_DEFAULT > 0 || gEeprom.SCAN_LIST_DEFAULT < 5))
 			{
 				if(FUNCTION_IsRx())
 				{

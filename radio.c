@@ -80,19 +80,19 @@ bool RADIO_CheckValidChannel(uint16_t channel, bool checkScanList, uint8_t scanL
 	//LogUart(str);
 
 
-	if(scanList == 0 && att.scanlist1 != 1)
+	if(scanList == 0 && (att.scanlist1 == 1 || att.scanlist2 == 1 || att.scanlist3 == 1))
 	{
 		return false;
 	}
-	else if(scanList == 1 && att.scanlist2 != 1)
+	else if(scanList == 1 && att.scanlist1 != 1)
 	{
 		return false;
 	}
-	else if(scanList == 2 && att.scanlist3 != 1)
+	else if(scanList == 2 && att.scanlist2 != 1)
 	{
 		return false;
 	}
-	else if(scanList == 3 && (att.scanlist1 == 1 || att.scanlist2 == 1 || att.scanlist3 == 1))
+	else if(scanList == 3 && att.scanlist3 != 1)
 	{
 		return false;
 	}

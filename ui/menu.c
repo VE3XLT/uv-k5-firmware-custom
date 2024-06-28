@@ -811,10 +811,10 @@ void UI_DisplayMenu(void)
 			break;
 
 		case MENU_S_LIST:
-			if (gSubMenuSelection < 3)
-				sprintf(String, "LIST [%u]", 1 + gSubMenuSelection);
-			else if (gSubMenuSelection == 3)
+			if (gSubMenuSelection == 0)
 				strcpy(String, "LIST [0]\nNO LIST");
+			else if (gSubMenuSelection < 4)
+				sprintf(String, "LIST [%u]", gSubMenuSelection);
 			else if (gSubMenuSelection == 4)
 				strcpy(String, "LISTS\n[1, 2, 3]");
 			else if (gSubMenuSelection == 5)
