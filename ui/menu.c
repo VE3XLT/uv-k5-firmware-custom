@@ -290,12 +290,16 @@ const char * const gSubMenu_F_LOCK[] =
 {
 	"DEFAULT+\n137-174\n400-470",
 	"FCC HAM\n144-148\n420-450",
+#ifdef ENABLE_FEAT_F4HWN_PMR
+	"CA HAM\n144-148\n430-450",
+#endif
 	"CE HAM\n144-146\n430-440",
 	"GB HAM\n144-148\n430-440",
 	"137-174\n400-430",
 	"137-174\n400-438",
 #ifdef ENABLE_FEAT_F4HWN_PMR
 	"PMR 446",
+	"GMRS\nFRS\nMURS",
 #endif
 	"DISABLE\nALL",
 	"UNLOCK\nALL",
