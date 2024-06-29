@@ -336,8 +336,11 @@ void channelMove(uint16_t Channel, bool End)
 
 	gEeprom.MrChannel[Vfo]     = (uint8_t)Channel;
 	gEeprom.ScreenChannel[Vfo] = (uint8_t)Channel;
-	gRequestSaveVFO            = true;
+	//gRequestSaveVFO            = true;
 	gVfoConfigureMode          = VFO_CONFIGURE_RELOAD;
+
+	RADIO_ConfigureChannel(gEeprom.TX_VFO, gVfoConfigureMode);
+	SETTINGS_SaveVfoIndices();
 
 	return;
 }
@@ -375,7 +378,7 @@ static void MAIN_Key_DIGITS(KEY_Code_t Key, bool bKeyPressed, bool bKeyHeld)
 
 		if (IS_MR_CHANNEL(gTxVfo->CHANNEL_SAVE)) { // user is entering channel number
 
-			gKeyInputCountdown = (key_input_timeout_500ms / 8); // short time...
+			gKeyInputCountdown = (key_input_timeout_500ms / 6); // short time...
 
 			if (gInputBoxIndex != 3) {
 				#ifdef ENABLE_VOICE
