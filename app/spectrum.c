@@ -62,11 +62,11 @@ ScanInfo scanInfo;
 KeyboardState kbd = {KEY_INVALID, KEY_INVALID, 0};
 
 #ifdef ENABLE_SCAN_RANGES
-static uint16_t blacklistFreqs[15];
+static uint16_t blacklistFreqs[16];
 static uint8_t blacklistFreqsIdx;
 #endif
 
-const char *bwOptions[] = {"  25k", "12.5k", "6.25k"};
+const char *bwOptions[] = {"25", "12.5", "6.25"};
 const uint8_t modulationTypeTuneSteps[] = {100, 50, 10};
 const uint8_t modTypeReg47Values[] = {1, 7, 5};
 
@@ -777,7 +777,7 @@ static void DrawF(uint32_t f) {
 
   sprintf(String, "%3s", gModulationStr[settings.modulationType]);
   GUI_DisplaySmallest(String, 116, 1, false, true);
-  sprintf(String, "%s", bwOptions[settings.listenBw]);
+  sprintf(String, "%4sk", bwOptions[settings.listenBw]);
   GUI_DisplaySmallest(String, 108, 7, false, true);
 
 #ifndef ENABLE_FMRADIO
@@ -924,6 +924,8 @@ static void OnKeyDown(uint8_t key) {
     TuneToPeak();
     break;
   case KEY_MENU:
+    ToggleRX(false);
+  	InitScan();
     break;
   case KEY_EXIT:
     if (menuState) {
