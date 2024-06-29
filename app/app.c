@@ -1466,6 +1466,12 @@ void APP_TimeSlice500ms(void)
 	{
 		if (--gKeyInputCountdown == 0)
 		{
+
+			if (IS_MR_CHANNEL(gTxVfo->CHANNEL_SAVE) && (gInputBoxIndex == 1 || gInputBoxIndex == 2))
+			{
+				SETTINGS_SaveVfoIndices();
+			}
+
 			cancelUserInputModes();
 
 			if (gBeepToPlay != BEEP_NONE)
