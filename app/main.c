@@ -352,6 +352,25 @@ static void MAIN_Key_DIGITS(KEY_Code_t Key, bool bKeyPressed, bool bKeyHeld)
 	}
 
 	if (!gWasFKeyPressed) { // F-key wasn't pressed
+		//INSERT SCANLIST SELECTION HERE
+		if (gScanStateDir != SCAN_OFF){
+			switch(Key){
+				case KEY_1:
+					gEeprom.SCAN_LIST_DEFAULT=0;
+					break;
+				case KEY_2:
+					gEeprom.SCAN_LIST_DEFAULT=1;
+					break;
+				case KEY_3:
+					gEeprom.SCAN_LIST_DEFAULT=2;
+					break;
+				case KEY_0:
+					gEeprom.SCAN_LIST_DEFAULT=3;
+					break;
+					default:;
+			}
+			return;
+		}
 		const uint8_t Vfo = gEeprom.TX_VFO;
 		gKeyInputCountdown = key_input_timeout_500ms;
 		INPUTBOX_Append(Key);
@@ -682,7 +701,13 @@ static void MAIN_Key_STAR(bool bKeyPressed, bool bKeyHeld)
 			gRequestDisplayScreen = DISPLAY_MAIN;
 		}
 		else
-			gBeepToPlay = BEEP_500HZ_60MS_DOUBLE_BEEP_OPTIONAL;
+		{
+			gBeepToPlay = BEEP_1KHZ_60MS_OPTIONAL;
+			if (gEeprom.SCAN_LIST_DEFAULT!=4) gEeprom.SCAN_LIST_DEFAULT=4;
+			else gEeprom.SCAN_LIST_DEFAULT=5;
+			return;
+			//gBeepToPlay = BEEP_500HZ_60MS_DOUBLE_BEEP_OPTIONAL;
+		}
 	}
 	else
 	{	// with the F-key

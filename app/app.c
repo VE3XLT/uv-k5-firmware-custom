@@ -1847,7 +1847,7 @@ static void ProcessKey(KEY_Code_t Key, bool bKeyPressed, bool bKeyHeld)
 			return;
 		}
 	}
-
+/* saboteur, oh how i hate thee
 	if (Key <= KEY_9 || Key == KEY_F) {
 		if (gScanStateDir != SCAN_OFF || gCssBackgroundScan) { // FREQ/CTCSS/DCS scanning
 			if (bKeyPressed && !bKeyHeld)
@@ -1855,7 +1855,7 @@ static void ProcessKey(KEY_Code_t Key, bool bKeyPressed, bool bKeyHeld)
 			return;
 		}
 	}
-
+*/
 	bool bFlag = false;
 	if (Key == KEY_PTT) {
 		if (gPttWasPressed) {
