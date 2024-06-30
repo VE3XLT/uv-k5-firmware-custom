@@ -43,7 +43,7 @@
 #include "ui/ui.h"
 #include <stdlib.h>
 
-static void toggle_chan_scanlist(int num)
+static void toggle_chan_scanlist(uint8_t num)
 {	// toggle the selected channels scanlist setting
 
 	if (SCANNER_IsScanning())
@@ -75,13 +75,13 @@ static void toggle_chan_scanlist(int num)
 	} else {
 		switch(num){
 			case 1:
-				gTxVfo->SCANLIST1_PARTICIPATION=!gTxVfo->SCANLIST1_PARTICIPATION;
+				gTxVfo->SCANLIST1_PARTICIPATION ^= 1;
 				break;
 			case 2:
-				gTxVfo->SCANLIST2_PARTICIPATION=!gTxVfo->SCANLIST2_PARTICIPATION;
+				gTxVfo->SCANLIST2_PARTICIPATION ^= 1;
 				break;
 			case 3:
-				gTxVfo->SCANLIST3_PARTICIPATION=!gTxVfo->SCANLIST3_PARTICIPATION;
+				gTxVfo->SCANLIST3_PARTICIPATION ^= 1;
 				break;
 		}
 	}
