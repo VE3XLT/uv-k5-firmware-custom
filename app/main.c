@@ -480,15 +480,7 @@ static void MAIN_Key_DIGITS(KEY_Code_t Key, bool bKeyPressed, bool bKeyHeld)
 	gWasFKeyPressed = false;
 	gUpdateStatus   = true;
 	
-	if(Key == 1)
-	{
-		toggle_chan_scanlist(Key);
-	}
-	else if(Key == 2)
-	{
-		toggle_chan_scanlist(Key);
-	}
-	else if(Key == 3)
+	if(Key < 4)
 	{
 		toggle_chan_scanlist(Key);
 	}
