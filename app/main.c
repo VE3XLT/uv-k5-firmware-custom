@@ -43,36 +43,48 @@
 #include "ui/ui.h"
 #include <stdlib.h>
 
-static void toggle_chan_scanlist(void)
+static void toggle_chan_scanlist(int num)
 {	// toggle the selected channels scanlist setting
 
 	if (SCANNER_IsScanning())
 		return;
+	if(num==0){
+		if(!IS_MR_CHANNEL(gTxVfo->CHANNEL_SAVE)) {
+	#ifdef ENABLE_SCAN_RANGES
+			gScanRangeStart = gScanRangeStart ? 0 : gTxVfo->pRX->Frequency;
+			gScanRangeStop = gEeprom.VfoInfo[!gEeprom.TX_VFO].freq_config_RX.Frequency;
+			if(gScanRangeStart > gScanRangeStop)
+				SWAP(gScanRangeStart, gScanRangeStop);
+	#endif
+			return;
+		}
 
-	if(!IS_MR_CHANNEL(gTxVfo->CHANNEL_SAVE)) {
-#ifdef ENABLE_SCAN_RANGES
-		gScanRangeStart = gScanRangeStart ? 0 : gTxVfo->pRX->Frequency;
-		gScanRangeStop = gEeprom.VfoInfo[!gEeprom.TX_VFO].freq_config_RX.Frequency;
-		if(gScanRangeStart > gScanRangeStop)
-			SWAP(gScanRangeStart, gScanRangeStop);
-#endif
-		return;
-	}
+		/*
+		if (gTxVfo->SCANLIST1_PARTICIPATION ^ gTxVfo->SCANLIST2_PARTICIPATION){
+			gTxVfo->SCANLIST2_PARTICIPATION = gTxVfo->SCANLIST1_PARTICIPATION;
+		} else {
+			gTxVfo->SCANLIST1_PARTICIPATION = !gTxVfo->SCANLIST1_PARTICIPATION;
+		}
+		*/
 
-	/*
-	if (gTxVfo->SCANLIST1_PARTICIPATION ^ gTxVfo->SCANLIST2_PARTICIPATION){
-		gTxVfo->SCANLIST2_PARTICIPATION = gTxVfo->SCANLIST1_PARTICIPATION;
+		uint8_t scanTmp = (gTxVfo->SCANLIST3_PARTICIPATION << 2) | (gTxVfo->SCANLIST2_PARTICIPATION << 1) | gTxVfo->SCANLIST1_PARTICIPATION;
+		scanTmp = (scanTmp++ < 7) ? scanTmp: 0;
+		gTxVfo->SCANLIST1_PARTICIPATION = (scanTmp >> 0) & 0x01;
+		gTxVfo->SCANLIST2_PARTICIPATION = (scanTmp >> 1) & 0x01;
+		gTxVfo->SCANLIST3_PARTICIPATION = (scanTmp >> 2) & 0x01;
 	} else {
-		gTxVfo->SCANLIST1_PARTICIPATION = !gTxVfo->SCANLIST1_PARTICIPATION;
+		switch(num){
+			case 1:
+				gTxVfo->SCANLIST1_PARTICIPATION=!gTxVfo->SCANLIST1_PARTICIPATION;
+				break;
+			case 2:
+				gTxVfo->SCANLIST2_PARTICIPATION=!gTxVfo->SCANLIST2_PARTICIPATION;
+				break;
+			case 3:
+				gTxVfo->SCANLIST3_PARTICIPATION=!gTxVfo->SCANLIST3_PARTICIPATION;
+				break;
+		}
 	}
-	*/
-
-	uint8_t scanTmp = (gTxVfo->SCANLIST3_PARTICIPATION << 2) | (gTxVfo->SCANLIST2_PARTICIPATION << 1) | gTxVfo->SCANLIST1_PARTICIPATION;
-	scanTmp = (scanTmp++ < 7) ? scanTmp: 0;
-	gTxVfo->SCANLIST1_PARTICIPATION = (scanTmp >> 0) & 0x01;
-	gTxVfo->SCANLIST2_PARTICIPATION = (scanTmp >> 1) & 0x01;
-	gTxVfo->SCANLIST3_PARTICIPATION = (scanTmp >> 2) & 0x01;
-
 	SETTINGS_UpdateChannel(gTxVfo->CHANNEL_SAVE, gTxVfo, true, true, true);
 
 	gVfoConfigureMode = VFO_CONFIGURE;
@@ -222,9 +234,9 @@ static void processFKeyFunction(const KEY_Code_t Key, const bool beep)
 #endif
 			}
 			else {
-#ifdef ENABLE_VOX
-				toggle_chan_scanlist();
-#endif
+//#ifdef ENABLE_VOX
+				toggle_chan_scanlist(0);
+//#endif
 			}
 
 			break;
@@ -235,9 +247,9 @@ static void processFKeyFunction(const KEY_Code_t Key, const bool beep)
 
 		case KEY_7:
 #ifdef ENABLE_VOX
-			ACTION_Vox();
+//			ACTION_Vox();
 #else
-			toggle_chan_scanlist();
+			toggle_chan_scanlist(0);
 #endif
 			break;
 
@@ -467,19 +479,29 @@ static void MAIN_Key_DIGITS(KEY_Code_t Key, bool bKeyPressed, bool bKeyHeld)
 
 	gWasFKeyPressed = false;
 	gUpdateStatus   = true;
-
-	if(Key == 8)
+	
+	if(Key == 1)
+	{
+		toggle_chan_scanlist(Key);
+	}
+	else if(Key == 2)
+	{
+		toggle_chan_scanlist(Key);
+	}
+	else if(Key == 3)
+	{
+		toggle_chan_scanlist(Key);
+	}
+	else if(Key == 8)
 	{
 		ACTION_BackLightOnDemand();
-		return;
 	}
 	else if(Key == 9)
 	{
 		ACTION_BackLight();
-		return;
 	}
-
-	processFKeyFunction(Key, true);
+	else
+		processFKeyFunction(Key, true);
 }
 
 static void MAIN_Key_EXIT(bool bKeyPressed, bool bKeyHeld)

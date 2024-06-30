@@ -296,7 +296,7 @@ uint16_t GetStepsCount()
     return (gScanRangeStop - gScanRangeStart) / GetScanStep();
   }
 #endif
-  return 128 >> settings.stepsCount;
+  return (128 >> settings.stepsCount);
 }
 
 uint32_t GetBW() { return GetStepsCount() * GetScanStep(); }
@@ -671,9 +671,10 @@ static void Blacklist() {
 #ifdef ENABLE_SCAN_RANGES
 static bool IsBlacklisted(uint16_t idx)
 {
-  for(uint8_t i = 0; i < ARRAY_SIZE(blacklistFreqs); i++)
-    if(blacklistFreqs[i] == idx)
-      return true;
+  if(blacklistFreqs[0])
+    for(uint8_t i = 0; i < ARRAY_SIZE(blacklistFreqs); i++)
+      if(blacklistFreqs[i] == idx)
+        return true;
   return false;
 }
 #endif
@@ -739,13 +740,22 @@ static void DrawStatus() {
   }
 }
 
+uint32_t pmfreq;
+uint32_t pfreq;
+
 //#ifndef ENABLE_FMRADIO
   static void ShowChannelName(uint32_t f) {
     unsigned int i;
     //char s[12];
-    //memset(String, 0, sizeof(String));
-
-//    if ( isListening ) { 
+    memset(String, 0, sizeof(String));
+    if (pmfreq==peak.f) {
+        UI_PrintStringSmallBold("M", 8, 127, 1);
+        return;
+    }
+    if (pfreq==peak.f)
+        return;
+    pfreq = peak.f;
+//    if ( isListening ) {
       for (i = 0; IS_MR_CHANNEL(i); i++) {
           if (RADIO_CheckValidChannel(i, false, 0)) {
             if (SETTINGS_FetchChannelFrequency(i) == f) {
@@ -754,21 +764,21 @@ static void DrawStatus() {
 //              if (s[0] != 0) {
 //                if ( strlen(String) != 0 )
 //                  strcat(String, "/");   // Add a space to result
-//                strcat(String, s);
+//                strcat(String, "M");
+                  pmfreq = peak.f;
 //              }
-              UI_PrintStringSmallBold("M", 8, 127, 1);
               break;
             }
           }
       }
 //    }
-/*
-    if (String[0] != 0) {
-      if ( strlen(String) > 19 ) {
-        String[19] = 0;
-      }
-      UI_PrintStringSmallBold(String, 8, 127, 1);
-    } */
+
+//    if (String[0] != 0) {
+//      if ( strlen(String) > 19 ) {
+//        String[19] = 0;
+//      }
+//      UI_PrintStringSmallBold(String, 8, 127, 1);
+//    }
   }
 //#endif
 
@@ -1198,7 +1208,7 @@ static void NextScanStep() {
 static void UpdateScan() {
   Scan();
 
-  if (scanInfo.i < scanInfo.measurementsCount) {
+  if (scanInfo.i < scanInfo.measurementsCount - 1) {
     NextScanStep();
     return;
   }
