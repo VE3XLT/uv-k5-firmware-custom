@@ -1827,7 +1827,7 @@ static void MENU_Key_UP_DOWN(bool bKeyPressed, bool bKeyHeld, int8_t Direction)
 		case MENU_SLIST2:
 			bCheckScanList = true;
 			VFO = 1;
-			[[fallthrough]];
+			break;
 		case MENU_SLIST1:
 			VFO=0;
 			bCheckScanList = true;

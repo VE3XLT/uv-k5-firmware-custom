@@ -55,14 +55,13 @@ const t_menu_item MenuList[] =
 	{"BusyCL",		MENU_BCL           }, // was "BCL"
 	{"Compnd",		MENU_COMPAND       },
 	{"Mode",		MENU_AM            }, // was "AM"
-	{"ScAdd1",		MENU_S_ADD1        },
-	{"ScAdd2",		MENU_S_ADD2        },
-	{"ScAdd3",		MENU_S_ADD3        },
 	{"ChSave",		MENU_MEM_CH        }, // was "MEM-CH"
 	{"ChDele",		MENU_DEL_CH        }, // was "DEL-CH"
 	{"ChName",		MENU_MEM_NAME      },
-
-	{"SList",		MENU_S_LIST        },
+	{"ScAdd1",		MENU_S_ADD1        },
+	{"ScAdd2",		MENU_S_ADD2        },
+	{"ScAdd3",		MENU_S_ADD3        },
+	{"Scan",		MENU_S_LIST        },
 	{"SList1",		MENU_SLIST1        },
 	{"SList2",		MENU_SLIST2        },
 	{"SList3",		MENU_SLIST3        },
@@ -130,7 +129,6 @@ const t_menu_item MenuList[] =
 	{"BatV",		MENU_VOL           }, // was "VOL"
 #endif
 	{"RxMo",		MENU_TDR           },
-	{"Sql",			MENU_SQL           },
 #ifdef ENABLE_FEAT_F4HWN
 	{"LowP",		MENU_SET_LOW       },
 	{"Ptt",		MENU_SET_PTT       },
@@ -142,6 +140,7 @@ const t_menu_item MenuList[] =
 	{"Met",		MENU_SET_MET       },
 	{"Gui",		MENU_SET_GUI       },
 #endif
+	{"Sql",			MENU_SQL           },
 	// hidden menu items from here on
 	// enabled if pressing both the PTT and upper side button at power-on
 	{"F Lock",		MENU_F_LOCK        },
@@ -153,7 +152,7 @@ const t_menu_item MenuList[] =
 	{"ScraEn",		MENU_SCREN         }, // was "SCREN"
 #endif
 #ifdef ENABLE_F_CAL_MENU
-	{"FrCali",		MENU_F_CALI        }, // reference xtal calibration
+	{"FrqCal",		MENU_F_CALI        }, // reference xtal calibration
 #endif
 	{"BatCal",		MENU_BATCAL        }, // battery voltage calibration
 	{"BatTyp",		MENU_BATTYP        }, // battery type 1600/2200mAh
@@ -1029,6 +1028,7 @@ void UI_DisplayMenu(void)
 	if (UI_MENU_GetCurrentMenuId() == MENU_SLIST1 || UI_MENU_GetCurrentMenuId() == MENU_SLIST2 || UI_MENU_GetCurrentMenuId() == MENU_SLIST3)
 	{
 		i = (UI_MENU_GetCurrentMenuId() == MENU_SLIST1) ? 0 : 1;
+		//i = (UI_MENU_GetCurrentMenuId() == MENU_SLIST2) ? 1 : 2;
 		char *pPrintStr = String;
 
 		if (gSubMenuSelection < 0) {
