@@ -605,7 +605,7 @@ void UI_DisplayMenu(void)
 		case MENU_OFFSET:
 			if (!gIsInSubMenu || gInputBoxIndex == 0)
 			{
-				sprintf(String, "%3d.%05u", gSubMenuSelection / 100000, abs(gSubMenuSelection) % 100000);
+				sprintf(String, "%.3d.%05u", gSubMenuSelection / 100000, abs(gSubMenuSelection) % 100000);
 				UI_PrintString(String, menu_item_x1, menu_item_x2, 1, 8);
 			}
 			else
