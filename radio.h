@@ -114,9 +114,7 @@ typedef struct VFO_Info_t
 	uint8_t        SCRAMBLING_TYPE;
 	uint8_t        CHANNEL_BANDWIDTH;
 
-	uint8_t        SCANLIST1_PARTICIPATION;
-	uint8_t        SCANLIST2_PARTICIPATION;
-	uint8_t        SCANLIST3_PARTICIPATION;
+	uint8_t        SCANLIST_PARTICIPATION;
 
 	uint8_t        Band;
 #ifdef ENABLE_DTMF_CALLING

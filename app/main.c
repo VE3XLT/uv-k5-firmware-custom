@@ -66,13 +66,18 @@ static void toggle_chan_scanlist(uint8_t num)
 			gTxVfo->SCANLIST1_PARTICIPATION = !gTxVfo->SCANLIST1_PARTICIPATION;
 		}
 		*/
-
+	/*
 		uint8_t scanTmp = (gTxVfo->SCANLIST3_PARTICIPATION << 2) | (gTxVfo->SCANLIST2_PARTICIPATION << 1) | gTxVfo->SCANLIST1_PARTICIPATION;
 		scanTmp = (scanTmp++ < 7) ? scanTmp: 0;
 		gTxVfo->SCANLIST1_PARTICIPATION = (scanTmp >> 0) & 0x01;
 		gTxVfo->SCANLIST2_PARTICIPATION = (scanTmp >> 1) & 0x01;
 		gTxVfo->SCANLIST3_PARTICIPATION = (scanTmp >> 2) & 0x01;
+	*/
+		gTxVfo->SCANLIST_PARTICIPATION = (gTxVfo->SCANLIST_PARTICIPATION++ < 7) ? gTxVfo->SCANLIST_PARTICIPATION : 0;
 	} else {
+		num-=1;
+		gTxVfo->SCANLIST_PARTICIPATION ^= (1 << (2-num));
+		/*
 		switch(num){
 			case 1:
 				gTxVfo->SCANLIST1_PARTICIPATION ^= 1;
@@ -84,6 +89,7 @@ static void toggle_chan_scanlist(uint8_t num)
 				gTxVfo->SCANLIST3_PARTICIPATION ^= 1;
 				break;
 		}
+		*/
 	}
 	SETTINGS_UpdateChannel(gTxVfo->CHANNEL_SAVE, gTxVfo, true, true, true);
 
@@ -592,9 +598,7 @@ static void MAIN_Key_MENU(bool bKeyPressed, bool bKeyHeld)
 			{
 				if(FUNCTION_IsRx())
 				{
-					gTxVfo->SCANLIST1_PARTICIPATION = 0;
-					gTxVfo->SCANLIST2_PARTICIPATION = 0;
-					gTxVfo->SCANLIST3_PARTICIPATION = 0;
+					gTxVfo->SCANLIST_PARTICIPATION = 0;
 
 					SETTINGS_UpdateChannel(gTxVfo->CHANNEL_SAVE, gTxVfo, true, true, false);
 

@@ -197,9 +197,7 @@ typedef union {
         uint8_t
             band : 3,
             compander : 2,
-            scanlist3 : 1,
-            scanlist2 : 1,
-            scanlist1 : 1;
+            scanlists : 3;
     };
     uint8_t __val;
 } ChannelAttributes_t;

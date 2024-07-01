@@ -72,26 +72,39 @@ bool RADIO_CheckValidChannel(uint16_t channel, bool checkScanList, uint8_t scanL
 
 	//if (scanList ? !att.scanlist2 : !att.scanlist1)
 	//	return false;
-	if(scanList == 0 && att.scanlist1 != 1)
+
+	if(scanList<3){
+		if(!((att.scanlists >> (2-scanList)) & 1))
+			return false;
+	}
+	else if(scanList==3 && att.scanlists)
+		return false;
+	else if(scanList==4 && !att.scanlists)
+		return false;
+	
+
+	/*
+	if(scanList == 0 && att.scanlist1 != 1) // scanlist 1
 	{
 		return false;
 	}
-	else if(scanList == 1 && att.scanlist2 != 1)
+	else if(scanList == 1 && att.scanlist2 != 1) // scanlist 2
 	{
 		return false;
 	}
-	else if(scanList == 2 && att.scanlist3 != 1)
+	else if(scanList == 2 && att.scanlist3 != 1) // scanlist 3
 	{
 		return false;
 	}
-	else if(scanList == 3 && (att.scanlist1 == 1 || att.scanlist2 == 1 || att.scanlist3 == 1))
+	else if(scanList == 3 && (att.scanlist1 == 1 || att.scanlist2 == 1 || att.scanlist3 == 1)) // no list
 	{
 		return false;
 	}
-	else if(scanList == 4 && (att.scanlist1 == 0 && att.scanlist2 == 0 && att.scanlist3 == 0))
+	else if(scanList == 4 && (att.scanlist1 == 0 && att.scanlist2 == 0 && att.scanlist3 == 0)) // all lists
 	{
 		return false;
 	}
+	*/
 	return true;
 
 	const uint8_t PriorityCh1 = gEeprom.SCANLIST_PRIORITY_CH1[scanList];
@@ -122,9 +135,7 @@ void RADIO_InitInfo(VFO_Info_t *pInfo, const uint8_t ChannelSave, const uint32_t
 	memset(pInfo, 0, sizeof(*pInfo));
 
 	pInfo->Band                     = FREQUENCY_GetBand(Frequency);
-	pInfo->SCANLIST1_PARTICIPATION  = false;
-	pInfo->SCANLIST2_PARTICIPATION  = false;
-	pInfo->SCANLIST3_PARTICIPATION  = false;
+	pInfo->SCANLIST_PARTICIPATION  = 0;
 	pInfo->STEP_SETTING             = STEP_12_5kHz;
 	pInfo->StepFrequency            = gStepFrequencyTable[pInfo->STEP_SETTING];
 	pInfo->CHANNEL_SAVE             = ChannelSave;
@@ -206,25 +217,17 @@ void RADIO_ConfigureChannel(const unsigned int VFO, const unsigned int configure
 		band = BAND6_400MHz;
 	}
 
-	bool bParticipation1;
-	bool bParticipation2;
-	bool bParticipation3;
+	uint8_t bParticipation;
 	if (IS_MR_CHANNEL(channel)) {
-		bParticipation1 = att.scanlist1;
-		bParticipation2 = att.scanlist2;
-		bParticipation3 = att.scanlist3;
+		bParticipation = att.scanlists;
 	}
 	else {
 		band = channel - FREQ_CHANNEL_FIRST;
-		bParticipation1 = true;
-		bParticipation2 = true;
-		bParticipation3 = true;
+		bParticipation = 7;
 	}
 
 	pVfo->Band                    = band;
-	pVfo->SCANLIST1_PARTICIPATION = bParticipation1;
-	pVfo->SCANLIST2_PARTICIPATION = bParticipation2;
-	pVfo->SCANLIST3_PARTICIPATION = bParticipation3;
+	pVfo->SCANLIST_PARTICIPATION = bParticipation;
 	pVfo->CHANNEL_SAVE            = channel;
 
 	uint16_t base;

@@ -898,26 +898,26 @@ void UI_DisplayMain(void)
 				// show the scan list assigment symbols
 				const ChannelAttributes_t att = gMR_ChannelAttributes[gEeprom.ScreenChannel[vfo_num]];
 
-				if (att.scanlist1)
+				if (att.scanlists & 0b001)
 					countList++;
-				if (att.scanlist2)
+				if (att.scanlists & 0b010)
 					countList++;
-				if (att.scanlist3)
+				if (att.scanlists & 0b100)
 					countList++;
 
 				shiftList = countList;
 
-				if (att.scanlist1)
+				if (att.scanlists & 0b100)
 				{
 					memcpy(p_line0 + 128 - (shiftList * 7), BITMAP_ScanList1, sizeof(BITMAP_ScanList1));
 					shiftList--;
 				}
-				if (att.scanlist2)
+				if (att.scanlists & 0b010)
 				{
 					memcpy(p_line0 + 128 - (shiftList * 7), BITMAP_ScanList2, sizeof(BITMAP_ScanList2));
 					shiftList--;
 				}
-				if (att.scanlist3)
+				if (att.scanlists & 0b001)
 				{
 					memcpy(p_line0 + 128 - (shiftList * 7), BITMAP_ScanList3, sizeof(BITMAP_ScanList3));
 				}
