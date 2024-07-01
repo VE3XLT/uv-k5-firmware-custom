@@ -228,6 +228,7 @@ void SETTINGS_InitEEPROM(void)
 	gEeprom.SCAN_LIST_DEFAULT = (Data[0] < 5) ? Data[0] : 0;  // we now have 'all' channel scan option
 
 	// Fake data
+	/*
 	gEeprom.SCAN_LIST_ENABLED[0] = 0;
 	gEeprom.SCAN_LIST_ENABLED[1] = 0;
 	gEeprom.SCAN_LIST_ENABLED[2] = 0;
@@ -240,9 +241,9 @@ void SETTINGS_InitEEPROM(void)
 
 	gEeprom.SCANLIST_PRIORITY_CH1[2] =  40;
 	gEeprom.SCANLIST_PRIORITY_CH2[2] =  41;
+	*/
 
 	// Fix me probably after Chirp update...
-	/*
 	for (unsigned int i = 0; i < 3; i++)
 	{
 		gEeprom.SCAN_LIST_ENABLED[i] = (Data[1] >> i) & 1;
@@ -254,7 +255,6 @@ void SETTINGS_InitEEPROM(void)
 		gEeprom.SCANLIST_PRIORITY_CH1[i] =  Data[j + 1];
 		gEeprom.SCANLIST_PRIORITY_CH2[i] =  Data[j + 2];
 	}
-	*/
 
 	// 0F40..0F47
 	EEPROM_ReadBuffer(0x0F40, Data, 8);
