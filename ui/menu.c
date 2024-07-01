@@ -56,11 +56,11 @@ const t_menu_item MenuList[] =
 	{"Compnd",		MENU_COMPAND       },
 	{"Mode",		MENU_AM            }, // was "AM"
 	{"ChSave",		MENU_MEM_CH        }, // was "MEM-CH"
-	{"ChDele",		MENU_DEL_CH        }, // was "DEL-CH"
 	{"ChName",		MENU_MEM_NAME      },
 	{"ScAdd1",		MENU_S_ADD1        },
 	{"ScAdd2",		MENU_S_ADD2        },
 	{"ScAdd3",		MENU_S_ADD3        },
+	{"ChDele",		MENU_DEL_CH        }, // was "DEL-CH"
 	{"Scan",		MENU_S_LIST        },
 	{"SList1",		MENU_SLIST1        },
 	{"SList2",		MENU_SLIST2        },
