@@ -587,7 +587,7 @@ void UI_DisplayMain(void)
 			shift = 5;
 		}
 		//memcpy(gFrameBuffer[shift] + 2, gFontKeyLock, sizeof(gFontKeyLock));
-		UI_PrintStringSmallBold("KB LOCKED", 12, 0, shift);
+		UI_PrintStringSmallBold("KB LOCKED", 30, 0, shift);
 		//memcpy(gFrameBuffer[shift] + 120, gFontKeyLock, sizeof(gFontKeyLock));
 
 		/*
