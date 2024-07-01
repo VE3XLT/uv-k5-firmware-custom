@@ -4,6 +4,7 @@
 #include "functions.h"
 #include "misc.h"
 #include "settings.h"
+//#include "debugging.h"
 
 int8_t            gScanStateDir;
 bool              gScanKeepResult;
@@ -17,7 +18,6 @@ uint32_t          gScanRangeStop;
 typedef enum {
 	SCAN_NEXT_CHAN_SCANLIST1 = 0,
 	SCAN_NEXT_CHAN_SCANLIST2,
-	SCAN_NEXT_CHAN_SCANLIST3,
 	SCAN_NEXT_CHAN_DUAL_WATCH,
 	SCAN_NEXT_CHAN_MR,
 	SCAN_NEXT_NUM
@@ -195,12 +195,13 @@ static void NextFreqChannel(void)
 static void NextMemChannel(void)
 {
 	static unsigned int prev_mr_chan = 0;
-	const bool          enabled      = (gEeprom.SCAN_LIST_DEFAULT < 5) ? gEeprom.SCAN_LIST_ENABLED[gEeprom.SCAN_LIST_DEFAULT] : true;
-	const int           chan1        = -1;
-	const int           chan2        = -1;
-	const int           chan3        = -1;
+	const bool          enabled      = (gEeprom.SCAN_LIST_DEFAULT > 0 && gEeprom.SCAN_LIST_DEFAULT < 4) ? gEeprom.SCAN_LIST_ENABLED[gEeprom.SCAN_LIST_DEFAULT - 1] : true;
+	const int           chan1        = (gEeprom.SCAN_LIST_DEFAULT > 0 && gEeprom.SCAN_LIST_DEFAULT < 4) ? gEeprom.SCANLIST_PRIORITY_CH1[gEeprom.SCAN_LIST_DEFAULT - 1] : -1;
+	const int           chan2        = (gEeprom.SCAN_LIST_DEFAULT > 0 && gEeprom.SCAN_LIST_DEFAULT < 4) ? gEeprom.SCANLIST_PRIORITY_CH2[gEeprom.SCAN_LIST_DEFAULT - 1] : -1;
 	const unsigned int  prev_chan    = gNextMrChannel;
 	unsigned int        chan         = 0;
+
+	//char str[64] = "";
 
 	if (enabled)
 	{
@@ -209,27 +210,37 @@ static void NextMemChannel(void)
 			case SCAN_NEXT_CHAN_SCANLIST1:
 				prev_mr_chan = gNextMrChannel;
 	
+				//sprintf(str, "-> Chan1 %d\n", chan1 + 1);
+				//LogUart(str);
+
 				if (chan1 >= 0)
 				{
-					if (RADIO_CheckValidChannel(chan1, false, 0))
+					if (RADIO_CheckValidChannel(chan1, false, gEeprom.SCAN_LIST_DEFAULT))
 					{
 						currentScanList = SCAN_NEXT_CHAN_SCANLIST1;
 						gNextMrChannel   = chan1;
 						break;
 					}
 				}
+
 				[[fallthrough]];
 			case SCAN_NEXT_CHAN_SCANLIST2:
+
+				//sprintf(str, "-> Chan2 %d\n", chan2 + 1);
+				//LogUart(str);
+
 				if (chan2 >= 0)
 				{
-					if (RADIO_CheckValidChannel(chan2, false, 0))
+					if (RADIO_CheckValidChannel(chan2, false, gEeprom.SCAN_LIST_DEFAULT))
 					{
 						currentScanList = SCAN_NEXT_CHAN_SCANLIST2;
 						gNextMrChannel   = chan2;
 						break;
 					}
 				}
+
 				[[fallthrough]];
+			/*
 			case SCAN_NEXT_CHAN_SCANLIST3:
 				if (chan3 >= 0)
 				{
@@ -241,6 +252,7 @@ static void NextMemChannel(void)
 					}
 				}
 				[[fallthrough]];
+			*/
 			// this bit doesn't yet work if the other VFO is a frequency
 			case SCAN_NEXT_CHAN_DUAL_WATCH:
 				// dual watch is enabled - include the other VFO in the scan
@@ -274,6 +286,9 @@ static void NextMemChannel(void)
 		}
 		
 		gNextMrChannel = chan;
+
+		//sprintf(str, "----> Chan %d\n", chan + 1);
+		//LogUart(str);
 	}
 
 	if (gNextMrChannel != prev_chan)

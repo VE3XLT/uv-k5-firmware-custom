@@ -1037,7 +1037,13 @@ void UI_DisplayMenu(void)
 
 	if (UI_MENU_GetCurrentMenuId() == MENU_SLIST1 || UI_MENU_GetCurrentMenuId() == MENU_SLIST2 || UI_MENU_GetCurrentMenuId() == MENU_SLIST3)
 	{
-		i = (UI_MENU_GetCurrentMenuId() == MENU_SLIST1) ? 0 : 1;
+		if(UI_MENU_GetCurrentMenuId() == MENU_SLIST1)
+			i = 0;
+		else if(UI_MENU_GetCurrentMenuId() == MENU_SLIST2)
+			i = 1;
+		else if(UI_MENU_GetCurrentMenuId() == MENU_SLIST3)
+			i = 2;
+
 		char *pPrintStr = String;
 
 		if (gSubMenuSelection < 0) {

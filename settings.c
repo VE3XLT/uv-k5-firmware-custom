@@ -226,13 +226,35 @@ void SETTINGS_InitEEPROM(void)
 	// 0F18..0F1F
 	EEPROM_ReadBuffer(0x0F18, Data, 8);
 	gEeprom.SCAN_LIST_DEFAULT = (Data[0] < 5) ? Data[0] : 0;  // we now have 'all' channel scan option
-	for (unsigned int i = 0; i < 2; i++)
+
+	// Fake data
+	gEeprom.SCAN_LIST_ENABLED[0] = 0;
+	gEeprom.SCAN_LIST_ENABLED[1] = 0;
+	gEeprom.SCAN_LIST_ENABLED[2] = 0;
+
+	gEeprom.SCANLIST_PRIORITY_CH1[0] =  0;
+	gEeprom.SCANLIST_PRIORITY_CH2[0] =  2;
+
+	gEeprom.SCANLIST_PRIORITY_CH1[1] =  14;
+	gEeprom.SCANLIST_PRIORITY_CH2[1] =  15;
+
+	gEeprom.SCANLIST_PRIORITY_CH1[2] =  40;
+	gEeprom.SCANLIST_PRIORITY_CH2[2] =  41;
+
+	// Fix me probably after Chirp update...
+	/*
+	for (unsigned int i = 0; i < 3; i++)
 	{
-		const unsigned int j = 1 + (i * 3);
-		gEeprom.SCAN_LIST_ENABLED[i]     = (Data[j + 0] < 5) ? Data[j] : false;
+		gEeprom.SCAN_LIST_ENABLED[i] = (Data[1] >> i) & 1;
+	}
+
+	for (unsigned int i = 0; i < 3; i++)
+	{
+		const unsigned int j = 1 + (i * 2);
 		gEeprom.SCANLIST_PRIORITY_CH1[i] =  Data[j + 1];
 		gEeprom.SCANLIST_PRIORITY_CH2[i] =  Data[j + 2];
 	}
+	*/
 
 	// 0F40..0F47
 	EEPROM_ReadBuffer(0x0F40, Data, 8);
@@ -506,6 +528,8 @@ void SETTINGS_SaveVfoIndices(void)
 void SETTINGS_SaveSettings(void)
 {
 	uint8_t  State[8];
+	uint8_t tmp = 0;
+
 	#ifdef ENABLE_PWRON_PASSWORD
 		uint32_t Password[2];
 	#endif
@@ -617,13 +641,23 @@ void SETTINGS_SaveSettings(void)
 	EEPROM_WriteBuffer(0x0ED8, State);
 
 	State[0] = gEeprom.SCAN_LIST_DEFAULT;
-	State[1] = gEeprom.SCAN_LIST_ENABLED[0];
+
+	tmp = 0;
+
+	if (gEeprom.SCAN_LIST_ENABLED[0] == 1)
+		tmp = tmp | (1 << 0);
+	if (gEeprom.SCAN_LIST_ENABLED[1] == 1)
+		tmp = tmp | (1 << 1);
+	if (gEeprom.SCAN_LIST_ENABLED[2] == 1)
+		tmp = tmp | (1 << 2);
+
+	State[1] = tmp;
 	State[2] = gEeprom.SCANLIST_PRIORITY_CH1[0];
 	State[3] = gEeprom.SCANLIST_PRIORITY_CH2[0];
-	State[4] = gEeprom.SCAN_LIST_ENABLED[1];
-	State[5] = gEeprom.SCANLIST_PRIORITY_CH1[1];
-	State[6] = gEeprom.SCANLIST_PRIORITY_CH2[1];
-	State[7] = 0xFF;
+	State[4] = gEeprom.SCANLIST_PRIORITY_CH1[1];
+	State[5] = gEeprom.SCANLIST_PRIORITY_CH2[1];
+	State[6] = gEeprom.SCANLIST_PRIORITY_CH1[2];
+	State[7] = gEeprom.SCANLIST_PRIORITY_CH2[2];
 	EEPROM_WriteBuffer(0x0F18, State);
 
 	memset(State, 0xFF, sizeof(State));
@@ -660,7 +694,7 @@ void SETTINGS_SaveSettings(void)
 #ifdef ENABLE_FEAT_F4HWN
 	memset(State, 0xFF, sizeof(State));
 
-	int tmp = 0;
+	tmp = 0;
 
    	if(gSetting_set_inv == 1)
 		tmp = tmp | (1 << 0);

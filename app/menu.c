@@ -1131,15 +1131,15 @@ void MENU_ShowCurrentSetting(void)
 			break;
 
 		case MENU_SLIST1:
-			gSubMenuSelection = RADIO_FindNextChannel(0, 1, true, 0);
-			break;
-
-		case MENU_SLIST2:
 			gSubMenuSelection = RADIO_FindNextChannel(0, 1, true, 1);
 			break;
 
-		case MENU_SLIST3:
+		case MENU_SLIST2:
 			gSubMenuSelection = RADIO_FindNextChannel(0, 1, true, 2);
+			break;
+
+		case MENU_SLIST3:
+			gSubMenuSelection = RADIO_FindNextChannel(0, 1, true, 3);
 			break;
 
 		#ifdef ENABLE_ALARM
@@ -1823,14 +1823,14 @@ static void MENU_Key_UP_DOWN(bool bKeyPressed, bool bKeyHeld, int8_t Direction)
 
 		case MENU_SLIST3:
 			bCheckScanList = true;
-			VFO = 2;
+			VFO = 3;
 			break;
 		case MENU_SLIST2:
 			bCheckScanList = true;
-			VFO = 1;
+			VFO = 2;
 			break;
 		case MENU_SLIST1:
-			VFO = 0;
+			VFO = 1;
 			bCheckScanList = true;
 			break;
 
