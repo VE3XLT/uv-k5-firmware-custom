@@ -49,7 +49,7 @@ const t_menu_item MenuList[] =
 	{"TxODir",  	MENU_SFT_D         }, // was "SFT_D"
 	{"TxOffs",		MENU_OFFSET        }, // was "OFFSET"
 	{"W/N",			MENU_W_N           },
-#ifndef ENABLE_FEAT_F4HWN
+#ifdef ENABLE_SCRAMBLE
 	{"Scramb",		MENU_SCR           }, // was "SCR"
 #endif
 	{"BusyCL",		MENU_BCL           }, // was "BCL"
@@ -151,7 +151,7 @@ const t_menu_item MenuList[] =
 	{"Tx 350",		MENU_350TX         }, // was "350TX"
 	{"Tx 500",		MENU_500TX         }, // was "500TX"
 	{"350 En",		MENU_350EN         }, // was "350EN"
-#ifndef ENABLE_FEAT_F4HWN
+#ifdef ENABLE_SCRAMBLE
 	{"ScraEn",		MENU_SCREN         }, // was "SCREN"
 #endif
 #ifdef ENABLE_F_CAL_MENU
@@ -326,7 +326,7 @@ const char gSubMenu_BATTYP[][9] =
 	"2200mAh"
 };
 
-#ifndef ENABLE_FEAT_F4HWN
+#ifdef ENABLE_SCRAMBLE
 const char gSubMenu_SCRAMBLER[][7] =
 {
 	"OFF",
@@ -631,7 +631,7 @@ void UI_DisplayMenu(void)
 			strcpy(String, gSubMenu_W_N[gSubMenuSelection]);
 			break;
 
-#ifndef ENABLE_FEAT_F4HWN
+#ifdef ENABLE_SCRAMBLE
 		case MENU_SCR:
 			strcpy(String, gSubMenu_SCRAMBLER[gSubMenuSelection]);
 			#if 1
@@ -715,7 +715,7 @@ void UI_DisplayMenu(void)
 		case MENU_200TX:
 		case MENU_500TX:
 		case MENU_350EN:
-#ifndef ENABLE_FEAT_F4HWN
+#ifdef ENABLE_SCRAMBLE
 		case MENU_SCREN:
 #endif
 			strcpy(String, gSubMenu_OFF_ON[gSubMenuSelection]);
