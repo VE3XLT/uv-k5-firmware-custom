@@ -885,12 +885,10 @@ void UI_DisplayMenu(void)
 
 		case MENU_VOL:
 #ifdef ENABLE_FEAT_F4HWN
-			sprintf(String, "%u.%02uV %u%%\n%s\n%s",
-				gBatteryVoltageAverage / 100, gBatteryVoltageAverage % 100,
-				BATTERY_VoltsToPercent(gBatteryVoltageAverage),
+			sprintf(String, "%s\n%s",
 				AUTHOR_STRING_2,
 				VERSION_STRING_2
-				);
+			);
 #else
 			sprintf(String, "%u.%02uV\n%u%%",
 				gBatteryVoltageAverage / 100, gBatteryVoltageAverage % 100,
@@ -1013,6 +1011,27 @@ void UI_DisplayMenu(void)
 				y = 3 - ((lines + 0) / 2);  // untested
 			else
 				y = 2 - ((lines + 0) / 2);
+
+			// only for SysInf
+			if(UI_MENU_GetCurrentMenuId() == MENU_VOL)
+			{
+				sprintf(edit, "%u.%02uV %u%%",
+					gBatteryVoltageAverage / 100, gBatteryVoltageAverage % 100,
+					BATTERY_VoltsToPercent(gBatteryVoltageAverage)
+				);
+
+				UI_PrintStringSmallNormal(edit, 54, 127, 1);
+
+				#ifdef ENABLE_SPECTRUM
+					#ifndef ENABLE_FMRADIO
+						UI_PrintStringSmallNormal("Bandscope", 54, 127, 6);
+					#endif
+				#else
+					UI_PrintStringSmallNormal("Broadcast", 54, 127, 6);
+				#endif
+
+				y = 2;
+			}
 
 			// draw the text lines
 			for (i = 0; i < len && lines > 0; lines--)
