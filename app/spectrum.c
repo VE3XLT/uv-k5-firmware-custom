@@ -299,7 +299,14 @@ uint16_t GetStepsCount()
   return (128 >> settings.stepsCount);
 }
 
-uint32_t GetBW() { return GetStepsCount() * GetScanStep(); }
+uint32_t GetBW()
+{
+	if(GetScanStep()==833)
+		return (GetStepsCount()*833333)/1000;
+	else 
+		return GetStepsCount() * GetScanStep();
+}
+
 uint32_t GetFStart() {
   return IsCenterMode() ? currentFreq - (GetBW() >> 1) : currentFreq;
 }
@@ -514,9 +521,9 @@ static void UpdateScanStep(bool inc) {
 
 static void UpdateCurrentFreq(bool inc) {
   if (inc && currentFreq < F_MAX) {
-    currentFreq += settings.frequencyChangeStep;
+    currentFreq = FREQUENCY_RoundToStep(currentFreq + settings.frequencyChangeStep, scanStepValues[settings.scanStepIndex]);
   } else if (!inc && currentFreq > F_MIN) {
-    currentFreq -= settings.frequencyChangeStep;
+    currentFreq = FREQUENCY_RoundToStep(currentFreq - settings.frequencyChangeStep, scanStepValues[settings.scanStepIndex]);
   } else {
     return;
   }
@@ -1202,7 +1209,7 @@ static void Scan() {
 static void NextScanStep() {
   ++peak.t;
   ++scanInfo.i;
-  scanInfo.f += scanInfo.scanStep;
+  scanInfo.f = FREQUENCY_RoundToStep(scanInfo.f + scanInfo.scanStep, scanStepValues[settings.scanStepIndex]);
 }
 
 static void UpdateScan() {
