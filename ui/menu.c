@@ -56,16 +56,20 @@ const t_menu_item MenuList[] =
 	{"Compnd",		MENU_COMPAND       },
 	{"Mode",		MENU_AM            }, // was "AM"
 	{"ChSave",		MENU_MEM_CH        }, // was "MEM-CH"
+
 	{"ChName",		MENU_MEM_NAME      },
 	{"ScAdd1",		MENU_S_ADD1        },
 	{"ScAdd2",		MENU_S_ADD2        },
 	{"ScAdd3",		MENU_S_ADD3        },
 	{"ChDele",		MENU_DEL_CH        }, // was "DEL-CH"
+
 	{"Scan",		MENU_S_LIST        },
 	{"SList1",		MENU_SLIST1        },
 	{"SList2",		MENU_SLIST2        },
 	{"SList3",		MENU_SLIST3        },
 	{"ScnRev",		MENU_SC_REV        },
+	{"1Call",		MENU_1_CALL        },
+
 #ifdef ENABLE_NOAA
 	{"NOAA-S",		MENU_NOAA_S        },
 #endif
@@ -79,24 +83,28 @@ const t_menu_item MenuList[] =
 	{"TxTOut",		MENU_TOT           }, // was "TOT"
 	{"BatSav",		MENU_SAVE          }, // was "SAVE"
 	{"BatTxt",		MENU_BAT_TXT       },
+
 	{"Mic",			MENU_MIC           },
 #ifdef ENABLE_AUDIO_BAR
 	{"MicBar",		MENU_MIC_BAR       },
 #endif
+
 	{"ChDisp",		MENU_MDF           }, // was "MDF"
 	{"PMsg",		MENU_PONMSG        },
+
 	{"BLTime",		MENU_ABR           }, // was "ABR"
 	{"BLMin",		MENU_ABR_MIN       },
 	{"BLMax",		MENU_ABR_MAX       },
 	{"BLTxRx",		MENU_ABR_ON_TX_RX  },
+
 	{"Beep",		MENU_BEEP          },
 #ifdef ENABLE_VOICE
 	{"Voice",		MENU_VOICE         },
 #endif
 	{"Rgr",		MENU_ROGER         },
+
 	{"STE",			MENU_STE           },
 	{"RPSTE",		MENU_RP_STE        },
-	{"1Call",		MENU_1_CALL        },
 #ifdef ENABLE_ALARM
 	{"AlarmT",		MENU_AL_MOD        },
 #endif
@@ -128,10 +136,7 @@ const t_menu_item MenuList[] =
 #else
 	{"BatV",		MENU_VOL           }, // was "VOL"
 #endif
-	{"RxMo",		MENU_TDR           },
 #ifdef ENABLE_FEAT_F4HWN
-	{"LowP",		MENU_SET_LOW       },
-	{"Ptt",		MENU_SET_PTT       },
 	{"Tot",		MENU_SET_TOT       },
 	{"Eot",		MENU_SET_EOT       },
 	{"Ctr",		MENU_SET_CTR       },
@@ -139,6 +144,9 @@ const t_menu_item MenuList[] =
 	{"Lck",		MENU_SET_LCK       },
 	{"Met",		MENU_SET_MET       },
 	{"Gui",		MENU_SET_GUI       },
+	{"Ptt",		MENU_SET_PTT       },
+	{"RxMo",		MENU_TDR           },
+	{"LowP",		MENU_SET_LOW       },
 #endif
 	{"Sql",			MENU_SQL           },
 	// hidden menu items from here on

@@ -42,10 +42,10 @@ static void convertTime(uint8_t *line, uint8_t type)
     uint16_t t;
 
     if(type == 0) // Tx timer
-		t = (gTxTimerCountdown_500ms / 2);
+		t = ((gTxTimerCountdown_500ms+1) / 2);
 		//t = ((gEeprom.TX_TIMEOUT_TIMER + 1) * 5) - (gTxTimerCountdown_500ms / 2);
     else          // Rx timer
-		t = 3600 - (gRxTimerCountdown_500ms / 2);
+		t = (7199 - gRxTimerCountdown_500ms)/2;
 
     m = t / 60;
     s = t - (m * 60);
