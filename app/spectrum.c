@@ -840,6 +840,7 @@ static void DrawRssiTriggerLevel() {
 }
 
 static void DrawTicks() {
+  if (gScanRangeStart) return;
   uint32_t f = GetFStart();
   uint32_t span = GetFEnd() - GetFStart();
   uint32_t step = span / 128;
