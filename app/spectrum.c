@@ -302,10 +302,10 @@ uint16_t GetStepsCount()
 
 uint32_t GetBW()
 {
-	if(GetScanStep()==833)
-		return (GetStepsCount()*833333)/1000;
-	else 
-		return GetStepsCount() * GetScanStep();
+  if(GetScanStep()==833)
+    return (GetStepsCount()*833333)/1000;
+  else 
+    return GetStepsCount() * GetScanStep();
 }
 
 uint32_t GetFStart() {
@@ -946,7 +946,7 @@ static void OnKeyDown(uint8_t key) {
     break;
   case KEY_MENU:
     ToggleRX(false);
-  	InitScan();
+    InitScan();
     break;
   case KEY_EXIT:
     if (menuState) {
@@ -1273,7 +1273,7 @@ static void UpdateListening() {
 
   if (listenD++ > 40){
     listenD=0;
-  	redrawScreen = true;
+    redrawScreen = true;
   }
 
   if (IsPeakOverLevel() || monitorMode) {
