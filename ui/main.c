@@ -892,12 +892,49 @@ void UI_DisplayMain(void)
 			if (IS_MR_CHANNEL(gEeprom.ScreenChannel[vfo_num]))
 			{	// it's a channel
 
+				uint8_t countList = 0;
+				uint8_t shiftList = 0;
+
 				// show the scan list assigment symbols
 				const ChannelAttributes_t att = gMR_ChannelAttributes[gEeprom.ScreenChannel[vfo_num]];
+
 				if (att.scanlist1)
-					memcpy(p_line0 + 113, BITMAP_ScanList1, sizeof(BITMAP_ScanList1));
+					countList++;
 				if (att.scanlist2)
-					memcpy(p_line0 + 120, BITMAP_ScanList2, sizeof(BITMAP_ScanList2));
+					countList++;
+				if (att.scanlist3)
+					countList++;
+
+				shiftList = countList;
+
+				if (att.scanlist1)
+				{
+					memcpy(p_line0 + 127 - (shiftList * 6), BITMAP_ScanList1, sizeof(BITMAP_ScanList1));
+					shiftList--;
+				}
+				if (att.scanlist2)
+				{
+					memcpy(p_line0 + 127 - (shiftList * 6), BITMAP_ScanList2, sizeof(BITMAP_ScanList2));
+					shiftList--;
+				}
+				if (att.scanlist3)
+				{
+					memcpy(p_line0 + 127 - (shiftList * 6), BITMAP_ScanList3, sizeof(BITMAP_ScanList3));
+				}
+
+				if(countList == 0)
+				{
+					memcpy(p_line0 + 127 - (1 * 6), BITMAP_ScanList0, sizeof(BITMAP_ScanList0));
+				}
+
+				/*
+				if (att.scanlist1)
+					memcpy(p_line0 + 107, BITMAP_ScanList1, sizeof(BITMAP_ScanList1));
+				if (att.scanlist2)
+					memcpy(p_line0 + 114, BITMAP_ScanList2, sizeof(BITMAP_ScanList2));
+				if (att.scanlist3)
+					memcpy(p_line0 + 121, BITMAP_ScanList3, sizeof(BITMAP_ScanList3));
+				*/
 
 				// compander symbol
 #ifndef ENABLE_BIG_FREQ

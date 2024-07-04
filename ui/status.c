@@ -50,7 +50,9 @@ static void convertTime(uint8_t *line, uint8_t type)
     m = t / 60;
     s = t - (m * 60);
 
-	gStatusLine[14] = 0x00; // Quick fix on display (on scanning I, II, etc.)
+    gStatusLine[0] = 0x00; 	// Quick fix on display (on scanning I, II, etc.)
+    gStatusLine[7] = 0x00; 	// Quick fix on display (on scanning I, II, etc.)
+    gStatusLine[14] = 0x00; // Quick fix on display (on scanning I, II, etc.)
 
     sprintf(str, "%02d:%02d", m, s);
     UI_PrintStringSmallBufferNormal(str, line + 0);
@@ -95,14 +97,23 @@ void UI_DisplayStatus()
 		if (gScanStateDir != SCAN_OFF || SCANNER_IsScanning()) {
 			if (IS_MR_CHANNEL(gNextMrChannel) && !SCANNER_IsScanning()) { // channel mode
 				switch(gEeprom.SCAN_LIST_DEFAULT) {
-					case 0: 
-						memcpy(line + x + 2, BITMAP_ScanList1, sizeof(BITMAP_ScanList1));
+					case 0:
+						memcpy(line + 0, BITMAP_ScanList0, sizeof(BITMAP_ScanList0));
 						break;
-					case 1:
-						memcpy(line + x + 2, BITMAP_ScanList2, sizeof(BITMAP_ScanList2));
+					case 1: 
+						memcpy(line + 0, BITMAP_ScanList1, sizeof(BITMAP_ScanList1));
 						break;
 					case 2:
-						memcpy(line + x, gFontScanAll, sizeof(gFontScanAll));
+						memcpy(line + 0, BITMAP_ScanList2, sizeof(BITMAP_ScanList2));
+						break;
+					case 3:
+						memcpy(line + 0, BITMAP_ScanList3, sizeof(BITMAP_ScanList3));
+						break;
+					case 4:
+						memcpy(line + 0, BITMAP_ScanList123, sizeof(BITMAP_ScanList123));
+						break;
+					case 5:
+						memcpy(line + 0, BITMAP_ScanListAll, sizeof(BITMAP_ScanListAll));
 						break;
 				}
 			}
@@ -212,12 +223,10 @@ void UI_DisplayStatus()
 	{
 		memcpy(line + x + 1, gFontLight, sizeof(gFontLight));
 	}
-	/*
 	else if (gChargingWithTypeC)
 	{
 		memcpy(line + x + 1, BITMAP_USB_C, sizeof(BITMAP_USB_C));
 	}
-	*/
 	
 	// Battery
 	unsigned int x2 = LCD_WIDTH - sizeof(BITMAP_BatteryLevel1) - 0;

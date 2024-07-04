@@ -195,10 +195,11 @@ extern uint16_t              gEEPROM_1F8C;
 typedef union {
     struct {
         uint8_t
-            band : 4,
+            band : 3,
             compander : 2,
+            scanlist1 : 1,
             scanlist2 : 1,
-            scanlist1 : 1;
+            scanlist3 : 1;
     };
     uint8_t __val;
 } ChannelAttributes_t;

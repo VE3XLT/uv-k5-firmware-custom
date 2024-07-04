@@ -41,12 +41,16 @@ typedef enum POWER_OnDisplayMode_t POWER_OnDisplayMode_t;
 enum TxLockModes_t {
 	F_LOCK_DEF, //all default frequencies + configurable
 	F_LOCK_FCC,
+#ifdef ENABLE_FEAT_F4HWN_PMR
+	F_LOCK_CA,
+#endif
 	F_LOCK_CE,
 	F_LOCK_GB,
 	F_LOCK_430,
 	F_LOCK_438,
 #ifdef ENABLE_FEAT_F4HWN_PMR
 	F_LOCK_PMR,
+	F_LOCK_GMRS_FRS_MURS,
 #endif
 	F_LOCK_ALL,	// disable TX on all frequencies
 	F_LOCK_NONE, // enable TX on all frequencies
@@ -188,9 +192,9 @@ typedef struct {
 	uint8_t               BACKLIGHT_TIME;
 	uint8_t               SCAN_RESUME_MODE;
 	uint8_t               SCAN_LIST_DEFAULT;
-	bool                  SCAN_LIST_ENABLED[2];
-	uint8_t               SCANLIST_PRIORITY_CH1[2];
-	uint8_t               SCANLIST_PRIORITY_CH2[2];
+	bool                  SCAN_LIST_ENABLED[3];
+	uint8_t               SCANLIST_PRIORITY_CH1[3];
+	uint8_t               SCANLIST_PRIORITY_CH2[3];
 
 	uint8_t               field29_0x26;
 	uint8_t               field30_0x27;

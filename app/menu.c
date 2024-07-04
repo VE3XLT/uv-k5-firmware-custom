@@ -225,8 +225,10 @@ int MENU_GetLimits(uint8_t menu_id, int32_t *pMin, int32_t *pMax)
 			*pMax = ARRAY_SIZE(gSubMenu_RX_TX) - 1;
 			break;
 
-		#ifdef ENABLE_AM_FIX
-			case MENU_AM_FIX:
+		#ifndef ENABLE_FEAT_F4HWN
+			#ifdef ENABLE_AM_FIX
+				case MENU_AM_FIX:
+			#endif
 		#endif
 		#ifdef ENABLE_AUDIO_BAR
 			case MENU_MIC_BAR:
@@ -236,6 +238,7 @@ int MENU_GetLimits(uint8_t menu_id, int32_t *pMin, int32_t *pMax)
 		case MENU_AUTOLK:
 		case MENU_S_ADD1:
 		case MENU_S_ADD2:
+		case MENU_S_ADD3:
 		case MENU_STE:
 		case MENU_D_ST:
 #ifdef ENABLE_DTMF_CALLING
@@ -291,6 +294,7 @@ int MENU_GetLimits(uint8_t menu_id, int32_t *pMin, int32_t *pMax)
 
 		case MENU_SLIST1:
 		case MENU_SLIST2:
+		case MENU_SLIST3:
 			*pMin = -1;
 			*pMax = MR_CHANNEL_LAST;
 			break;
@@ -307,7 +311,7 @@ int MENU_GetLimits(uint8_t menu_id, int32_t *pMin, int32_t *pMax)
 
 		case MENU_S_LIST:
 			//*pMin = 0;
-			*pMax = 2;
+			*pMax = 5;
 			break;
 
 #ifdef ENABLE_DTMF_CALLING
@@ -636,6 +640,13 @@ void MENU_AcceptSetting(void)
 			gFlagResetVfos    = true;
 			return;
 
+		case MENU_S_ADD3:
+			gTxVfo->SCANLIST3_PARTICIPATION = gSubMenuSelection;
+			SETTINGS_UpdateChannel(gTxVfo->CHANNEL_SAVE, gTxVfo, true, false, true);
+			gVfoConfigureMode = VFO_CONFIGURE;
+			gFlagResetVfos    = true;
+			return;
+
 		case MENU_STE:
 			gEeprom.TAIL_TONE_ELIMINATION = gSubMenuSelection;
 			break;
@@ -748,12 +759,14 @@ void MENU_AcceptSetting(void)
 			gRequestSaveChannel = 1;
 			return;
 
-		#ifdef ENABLE_AM_FIX
-			case MENU_AM_FIX:
-				gSetting_AM_fix = gSubMenuSelection;
-				gVfoConfigureMode = VFO_CONFIGURE_RELOAD;
-				gFlagResetVfos    = true;
-				break;
+		#ifndef ENABLE_FEAT_F4HWN
+			#ifdef ENABLE_AM_FIX
+				case MENU_AM_FIX:
+					gSetting_AM_fix = gSubMenuSelection;
+					gVfoConfigureMode = VFO_CONFIGURE_RELOAD;
+					gFlagResetVfos    = true;
+					break;
+			#endif
 		#endif
 
 		#ifdef ENABLE_NOAA
@@ -1083,6 +1096,10 @@ void MENU_ShowCurrentSetting(void)
 			gSubMenuSelection = gTxVfo->SCANLIST2_PARTICIPATION;
 			break;
 
+		case MENU_S_ADD3:
+			gSubMenuSelection = gTxVfo->SCANLIST3_PARTICIPATION;
+			break;
+
 		case MENU_STE:
 			gSubMenuSelection = gEeprom.TAIL_TONE_ELIMINATION;
 			break;
@@ -1114,11 +1131,15 @@ void MENU_ShowCurrentSetting(void)
 			break;
 
 		case MENU_SLIST1:
-			gSubMenuSelection = RADIO_FindNextChannel(0, 1, true, 0);
+			gSubMenuSelection = RADIO_FindNextChannel(0, 1, true, 1);
 			break;
 
 		case MENU_SLIST2:
-			gSubMenuSelection = RADIO_FindNextChannel(0, 1, true, 1);
+			gSubMenuSelection = RADIO_FindNextChannel(0, 1, true, 2);
+			break;
+
+		case MENU_SLIST3:
+			gSubMenuSelection = RADIO_FindNextChannel(0, 1, true, 3);
 			break;
 
 		#ifdef ENABLE_ALARM
@@ -1177,11 +1198,14 @@ void MENU_ShowCurrentSetting(void)
 			gSubMenuSelection = gTxVfo->Modulation;
 			break;
 
-#ifdef ENABLE_AM_FIX
-		case MENU_AM_FIX:
-			gSubMenuSelection = gSetting_AM_fix;
-			break;
+#ifndef ENABLE_FEAT_F4HWN
+	#ifdef ENABLE_AM_FIX
+			case MENU_AM_FIX:
+				gSubMenuSelection = gSetting_AM_fix;
+				break;
+	#endif
 #endif
+				
 		#ifdef ENABLE_NOAA
 			case MENU_NOAA_S:
 				gSubMenuSelection = gEeprom.NOAA_AUTO_SCAN;
@@ -1797,10 +1821,16 @@ static void MENU_Key_UP_DOWN(bool bKeyPressed, bool bKeyHeld, int8_t Direction)
 			bCheckScanList = false;
 			break;
 
+		case MENU_SLIST3:
+			bCheckScanList = true;
+			VFO = 3;
+			break;
 		case MENU_SLIST2:
-			VFO = 1;
-			[[fallthrough]];
+			bCheckScanList = true;
+			VFO = 2;
+			break;
 		case MENU_SLIST1:
+			VFO = 1;
 			bCheckScanList = true;
 			break;
 

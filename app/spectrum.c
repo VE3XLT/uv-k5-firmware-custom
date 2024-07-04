@@ -66,7 +66,7 @@ static uint16_t blacklistFreqs[15];
 static uint8_t blacklistFreqsIdx;
 #endif
 
-const char *bwOptions[] = {"  25k", "12.5k", "6.25k"};
+const char *bwOptions[] = {"25", "12.5", "6.25"};
 const uint8_t modulationTypeTuneSteps[] = {100, 50, 10};
 const uint8_t modTypeReg47Values[] = {1, 7, 5};
 
@@ -671,9 +671,10 @@ static void Blacklist() {
 #ifdef ENABLE_SCAN_RANGES
 static bool IsBlacklisted(uint16_t idx)
 {
-  for(uint8_t i = 0; i < ARRAY_SIZE(blacklistFreqs); i++)
-    if(blacklistFreqs[i] == idx)
-      return true;
+  if(blacklistFreqs[0]) // cheaper than checking blacklistFreqsIdx
+    for(uint8_t i = 0; i < ARRAY_SIZE(blacklistFreqs); i++)
+      if(blacklistFreqs[i] == idx)
+        return true;
   return false;
 }
 #endif
@@ -778,7 +779,7 @@ static void DrawF(uint32_t f) {
 
   sprintf(String, "%3s", gModulationStr[settings.modulationType]);
   GUI_DisplaySmallest(String, 116, 1, false, true);
-  sprintf(String, "%s", bwOptions[settings.listenBw]);
+  sprintf(String, "%4sk", bwOptions[settings.listenBw]);
   GUI_DisplaySmallest(String, 108, 7, false, true);
 
 #ifndef ENABLE_FMRADIO

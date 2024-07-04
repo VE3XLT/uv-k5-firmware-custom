@@ -57,6 +57,7 @@ const t_menu_item MenuList[] =
 	{"Mode",		MENU_AM            }, // was "AM"
 	{"ScAdd1",		MENU_S_ADD1        },
 	{"ScAdd2",		MENU_S_ADD2        },
+	{"ScAdd3",		MENU_S_ADD3        },
 	{"ChSave",		MENU_MEM_CH        }, // was "MEM-CH"
 	{"ChDele",		MENU_DEL_CH        }, // was "DEL-CH"
 	{"ChName",		MENU_MEM_NAME      },
@@ -64,6 +65,7 @@ const t_menu_item MenuList[] =
 	{"SList",		MENU_S_LIST        },
 	{"SList1",		MENU_SLIST1        },
 	{"SList2",		MENU_SLIST2        },
+	{"SList3",		MENU_SLIST3        },
 	{"ScnRev",		MENU_SC_REV        },
 #ifdef ENABLE_NOAA
 	{"NOAA-S",		MENU_NOAA_S        },
@@ -116,8 +118,10 @@ const t_menu_item MenuList[] =
 	{"D List",		MENU_D_LIST        },
 #endif
 	{"D Live",		MENU_D_LIVE_DEC    }, // live DTMF decoder
-#ifdef ENABLE_AM_FIX
-	{"AM Fix",		MENU_AM_FIX        },
+#ifndef ENABLE_FEAT_F4HWN
+	#ifdef ENABLE_AM_FIX
+		{"AM Fix",		MENU_AM_FIX        },
+	#endif
 #endif
 #ifdef ENABLE_VOX
 	{"VOX",			MENU_VOX           },
@@ -286,12 +290,16 @@ const char * const gSubMenu_F_LOCK[] =
 {
 	"DEFAULT+\n137-174\n400-470",
 	"FCC HAM\n144-148\n420-450",
+#ifdef ENABLE_FEAT_F4HWN_PMR
+	"CA HAM\n144-148\n430-450",
+#endif
 	"CE HAM\n144-146\n430-440",
 	"GB HAM\n144-148\n430-440",
 	"137-174\n400-430",
 	"137-174\n400-438",
 #ifdef ENABLE_FEAT_F4HWN_PMR
 	"PMR 446",
+	"GMRS\nFRS\nMURS",
 #endif
 	"DISABLE\nALL",
 	"UNLOCK\nALL",
@@ -449,10 +457,10 @@ void UI_DisplayMenu(void)
 	UI_DisplayClear();
 
 #ifdef ENABLE_FEAT_F4HWN
-	UI_DrawLineBuffer(gFrameBuffer, 50, 0, 50, 55, 1); // Be ware, status zone = 8 lines, the rest = 56 ->total 64
+	UI_DrawLineBuffer(gFrameBuffer, 48, 0, 48, 55, 1); // Be ware, status zone = 8 lines, the rest = 56 ->total 64
 	//UI_DrawLineDottedBuffer(gFrameBuffer, 0, 46, 50, 46, 1);
 
-	for (uint8_t i = 0; i < 50; i += 2)
+	for (uint8_t i = 0; i < 48; i += 2)
 	{
 		gFrameBuffer[5][i] = 0x40;
 	}
@@ -684,13 +692,16 @@ void UI_DisplayMenu(void)
 			strcpy(String, gSubMenu_RX_TX[gSubMenuSelection]);
 			break;
 
-		#ifdef ENABLE_AM_FIX
-			case MENU_AM_FIX:
+		#ifndef ENABLE_FEAT_F4HWN
+			#ifdef ENABLE_AM_FIX
+				case MENU_AM_FIX:
+			#endif
 		#endif
 		case MENU_BCL:
 		case MENU_BEEP:
 		case MENU_S_ADD1:
 		case MENU_S_ADD2:
+		case MENU_S_ADD3:
 		case MENU_STE:
 		case MENU_D_ST:
 #ifdef ENABLE_DTMF_CALLING
@@ -743,7 +754,10 @@ void UI_DisplayMenu(void)
 			{
 				const uint32_t frequency = SETTINGS_FetchChannelFrequency(gSubMenuSelection);
 
-				if (!gIsInSubMenu || edit_index < 0)
+				//if (!gIsInSubMenu || edit_index < 0)
+				if (!gIsInSubMenu)
+					edit_index = -1;
+				if (edit_index < 0)
 				{	// show the channel name
 					SETTINGS_FetchChannelName(String, gSubMenuSelection);
 					char *pPrintStr = String[0] ? String : "--";
@@ -751,9 +765,11 @@ void UI_DisplayMenu(void)
 				}
 				else
 				{	// show the channel name being edited
-					UI_PrintString(edit, menu_item_x1, 0, 2, 8);
+					//UI_PrintString(edit, menu_item_x1, 0, 2, 8);
+					UI_PrintString(edit, menu_item_x1, menu_item_x2, 2, 8);
 					if (edit_index < 10)
-						UI_PrintString("^", menu_item_x1 + (8 * edit_index), 0, 4, 8);  // show the cursor
+						//UI_PrintString("^", menu_item_x1 + (8 * edit_index), 0, 4, 8);  // show the cursor
+						UI_PrintString("^", menu_item_x1 - 1 + (8 * edit_index),0, 4, 8); // show the cursor
 				}
 
 				if (!gAskForConfirmation)
@@ -801,9 +817,13 @@ void UI_DisplayMenu(void)
 			break;
 
 		case MENU_S_LIST:
-			if (gSubMenuSelection < 2)
-				sprintf(String, "LIST%u", 1 + gSubMenuSelection);
-			else
+			if (gSubMenuSelection == 0)
+				strcpy(String, "LIST [0]\nNO LIST");
+			else if (gSubMenuSelection < 4)
+				sprintf(String, "LIST [%u]", gSubMenuSelection);
+			else if (gSubMenuSelection == 4)
+				strcpy(String, "LISTS\n[1, 2, 3]");
+			else if (gSubMenuSelection == 5)
 				strcpy(String, "ALL");
 			break;
 
@@ -867,12 +887,10 @@ void UI_DisplayMenu(void)
 
 		case MENU_VOL:
 #ifdef ENABLE_FEAT_F4HWN
-			sprintf(String, "%u.%02uV %u%%\n%s\n%s",
-				gBatteryVoltageAverage / 100, gBatteryVoltageAverage % 100,
-				BATTERY_VoltsToPercent(gBatteryVoltageAverage),
+			sprintf(String, "%s\n%s",
 				AUTHOR_STRING_2,
 				VERSION_STRING_2
-				);
+			);
 #else
 			sprintf(String, "%u.%02uV\n%u%%",
 				gBatteryVoltageAverage / 100, gBatteryVoltageAverage % 100,
@@ -996,6 +1014,27 @@ void UI_DisplayMenu(void)
 			else
 				y = 2 - ((lines + 0) / 2);
 
+			// only for SysInf
+			if(UI_MENU_GetCurrentMenuId() == MENU_VOL)
+			{
+				sprintf(edit, "%u.%02uV %u%%",
+					gBatteryVoltageAverage / 100, gBatteryVoltageAverage % 100,
+					BATTERY_VoltsToPercent(gBatteryVoltageAverage)
+				);
+
+				UI_PrintStringSmallNormal(edit, 54, 127, 1);
+
+				#ifdef ENABLE_SPECTRUM
+					#ifndef ENABLE_FMRADIO
+						UI_PrintStringSmallNormal("Bandscope", 54, 127, 6);
+					#endif
+				#else
+					UI_PrintStringSmallNormal("Broadcast", 54, 127, 6);
+				#endif
+
+				y = 2;
+			}
+
 			// draw the text lines
 			for (i = 0; i < len && lines > 0; lines--)
 			{
@@ -1017,9 +1056,15 @@ void UI_DisplayMenu(void)
 		}
 	}
 
-	if (UI_MENU_GetCurrentMenuId() == MENU_SLIST1 || UI_MENU_GetCurrentMenuId() == MENU_SLIST2)
+	if (UI_MENU_GetCurrentMenuId() == MENU_SLIST1 || UI_MENU_GetCurrentMenuId() == MENU_SLIST2 || UI_MENU_GetCurrentMenuId() == MENU_SLIST3)
 	{
-		i = (UI_MENU_GetCurrentMenuId() == MENU_SLIST1) ? 0 : 1;
+		if(UI_MENU_GetCurrentMenuId() == MENU_SLIST1)
+			i = 0;
+		else if(UI_MENU_GetCurrentMenuId() == MENU_SLIST2)
+			i = 1;
+		else if(UI_MENU_GetCurrentMenuId() == MENU_SLIST3)
+			i = 2;
+
 		char *pPrintStr = String;
 
 		if (gSubMenuSelection < 0) {

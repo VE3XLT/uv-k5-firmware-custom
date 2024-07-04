@@ -1466,12 +1466,32 @@ void APP_TimeSlice500ms(void)
 	{
 		if (--gKeyInputCountdown == 0)
 		{
+
+			if (IS_MR_CHANNEL(gTxVfo->CHANNEL_SAVE) && (gInputBoxIndex == 1 || gInputBoxIndex == 2))
+			{
+				SETTINGS_SaveVfoIndices();
+			}
+
 			cancelUserInputModes();
 
 			if (gBeepToPlay != BEEP_NONE)
 			{
 				AUDIO_PlayBeep(gBeepToPlay);
 				gBeepToPlay = BEEP_NONE;
+			}
+		}
+		else
+		{
+			if (IS_MR_CHANNEL(gTxVfo->CHANNEL_SAVE)) { // user is entering channel number
+				switch (gInputBoxIndex)
+				{
+					case 1:
+						channelMove(gInputBox[0] - 1, false);
+						break;
+					case 2:
+						channelMove(((gInputBox[0] * 10) + gInputBox[1]) - 1, false);
+						break;
+				}
 			}
 		}
 	}
@@ -1849,7 +1869,8 @@ static void ProcessKey(KEY_Code_t Key, bool bKeyPressed, bool bKeyHeld)
 	}
 
 	if (Key <= KEY_9 || Key == KEY_F) {
-		if (gScanStateDir != SCAN_OFF || gCssBackgroundScan) { // FREQ/CTCSS/DCS scanning
+		//if (gScanStateDir != SCAN_OFF || gCssBackgroundScan) { // FREQ/CTCSS/DCS scanning
+		if (gCssBackgroundScan) { // FREQ/CTCSS/DCS scanning
 			if (bKeyPressed && !bKeyHeld)
 				AUDIO_PlayBeep(BEEP_500HZ_60MS_DOUBLE_BEEP_OPTIONAL);
 			return;
