@@ -41,6 +41,7 @@ Special thanks to Jean-Cyrille F6IWW, Fabrice 14RC123, David F4BPP, Olivier 14RC
 
 * improve default power settings level (Low ~125mW, Mid ~2W and High ~5W),
 * improve s-meter (IARU recommandations),
+* improve bandscope (Spectrum Analyser) and add channel name,
 * improve UI: 
     * menu index is always visible, even if a menu is selected,
     * s-meter new design (Classic or Tiny), 
@@ -56,8 +57,9 @@ Special thanks to Jean-Cyrille F6IWW, Fabrice 14RC123, David F4BPP, Olivier 14RC
     * move BatTxt  menu from 34/63 to 30/63 (just after BatSave menu 29/63),
     * rename BackLt to BLTime,
     * rename BltTRX to BLTxRx,
+    * improve memory channel input,
     * and more...
-* new menu entries:
+* new menu entries and changes:
     * add SetLow menu to set low power (<20mW, 125mW, 250mW, 500mW and 1W),
     * add SetPtt menu to set PTT mode (Classic or OnePush),
     * add SetTot menu to set TOT alert (Off, Sound, Visual, All),
@@ -71,11 +73,27 @@ Special thanks to Jean-Cyrille F6IWW, Fabrice 14RC123, David F4BPP, Olivier 14RC
     * improve PonMsg menu,
     * improve BackLt menu,
     * improve TxTOut menu,
-* improve status bar,
+    * add PMR 446 F Lock band,
+    * add HAM CA F Lock band (for Canadian zone),
+    * add GMRS/FRS/MURS F Lock (for North America zone),
+    * remove blink and SOS functionality, 
+    * remove AM Fix menu (AM Fix is ENABLED by default).
+* improve status bar:
     * add SetPtt mode in status bar,
     * change font and bitmaps,
     * move USB icon to left of battery information,
     * add RX and TX timers,
+* improve lists and scan lists options:
+    * add new list 3
+    * add new list 0 (channel without list...)
+    * add new scan lists options
+        * scan list 0 (all channels without list)
+        * scan list 1
+        * scan list 2
+        * scan list 3
+        * scan lists [1, 2, 3]
+        * scan all (all channels with ou without list)
+    * add scan list shortcuts 
 * new actions:
     * RX MODE,
     * MAIN ONLY,
@@ -87,7 +105,8 @@ Special thanks to Jean-Cyrille F6IWW, Fabrice 14RC123, David F4BPP, Olivier 14RC
     * add the F + F1 or F + F2 key combination to dynamically change the Step,
     * add F + 8 to quickly switch backlight between BLMin and BLMax on demand (this bypass BackLt strategy),
     * add F + 9 to return to BackLt strategy,
-    * add long press on MENU, in * SCAN mode, to temporarily exclude a memory channel if (not working with * SCAN ALL).
+    * add long press on MENU, in * SCAN mode, to temporarily exclude a memory channel if (not working with * SCAN ALL),
+    * add short press on [0, 1, 2, 3, 4 or 5], in * SCAN mode, to dynamically change scan list.
 * many fix:
     * squelch, 
     * s-meter,
@@ -95,12 +114,11 @@ Special thanks to Jean-Cyrille F6IWW, Fabrice 14RC123, David F4BPP, Olivier 14RC
     * scan list 2 ignored, 
     * scan range limit,
     * clean display on startup,
+    * no more PWM noise,
     * and more...
 * disabled ENABLE_DTMF_CALLING,
 * disabled SCRAMBLER,
 * unlock TX on all bands needs only to be repeat 3 times,
-* add PMR 446 F Lock band,
-* remove blink and SOS functionality, 
 * code refactoring and many memory optimization,
 * and more...
 
