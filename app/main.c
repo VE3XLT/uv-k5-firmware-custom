@@ -374,6 +374,33 @@ static void MAIN_Key_DIGITS(KEY_Code_t Key, bool bKeyPressed, bool bKeyHeld)
 	}
 
 	if (!gWasFKeyPressed) { // F-key wasn't pressed
+
+		if (gScanStateDir != SCAN_OFF){
+			switch(Key) {
+				case KEY_0:
+					gEeprom.SCAN_LIST_DEFAULT = 0;
+					break;
+				case KEY_1:
+					gEeprom.SCAN_LIST_DEFAULT = 1;
+					break;
+				case KEY_2:
+					gEeprom.SCAN_LIST_DEFAULT = 2;
+					break;
+				case KEY_3:
+					gEeprom.SCAN_LIST_DEFAULT = 3;
+					break;
+				case KEY_4:
+					gEeprom.SCAN_LIST_DEFAULT = 4;
+					break;
+				case KEY_5:
+					gEeprom.SCAN_LIST_DEFAULT = 5;
+					break;
+				default:
+					break;
+			}
+			return;
+		}
+
 		const uint8_t Vfo = gEeprom.TX_VFO;
 		gKeyInputCountdown = key_input_timeout_500ms;
 		INPUTBOX_Append(Key);
