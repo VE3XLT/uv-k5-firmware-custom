@@ -64,19 +64,18 @@ static void BACKLIGHT_Sound(void)
 	{
 		AUDIO_PlayBeep(BEEP_880HZ_60MS_DOUBLE_BEEP);
 		AUDIO_PlayBeep(BEEP_880HZ_60MS_DOUBLE_BEEP);
-		gK5startup = false;
 	}
-	else
-		gK5startup = false;		
+	gK5startup = false;		
 }
 
 
 void BACKLIGHT_TurnOn(void)
 {
+/*
 	#ifdef ENABLE_FEAT_F4HWN
 		gBacklightBrightnessOld = BACKLIGHT_GetBrightness();
 	#endif
-
+*/
 	if (gEeprom.BACKLIGHT_TIME == 0) {
 		BACKLIGHT_TurnOff();
 		#ifdef ENABLE_FEAT_F4HWN
@@ -91,7 +90,7 @@ void BACKLIGHT_TurnOn(void)
 	backlightOn = true;
 
 #ifdef ENABLE_FEAT_F4HWN
-	if(gK5startup == true) {
+/*	if(gK5startup == true) {
 		for(uint8_t i = 0; i <= gEeprom.BACKLIGHT_MAX; i++)
 		{
 			BACKLIGHT_SetBrightness(i);
@@ -105,6 +104,7 @@ void BACKLIGHT_TurnOn(void)
 		BACKLIGHT_SetBrightness(gEeprom.BACKLIGHT_MAX);
 	}
 #else
+*/
 	BACKLIGHT_SetBrightness(gEeprom.BACKLIGHT_MAX);
 #endif
 

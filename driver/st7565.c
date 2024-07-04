@@ -119,7 +119,7 @@ void ST7565_DrawLine(const unsigned int Column, const unsigned int Line, const u
 		SPI_ToggleMasterMode(&SPI0->CR, true);
 	}
 #endif
-
+/*
 void ST7565_FillScreen(uint8_t value)
 {
 	SPI_ToggleMasterMode(&SPI0->CR, false);
@@ -128,7 +128,7 @@ void ST7565_FillScreen(uint8_t value)
 	}
 	SPI_ToggleMasterMode(&SPI0->CR, true);
 }
-
+*/
 // Software reset
 const uint8_t ST7565_CMD_SOFTWARE_RESET = 0xE2;
 // Bias Select
@@ -253,7 +253,7 @@ void ST7565_Init(void)
 	SPI_WaitForUndocumentedTxFifoStatusBit();
 	SPI_ToggleMasterMode(&SPI0->CR, true);
 
-	ST7565_FillScreen(0x00);
+//	ST7565_FillScreen(0x00);
 }
 
 void ST7565_FixInterfGlitch(void)

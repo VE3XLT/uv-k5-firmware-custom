@@ -60,10 +60,10 @@ void UI_DisplayWelcome(void)
 	ST7565_BlitFullScreen();
 	
 	if (gEeprom.POWER_ON_DISPLAY_MODE == POWER_ON_DISPLAY_MODE_NONE || gEeprom.POWER_ON_DISPLAY_MODE == POWER_ON_DISPLAY_MODE_SOUND) {
-		ST7565_FillScreen(0x00);
+//		ST7565_FillScreen(0x00);
 #else
 	if (gEeprom.POWER_ON_DISPLAY_MODE == POWER_ON_DISPLAY_MODE_NONE || gEeprom.POWER_ON_DISPLAY_MODE == POWER_ON_DISPLAY_MODE_FULL_SCREEN) {
-		ST7565_FillScreen(0xFF);
+//		ST7565_FillScreen(0xFF);
 #endif
 	} else {
 		memset(WelcomeString0, 0, sizeof(WelcomeString0));
