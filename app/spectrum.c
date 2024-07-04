@@ -93,6 +93,7 @@ char freqInputString[11];
 
 uint8_t menuState = 0;
 uint16_t listenT = 0;
+uint16_t listenD = 1000;
 
 RegisterSpec registerSpecs[] = {
     {},
@@ -368,6 +369,7 @@ static void ToggleRX(bool on) {
 
   if (on) {
     listenT = 50;
+    listenD = 1000;
     BK4819_WriteRegister(0x43, listenBWRegValues[settings.listenBw]);
   } else {
     BK4819_WriteRegister(0x43, GetBWRegValueForScan());
@@ -1260,16 +1262,19 @@ static void UpdateListening() {
     return;
   }
 
-  if (currentState == SPECTRUM) {
+  /*if (currentState == SPECTRUM) {
     BK4819_WriteRegister(0x43, GetBWRegValueForScan());
     Measure();
     BK4819_WriteRegister(0x43, listenBWRegValues[settings.listenBw]);
-  } else {
+  } else {*/
     Measure();
-  }
-
+  //}
   peak.rssi = scanInfo.rssi;
-  redrawScreen = true;
+
+  if (listenD++ > 40){
+    listenD=0;
+  	redrawScreen = true;
+  }
 
   if (IsPeakOverLevel() || monitorMode) {
     listenT = 50;
