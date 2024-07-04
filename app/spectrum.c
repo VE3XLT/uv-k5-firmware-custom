@@ -367,7 +367,7 @@ static void ToggleRX(bool on) {
   ToggleAFBit(on);
 
   if (on) {
-    listenT = 1000;
+    listenT = 50;
     BK4819_WriteRegister(0x43, listenBWRegValues[settings.listenBw]);
   } else {
     BK4819_WriteRegister(0x43, GetBWRegValueForScan());
@@ -1272,7 +1272,7 @@ static void UpdateListening() {
   redrawScreen = true;
 
   if (IsPeakOverLevel() || monitorMode) {
-    listenT = 1000;
+    listenT = 50;
     return;
   }
 
