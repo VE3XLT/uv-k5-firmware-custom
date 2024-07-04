@@ -1848,12 +1848,8 @@ static void ProcessKey(KEY_Code_t Key, bool bKeyPressed, bool bKeyHeld)
 		}
 	}
 
-	if (Key <= KEY_9 || Key == KEY_F) {
-		if (
-/* saboteur, oh how i hate thee
-		gScanStateDir != SCAN_OFF ||
-		*/
-		gCssBackgroundScan) { // FREQ/CTCSS/DCS scanning
+	if ((Key <= KEY_9 && Key>=4) || Key == KEY_F) {
+		if (gScanStateDir != SCAN_OFF || gCssBackgroundScan) { // FREQ/CTCSS/DCS scanning
 			if (bKeyPressed && !bKeyHeld)
 				AUDIO_PlayBeep(BEEP_500HZ_60MS_DOUBLE_BEEP_OPTIONAL);
 			return;
