@@ -765,9 +765,11 @@ void UI_DisplayMenu(void)
 				}
 				else
 				{	// show the channel name being edited
-					UI_PrintString(edit, menu_item_x1, 0, 2, 8);
+					//UI_PrintString(edit, menu_item_x1, 0, 2, 8);
+					UI_PrintString(edit, menu_item_x1, menu_item_x2, 2, 8);
 					if (edit_index < 10)
-						UI_PrintString("^", menu_item_x1 + (8 * edit_index), 0, 4, 8);  // show the cursor
+						//UI_PrintString("^", menu_item_x1 + (8 * edit_index), 0, 4, 8);  // show the cursor
+						UI_PrintString("^", menu_item_x1 - 1 + (8 * edit_index),0, 4, 8); // show the cursor
 				}
 
 				if (!gAskForConfirmation)
