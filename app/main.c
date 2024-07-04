@@ -564,8 +564,6 @@ static void MAIN_Key_EXIT(bool bKeyPressed, bool bKeyHeld)
 
 static void MAIN_Key_MENU(bool bKeyPressed, bool bKeyHeld)
 {
-	//static uint8_t block = 0;
-
 	if (bKeyPressed && !bKeyHeld) // menu key pressed
 		gBeepToPlay = BEEP_1KHZ_60MS_OPTIONAL;
 
@@ -586,9 +584,6 @@ static void MAIN_Key_MENU(bool bKeyPressed, bool bKeyHeld)
 
 					gVfoConfigureMode = VFO_CONFIGURE;
 					gFlagResetVfos    = true;
-
-					//block++;
-					//gDebug = block;
 
 					lastFoundFrqOrChan = lastFoundFrqOrChanOld;
 
