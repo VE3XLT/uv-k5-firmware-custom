@@ -883,7 +883,7 @@ void UI_DisplayMenu(void)
 
 		case MENU_VOL:
 #ifdef ENABLE_FEAT_F4HWN
-			sprintf(String, "%u.%03uV\n%u%% %s\n%s",
+			sprintf(String, "%u.%03u %u%%\n%s\n%s",
 				gBatteryVoltageAverage / 1000, gBatteryVoltageAverage % 1000,
 				gBatteryPercent,
 				AUTHOR_STRING_2,
