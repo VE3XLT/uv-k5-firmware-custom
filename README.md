@@ -1,6 +1,17 @@
 # Open re-implementation of the Quansheng UV-K5/K6/5R v2.1.27 firmware
 
-This repository is a fork of [Egzumer custom firmware](https://github.com/egzumer/uv-k5-firmware-custom), who was a merge of [OneOfEleven custom firmware](https://github.com/OneOfEleven/uv-k5-firmware-custom) with [fagci spectrum analizer](https://github.com/fagci/uv-k5-firmware-fagci-mod/tree/refactor) plus my few changes.
+This repository is a fork of [Armel's F4HWN firmware v2.8.1](https://github.com/armel/uv-k5-firmware-custom) which was based on [Egzumer custom firmware](https://github.com/egzumer/uv-k5-firmware-custom) which was a merge of [OneOfEleven custom firmware](https://github.com/OneOfEleven/uv-k5-firmware-custom) and [fagci spectrum analizer](https://github.com/fagci/uv-k5-firmware-fagci-mod/tree/refactor).
+
+Notable features:
+* FM Broadcast reception and Spectrum Analyser always available--Forever!
+* Vox disabled. No more accidentally toggling it on.
+* Direct scanlist selection for channels (`F` + `1-3`)
+* Direct scanlist selection while scanning (`0` for No Lists, `1-3` to select a list, `*` to toggle between All Lists and Everything)
+* Spectrum analyser squelch MUCH faster in spectrum mode (need testers to see what I might have broken though!)
+* Smoother battery % changes, no skipped steps.
+* FM 0.2MHz steps (scanning is twice as fast). Make sure to switch to 87.5-108M if you're in the USA!
+
+--- Everything below this line hasn't been modified by me ---
 
 All is a cloned and customized version of DualTachyon's open firmware found [here](https://github.com/DualTachyon/uv-k5-firmware) ... a cool achievement !
 
