@@ -1473,26 +1473,6 @@ void APP_TimeSlice500ms(void)
 			}
 
 			cancelUserInputModes();
-
-			if (gBeepToPlay != BEEP_NONE)
-			{
-				AUDIO_PlayBeep(gBeepToPlay);
-				gBeepToPlay = BEEP_NONE;
-			}
-		}
-		else
-		{
-			if (IS_MR_CHANNEL(gTxVfo->CHANNEL_SAVE)) { // user is entering channel number
-				switch (gInputBoxIndex)
-				{
-					case 1:
-						channelMove(gInputBox[0] - 1, false);
-						break;
-					case 2:
-						channelMove(((gInputBox[0] * 10) + gInputBox[1]) - 1, false);
-						break;
-				}
-			}
 		}
 	}
 
