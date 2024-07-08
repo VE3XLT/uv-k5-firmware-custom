@@ -671,7 +671,7 @@ static void Blacklist() {
 #ifdef ENABLE_SCAN_RANGES
 static bool IsBlacklisted(uint16_t idx)
 {
-  if(blacklistFreqs[0]) // cheaper than checking blacklistFreqsIdx
+  if(blacklistFreqsIdx)
     for(uint8_t i = 0; i < ARRAY_SIZE(blacklistFreqs); i++)
       if(blacklistFreqs[i] == idx)
         return true;
