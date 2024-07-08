@@ -316,19 +316,19 @@ static void processFKeyFunction(const KEY_Code_t Key, const bool beep)
 	}
 }
 
-void channelMove(uint16_t Channel, bool End)
+void channelMove(uint16_t Channel)
 {
 	const uint8_t Vfo = gEeprom.TX_VFO;
 
-	if(End)
-	{
-		gInputBoxIndex = 0;
-	}
-
 	if (!RADIO_CheckValidChannel(Channel, false, 0)) {
-		gBeepToPlay = BEEP_500HZ_60MS_DOUBLE_BEEP_OPTIONAL;
+		if (gKeyInputCountdown <= 1) {
+			gBeepToPlay = BEEP_500HZ_60MS_DOUBLE_BEEP_OPTIONAL;
+		}
+
 		return;
 	}
+
+	gBeepToPlay = BEEP_NONE;
 
 	#ifdef ENABLE_VOICE
 		gAnotherVoiceID        = (VOICE_ID_t)Key;
@@ -340,34 +340,43 @@ void channelMove(uint16_t Channel, bool End)
 	gVfoConfigureMode          = VFO_CONFIGURE_RELOAD;
 
 	RADIO_ConfigureChannel(gEeprom.TX_VFO, gVfoConfigureMode);
-	if(End)
-	{
-		SETTINGS_SaveVfoIndices();
-	}
 
 	return;
 }
 
 void channelMoveSwitch(void) {
 	if (IS_MR_CHANNEL(gTxVfo->CHANNEL_SAVE)) { // user is entering channel number
+		uint16_t Channel = 0;
+
 		switch (gInputBoxIndex)
 		{
 			case 1:
-				if (gInputBox[0] != 0) {
-					channelMove(gInputBox[0] - 1, false);
-				}
+				Channel = gInputBox[0];
 
 				break;
 			case 2:
-				if (!((gInputBox[0] == 0) && (gInputBox[1] == 0))) {
-					channelMove(((gInputBox[0] * 10) + gInputBox[1]) - 1, false);
-				}
+				Channel = (gInputBox[0] * 10) + gInputBox[1];
 
 				break;
 			case 3:
-				channelMove(((gInputBox[0] * 100) + (gInputBox[1] * 10) + gInputBox[2]) - 1, true);
+				Channel = (gInputBox[0] * 100) + (gInputBox[1] * 10) + gInputBox[2];
+
 				break;
 		}
+
+		if ((Channel == 0) && (gInputBoxIndex != 3)) {
+			return;
+		}
+
+		if (gInputBoxIndex == 3) {
+			gInputBoxIndex = 0;
+			gKeyInputCountdown = 1;
+
+			channelMove(Channel - 1);
+			return;
+		}
+
+		channelMove(Channel - 1);
 	}
 }
 
@@ -428,9 +437,7 @@ static void MAIN_Key_DIGITS(KEY_Code_t Key, bool bKeyPressed, bool bKeyHeld)
 		INPUTBOX_Append(Key);
 		gKeyInputCountdown = key_input_timeout_500ms;
 
-		if (IS_MR_CHANNEL(gTxVfo->CHANNEL_SAVE)) { // user is entering channel number
-			channelMoveSwitch();
-		}
+		channelMoveSwitch();
 
 		gRequestDisplayScreen = DISPLAY_MAIN;
 
