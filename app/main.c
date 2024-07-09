@@ -787,9 +787,6 @@ static void MAIN_Key_UP_DOWN(bool bKeyPressed, bool bKeyHeld, int8_t Direction)
 	uint8_t Channel = gEeprom.ScreenChannel[gEeprom.TX_VFO];
 
 	if (bKeyHeld || !bKeyPressed) { // key held or released
-		if (gInputBoxIndex > 0)
-			return; // leave if input box active
-
 		if (!bKeyPressed) {
 			if (!bKeyHeld || IS_FREQ_CHANNEL(Channel))
 				return;
@@ -803,8 +800,8 @@ static void MAIN_Key_UP_DOWN(bool bKeyPressed, bool bKeyHeld, int8_t Direction)
 	}
 	else { // short pressed
 		if (gInputBoxIndex > 0) {
-			gBeepToPlay = BEEP_500HZ_60MS_DOUBLE_BEEP_OPTIONAL;
-			return;
+			gInputBoxIndex = 0;
+			gKeyInputCountdown = 1;
 		}
 		gBeepToPlay = BEEP_1KHZ_60MS_OPTIONAL;
 	}
