@@ -923,11 +923,11 @@ void UI_DisplayMain(void)
 					memcpy(((shiftList%2==1)?p_line0:p_line1) + 128 - ((shiftList>2?2:shiftList) * 8), BITMAP_ScanList3, sizeof(BITMAP_ScanList3));
 				}
 */
-				if (att.scanlists & 0b100)
+				if (att.scanlists & 0b001)
 					memcpy(p_line0 + 129 - (2 * 8), BITMAP_ScanList1, sizeof(BITMAP_ScanList1));
 				if (att.scanlists & 0b010)
 					memcpy(p_line0 + 129 - (1 * 8), BITMAP_ScanList2, sizeof(BITMAP_ScanList2));
-				if (att.scanlists & 0b001)
+				if (att.scanlists & 0b100)
 					memcpy(p_line1 + 129 - (2 * 8), BITMAP_ScanList3, sizeof(BITMAP_ScanList3));
 
 

@@ -625,7 +625,7 @@ void MENU_AcceptSetting(void)
 			break;
 
 		case MENU_S_ADD1:
-			gTxVfo->SCANLIST_PARTICIPATION = (gTxVfo->SCANLIST_PARTICIPATION & ~(1 << 2)) | (gSubMenuSelection << 2);
+			gTxVfo->SCANLIST_PARTICIPATION = (gTxVfo->SCANLIST_PARTICIPATION & ~(1 << 0)) | (gSubMenuSelection << 0);
 			SETTINGS_UpdateChannel(gTxVfo->CHANNEL_SAVE, gTxVfo, true, false, true);
 			gVfoConfigureMode = VFO_CONFIGURE;
 			gFlagResetVfos    = true;
@@ -639,7 +639,7 @@ void MENU_AcceptSetting(void)
 			return;
 
 		case MENU_S_ADD3:
-			gTxVfo->SCANLIST_PARTICIPATION = (gTxVfo->SCANLIST_PARTICIPATION & ~(1 << 0)) | (gSubMenuSelection << 0);
+			gTxVfo->SCANLIST_PARTICIPATION = (gTxVfo->SCANLIST_PARTICIPATION & ~(1 << 2)) | (gSubMenuSelection << 2);
 			SETTINGS_UpdateChannel(gTxVfo->CHANNEL_SAVE, gTxVfo, true, false, true);
 			gVfoConfigureMode = VFO_CONFIGURE;
 			gFlagResetVfos    = true;
@@ -1088,7 +1088,7 @@ void MENU_ShowCurrentSetting(void)
 			break;
 
 		case MENU_S_ADD1:
-			gSubMenuSelection = gTxVfo->SCANLIST_PARTICIPATION >> 2 & 1;
+			gSubMenuSelection = gTxVfo->SCANLIST_PARTICIPATION >> 0 & 1;
 			break;
 
 		case MENU_S_ADD2:
@@ -1096,7 +1096,7 @@ void MENU_ShowCurrentSetting(void)
 			break;
 
 		case MENU_S_ADD3:
-			gSubMenuSelection = gTxVfo->SCANLIST_PARTICIPATION >> 0 & 1;
+			gSubMenuSelection = gTxVfo->SCANLIST_PARTICIPATION >> 2 & 1;
 			break;
 
 		case MENU_STE:

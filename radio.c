@@ -74,7 +74,7 @@ bool RADIO_CheckValidChannel(uint16_t channel, bool checkScanList, uint8_t scanL
 	//	return false;
 
 	if(scanList<3){
-		if(!((att.scanlists >> (2-scanList)) & 1))
+		if(!((att.scanlists >> scanList) & 1))
 			return false;
 	}
 	else if(scanList==3 && att.scanlists)

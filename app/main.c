@@ -76,7 +76,7 @@ static void toggle_chan_scanlist(uint8_t num)
 		gTxVfo->SCANLIST_PARTICIPATION = (gTxVfo->SCANLIST_PARTICIPATION++ < 7) ? gTxVfo->SCANLIST_PARTICIPATION : 0;
 	} else {
 		num-=1;
-		gTxVfo->SCANLIST_PARTICIPATION ^= (1 << (2-num));
+		gTxVfo->SCANLIST_PARTICIPATION ^= (1 << (num));
 		/*
 		switch(num){
 			case 1:
