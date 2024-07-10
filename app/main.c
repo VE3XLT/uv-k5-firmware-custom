@@ -224,9 +224,7 @@ static void processFKeyFunction(const KEY_Code_t Key, const bool beep)
 #endif
 			}
 			else {
-#ifdef ENABLE_VOX
 				toggle_chan_scanlist();
-#endif
 			}
 
 			break;
