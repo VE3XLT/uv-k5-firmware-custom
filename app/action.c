@@ -522,12 +522,24 @@ void ACTION_Ptt(void)
 
 void ACTION_Wn(void)
 {
-	gTxVfo->CHANNEL_BANDWIDTH = (gTxVfo->CHANNEL_BANDWIDTH == 0) ? 1: 0;
-#ifdef ENABLE_AM_FIX
-	BK4819_SetFilterBandwidth(gTxVfo->CHANNEL_BANDWIDTH, true);
-#else
-	BK4819_SetFilterBandwidth(gTxVfo->CHANNEL_BANDWIDTH, false);
-#endif
+	if (FUNCTION_IsRx())
+	{
+		gRxVfo->CHANNEL_BANDWIDTH = (gRxVfo->CHANNEL_BANDWIDTH == 0) ? 1: 0;
+		#ifdef ENABLE_AM_FIX
+			BK4819_SetFilterBandwidth(gRxVfo->CHANNEL_BANDWIDTH, true);
+		#else
+			BK4819_SetFilterBandwidth(gRxVfo->CHANNEL_BANDWIDTH, false);
+		#endif
+	}
+	else
+	{
+		gTxVfo->CHANNEL_BANDWIDTH = (gTxVfo->CHANNEL_BANDWIDTH == 0) ? 1: 0;
+		#ifdef ENABLE_AM_FIX
+			BK4819_SetFilterBandwidth(gTxVfo->CHANNEL_BANDWIDTH, true);
+		#else
+			BK4819_SetFilterBandwidth(gTxVfo->CHANNEL_BANDWIDTH, false);
+		#endif
+	}
 }
 
 void ACTION_BackLight(void)
