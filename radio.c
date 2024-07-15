@@ -461,17 +461,17 @@ void RADIO_ConfigureSquelchAndOutputPower(VFO_Info_t *pInfo)
 		uint16_t glitch_close = pInfo->SquelchCloseGlitchThresh;
 		// make squelch more sensitive
 		// note that 'noise' and 'glitch' values are inverted compared to 'rssi' values
-		rssi_open   = (rssi_open   * 1) / 2;
-		noise_open  = (noise_open  * 2) / 1;
-		glitch_open = (glitch_open * 2) / 1;
+		rssi_open   = (rssi_open   * 1) / (10-gEeprom.SQUELCH_LEVEL);
+		noise_open  = (noise_open  * (10-gEeprom.SQUELCH_LEVEL)) / 1;
+		glitch_open = (glitch_open * (10-gEeprom.SQUELCH_LEVEL)) / 1;
 
 		// ensure the 'close' threshold is lower than the 'open' threshold
-		if (rssi_close == rssi_open && rssi_close >= 2)
-			rssi_close -= 2;
-		if (noise_close == noise_open && noise_close  <= 125)
-			noise_close += 2;
-		if (glitch_close == glitch_open && glitch_close <= 253)
-			glitch_close += 2;
+		if (rssi_close == rssi_open && rssi_close >= 1)
+			rssi_close -= 1;
+		if (noise_close == noise_open && noise_close  <= 126)
+			noise_close += 1;
+		if (glitch_close == glitch_open && glitch_close <= 254)
+			glitch_close += 1;
 
 		pInfo->SquelchOpenRSSIThresh    = (rssi_open    > 255) ? 255 : rssi_open;
 		pInfo->SquelchCloseRSSIThresh   = (rssi_close   > 255) ? 255 : rssi_close;
