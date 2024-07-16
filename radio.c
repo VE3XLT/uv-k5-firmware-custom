@@ -54,8 +54,6 @@ const char gModulationStr[MODULATION_UKNOWN][4] = {
 #endif
 };
 
-
-
 bool RADIO_CheckValidChannel(uint16_t channel, bool checkScanList, uint8_t scanList)
 {
 	// return true if the channel appears valid
@@ -511,9 +509,13 @@ void RADIO_ConfigureSquelchAndOutputPower(VFO_Info_t *pInfo)
 	uint8_t Op = 0;
 
 	if (pInfo->OUTPUT_POWER == OUTPUT_POWER_MID)
+	{
 		Op = 1;
+	}
 	else if(pInfo->OUTPUT_POWER == OUTPUT_POWER_HIGH)
+	{
 		Op = 2;
+	}
 
 	EEPROM_ReadBuffer(0x1ED0 + (Band * 16) + (Op * 3), Txp, 3);
 

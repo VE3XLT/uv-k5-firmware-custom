@@ -1209,7 +1209,7 @@ void UI_DisplayMain(void)
 			GUI_DisplaySmallest(String, 24, line == 0 ? 17 : 49, false, true);
 		}
 #else
-			const char pwr_list[][2] = {"U", "L","M","H"};
+			const char pwr_list[][2] = {"L","M","H"};
 			UI_PrintStringSmallNormal(pwr_list[i], LCD_WIDTH + 46, 0, line + 1);
 #endif
 		}
