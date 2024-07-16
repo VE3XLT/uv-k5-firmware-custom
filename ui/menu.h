@@ -184,7 +184,7 @@ extern const char        gSubMenu_RESET[2][4];
 extern const char* const gSubMenu_F_LOCK[F_LOCK_LEN];
 extern const char        gSubMenu_RX_TX[4][6];
 extern const char        gSubMenu_BAT_TXT[3][8];
-extern const char 		 gSubMenu_BATTYP[2][9];
+extern const char 		 gSubMenu_BATTYP[3][9];
 
 #ifndef ENABLE_FEAT_F4HWN
 	extern const char        gSubMenu_SCRAMBLER[11][7];

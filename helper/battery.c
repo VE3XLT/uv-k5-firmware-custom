@@ -44,14 +44,12 @@ typedef enum {
 	BATTERY_LOW_CONFIRMED
 } BatteryLow_t;
 
-
 uint16_t          lowBatteryCountdown;
 const uint16_t 	  lowBatteryPeriod = 30;
 
 volatile uint16_t gPowerSave_10ms;
 
-
-const uint16_t Voltage2PercentageTable[][7][2] = {
+const uint16_t Voltage2PercentageTable[][7][3] = {
 	[BATTERY_TYPE_1600_MAH] = {
 		{828, 100},
 		{814, 97 },
@@ -71,15 +69,28 @@ const uint16_t Voltage2PercentageTable[][7][2] = {
 		{630, 0  },
 		{0,   0  },
 	},
+
+	[BATTERY_TYPE_3500_MAH] = {
+		{837, 100},
+		{826, 95 },
+		{750, 50 },
+		{700, 25 },
+		{610, 5  },
+		{600, 0  },
+		{0,   0  },
+	},
 };
 
-static_assert(ARRAY_SIZE(Voltage2PercentageTable[BATTERY_TYPE_1600_MAH]) ==
-	ARRAY_SIZE(Voltage2PercentageTable[BATTERY_TYPE_2200_MAH]));
-
+static_assert(
+	(ARRAY_SIZE(Voltage2PercentageTable[BATTERY_TYPE_1600_MAH]) ==
+	ARRAY_SIZE(Voltage2PercentageTable[BATTERY_TYPE_2200_MAH])) &&
+	(ARRAY_SIZE(Voltage2PercentageTable[BATTERY_TYPE_2200_MAH]) ==
+	ARRAY_SIZE(Voltage2PercentageTable[BATTERY_TYPE_3500_MAH]))
+	);
 
 unsigned int BATTERY_VoltsToPercent(const unsigned int voltage_10mV)
 {
-	const uint16_t (*crv)[2] = Voltage2PercentageTable[gEeprom.BATTERY_TYPE];
+	const uint16_t (*crv)[3] = Voltage2PercentageTable[gEeprom.BATTERY_TYPE];
 	const int mulipl = 1000;
 	for (unsigned int i = 1; i < ARRAY_SIZE(Voltage2PercentageTable[BATTERY_TYPE_2200_MAH]); i++) {
 		if (voltage_10mV > crv[i][0]) {

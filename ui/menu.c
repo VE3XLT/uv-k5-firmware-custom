@@ -328,7 +328,8 @@ const char gSubMenu_BAT_TXT[][8] =
 const char gSubMenu_BATTYP[][9] =
 {
 	"1600mAh",
-	"2200mAh"
+	"2200mAh",
+	"3500mAh"
 };
 
 #ifndef ENABLE_FEAT_F4HWN
