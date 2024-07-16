@@ -157,7 +157,7 @@ extern enum BacklightOnRxTx_t gSetting_backlight_on_tx_rx;
 #endif
 
 #ifdef ENABLE_FEAT_F4HWN
-	extern uint8_t            gSetting_set_low;
+	extern uint8_t            gSetting_set_pwr;
 	extern bool               gSetting_set_ptt;
 	extern uint8_t            gSetting_set_tot;
 	extern uint8_t            gSetting_set_ctr;

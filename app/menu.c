@@ -374,9 +374,8 @@ int MENU_GetLimits(uint8_t menu_id, int32_t *pMin, int32_t *pMax)
 			break;
 
 #ifdef ENABLE_FEAT_F4HWN
-		case MENU_SET_LOW:
-			//*pMin = 0;
-			*pMax = ARRAY_SIZE(gSubMenu_SET_LOW) - 1;
+		case MENU_SET_PWR:
+			*pMax = ARRAY_SIZE(gSubMenu_SET_PWR) - 1;
 			break;
 		case MENU_SET_PTT:
 			//*pMin = 0;
@@ -866,8 +865,8 @@ void MENU_AcceptSetting(void)
 			break;
 
 #ifdef ENABLE_FEAT_F4HWN
-		case MENU_SET_LOW:
-			gSetting_set_low = gSubMenuSelection;
+		case MENU_SET_PWR:
+			gSetting_set_pwr = gSubMenuSelection;
 			gRequestSaveChannel = 1;
 			break;
 		case MENU_SET_PTT:
@@ -1285,8 +1284,8 @@ void MENU_ShowCurrentSetting(void)
 		}
 
 #ifdef ENABLE_FEAT_F4HWN
-		case MENU_SET_LOW:
-			gSubMenuSelection = gSetting_set_low;
+		case MENU_SET_PWR:
+			gSubMenuSelection = gSetting_set_pwr;
 			break;
 		case MENU_SET_PTT:
 			gSubMenuSelection = gSetting_set_ptt_session;

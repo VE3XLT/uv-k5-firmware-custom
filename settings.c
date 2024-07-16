@@ -317,7 +317,7 @@ void SETTINGS_InitEEPROM(void)
 	#ifdef ENABLE_FEAT_F4HWN
 		// 1FF0..0x1FF7
 		EEPROM_ReadBuffer(0x1FF0, Data, 8);
-		gSetting_set_low = (((Data[7] & 0xF0) >> 4) < 5) ? ((Data[7] & 0xF0) >> 4) : 0;
+		gSetting_set_pwr = (((Data[7] & 0xF0) >> 4) < 7) ? ((Data[7] & 0xF0) >> 4) : 0;
 		gSetting_set_ptt = (((Data[7] & 0x0F)) < 2) ? ((Data[7] & 0x0F)) : 0;
 
 		gSetting_set_tot = (((Data[6] & 0xF0) >> 4) < 4) ? ((Data[6] & 0xF0) >> 4) : 0;
@@ -707,7 +707,7 @@ void SETTINGS_SaveSettings(void)
 
 	State[5] = ((tmp << 4) | (gSetting_set_ctr & 0x0F));
 	State[6] = ((gSetting_set_tot << 4) | (gSetting_set_eot & 0x0F));
-	State[7] = ((gSetting_set_low << 4) | (gSetting_set_ptt & 0x0F));
+	State[7] = ((gSetting_set_pwr << 4) | (gSetting_set_ptt & 0x0F));
 
 	gEeprom.KEY_LOCK_PTT = gSetting_set_lck;
 
@@ -744,7 +744,7 @@ void SETTINGS_SaveChannel(uint8_t Channel, uint8_t VFO, const VFO_Info_t *pVFO, 
 		State._8[2] = (pVFO->freq_config_TX.CodeType << 4) | pVFO->freq_config_RX.CodeType;
 		State._8[3] = (pVFO->Modulation << 4) | pVFO->TX_OFFSET_FREQUENCY_DIRECTION;
 		State._8[4] = 0
-			| (pVFO->BUSY_CHANNEL_LOCK << 4)
+			| (pVFO->BUSY_CHANNEL_LOCK << 5)
 			| (pVFO->OUTPUT_POWER      << 2)
 			| (pVFO->CHANNEL_BANDWIDTH << 1)
 			| (pVFO->FrequencyReverse  << 0);

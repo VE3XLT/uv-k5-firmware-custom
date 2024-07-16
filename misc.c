@@ -105,7 +105,7 @@ enum BacklightOnRxTx_t gSetting_backlight_on_tx_rx;
 #endif
 
 #ifdef ENABLE_FEAT_F4HWN
-	uint8_t       gSetting_set_low = 1;
+	uint8_t       gSetting_set_pwr = 1;
 	bool          gSetting_set_ptt = 0;
 	uint8_t       gSetting_set_tot = 0;
 	uint8_t       gSetting_set_ctr = 11;

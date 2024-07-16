@@ -134,7 +134,7 @@ const t_menu_item MenuList[] =
 	{"RxMode",		MENU_TDR           },
 	{"Sql",			MENU_SQL           },
 #ifdef ENABLE_FEAT_F4HWN
-	{"SetLow",		MENU_SET_LOW       },
+	{"SetPwr",		MENU_SET_PWR       },
 	{"SetPtt",		MENU_SET_PTT       },
 	{"SetTot",		MENU_SET_TOT       },
 	{"SetEot",		MENU_SET_EOT       },
@@ -166,9 +166,14 @@ const t_menu_item MenuList[] =
 
 const uint8_t FIRST_HIDDEN_MENU_ITEM = MENU_F_LOCK;
 
-const char gSubMenu_TXP[][5] =
+const char gSubMenu_TXP[][6] =
 {
-	"LOW",
+	"USER",
+	"LOW 1",
+	"LOW 2",
+	"LOW 3",
+	"LOW 4",
+	"LOW 5",
 	"MID",
 	"HIGH"
 };
@@ -344,13 +349,15 @@ const char gSubMenu_SCRAMBLER[][7] =
 #endif
 
 #ifdef ENABLE_FEAT_F4HWN
-	const char gSubMenu_SET_LOW[][7] =
+	const char gSubMenu_SET_PWR[][7] =
 	{
 		"< 20mW",
 		"125mW",
 		"250mW",
 		"500mW",
-		"1W"
+		"1W",
+		"2W",
+		"5W"
 	};
 
 	const char gSubMenu_SET_PTT[][8] =
@@ -944,10 +951,10 @@ void UI_DisplayMenu(void)
 			break;
 
 #ifdef ENABLE_FEAT_F4HWN
-		case MENU_SET_LOW:
-			strcpy(String, gSubMenu_SET_LOW[gSubMenuSelection]);
+		case MENU_SET_PWR:
+			strcpy(String, gSubMenu_SET_PWR[gSubMenuSelection]);
 			break;
-
+	
 		case MENU_SET_PTT:
 			strcpy(String, gSubMenu_SET_PTT[gSubMenuSelection]);
 			break;
