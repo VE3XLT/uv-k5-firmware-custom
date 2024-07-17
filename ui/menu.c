@@ -590,7 +590,14 @@ void UI_DisplayMenu(void)
 		}
 
 		case MENU_TXP:
-			strcpy(String, gSubMenu_TXP[gSubMenuSelection]);
+			if(gSubMenuSelection == 0)
+			{
+				strcpy(String, gSubMenu_TXP[gSubMenuSelection]);
+			}
+			else
+			{
+				sprintf(String, "%s\n%s", gSubMenu_TXP[gSubMenuSelection], gSubMenu_SET_PWR[gSubMenuSelection - 1]);
+			}
 			break;
 
 		case MENU_R_DCS:
@@ -953,7 +960,7 @@ void UI_DisplayMenu(void)
 
 #ifdef ENABLE_FEAT_F4HWN
 		case MENU_SET_PWR:
-			strcpy(String, gSubMenu_SET_PWR[gSubMenuSelection]);
+			sprintf(String, "%s\n%s", gSubMenu_TXP[gSubMenuSelection + 1], gSubMenu_SET_PWR[gSubMenuSelection ]);
 			break;
 	
 		case MENU_SET_PTT:
