@@ -1152,7 +1152,7 @@ void UI_DisplayMain(void)
 
 		if (isMainOnly(true))
 		{
-			UI_PrintStringSmallNormal(s, LCD_WIDTH + 24, 0, line + 1);
+			UI_PrintStringSmallNormal(s, LCD_WIDTH + 22, 0, line + 1);
 			UI_PrintStringSmallNormal(t, LCD_WIDTH + 2, 0, line + 1);
 
 			if (isMainOnly(false) && !gDTMF_InputMode)
@@ -1194,24 +1194,39 @@ void UI_DisplayMain(void)
 
 		if (state == VFO_STATE_NORMAL || state == VFO_STATE_ALARM)
 		{	// show the TX power
-			int i = vfoInfo->OUTPUT_POWER % 8;
-#if ENABLE_FEAT_F4HWN
-		if (isMainOnly(true))
-		{
-			const char pwr_short[][3] = {"U", "L1", "L2", "L3", "L4", "L5", "M", "H"};
-			sprintf(String, "%s", pwr_short[i]);
-			UI_PrintStringSmallNormal(String, LCD_WIDTH + 44, 0, line + 1);
-		}
-		else
-		{
-			const char pwr_long[][5] = {"USER", "LOW1", "LOW2", "LOW3", "LOW4", "LOW5", "MID", "HIGH"};
-			sprintf(String, "%s", pwr_long[i]);
-			GUI_DisplaySmallest(String, 24, line == 0 ? 17 : 49, false, true);
-		}
-#else
-			const char pwr_list[][2] = {"L","M","H"};
-			UI_PrintStringSmallNormal(pwr_list[i], LCD_WIDTH + 46, 0, line + 1);
-#endif
+			uint8_t currentPower = vfoInfo->OUTPUT_POWER % 8;
+			uint8_t arrowPos = 19;
+			bool userPower = false;
+
+			if(currentPower == OUTPUT_POWER_USER)
+			{
+				currentPower = gSetting_set_pwr;
+				userPower = true;
+			}
+			else
+			{
+				currentPower--;
+				userPower = false;
+			}
+
+			if (isMainOnly(true))
+			{
+				const char pwr_short[][3] = {"L1", "L2", "L3", "L4", "L5", "M", "H"};
+				sprintf(String, "%s", pwr_short[currentPower]);
+				UI_PrintStringSmallNormal(String, LCD_WIDTH + 42, 0, line + 1);
+				arrowPos = 38;
+			}
+			else
+			{
+				const char pwr_long[][5] = {"LOW1", "LOW2", "LOW3", "LOW4", "LOW5", "MID", "HIGH"};
+				sprintf(String, "%s", pwr_long[currentPower]);
+				GUI_DisplaySmallest(String, 24, line == 0 ? 17 : 49, false, true);
+			}
+
+			if(userPower == true)
+			{
+				memcpy(p_line0 + 256 + arrowPos, BITMAP_PowerUser, sizeof(BITMAP_PowerUser));
+			}
 		}
 
 		if (vfoInfo->freq_config_RX.Frequency != vfoInfo->freq_config_TX.Frequency)
@@ -1424,7 +1439,7 @@ void UI_DisplayMain(void)
 		UI_PrintStringSmallBold(String, 92, 0, 6);
 		for (uint8_t i = 92; i < 128; i++)
 		{
-			gFrameBuffer[6][i] ^= 0xFF;
+			gFrameBuffer[6][i] ^= 0x7F;
 		}
 	}
 #endif
