@@ -1469,6 +1469,12 @@ void APP_TimeSlice500ms(void)
 
 			if (IS_MR_CHANNEL(gTxVfo->CHANNEL_SAVE) && (gInputBoxIndex == 1 || gInputBoxIndex == 2))
 			{
+				channelMoveSwitch();
+
+				if (gBeepToPlay == BEEP_500HZ_60MS_DOUBLE_BEEP_OPTIONAL) {
+					AUDIO_PlayBeep(gBeepToPlay);
+				}
+
 				SETTINGS_SaveVfoIndices();
 			}
 
