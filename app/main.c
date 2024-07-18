@@ -368,6 +368,8 @@ void channelMoveSwitch(void) {
 			gKeyInputCountdown = 1;
 
 			channelMove(Channel - 1);
+			SETTINGS_SaveVfoIndices();
+			
 			return;
 		}
 
