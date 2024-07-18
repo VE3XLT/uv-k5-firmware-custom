@@ -506,15 +506,32 @@ void RADIO_ConfigureSquelchAndOutputPower(VFO_Info_t *pInfo)
 	// 1F30 32 32 32 64 64 64 8c 8c 8c ff ff ff ff ff ff ff 470 MHz
 
 	uint8_t Txp[3];
-	uint8_t Op = 0;
+	uint8_t Op = 0; // Low eeprom calibration data 
+	uint8_t currentPower = pInfo->OUTPUT_POWER;
 
-	if (pInfo->OUTPUT_POWER == OUTPUT_POWER_MID)
+	if(currentPower == OUTPUT_POWER_USER)
 	{
-		Op = 1;
+		if(gSetting_set_pwr == 5)
+		{
+			Op = 1; // Mid eeprom calibration data
+		}
+		else if(gSetting_set_pwr == 6)
+		{
+			Op = 2; // High eeprom calibration data
+		}
+		currentPower = gSetting_set_pwr;
 	}
-	else if(pInfo->OUTPUT_POWER == OUTPUT_POWER_HIGH)
+	else
 	{
-		Op = 2;
+		if (currentPower == OUTPUT_POWER_MID)
+		{
+			Op = 1; // Mid eeprom calibration data
+		}
+		else if(currentPower == OUTPUT_POWER_HIGH)
+		{
+			Op = 2; // High eeprom calibration data
+		}
+		currentPower--;
 	}
 
 	EEPROM_ReadBuffer(0x1ED0 + (Band * 16) + (Op * 3), Txp, 3);
@@ -524,19 +541,9 @@ void RADIO_ConfigureSquelchAndOutputPower(VFO_Info_t *pInfo)
 	// and use calibration values 
 	// be aware with toxic fucking closed firmwares
 
-	uint8_t shift[] = {0, 0, 0, 0, 0};
-	uint8_t currentPower = pInfo->OUTPUT_POWER;
-
-	if(currentPower == OUTPUT_POWER_USER)
-	{
-		currentPower = gSetting_set_pwr;
-	}
-	else
-	{
-		currentPower--;
-	}
-
 	/*
+	uint8_t shift[] = {0, 0, 0, 0, 0};
+
 	if(Band == 5) // UHF
 	{
 		shift[0] = 0;
@@ -545,26 +552,26 @@ void RADIO_ConfigureSquelchAndOutputPower(VFO_Info_t *pInfo)
 		shift[3] = 0;
 		shift[4] = 0;
 	}
-	*/		
+	*/
 
 	for(uint8_t p = 0; p < 3; p++)
 	{
 		switch (currentPower)
 		{
 			case 0:
-				Txp[p] = (Txp[p] * 4) / 25 + shift[pInfo->OUTPUT_POWER]; 
+				Txp[p] = (Txp[p] * 4) / 25; //+ shift[pInfo->OUTPUT_POWER]; 
 				break;
 			case 1:
-				Txp[p] = (Txp[p] * 4) / 19 + shift[pInfo->OUTPUT_POWER];
+				Txp[p] = (Txp[p] * 4) / 19; // + shift[pInfo->OUTPUT_POWER];
 				break;
 			case 2:
-				Txp[p] = (Txp[p] * 4) / 13 + shift[pInfo->OUTPUT_POWER];
+				Txp[p] = (Txp[p] * 4) / 13; // + shift[pInfo->OUTPUT_POWER];
 				break;
 			case 3:
-				Txp[p] = (Txp[p] * 4) / 10 + shift[pInfo->OUTPUT_POWER];
+				Txp[p] = (Txp[p] * 4) / 10; // + shift[pInfo->OUTPUT_POWER];
 				break;
 			case 4:
-				Txp[p] = (Txp[p] * 4) / 7 + shift[pInfo->OUTPUT_POWER];
+				Txp[p] = (Txp[p] * 4) / 7; // + shift[pInfo->OUTPUT_POWER];
 				break;
 			case 5:
 				Txp[p] = (Txp[p] * 3) / 4;
@@ -574,48 +581,6 @@ void RADIO_ConfigureSquelchAndOutputPower(VFO_Info_t *pInfo)
 				break;				
 		}
 	}
-	/*
-	// make low and mid even lower
-	// and use calibration values 
-	// be aware with toxic fucking closed firmwares
-
-	uint8_t shift[] = {0, 0, 0, 0, 0};
-
-	if (pInfo->OUTPUT_POWER == OUTPUT_POWER_LOW) {
-		for(uint8_t p = 0; p < 3; p++ )
-		{
-			switch (gSetting_set_low) {
-				case 0:
-					Txp[p] = (Txp[p] * 4) / 25 + shift[gSetting_set_low]; 
-					break;
-				case 1:
-					Txp[p] = (Txp[p] * 4) / 19 + shift[gSetting_set_low];
-					break;
-				case 2:
-					Txp[p] = (Txp[p] * 4) / 13 + shift[gSetting_set_low];
-					break;
-				case 3:
-					Txp[p] = (Txp[p] * 4) / 10 + shift[gSetting_set_low];
-					break;
-				case 4:
-					Txp[p] = (Txp[p] * 4) / 7 + shift[gSetting_set_low];
-					break;
-			}
-
-		}
-	}
-	else if (pInfo->OUTPUT_POWER == OUTPUT_POWER_MID){
-		Txp[0] = (Txp[0] * 3) / 4;
-		Txp[1] = (Txp[1] * 3) / 4;
-		Txp[2] = (Txp[2] * 3) / 4;
-	}
-	// increase high
-	else if (pInfo->OUTPUT_POWER == OUTPUT_POWER_HIGH){
-		Txp[0] = Txp[0] + 30;
-		Txp[1] = Txp[1] + 30;
-		Txp[2] = Txp[2] + 30;
-	}
-	*/
 #else
 	#ifdef ENABLE_REDUCE_LOW_MID_TX_POWER
 		// make low and mid even lower
