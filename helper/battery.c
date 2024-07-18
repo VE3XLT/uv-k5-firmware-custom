@@ -25,6 +25,7 @@
 #include "ui/battery.h"
 #include "ui/menu.h"
 #include "ui/ui.h"
+//#include "debugging.h"
 
 uint16_t          gBatteryCalibration[6];
 uint16_t          gBatteryCurrentVoltage;
@@ -113,13 +114,22 @@ void BATTERY_GetReadings(const bool bDisplayBatteryLevel)
 
 	if(gBatteryVoltageAverage > 890)
 		gBatteryDisplayLevel = 7; // battery overvoltage
-	else if(gBatteryVoltageAverage < 630)
+	else if(gBatteryVoltageAverage < 630 && (gEeprom.BATTERY_TYPE == BATTERY_TYPE_1600_MAH || gEeprom.BATTERY_TYPE == BATTERY_TYPE_2200_MAH))
+		gBatteryDisplayLevel = 0; // battery critical
+	else if(gBatteryVoltageAverage < 600 && (gEeprom.BATTERY_TYPE == BATTERY_TYPE_3500_MAH))
 		gBatteryDisplayLevel = 0; // battery critical
 	else {
 		gBatteryDisplayLevel = 1;
 		const uint8_t levels[] = {5,17,41,65,88};
 		uint8_t perc = BATTERY_VoltsToPercent(gBatteryVoltageAverage);
+		//char str[64];
+		//LogUart("----------\n");
+		//sprintf(str, "%d %d %d %d %d %d %d\n", gBatteryVoltages[0], gBatteryVoltages[1], gBatteryVoltages[2], gBatteryVoltages[3], Voltage, gBatteryVoltageAverage, perc);
+		//LogUart(str);
+
 		for(uint8_t i = 6; i >= 1; i--){
+			//sprintf(str, "%d %d %d\n", perc, levels[i-2], i);
+			//LogUart(str);
 			if (perc > levels[i-2]) {
 				gBatteryDisplayLevel = i;
 				break;
