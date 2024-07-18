@@ -637,8 +637,6 @@ static void MAIN_Key_MENU(bool bKeyPressed, bool bKeyHeld)
 
 	if (!bKeyPressed && !gDTMF_InputMode) { // menu key released
 		const bool bFlag = !gInputBoxIndex;
-		gInputBoxIndex   = 0;
-
 		if (bFlag) {
 			if (gScanStateDir != SCAN_OFF) {
 				CHFRSCANNER_Stop();
@@ -652,8 +650,24 @@ static void MAIN_Key_MENU(bool bKeyPressed, bool bKeyHeld)
 			#endif
 		}
 		else {
+			if (IS_MR_CHANNEL(gTxVfo->CHANNEL_SAVE)) {
+				uint8_t Channel;
+				Channel = gInputBox[0] - 1;
+				if (gInputBoxIndex == 2)
+					Channel = Channel * 10 + gInputBox[1];
+				if (!RADIO_CheckValidChannel(Channel, false, 0)) {
+					gBeepToPlay = BEEP_500HZ_60MS_DOUBLE_BEEP_OPTIONAL;
+					gInputBoxIndex = 0;
+					return;
+				}
+				gEeprom.MrChannel[gEeprom.TX_VFO]     = (uint8_t)Channel;
+				gEeprom.ScreenChannel[gEeprom.TX_VFO] = (uint8_t)Channel;
+				gRequestSaveVFO            = true;
+				gVfoConfigureMode          = VFO_CONFIGURE_RELOAD;
+			}
 			gRequestDisplayScreen = DISPLAY_MAIN;
 		}
+		gInputBoxIndex   = 0;
 	}
 }
 
