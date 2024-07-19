@@ -28,7 +28,7 @@ jobs:
       - name: Make
         run:  make
       - name: size
-        run:  arm-none-eabi-size firmware
+        run:  arm-none-eabi-size f4hwn
 
       - name: 'Upload Artifact'
         uses: actions/upload-artifact@v3
