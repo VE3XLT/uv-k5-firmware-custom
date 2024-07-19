@@ -39,5 +39,7 @@ jobs:
           asset_name: voiceless_$tag.packed.bin
           tag: ${{ github.ref }}
           overwrite: true
+          cache-from: type=local,src=/var/cache/pacman
+          cache-to: type=local,dest=/var/cache/pacman,mode=max
           release_name: release ${{ github.ref_name }}     
    
