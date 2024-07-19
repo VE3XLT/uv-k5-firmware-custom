@@ -10,11 +10,11 @@ jobs:
     container:
       image: archlinux:latest
     steps:
-      - name: Cache everything
+      - name: Cache pacman
         uses: actions/cache@v4
         with:
-          path: /
-          key: everything
+          path: /var/cache/pacman
+          key: pacman
       - name: base-devel, arm-none-eabi-gcc arm-none-eabi-newlib git python-pip python-crcmod
         run:  pacman -Syyu base-devel arm-none-eabi-gcc arm-none-eabi-newlib git python-pip python-crcmod --noconfirm
       - name: Checkout
@@ -40,4 +40,4 @@ jobs:
           tag: ${{ github.ref }}
           release_name: release ${{ github.ref_name }}  
           overwrite: true
-          cache-from: type=local,src=/
+#          cache-from: type=local,src=/var/cache/pacman
