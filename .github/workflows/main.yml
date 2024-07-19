@@ -14,6 +14,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: /var/cache/pacman
+          key: pacman
       - name: base-devel, arm-none-eabi-gcc arm-none-eabi-newlib git python-pip python-crcmod
         run:  pacman -Syyu base-devel arm-none-eabi-gcc arm-none-eabi-newlib git python-pip python-crcmod --noconfirm
       - name: Checkout
