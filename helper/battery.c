@@ -127,7 +127,7 @@ void BATTERY_GetReadings(const bool bDisplayBatteryLevel)
 		//sprintf(str, "%d %d %d %d %d %d %d\n", gBatteryVoltages[0], gBatteryVoltages[1], gBatteryVoltages[2], gBatteryVoltages[3], Voltage, gBatteryVoltageAverage, perc);
 		//LogUart(str);
 
-		for(uint8_t i = 6; i >= 1; i--){
+		for(uint8_t i = 6; i >= 2; i--){
 			//sprintf(str, "%d %d %d\n", perc, levels[i-2], i);
 			//LogUart(str);
 			if (perc > levels[i-2]) {
