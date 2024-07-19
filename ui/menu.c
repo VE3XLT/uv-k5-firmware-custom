@@ -352,15 +352,15 @@ const char gSubMenu_SCRAMBLER[][7] =
 #endif
 
 #ifdef ENABLE_FEAT_F4HWN
-	const char gSubMenu_SET_PWR[][7] =
+	const char gSubMenu_SET_PWR[][6] =
 	{
-		"< 20mW",
-		"125mW",
-		"250mW",
-		"500mW",
-		"1W",
-		"2W",
-		"5W"
+		"< 20m",
+		"125m",
+		"250m",
+		"500m",
+		"1",
+		"2",
+		"5"
 	};
 
 	const char gSubMenu_SET_PTT[][8] =
@@ -598,7 +598,7 @@ void UI_DisplayMenu(void)
 			}
 			else
 			{
-				sprintf(String, "%s\n%s", gSubMenu_TXP[gSubMenuSelection], gSubMenu_SET_PWR[gSubMenuSelection - 1]);
+				sprintf(String, "%s\n%sW", gSubMenu_TXP[gSubMenuSelection], gSubMenu_SET_PWR[gSubMenuSelection - 1]);
 			}
 			break;
 
@@ -962,7 +962,7 @@ void UI_DisplayMenu(void)
 
 #ifdef ENABLE_FEAT_F4HWN
 		case MENU_SET_PWR:
-			sprintf(String, "%s\n%s", gSubMenu_TXP[gSubMenuSelection + 1], gSubMenu_SET_PWR[gSubMenuSelection ]);
+			sprintf(String, "%s\n%sW", gSubMenu_TXP[gSubMenuSelection + 1], gSubMenu_SET_PWR[gSubMenuSelection]);
 			break;
 	
 		case MENU_SET_PTT:

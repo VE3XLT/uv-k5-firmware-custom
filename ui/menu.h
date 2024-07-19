@@ -166,7 +166,7 @@ extern const char        gSubMenu_D_RSP[4][11];
 #endif
 
 #ifdef ENABLE_FEAT_F4HWN
-	extern const char    gSubMenu_SET_PWR[7][7];
+	extern const char    gSubMenu_SET_PWR[7][6];
 	extern const char    gSubMenu_SET_PTT[2][8];
 	extern const char    gSubMenu_SET_TOT[4][7];
 	extern const char    gSubMenu_SET_LCK[2][9];
