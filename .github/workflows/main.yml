@@ -1,5 +1,8 @@
 on:
   push:
+    paths:
+      - '**.c'
+      - '**.h'
 
 jobs:
   build:
