@@ -4,11 +4,12 @@ This repository is a fork of [Armel's F4HWN firmware v2.8.1](https://github.com/
 
 Notable features:
 * FM Broadcast reception and Spectrum Analyzer always available--Forever!
-* Menu reorganized slightly to group channel settings together and move more frequently used options near default position.
+* Menu reorganized slightly to group channel settings together and move more frequently used options near default position. Still in progress--suggestions welcome!
 * Vox disabled. No more accidentally toggling it on.
-* Direct scanlist selection for channels (`F` + `1-3`)
+* Direct scanlist selection for channels (`F` + `1-3` in main screen)
 * Direct scanlist selection while scanning (`0` for No Lists, `1-3` to select a list, `*` to toggle between All Lists and Everything)
 * Spectrum analyzer squelch MUCH faster in spectrum mode (need testers to see what I might have broken though!)
+* Press Menu on partial channel input to jump to channel, for those cases when you forget to start the input with `0`.
 * Smoother battery % changes, no skipped steps.
 * FM 0.2MHz steps (scanning is twice as fast). Make sure to switch to 87.5-108M if you're in the USA!
 
