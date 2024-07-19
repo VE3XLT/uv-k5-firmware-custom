@@ -23,6 +23,7 @@
 #endif
 
 #include "driver/backlight.h"
+#include "driver/eeprom.h"
 #include "frequencies.h"
 #include "ui/helper.h"
 #include "ui/main.h"
@@ -104,6 +105,51 @@ RegisterSpec registerSpecs[] = {
 };
 
 uint16_t statuslineUpdateTimer = 0;
+
+static void LoadSettings()
+{
+  #ifdef ENABLE_FEAT_F4HWN
+    uint8_t Data[8] = {0};
+    // 1FF0..0x1FF7
+    EEPROM_ReadBuffer(0x1FF0, Data, 8);
+
+    settings.scanStepIndex = ((Data[4] & 0xF0) >> 4);
+
+    if(settings.scanStepIndex > 14)
+    {
+      settings.scanStepIndex = S_STEP_25_0kHz;
+    }
+
+    settings.stepsCount = ((Data[4] & 0x0F) & 0b1100) >> 2;
+
+    if(settings.stepsCount > 3)
+    {
+      settings.stepsCount = STEPS_64;
+    }
+
+    settings.listenBw = ((Data[4] & 0x0F) & 0b0011);
+
+    if(settings.listenBw > 2)
+    {
+      settings.listenBw = BK4819_FILTER_BW_WIDE;
+    }
+
+  #endif
+}
+
+static void SaveSettings()
+{
+  #ifdef ENABLE_FEAT_F4HWN
+    uint8_t Data[8] = {0};
+    // 1FF0..0x1FF7
+    EEPROM_ReadBuffer(0x1FF0, Data, 8);
+
+    Data[4] = (settings.scanStepIndex << 4) | (settings.stepsCount << 2) | settings.listenBw;
+
+    EEPROM_WriteBuffer(0x1FF0, Data);
+
+  #endif
+}
 
 static uint8_t DBm2S(int dbm) {
   uint8_t i = 0;
@@ -932,6 +978,7 @@ static void OnKeyDown(uint8_t key) {
       menuState = 0;
       break;
     }
+    SaveSettings();
     DeInitSpectrum();
     break;
   default:
@@ -1321,6 +1368,7 @@ static void Tick() {
 void APP_RunSpectrum() {
   // TX here coz it always? set to active VFO
   vfo = gEeprom.TX_VFO;
+  LoadSettings();
   // set the current frequency in the middle of the display
 #ifdef ENABLE_SCAN_RANGES
   if(gScanRangeStart) {
@@ -1349,7 +1397,7 @@ void APP_RunSpectrum() {
   ToggleRX(true), ToggleRX(false); // hack to prevent noise when squelch off
   RADIO_SetModulation(settings.modulationType = gTxVfo->Modulation);
 
-  BK4819_SetFilterBandwidth(settings.listenBw = BK4819_FILTER_BW_WIDE, false);
+  BK4819_SetFilterBandwidth(settings.listenBw, false);
 
   RelaunchScan();
 
