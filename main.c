@@ -123,6 +123,7 @@ void Main(void)
 
 	if (BootMode == BOOT_MODE_F_LOCK)
 	{
+
 		gF_LOCK = true;            // flag to say include the hidden menu items
 		#ifdef ENABLE_FEAT_F4HWN
 			gEeprom.KEY_LOCK = 0;
@@ -132,6 +133,7 @@ void Main(void)
 			#else
 				gMenuCursor = 64; // move to hidden section, fix me if change... !!!
 			#endif
+			gSubMenuSelection = gSetting_F_LOCK;
 		#endif
 	}
 

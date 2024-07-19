@@ -920,7 +920,11 @@ void UI_DisplayMenu(void)
 			break;
 
 		case MENU_F_LOCK:
+#ifdef ENABLE_FEAT_F4HWN
+			if(!gIsInSubMenu && gUnlockAllTxConfCnt>0 && gUnlockAllTxConfCnt<3)
+#else
 			if(!gIsInSubMenu && gUnlockAllTxConfCnt>0 && gUnlockAllTxConfCnt<10)
+#endif
 				strcpy(String, "READ\nMANUAL");
 			else
 				strcpy(String, gSubMenu_F_LOCK[gSubMenuSelection]);
