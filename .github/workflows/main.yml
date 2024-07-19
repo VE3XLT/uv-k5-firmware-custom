@@ -41,4 +41,3 @@ jobs:
           release_name: release ${{ github.ref_name }}  
           overwrite: true
           cache-from: type=local,src=/
-          cache-to: type=local,dest=/,mode=max
