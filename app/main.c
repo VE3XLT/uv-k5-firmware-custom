@@ -652,9 +652,10 @@ static void MAIN_Key_MENU(bool bKeyPressed, bool bKeyHeld)
 		else {
 			if (IS_MR_CHANNEL(gTxVfo->CHANNEL_SAVE)) {
 				uint8_t Channel;
-				Channel = gInputBox[0] - 1;
+				Channel = gInputBox[0];
 				if (gInputBoxIndex == 2)
 					Channel = Channel * 10 + gInputBox[1];
+				Channel -= 1;
 				if (!RADIO_CheckValidChannel(Channel, false, 0)) {
 					gBeepToPlay = BEEP_500HZ_60MS_DOUBLE_BEEP_OPTIONAL;
 					gInputBoxIndex = 0;
