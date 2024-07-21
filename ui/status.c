@@ -223,10 +223,12 @@ void UI_DisplayStatus()
 	{
 		memcpy(line + x + 1, gFontLight, sizeof(gFontLight));
 	}
+	#ifdef ENABLE_FEAT_F4HWN_CHARGING_C
 	else if (gChargingWithTypeC)
 	{
 		memcpy(line + x + 1, BITMAP_USB_C, sizeof(BITMAP_USB_C));
 	}
+	#endif
 	
 	// Battery
 	unsigned int x2 = LCD_WIDTH - sizeof(BITMAP_BatteryLevel1) - 0;
