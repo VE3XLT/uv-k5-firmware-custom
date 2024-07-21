@@ -59,7 +59,7 @@ ENABLE_LTO                    ?= 1
 #############################################################
 
 ifeq ($(ENABLE_FEAT_F4HWN),1)
-	TARGET = f4hwn
+	TARGET = voxless
 else
 	TARGET = firmware
 endif
