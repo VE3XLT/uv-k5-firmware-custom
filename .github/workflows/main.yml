@@ -1,5 +1,9 @@
 on:
   push:
+    paths:
+      - '**.c'
+      - '**.h'
+      - 'Makefile'
 
 jobs:
   build:
@@ -7,35 +11,26 @@ jobs:
     container:
       image: archlinux:latest
     steps:
-      - name: base-devel
-        run:  pacman -Syyu base-devel --noconfirm
-      - name: arm-none-eabi-gcc
-        run:  pacman -Syyu arm-none-eabi-gcc --noconfirm
-      - name: arm-none-eabi-newlib
-        run:  pacman -Syyu arm-none-eabi-newlib --noconfirm
-      - name: git
-        run:  pacman -Syyu git --noconfirm
-      - name: python-pip
-        run:  pacman -Syyu python-pip --noconfirm
-      - name: python-crcmod
-        run:  pacman -Syyu python-crcmod --noconfirm      
-
+      - name: Cache pacman
+        uses: actions/cache@v4
+        with:
+          path: /var/cache/pacman
+          key: pacman
+      - name: base-devel, arm-none-eabi-gcc arm-none-eabi-newlib git python-pip python-crcmod
+        run:  pacman -Syyu base-devel arm-none-eabi-gcc arm-none-eabi-newlib git python-pip python-crcmod --noconfirm
       - name: Checkout
         uses: actions/checkout@v3
-        
       - name: safe.directory
-        run:  git config --global --add safe.directory /__w/uv-k5-firmware-custom/uv-k5-firmware-custom        
+        run:  git config --global --add safe.directory /__w/uv-k5-firmware-custom/uv-k5-firmware-custom
       - name: Make
         run:  make
       - name: size
-        run:  arm-none-eabi-size firmware
-
+        run:  arm-none-eabi-size f4hwn
       - name: 'Upload Artifact'
         uses: actions/upload-artifact@v3
         with:
-          name: f4hwn
+          name: voxless_test.bin
           path: f4hwn*.bin
-
       - name: Upload binaries to release
         if: ${{ startsWith(github.ref, 'refs/tags/v') }}
         uses: svenstaro/upload-release-action@v2
@@ -44,6 +39,6 @@ jobs:
           file: f4hwn.packed.bin
           asset_name: voiceless_$tag.packed.bin
           tag: ${{ github.ref }}
+          release_name: release ${{ github.ref_name }}  
           overwrite: true
-          release_name: release ${{ github.ref_name }}     
-   
+#          cache-from: type=local,src=/var/cache/pacman
