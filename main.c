@@ -128,6 +128,7 @@ void Main(void)
 			gEeprom.KEY_LOCK = 0;
 			SETTINGS_SaveSettings();
 			gMenuCursor = 64; // move to hidden section, fix me if change... !!!
+			gSubMenuSelection = gSetting_F_LOCK;
 		#endif
 	}
 
