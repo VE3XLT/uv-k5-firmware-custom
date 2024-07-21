@@ -29,7 +29,7 @@ jobs:
       - name: 'Upload Artifact'
         uses: actions/upload-artifact@v3
         with:
-          name: voxless_test.bin
+          name: voxless_test
           path: f4hwn*.bin
       - name: Upload binaries to release
         if: ${{ startsWith(github.ref, 'refs/tags/v') }}
@@ -37,7 +37,7 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: f4hwn.packed.bin
-          asset_name: voiceless_$tag.packed.bin
+          asset_name: voxless_$tag.packed.bin
           tag: ${{ github.ref }}
           release_name: release ${{ github.ref_name }}  
           overwrite: true
