@@ -127,7 +127,7 @@ void Main(void)
 		#ifdef ENABLE_FEAT_F4HWN
 			gEeprom.KEY_LOCK = 0;
 			SETTINGS_SaveSettings();
-			gMenuCursor = 64; // move to hidden section, fix me if change... !!!
+			gMenuCursor = 63; // move to hidden section, fix me if change... !!!
 			gSubMenuSelection = gSetting_F_LOCK;
 		#endif
 	}
