@@ -26,7 +26,7 @@ Anyway, have fun.
 
 # Donations
 
-Special thanks to Jean-Cyrille F6IWW, Fabrice 14RC123, David F4BPP, Olivier 14RC206, Frédéric F4ESO, Stéphane F5LGW, Jorge Ornelas, Laurent F4AXK, Christophe Morel, Clayton W0LED, Pierre Antoine F6FWB, Jean-Claude 14FRS3306, Thierry F4GVO, Eric F1NOU, PricelessToolkit, Ady M6NYJ, Tom McGovern, Joseph Roth, Pierre-Yves Colin, Frank DJ7FG, Marcel Testaz and Brian Frobisher for their [donations](https://www.paypal.com/paypalme/F4HWN). That’s so kind of them. Thanks so much 🙏🏻
+Special thanks to Jean-Cyrille F6IWW, Fabrice 14RC123, David F4BPP, Olivier 14RC206, Frédéric F4ESO, Stéphane F5LGW, Jorge Ornelas, Laurent F4AXK, Christophe Morel, Clayton W0LED, Pierre Antoine F6FWB, Jean-Claude 14FRS3306, Thierry F4GVO, Eric F1NOU, PricelessToolkit, Ady M6NYJ, Tom McGovern, Joseph Roth, Pierre-Yves Colin, Frank DJ7FG, Marcel Testaz, Brian Frobisher, Yannick F4JFO and Paolo Bussola for their [donations](https://www.paypal.com/paypalme/F4HWN). That’s so kind of them. Thanks so much 🙏🏻
 
 ## Table of Contents
 
@@ -43,9 +43,15 @@ Special thanks to Jean-Cyrille F6IWW, Fabrice 14RC123, David F4BPP, Olivier 14RC
 
 ## Main features:
 
-* improve default power settings level (Low ~125mW, Mid ~2W and High ~5W),
+* improve default power settings level: 
+    * Low1 to Low5 (<~20mW, ~125mW, ~250mW, ~500mW, ~1W), 
+    * Mid ~2W, 
+    * High ~5W,
+    * User (see SetPwr),
 * improve s-meter (IARU recommandations),
-* improve bandscope (Spectrum Analyser) and add channel name,
+* improve bandscope (Spectrum Analyser):
+    * add channel name,
+    * add save of some spectrum parameters,
 * improve UI: 
     * menu index is always visible, even if a menu is selected,
     * s-meter new design (Classic or Tiny), 
@@ -64,7 +70,7 @@ Special thanks to Jean-Cyrille F6IWW, Fabrice 14RC123, David F4BPP, Olivier 14RC
     * improve memory channel input,
     * and more...
 * new menu entries and changes:
-    * add SetLow menu to set low power (<20mW, 125mW, 250mW, 500mW and 1W),
+    * add SetPwr menu to set User power (<20mW, 125mW, 250mW, 500mW, 1W, 2W or 5W),
     * add SetPtt menu to set PTT mode (Classic or OnePush),
     * add SetTot menu to set TOT alert (Off, Sound, Visual, All),
     * add SetCtr menu to set contrast (0 to 15),
@@ -81,23 +87,24 @@ Special thanks to Jean-Cyrille F6IWW, Fabrice 14RC123, David F4BPP, Olivier 14RC
     * add HAM CA F Lock band (for Canadian zone),
     * add GMRS/FRS/MURS F Lock (for North America zone),
     * remove blink and SOS functionality, 
-    * remove AM Fix menu (AM Fix is ENABLED by default).
+    * remove AM Fix menu (AM Fix is ENABLED by default),
+    * add support of 3500mAh battery,
 * improve status bar:
     * add SetPtt mode in status bar,
     * change font and bitmaps,
     * move USB icon to left of battery information,
     * add RX and TX timers,
 * improve lists and scan lists options:
-    * add new list 3
-    * add new list 0 (channel without list...)
-    * add new scan lists options
-        * scan list 0 (all channels without list)
-        * scan list 1
-        * scan list 2
-        * scan list 3
-        * scan lists [1, 2, 3]
-        * scan all (all channels with ou without list)
-    * add scan list shortcuts 
+    * add new list 3,
+    * add new list 0 (channel without list...),
+    * add new scan lists options,
+        * scan list 0 (all channels without list),
+        * scan list 1,
+        * scan list 2,
+        * scan list 3,
+        * scan lists [1, 2, 3],
+        * scan all (all channels with ou without list),
+    * add scan list shortcuts,
 * new actions:
     * RX MODE,
     * MAIN ONLY,

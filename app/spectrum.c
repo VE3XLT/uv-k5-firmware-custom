@@ -31,6 +31,10 @@
   #include "screenshot.h"
 #endif
 
+#ifdef ENABLE_FEAT_F4HWN_SPECTRUM
+  #include "driver/eeprom.h"
+#endif
+
 struct FrequencyBandInfo {
   uint32_t lower;
   uint32_t upper;
@@ -104,6 +108,47 @@ RegisterSpec registerSpecs[] = {
 };
 
 uint16_t statuslineUpdateTimer = 0;
+
+#ifdef ENABLE_FEAT_F4HWN_SPECTRUM
+  static void LoadSettings()
+  {
+    uint8_t Data[8] = {0};
+    // 1FF0..0x1FF7
+    EEPROM_ReadBuffer(0x1FF0, Data, 8);
+
+    settings.scanStepIndex = ((Data[4] & 0xF0) >> 4);
+
+    if(settings.scanStepIndex > 14)
+    {
+      settings.scanStepIndex = S_STEP_25_0kHz;
+    }
+
+    settings.stepsCount = ((Data[4] & 0x0F) & 0b1100) >> 2;
+
+    if(settings.stepsCount > 3)
+    {
+      settings.stepsCount = STEPS_64;
+    }
+
+    settings.listenBw = ((Data[4] & 0x0F) & 0b0011);
+
+    if(settings.listenBw > 2)
+    {
+      settings.listenBw = BK4819_FILTER_BW_WIDE;
+    }
+  }
+
+  static void SaveSettings()
+  {
+    uint8_t Data[8] = {0};
+    // 1FF0..0x1FF7
+    EEPROM_ReadBuffer(0x1FF0, Data, 8);
+
+    Data[4] = (settings.scanStepIndex << 4) | (settings.stepsCount << 2) | settings.listenBw;
+
+    EEPROM_WriteBuffer(0x1FF0, Data);
+  }
+#endif
 
 static uint8_t DBm2S(int dbm) {
   uint8_t i = 0;
@@ -671,7 +716,7 @@ static void Blacklist() {
 #ifdef ENABLE_SCAN_RANGES
 static bool IsBlacklisted(uint16_t idx)
 {
-  if(blacklistFreqs[0]) // cheaper than checking blacklistFreqsIdx
+  if(blacklistFreqsIdx)
     for(uint8_t i = 0; i < ARRAY_SIZE(blacklistFreqs); i++)
       if(blacklistFreqs[i] == idx)
         return true;
@@ -932,6 +977,9 @@ static void OnKeyDown(uint8_t key) {
       menuState = 0;
       break;
     }
+    #ifdef ENABLE_FEAT_F4HWN_SPECTRUM
+      SaveSettings();
+    #endif
     DeInitSpectrum();
     break;
   default:
@@ -1321,6 +1369,9 @@ static void Tick() {
 void APP_RunSpectrum() {
   // TX here coz it always? set to active VFO
   vfo = gEeprom.TX_VFO;
+#ifdef ENABLE_FEAT_F4HWN_SPECTRUM
+  LoadSettings();
+#endif
   // set the current frequency in the middle of the display
 #ifdef ENABLE_SCAN_RANGES
   if(gScanRangeStart) {
@@ -1345,11 +1396,14 @@ void APP_RunSpectrum() {
   redrawScreen = true;
   newScanStart = true;
 
-
   ToggleRX(true), ToggleRX(false); // hack to prevent noise when squelch off
   RADIO_SetModulation(settings.modulationType = gTxVfo->Modulation);
 
-  BK4819_SetFilterBandwidth(settings.listenBw = BK4819_FILTER_BW_WIDE, false);
+  #ifdef ENABLE_FEAT_F4HWN_SPECTRUM
+    BK4819_SetFilterBandwidth(settings.listenBw, false);
+  #else
+    BK4819_SetFilterBandwidth(settings.listenBw = BK4819_FILTER_BW_WIDE, false);
+  #endif
 
   RelaunchScan();
 

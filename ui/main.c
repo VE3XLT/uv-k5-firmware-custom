@@ -1072,9 +1072,13 @@ void UI_DisplayMain(void)
 			{	// TX power level
 				switch (gRxVfo->OUTPUT_POWER)
 				{
-					case OUTPUT_POWER_LOW:  Level = 2; break;
-					case OUTPUT_POWER_MID:  Level = 4; break;
-					case OUTPUT_POWER_HIGH: Level = 6; break;
+					case OUTPUT_POWER_LOW1:  	Level = 2; break;
+					case OUTPUT_POWER_LOW2:  	Level = 2; break;
+					case OUTPUT_POWER_LOW3:  	Level = 2; break;
+					case OUTPUT_POWER_LOW4:  	Level = 2; break;
+					case OUTPUT_POWER_LOW5:  	Level = 2; break;
+					case OUTPUT_POWER_MID:	Level = 4; break;
+					case OUTPUT_POWER_HIGH: 	Level = 6; break;
 				}
 			}
 			else
@@ -1148,7 +1152,7 @@ void UI_DisplayMain(void)
 
 		if (isMainOnly(true))
 		{
-			UI_PrintStringSmallNormal(s, LCD_WIDTH + 24, 0, line + 1);
+			UI_PrintStringSmallNormal(s, LCD_WIDTH + 22, 0, line + 1);
 			UI_PrintStringSmallNormal(t, LCD_WIDTH + 2, 0, line + 1);
 
 			if (isMainOnly(false) && !gDTMF_InputMode)
@@ -1190,38 +1194,39 @@ void UI_DisplayMain(void)
 
 		if (state == VFO_STATE_NORMAL || state == VFO_STATE_ALARM)
 		{	// show the TX power
-			int i = vfoInfo->OUTPUT_POWER % 3;
-#if ENABLE_FEAT_F4HWN
-		if (isMainOnly(true))
-		{
-			const char pwr_short[][2] = {"L","M","H"};
-			if(i == 0)
+			uint8_t currentPower = vfoInfo->OUTPUT_POWER % 8;
+			uint8_t arrowPos = 19;
+			bool userPower = false;
+
+			if(currentPower == OUTPUT_POWER_USER)
 			{
-				sprintf(String, "%s%d", pwr_short[i], gSetting_set_low + 1);
+				currentPower = gSetting_set_pwr;
+				userPower = true;
 			}
 			else
 			{
-				sprintf(String, "%s", pwr_short[i]);				
+				currentPower--;
+				userPower = false;
 			}
-			UI_PrintStringSmallNormal(String, LCD_WIDTH + 44, 0, line + 1);
-		}
-		else
-		{
-			const char pwr_long[][5] = {"LOW", "MID", "HIGH"};
-			if(i == 0)
+
+			if (isMainOnly(true))
 			{
-				sprintf(String, "%s%d", pwr_long[i], gSetting_set_low + 1);
+				const char pwr_short[][3] = {"L1", "L2", "L3", "L4", "L5", "M", "H"};
+				sprintf(String, "%s", pwr_short[currentPower]);
+				UI_PrintStringSmallNormal(String, LCD_WIDTH + 42, 0, line + 1);
+				arrowPos = 38;
 			}
 			else
 			{
-				sprintf(String, "%s", pwr_long[i]);				
+				const char pwr_long[][5] = {"LOW1", "LOW2", "LOW3", "LOW4", "LOW5", "MID", "HIGH"};
+				sprintf(String, "%s", pwr_long[currentPower]);
+				GUI_DisplaySmallest(String, 24, line == 0 ? 17 : 49, false, true);
 			}
-			GUI_DisplaySmallest(String, 24, line == 0 ? 17 : 49, false, true);
-		}
-#else
-			const char pwr_list[][2] = {"L","M","H"};
-			UI_PrintStringSmallNormal(pwr_list[i], LCD_WIDTH + 46, 0, line + 1);
-#endif
+
+			if(userPower == true)
+			{
+				memcpy(p_line0 + 256 + arrowPos, BITMAP_PowerUser, sizeof(BITMAP_PowerUser));
+			}
 		}
 
 		if (vfoInfo->freq_config_RX.Frequency != vfoInfo->freq_config_TX.Frequency)
@@ -1434,7 +1439,7 @@ void UI_DisplayMain(void)
 		UI_PrintStringSmallBold(String, 92, 0, 6);
 		for (uint8_t i = 92; i < 128; i++)
 		{
-			gFrameBuffer[6][i] ^= 0xFF;
+			gFrameBuffer[6][i] ^= 0x7F;
 		}
 	}
 #endif

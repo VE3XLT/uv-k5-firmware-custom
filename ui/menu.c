@@ -134,7 +134,7 @@ const t_menu_item MenuList[] =
 	{"RxMode",		MENU_TDR           },
 	{"Sql",			MENU_SQL           },
 #ifdef ENABLE_FEAT_F4HWN
-	{"SetLow",		MENU_SET_LOW       },
+	{"SetPwr",		MENU_SET_PWR       },
 	{"SetPtt",		MENU_SET_PTT       },
 	{"SetTot",		MENU_SET_TOT       },
 	{"SetEot",		MENU_SET_EOT       },
@@ -166,9 +166,14 @@ const t_menu_item MenuList[] =
 
 const uint8_t FIRST_HIDDEN_MENU_ITEM = MENU_F_LOCK;
 
-const char gSubMenu_TXP[][5] =
+const char gSubMenu_TXP[][6] =
 {
-	"LOW",
+	"USER",
+	"LOW 1",
+	"LOW 2",
+	"LOW 3",
+	"LOW 4",
+	"LOW 5",
 	"MID",
 	"HIGH"
 };
@@ -290,7 +295,7 @@ const char * const gSubMenu_F_LOCK[] =
 {
 	"DEFAULT+\n137-174\n400-470",
 	"FCC HAM\n144-148\n420-450",
-#ifdef ENABLE_FEAT_F4HWN_PMR
+#ifdef ENABLE_FEAT_F4HWN_CA
 	"CA HAM\n144-148\n430-450",
 #endif
 	"CE HAM\n144-146\n430-440",
@@ -299,6 +304,8 @@ const char * const gSubMenu_F_LOCK[] =
 	"137-174\n400-438",
 #ifdef ENABLE_FEAT_F4HWN_PMR
 	"PMR 446",
+#endif
+#ifdef ENABLE_FEAT_F4HWN_GMRS_FRS_MURS
 	"GMRS\nFRS\nMURS",
 #endif
 	"DISABLE\nALL",
@@ -323,7 +330,8 @@ const char gSubMenu_BAT_TXT[][8] =
 const char gSubMenu_BATTYP[][9] =
 {
 	"1600mAh",
-	"2200mAh"
+	"2200mAh",
+	"3500mAh"
 };
 
 #ifndef ENABLE_FEAT_F4HWN
@@ -344,13 +352,15 @@ const char gSubMenu_SCRAMBLER[][7] =
 #endif
 
 #ifdef ENABLE_FEAT_F4HWN
-	const char gSubMenu_SET_LOW[][7] =
+	const char gSubMenu_SET_PWR[][6] =
 	{
-		"< 20mW",
-		"125mW",
-		"250mW",
-		"500mW",
-		"1W"
+		"< 20m",
+		"125m",
+		"250m",
+		"500m",
+		"1",
+		"2",
+		"5"
 	};
 
 	const char gSubMenu_SET_PTT[][8] =
@@ -582,7 +592,14 @@ void UI_DisplayMenu(void)
 		}
 
 		case MENU_TXP:
-			strcpy(String, gSubMenu_TXP[gSubMenuSelection]);
+			if(gSubMenuSelection == 0)
+			{
+				strcpy(String, gSubMenu_TXP[gSubMenuSelection]);
+			}
+			else
+			{
+				sprintf(String, "%s\n%sW", gSubMenu_TXP[gSubMenuSelection], gSubMenu_SET_PWR[gSubMenuSelection - 1]);
+			}
 			break;
 
 		case MENU_R_DCS:
@@ -903,7 +920,11 @@ void UI_DisplayMenu(void)
 			break;
 
 		case MENU_F_LOCK:
+#ifdef ENABLE_FEAT_F4HWN
+			if(!gIsInSubMenu && gUnlockAllTxConfCnt>0 && gUnlockAllTxConfCnt<3)
+#else
 			if(!gIsInSubMenu && gUnlockAllTxConfCnt>0 && gUnlockAllTxConfCnt<10)
+#endif
 				strcpy(String, "READ\nMANUAL");
 			else
 				strcpy(String, gSubMenu_F_LOCK[gSubMenuSelection]);
@@ -944,10 +965,10 @@ void UI_DisplayMenu(void)
 			break;
 
 #ifdef ENABLE_FEAT_F4HWN
-		case MENU_SET_LOW:
-			strcpy(String, gSubMenu_SET_LOW[gSubMenuSelection]);
+		case MENU_SET_PWR:
+			sprintf(String, "%s\n%sW", gSubMenu_TXP[gSubMenuSelection + 1], gSubMenu_SET_PWR[gSubMenuSelection]);
 			break;
-
+	
 		case MENU_SET_PTT:
 			strcpy(String, gSubMenu_SET_PTT[gSubMenuSelection]);
 			break;

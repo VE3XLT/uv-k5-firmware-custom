@@ -41,7 +41,7 @@ typedef enum POWER_OnDisplayMode_t POWER_OnDisplayMode_t;
 enum TxLockModes_t {
 	F_LOCK_DEF, //all default frequencies + configurable
 	F_LOCK_FCC,
-#ifdef ENABLE_FEAT_F4HWN_PMR
+#ifdef ENABLE_FEAT_F4HWN_CA
 	F_LOCK_CA,
 #endif
 	F_LOCK_CE,
@@ -50,6 +50,8 @@ enum TxLockModes_t {
 	F_LOCK_438,
 #ifdef ENABLE_FEAT_F4HWN_PMR
 	F_LOCK_PMR,
+#endif
+#ifdef ENABLE_FEAT_F4HWN_GMRS_FRS_MURS
 	F_LOCK_GMRS_FRS_MURS,
 #endif
 	F_LOCK_ALL,	// disable TX on all frequencies
@@ -82,7 +84,12 @@ enum {
 };
 
 enum {
-	OUTPUT_POWER_LOW = 0,
+	OUTPUT_POWER_USER = 0,
+	OUTPUT_POWER_LOW1,
+	OUTPUT_POWER_LOW2,
+	OUTPUT_POWER_LOW3,
+	OUTPUT_POWER_LOW4,
+	OUTPUT_POWER_LOW5,
 	OUTPUT_POWER_MID,
 	OUTPUT_POWER_HIGH
 };

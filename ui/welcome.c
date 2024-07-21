@@ -47,6 +47,7 @@ void UI_DisplayWelcome(void)
 {
 	char WelcomeString0[16];
 	char WelcomeString1[16];
+	char WelcomeString2[16];
 
 	memset(gStatusLine,  0, sizeof(gStatusLine));
 
@@ -69,7 +70,10 @@ void UI_DisplayWelcome(void)
 		memset(WelcomeString0, 0, sizeof(WelcomeString0));
 		memset(WelcomeString1, 0, sizeof(WelcomeString1));
 
-		sprintf(WelcomeString1, "%u.%02uV %u%%",
+		EEPROM_ReadBuffer(0x0EB0, WelcomeString0, 16);
+		EEPROM_ReadBuffer(0x0EC0, WelcomeString1, 16);
+
+		sprintf(WelcomeString2, "%u.%02uV %u%%",
 				gBatteryVoltageAverage / 100,
 				gBatteryVoltageAverage % 100,
 				BATTERY_VoltsToPercent(gBatteryVoltageAverage));
@@ -77,15 +81,30 @@ void UI_DisplayWelcome(void)
 		if (gEeprom.POWER_ON_DISPLAY_MODE == POWER_ON_DISPLAY_MODE_VOLTAGE)
 		{
 			strcpy(WelcomeString0, "VOLTAGE");
+			strcpy(WelcomeString1, WelcomeString2);
 		}
 		else if(gEeprom.POWER_ON_DISPLAY_MODE == POWER_ON_DISPLAY_MODE_ALL)
 		{
-			EEPROM_ReadBuffer(0x0EB0, WelcomeString0, 16);
+			if(strlen(WelcomeString0) == 0 && strlen(WelcomeString1) == 0)
+			{
+				strcpy(WelcomeString0, "WELCOME");
+				strcpy(WelcomeString1, WelcomeString2);
+			}
+			else if(strlen(WelcomeString0) == 0 || strlen(WelcomeString1) == 0)
+			{
+				if(strlen(WelcomeString0) == 0)
+				{
+					strcpy(WelcomeString0, WelcomeString1);
+				}
+				strcpy(WelcomeString1, WelcomeString2);
+			}
 		}
 		else if(gEeprom.POWER_ON_DISPLAY_MODE == POWER_ON_DISPLAY_MODE_MESSAGE)
 		{
-			EEPROM_ReadBuffer(0x0EB0, WelcomeString0, 16);
-			EEPROM_ReadBuffer(0x0EC0, WelcomeString1, 16);
+			if(strlen(WelcomeString0) == 0)
+			{
+				strcpy(WelcomeString0, "WELCOME");
+			}
 
 			if(strlen(WelcomeString1) == 0)
 			{

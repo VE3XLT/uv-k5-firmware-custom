@@ -272,6 +272,14 @@ const uint8_t BITMAP_Ready[7] =
 	0b00000010,
 };
 
+const uint8_t BITMAP_PowerUser[3] =
+{	// 'arrow' symbol
+	0b00111110,
+	0b00011100,
+	0b00001000,
+};
+
+
 #ifndef ENABLE_CUSTOM_MENU_LAYOUT
 const uint8_t BITMAP_CurrentIndicator[8] = {
 	0xFF,

@@ -123,7 +123,7 @@ enum
 	MENU_F_CALI,  // reference xtal calibration
 #endif
 #ifdef ENABLE_FEAT_F4HWN
-	MENU_SET_LOW,
+	MENU_SET_PWR,
 	MENU_SET_PTT,
 	MENU_SET_TOT,
 	MENU_SET_EOT,
@@ -145,7 +145,7 @@ enum
 extern const uint8_t FIRST_HIDDEN_MENU_ITEM;
 extern const t_menu_item MenuList[];
 
-extern const char        gSubMenu_TXP[3][5];
+extern const char        gSubMenu_TXP[8][6];
 extern const char        gSubMenu_SFT_D[3][4];
 extern const char        gSubMenu_W_N[2][7];
 extern const char        gSubMenu_OFF_ON[2][4];
@@ -166,7 +166,7 @@ extern const char        gSubMenu_D_RSP[4][11];
 #endif
 
 #ifdef ENABLE_FEAT_F4HWN
-	extern const char    gSubMenu_SET_LOW[5][7];
+	extern const char    gSubMenu_SET_PWR[7][6];
 	extern const char    gSubMenu_SET_PTT[2][8];
 	extern const char    gSubMenu_SET_TOT[4][7];
 	extern const char    gSubMenu_SET_LCK[2][9];
@@ -184,7 +184,7 @@ extern const char        gSubMenu_RESET[2][4];
 extern const char* const gSubMenu_F_LOCK[F_LOCK_LEN];
 extern const char        gSubMenu_RX_TX[4][6];
 extern const char        gSubMenu_BAT_TXT[3][8];
-extern const char 		 gSubMenu_BATTYP[2][9];
+extern const char 		 gSubMenu_BATTYP[3][9];
 
 #ifndef ENABLE_FEAT_F4HWN
 	extern const char        gSubMenu_SCRAMBLER[11][7];

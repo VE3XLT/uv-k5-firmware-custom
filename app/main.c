@@ -224,9 +224,7 @@ static void processFKeyFunction(const KEY_Code_t Key, const bool beep)
 #endif
 			}
 			else {
-#ifdef ENABLE_VOX
 				toggle_chan_scanlist();
-#endif
 			}
 
 			break;
@@ -238,8 +236,8 @@ static void processFKeyFunction(const KEY_Code_t Key, const bool beep)
 		case KEY_7:
 #ifdef ENABLE_VOX
 			ACTION_Vox();
-#else
-			toggle_chan_scanlist();
+//#else
+//			toggle_chan_scanlist();
 #endif
 			break;
 
@@ -316,19 +314,19 @@ static void processFKeyFunction(const KEY_Code_t Key, const bool beep)
 	}
 }
 
-void channelMove(uint16_t Channel, bool End)
+void channelMove(uint16_t Channel)
 {
 	const uint8_t Vfo = gEeprom.TX_VFO;
 
-	if(End)
-	{
-		gInputBoxIndex = 0;
-	}
-
 	if (!RADIO_CheckValidChannel(Channel, false, 0)) {
-		gBeepToPlay = BEEP_500HZ_60MS_DOUBLE_BEEP_OPTIONAL;
+		if (gKeyInputCountdown <= 1) {
+			gBeepToPlay = BEEP_500HZ_60MS_DOUBLE_BEEP_OPTIONAL;
+		}
+
 		return;
 	}
+
+	gBeepToPlay = BEEP_NONE;
 
 	#ifdef ENABLE_VOICE
 		gAnotherVoiceID        = (VOICE_ID_t)Key;
@@ -340,12 +338,43 @@ void channelMove(uint16_t Channel, bool End)
 	gVfoConfigureMode          = VFO_CONFIGURE_RELOAD;
 
 	RADIO_ConfigureChannel(gEeprom.TX_VFO, gVfoConfigureMode);
-	if(End)
-	{
-		SETTINGS_SaveVfoIndices();
-	}
-
+	
 	return;
+}
+
+void channelMoveSwitch(void) {
+	if (IS_MR_CHANNEL(gTxVfo->CHANNEL_SAVE)) { // user is entering channel number
+		uint16_t Channel = 0;
+
+		switch (gInputBoxIndex)
+		{
+			case 1:
+				Channel = gInputBox[0];
+				break;
+			case 2:
+				Channel = (gInputBox[0] * 10) + gInputBox[1];
+				break;
+			case 3:
+				Channel = (gInputBox[0] * 100) + (gInputBox[1] * 10) + gInputBox[2];
+				break;
+		}
+
+		if ((Channel == 0) && (gInputBoxIndex != 3)) {
+			return;
+		}
+
+		if (gInputBoxIndex == 3) {
+			gInputBoxIndex = 0;
+			gKeyInputCountdown = 1;
+
+			channelMove(Channel - 1);
+			SETTINGS_SaveVfoIndices();
+			
+			return;
+		}
+
+		channelMove(Channel - 1);
+	}
 }
 
 static void MAIN_Key_DIGITS(KEY_Code_t Key, bool bKeyPressed, bool bKeyHeld)
@@ -402,23 +431,22 @@ static void MAIN_Key_DIGITS(KEY_Code_t Key, bool bKeyPressed, bool bKeyHeld)
 		}
 
 		const uint8_t Vfo = gEeprom.TX_VFO;
-		gKeyInputCountdown = key_input_timeout_500ms;
 		INPUTBOX_Append(Key);
+		gKeyInputCountdown = key_input_timeout_500ms;
+
+		channelMoveSwitch();
+
 		gRequestDisplayScreen = DISPLAY_MAIN;
 
 		if (IS_MR_CHANNEL(gTxVfo->CHANNEL_SAVE)) { // user is entering channel number
 
 			gKeyInputCountdown = (key_input_timeout_500ms / 5); // short time...
 
-			if (gInputBoxIndex != 3) {
-				#ifdef ENABLE_VOICE
-					gAnotherVoiceID   = (VOICE_ID_t)Key;
-				#endif
-				gRequestDisplayScreen = DISPLAY_MAIN;
-				return;
-			}
-
-			channelMove(((gInputBox[0] * 100) + (gInputBox[1] * 10) + gInputBox[2]) - 1, true);
+			#ifdef ENABLE_VOICE
+				gAnotherVoiceID   = (VOICE_ID_t)Key;
+			#endif
+			
+			return;
 		}
 
 //		#ifdef ENABLE_NOAA

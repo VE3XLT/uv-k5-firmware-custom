@@ -25,6 +25,7 @@
 #include "ui/battery.h"
 #include "ui/menu.h"
 #include "ui/ui.h"
+//#include "debugging.h"
 
 uint16_t          gBatteryCalibration[6];
 uint16_t          gBatteryCurrentVoltage;
@@ -44,14 +45,12 @@ typedef enum {
 	BATTERY_LOW_CONFIRMED
 } BatteryLow_t;
 
-
 uint16_t          lowBatteryCountdown;
 const uint16_t 	  lowBatteryPeriod = 30;
 
 volatile uint16_t gPowerSave_10ms;
 
-
-const uint16_t Voltage2PercentageTable[][7][2] = {
+const uint16_t Voltage2PercentageTable[][7][3] = {
 	[BATTERY_TYPE_1600_MAH] = {
 		{828, 100},
 		{814, 97 },
@@ -71,15 +70,28 @@ const uint16_t Voltage2PercentageTable[][7][2] = {
 		{630, 0  },
 		{0,   0  },
 	},
+
+	[BATTERY_TYPE_3500_MAH] = {
+		{837, 100},
+		{826, 95 },
+		{750, 50 },
+		{700, 25 },
+		{620, 5  },
+		{600, 0  },
+		{0,   0  },
+	},
 };
 
-static_assert(ARRAY_SIZE(Voltage2PercentageTable[BATTERY_TYPE_1600_MAH]) ==
-	ARRAY_SIZE(Voltage2PercentageTable[BATTERY_TYPE_2200_MAH]));
-
+static_assert(
+	(ARRAY_SIZE(Voltage2PercentageTable[BATTERY_TYPE_1600_MAH]) ==
+	ARRAY_SIZE(Voltage2PercentageTable[BATTERY_TYPE_2200_MAH])) &&
+	(ARRAY_SIZE(Voltage2PercentageTable[BATTERY_TYPE_2200_MAH]) ==
+	ARRAY_SIZE(Voltage2PercentageTable[BATTERY_TYPE_3500_MAH]))
+	);
 
 unsigned int BATTERY_VoltsToPercent(const unsigned int voltage_10mV)
 {
-	const uint16_t (*crv)[2] = Voltage2PercentageTable[gEeprom.BATTERY_TYPE];
+	const uint16_t (*crv)[3] = Voltage2PercentageTable[gEeprom.BATTERY_TYPE];
 	const int mulipl = 1000;
 	for (unsigned int i = 1; i < ARRAY_SIZE(Voltage2PercentageTable[BATTERY_TYPE_2200_MAH]); i++) {
 		if (voltage_10mV > crv[i][0]) {
@@ -102,13 +114,22 @@ void BATTERY_GetReadings(const bool bDisplayBatteryLevel)
 
 	if(gBatteryVoltageAverage > 890)
 		gBatteryDisplayLevel = 7; // battery overvoltage
-	else if(gBatteryVoltageAverage < 630)
+	else if(gBatteryVoltageAverage < 630 && (gEeprom.BATTERY_TYPE == BATTERY_TYPE_1600_MAH || gEeprom.BATTERY_TYPE == BATTERY_TYPE_2200_MAH))
+		gBatteryDisplayLevel = 0; // battery critical
+	else if(gBatteryVoltageAverage < 600 && (gEeprom.BATTERY_TYPE == BATTERY_TYPE_3500_MAH))
 		gBatteryDisplayLevel = 0; // battery critical
 	else {
 		gBatteryDisplayLevel = 1;
 		const uint8_t levels[] = {5,17,41,65,88};
 		uint8_t perc = BATTERY_VoltsToPercent(gBatteryVoltageAverage);
-		for(uint8_t i = 6; i >= 1; i--){
+		//char str[64];
+		//LogUart("----------\n");
+		//sprintf(str, "%d %d %d %d %d %d %d\n", gBatteryVoltages[0], gBatteryVoltages[1], gBatteryVoltages[2], gBatteryVoltages[3], Voltage, gBatteryVoltageAverage, perc);
+		//LogUart(str);
+
+		for(uint8_t i = 6; i >= 2; i--){
+			//sprintf(str, "%d %d %d\n", perc, levels[i-2], i);
+			//LogUart(str);
 			if (perc > levels[i-2]) {
 				gBatteryDisplayLevel = i;
 				break;
