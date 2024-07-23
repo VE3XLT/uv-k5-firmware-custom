@@ -42,8 +42,6 @@ static void NextMemChannel(void);
 
 void CHFRSCANNER_Start(const bool storeBackupSettings, const int8_t scan_direction)
 {
-	unsigned int chan;
-
 	if (storeBackupSettings) {
 		initialCROSS_BAND_RX_TX = gEeprom.CROSS_BAND_RX_TX;
 		gEeprom.CROSS_BAND_RX_TX = CROSS_BAND_OFF;
@@ -57,13 +55,10 @@ void CHFRSCANNER_Start(const bool storeBackupSettings, const int8_t scan_directi
 	gScanStateDir    = scan_direction;
 
 	if (gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) {
-		chan = (gEeprom.RX_VFO + 1) & 1u;
-		chan = gEeprom.ScreenChannel[chan];
-		if (IS_MR_CHANNEL(chan))
-		{
-			currentScanList = SCAN_NEXT_CHAN_DUAL_WATCH;
-			dwchan   = chan;
-		}
+		dwchan = (gEeprom.RX_VFO + 1) & 1u;
+		dwchan = gEeprom.ScreenChannel[dwchan];
+		if (!IS_MR_CHANNEL(dwchan))
+			dwchan = 0;
 	
 	}
 
