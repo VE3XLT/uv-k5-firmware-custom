@@ -188,9 +188,9 @@ typedef struct {
 	uint8_t               BACKLIGHT_TIME;
 	uint8_t               SCAN_RESUME_MODE;
 	uint8_t               SCAN_LIST_DEFAULT;
-	bool                  SCAN_LIST_ENABLED[2];
-	uint8_t               SCANLIST_PRIORITY_CH1[2];
-	uint8_t               SCANLIST_PRIORITY_CH2[2];
+	bool                  SCAN_LIST_ENABLED[3];
+	uint8_t               SCANLIST_PRIORITY_CH1[3];
+	uint8_t               SCANLIST_PRIORITY_CH2[3];
 
 	uint8_t               field29_0x26;
 	uint8_t               field30_0x27;
