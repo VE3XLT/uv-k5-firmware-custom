@@ -34,6 +34,8 @@ uint8_t           	initialCROSS_BAND_RX_TX;
 	uint32_t lastFoundFrqOrChanOld;
 #endif
 
+uint8_t dualscan = 1;
+
 static void NextFreqChannel(void);
 static void NextMemChannel(void);
 
@@ -165,6 +167,8 @@ void CHFRSCANNER_Stop(void)
 		}
 	}
 
+	dualscan=1;
+	
 	RADIO_SetupRegisters(true);
 	gUpdateDisplay = true;
 }
@@ -191,8 +195,6 @@ static void NextFreqChannel(void)
 
 	gUpdateDisplay     = true;
 }
-
-uint8_t dualscan = 1;
 
 static void NextMemChannel(void)
 {
@@ -250,7 +252,7 @@ static void NextMemChannel(void)
 			case SCAN_NEXT_CHAN_DUAL_WATCH:
 				// dual watch is enabled - include the other VFO in the scan
 				if (gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) {
-					if (dualscan%4==0) {
+					if (++dualscan%4==0) {
 						dualscan=0;
 						chan = (gEeprom.RX_VFO + 1) & 1u;
 						chan = gEeprom.ScreenChannel[chan];
@@ -291,7 +293,7 @@ static void NextMemChannel(void)
 		RADIO_ConfigureChannel(gEeprom.RX_VFO, VFO_CONFIGURE_RELOAD);
 		RADIO_SetupRegisters(true);
 
-		if (dualscan++!=1) gUpdateDisplay = true;
+		if (dualscan!=0) gUpdateDisplay = true;
 	}
 
 #ifdef ENABLE_FASTER_CHANNEL_SCAN
