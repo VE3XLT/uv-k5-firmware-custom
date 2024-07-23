@@ -35,12 +35,15 @@ uint8_t           	initialCROSS_BAND_RX_TX;
 #endif
 
 uint8_t dualscan = 1;
+uint8_t dwchan;
 
 static void NextFreqChannel(void);
 static void NextMemChannel(void);
 
 void CHFRSCANNER_Start(const bool storeBackupSettings, const int8_t scan_direction)
 {
+	unsigned int chan;
+
 	if (storeBackupSettings) {
 		initialCROSS_BAND_RX_TX = gEeprom.CROSS_BAND_RX_TX;
 		gEeprom.CROSS_BAND_RX_TX = CROSS_BAND_OFF;
@@ -52,6 +55,17 @@ void CHFRSCANNER_Start(const bool storeBackupSettings, const int8_t scan_directi
 	gNextMrChannel   = gRxVfo->CHANNEL_SAVE;
 	currentScanList = SCAN_NEXT_CHAN_SCANLIST1;
 	gScanStateDir    = scan_direction;
+
+	if (gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) {
+		chan = (gEeprom.RX_VFO + 1) & 1u;
+		chan = gEeprom.ScreenChannel[chan];
+		if (IS_MR_CHANNEL(chan))
+		{
+			currentScanList = SCAN_NEXT_CHAN_DUAL_WATCH;
+			dwchan   = chan;
+		}
+	
+	}
 
 	if (IS_MR_CHANNEL(gNextMrChannel))
 	{	// channel mode
@@ -139,6 +153,7 @@ void CHFRSCANNER_Found(void)
 
 void CHFRSCANNER_Stop(void)
 {
+	dwchan = 0;
 	if(initialCROSS_BAND_RX_TX != CROSS_BAND_OFF) {
 		gEeprom.CROSS_BAND_RX_TX = initialCROSS_BAND_RX_TX;
 		initialCROSS_BAND_RX_TX = CROSS_BAND_OFF;
@@ -251,17 +266,12 @@ static void NextMemChannel(void)
 */			// this bit doesn't yet work if the other VFO is a frequency
 			case SCAN_NEXT_CHAN_DUAL_WATCH:
 				// dual watch is enabled - include the other VFO in the scan
-				if (gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) {
+				if (dwchan){
 					if (++dualscan%4==0) {
 						dualscan=0;
-						chan = (gEeprom.RX_VFO + 1) & 1u;
-						chan = gEeprom.ScreenChannel[chan];
-						if (IS_MR_CHANNEL(chan))
-						{
-							currentScanList = SCAN_NEXT_CHAN_DUAL_WATCH;
-							gNextMrChannel   = chan;
-							break;
-						}
+						currentScanList = SCAN_NEXT_CHAN_DUAL_WATCH;
+						gNextMrChannel   = dwchan;
+						break;
 					}
 				}
 				[[fallthrough]];
