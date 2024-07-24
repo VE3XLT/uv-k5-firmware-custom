@@ -108,7 +108,7 @@ void SETTINGS_InitEEPROM(void)
 		gEeprom.FM_IsMrMode        = fmCfg.isMrMode;
 	}
 
-	// 0E40..0E67
+	// 0E40..0E67 -> 0E40..0E6F
 	EEPROM_ReadBuffer(0x0E40, gFM_Channels, sizeof(gFM_Channels));
 	FM_ConfigureChannelState();
 #endif
