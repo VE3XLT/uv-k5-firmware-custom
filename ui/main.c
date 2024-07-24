@@ -892,19 +892,20 @@ void UI_DisplayMain(void)
 			if (IS_MR_CHANNEL(gEeprom.ScreenChannel[vfo_num]))
 			{	// it's a channel
 
-				uint8_t countList = 0;
 				//uint8_t shiftList = 0;
 
 				// show the scan list assigment symbols
 				const ChannelAttributes_t att = gMR_ChannelAttributes[gEeprom.ScreenChannel[vfo_num]];
 
+				uint8_t countList = __builtin_popcount(att.scanlists & 0b111);
+/*
 				if (att.scanlists & 0b001)
 					countList++;
 				if (att.scanlists & 0b010)
 					countList++;
 				if (att.scanlists & 0b100)
 					countList++;
-
+*/
 /*
 				shiftList = countList;
 
