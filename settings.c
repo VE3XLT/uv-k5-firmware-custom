@@ -27,6 +27,7 @@
 #include "settings.h"
 #include "ui/menu.h"
 
+/*
 static const uint32_t gDefaultFrequencyTable[] =
 {
 	14500000,    //
@@ -35,6 +36,7 @@ static const uint32_t gDefaultFrequencyTable[] =
 	43320000,    //
 	43350000     //
 };
+*/
 
 EEPROM_Config_t gEeprom = { 0 };
 
@@ -441,6 +443,7 @@ void SETTINGS_FactoryReset(bool bIsAll)
 		RADIO_InitInfo(gRxVfo, FREQ_CHANNEL_FIRST + BAND6_400MHz, 43350000);
 
 		// set the first few memory channels
+		/* don't need this
 		for (i = 0; i < ARRAY_SIZE(gDefaultFrequencyTable); i++)
 		{
 			const uint32_t Frequency   = gDefaultFrequencyTable[i];
@@ -449,6 +452,7 @@ void SETTINGS_FactoryReset(bool bIsAll)
 			gRxVfo->Band               = FREQUENCY_GetBand(Frequency);
 			SETTINGS_SaveChannel(MR_CHANNEL_FIRST + i, 0, gRxVfo, 2);
 		}
+		*/
 	}
 }
 
