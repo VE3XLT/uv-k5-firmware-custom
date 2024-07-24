@@ -298,7 +298,8 @@ static void NextMemChannel(void)
 		RADIO_ConfigureChannel(gEeprom.RX_VFO, VFO_CONFIGURE_RELOAD);
 		RADIO_SetupRegisters(true);
 
-		if (dualscan!=0) gUpdateDisplay = true;
+//		if (dualscan!=0)
+			gUpdateDisplay = true;
 	}
 
 #ifdef ENABLE_FASTER_CHANNEL_SCAN
