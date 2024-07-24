@@ -618,12 +618,9 @@ void SETTINGS_SaveSettings(void)
 
 	State[0] = gEeprom.SCAN_LIST_DEFAULT;
 	//State[1] = gEeprom.SCAN_LIST_ENABLED[0];
-	if (gEeprom.SCAN_LIST_ENABLED[0] == 1)
-		tmp = tmp | (1 << 0);
-	if (gEeprom.SCAN_LIST_ENABLED[1] == 1)
-		tmp = tmp | (1 << 1);
-	if (gEeprom.SCAN_LIST_ENABLED[2] == 1)
-		tmp = tmp | (1 << 2);		
+	if (gEeprom.SCAN_LIST_ENABLED[0] == 1) tmp |= 1 << 0;
+	if (gEeprom.SCAN_LIST_ENABLED[1] == 1) tmp |= 1 << 1;
+	if (gEeprom.SCAN_LIST_ENABLED[2] == 1) tmp |= 1 << 2;
 	State[2] = gEeprom.SCANLIST_PRIORITY_CH1[0];
 	State[3] = gEeprom.SCANLIST_PRIORITY_CH2[0];
 	State[4] = gEeprom.SCANLIST_PRIORITY_CH1[1];
@@ -665,16 +662,10 @@ void SETTINGS_SaveSettings(void)
 	memset(State, 0xFF, sizeof(State));
 
 	tmp = 0;
-
-   	if(gSetting_set_inv == 1)
-		tmp = tmp | (1 << 0);
-   	if (gSetting_set_lck == 1)
-		tmp = tmp | (1 << 1);
-	if (gSetting_set_met == 1)
-		tmp = tmp | (1 << 2);
-	if (gSetting_set_gui == 1)
-		tmp = tmp | (1 << 3);
-
+	if (gSetting_set_inv) tmp |= 1 << 0;
+	if (gSetting_set_lck) tmp |= 1 << 1;
+	if (gSetting_set_met) tmp |= 1 << 2;
+	if (gSetting_set_gui) tmp |= 1 << 3;
 	State[5] = ((tmp << 4) | (gSetting_set_ctr & 0x0F));
 	State[6] = ((gSetting_set_tot << 4) | (gSetting_set_eot & 0x0F));
 	State[7] = ((gSetting_set_low << 4) | (gSetting_set_ptt & 0x0F));
