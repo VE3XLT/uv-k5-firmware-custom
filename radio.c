@@ -843,7 +843,7 @@ void RADIO_SetupRegisters(bool switchToForeground)
 	else
 #endif
 	{
-		BK4819_DisableVox();
+		//BK4819_DisableVox();
 	}
 
 	// RX expander
