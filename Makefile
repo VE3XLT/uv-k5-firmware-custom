@@ -89,8 +89,10 @@ OBJS += external/printf/printf.o
 
 # Drivers
 OBJS += driver/adc.o
+ifeq ($(ENABLE_PWRON_PASSWORD),1)
 ifeq ($(ENABLE_UART),1)
 	OBJS += driver/aes.o
+endif
 endif
 OBJS += driver/backlight.o
 ifeq ($(ENABLE_FMRADIO),1)
