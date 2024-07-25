@@ -900,33 +900,30 @@ void UI_DisplayMain(void)
 					// show the scan list assigment symbols
 					const ChannelAttributes_t att = gMR_ChannelAttributes[gEeprom.ScreenChannel[vfo_num]];
 
-					if (att.scanlist1)
-						countList++;
-					if (att.scanlist2)
-						countList++;
-					if (att.scanlist3)
-						countList++;
-
-					shiftList = countList;
-
-					if (att.scanlist1)
-					{
-						memcpy(p_line0 + 127 - (shiftList * 6), BITMAP_ScanList1, sizeof(BITMAP_ScanList1));
-						shiftList--;
-					}
-					if (att.scanlist2)
-					{
-						memcpy(p_line0 + 127 - (shiftList * 6), BITMAP_ScanList2, sizeof(BITMAP_ScanList2));
-						shiftList--;
-					}
-					if (att.scanlist3)
-					{
-						memcpy(p_line0 + 127 - (shiftList * 6), BITMAP_ScanList3, sizeof(BITMAP_ScanList3));
-					}
+					countList = att.scanlist1 + att.scanlist2 + att.scanlist3;
 
 					if(countList == 0)
 					{
 						memcpy(p_line0 + 127 - (1 * 6), BITMAP_ScanList0, sizeof(BITMAP_ScanList0));
+					}
+					else
+					{
+						shiftList = countList;
+
+						if (att.scanlist1)
+						{
+							memcpy(p_line0 + 127 - (shiftList * 6), BITMAP_ScanList1, sizeof(BITMAP_ScanList1));
+							shiftList--;
+						}
+						if (att.scanlist2)
+						{
+							memcpy(p_line0 + 127 - (shiftList * 6), BITMAP_ScanList2, sizeof(BITMAP_ScanList2));
+							shiftList--;
+						}
+						if (att.scanlist3)
+						{
+							memcpy(p_line0 + 127 - (shiftList * 6), BITMAP_ScanList3, sizeof(BITMAP_ScanList3));
+						}
 					}
 				}
 				else
