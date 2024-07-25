@@ -300,6 +300,7 @@ void SETTINGS_InitEEPROM(void)
 			att->__val = 0;
 			att->band = 0x7;
 		}
+		gMR_ChannelExclude[i] = false;
 	}
 
 	// 0F30..0F3F

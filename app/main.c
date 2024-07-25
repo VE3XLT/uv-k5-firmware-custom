@@ -627,15 +627,11 @@ static void MAIN_Key_MENU(bool bKeyPressed, bool bKeyHeld)
 
 			#ifdef ENABLE_FEAT_F4HWN
 			// Exclude work with list 1, 2, 3 or all list
-			if(gScanStateDir != SCAN_OFF && (gEeprom.SCAN_LIST_DEFAULT > 0 && gEeprom.SCAN_LIST_DEFAULT < 5))
+			if(gScanStateDir != SCAN_OFF)
 			{
 				if(FUNCTION_IsRx())
 				{
-					gTxVfo->SCANLIST1_PARTICIPATION = 0;
-					gTxVfo->SCANLIST2_PARTICIPATION = 0;
-					gTxVfo->SCANLIST3_PARTICIPATION = 0;
-
-					SETTINGS_UpdateChannel(gTxVfo->CHANNEL_SAVE, gTxVfo, true, true, false);
+					gMR_ChannelExclude[gTxVfo->CHANNEL_SAVE] = true;
 
 					gVfoConfigureMode = VFO_CONFIGURE;
 					gFlagResetVfos    = true;
