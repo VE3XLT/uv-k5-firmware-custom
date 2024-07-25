@@ -264,7 +264,8 @@ static void NextMemChannel(void)
 					if (++dualscan%4==0) {
 						dualscan=0;
 						currentScanList = SCAN_NEXT_CHAN_DUAL_WATCH;
-						gNextMrChannel   = dwchan-1;
+						if (!gMR_ChannelExclude[dwchan-1])
+							gNextMrChannel   = dwchan-1;
 						break;
 					}
 				}
