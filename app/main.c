@@ -342,6 +342,11 @@ static void MAIN_Key_DIGITS(KEY_Code_t Key, bool bKeyPressed, bool bKeyHeld)
 					gRequestDisplayScreen = DISPLAY_MAIN;
 				}
 
+				if (gScanStateDir != SCAN_OFF) {
+					gBeepToPlay = BEEP_500HZ_60MS_DOUBLE_BEEP_OPTIONAL;
+					return;
+				}
+
 				gWasFKeyPressed = false;
 				gUpdateStatus   = true;
 
