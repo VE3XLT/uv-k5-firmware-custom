@@ -59,13 +59,12 @@ static void toggle_chan_scanlist(void)
 		return;
 	}
 	
-	/*
-	if (gTxVfo->SCANLIST1_PARTICIPATION ^ gTxVfo->SCANLIST2_PARTICIPATION){
-		gTxVfo->SCANLIST2_PARTICIPATION = gTxVfo->SCANLIST1_PARTICIPATION;
-	} else {
-		gTxVfo->SCANLIST1_PARTICIPATION = !gTxVfo->SCANLIST1_PARTICIPATION;
+	// Remove exclude
+	if(gMR_ChannelExclude[gTxVfo->CHANNEL_SAVE] == true)
+	{
+		gMR_ChannelExclude[gTxVfo->CHANNEL_SAVE] = false;
+		return;
 	}
-	*/
 
 	uint8_t scanTmp = gTxVfo->SCANLIST1_PARTICIPATION | (gTxVfo->SCANLIST2_PARTICIPATION << 1) | (gTxVfo->SCANLIST3_PARTICIPATION << 2);
 
