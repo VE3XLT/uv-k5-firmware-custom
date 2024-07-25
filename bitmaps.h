@@ -36,6 +36,7 @@ extern const uint8_t BITMAP_ScanList2[7];
 extern const uint8_t BITMAP_ScanList3[7];
 extern const uint8_t BITMAP_ScanList123[19];
 extern const uint8_t BITMAP_ScanListAll[19];
+extern const uint8_t BITMAP_ScanListE[7];
 extern const uint8_t BITMAP_PowerUser[3];
 extern const uint8_t BITMAP_compand[6];
 

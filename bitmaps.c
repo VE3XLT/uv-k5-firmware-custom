@@ -203,6 +203,17 @@ const uint8_t BITMAP_ScanList3[7] =
 	0b01111111
 };
 
+const uint8_t BITMAP_ScanListE[7] =
+{	// 'E' symbol
+	0b01111111,
+	0b01111111,
+	0b01000001,
+	0b01010101,
+	0b01010101,
+	0b01111111,
+	0b01111111
+};
+
 const uint8_t BITMAP_ScanList123[19] =
 {
 	// 'All' symbol
