@@ -34,6 +34,7 @@
 #include "ui/ui.h"
 #include "ui/status.h"
 
+#ifdef ENABLE_FEAT_F4HWN_RX_TX_TIMER
 static void convertTime(uint8_t *line, uint8_t type) 
 {
 	char str[8] = "";
@@ -59,6 +60,7 @@ static void convertTime(uint8_t *line, uint8_t type)
 
     gUpdateStatus = true;
 }
+#endif
 
 void UI_DisplayStatus()
 {
@@ -150,6 +152,7 @@ void UI_DisplayStatus()
 	#endif
 
 		if(!SCANNER_IsScanning()) {
+		#ifdef ENABLE_FEAT_F4HWN_RX_TX_TIMER
 			if(gCurrentFunction == FUNCTION_TRANSMIT)
 			{
 				convertTime(line, 0);
@@ -159,6 +162,7 @@ void UI_DisplayStatus()
 				convertTime(line, 1);
 			}
 			else
+		#endif
 			{
 				uint8_t dw = (gEeprom.DUAL_WATCH != DUAL_WATCH_OFF) + (gEeprom.CROSS_BAND_RX_TX != CROSS_BAND_OFF) * 2;
 				if(dw == 1 || dw == 3) { // DWR - dual watch + respond
