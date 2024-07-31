@@ -295,14 +295,14 @@ void DisplayRSSIBar(const bool now)
 		switch(RxBlink)
 		{
 			case 0:
-				UI_PrintStringSmallBold("RX", 14, 0, RxLine);
+				UI_PrintStringSmallBold("RX", 8, 0, RxLine);
 				break;
 			case 1:
-				UI_PrintStringSmallBold("RX", 14, 0, RxLine);
+				UI_PrintStringSmallBold("RX", 8, 0, RxLine);
 				RxBlink = 2;
 				break;
 			case 2:
-				for (uint8_t i = 14; i < 30; i++)
+				for (uint8_t i = 8; i < 24; i++)
 				{
 					gFrameBuffer[RxLine][i] = 0x00;
 				}
@@ -758,6 +758,14 @@ void UI_DisplayMain(void)
 
 		uint32_t frequency = gEeprom.VfoInfo[vfo_num].pRX->Frequency;
 
+		if(TX_freq_check(frequency) != 0 && gEeprom.VfoInfo[vfo_num].TX_LOCK == true)
+		{
+			if(isMainOnly(false))
+				memcpy(p_line0 + 14, BITMAP_VFO_Lock, sizeof(BITMAP_VFO_Lock));
+			else
+				memcpy(p_line0 + 24, BITMAP_VFO_Lock, sizeof(BITMAP_VFO_Lock));
+		}
+
 		if (gCurrentFunction == FUNCTION_TRANSMIT)
 		{	// transmitting
 
@@ -770,7 +778,7 @@ void UI_DisplayMain(void)
 				if (activeTxVFO == vfo_num)
 				{	// show the TX symbol
 					mode = VFO_MODE_TX;
-					UI_PrintStringSmallBold("TX", 14, 0, line);
+					UI_PrintStringSmallBold("TX", 8, 0, line);
 				}
 			}
 		}
@@ -793,7 +801,7 @@ void UI_DisplayMain(void)
 					RxBlink = 0;
 				}
 #else
-				UI_PrintStringSmallBold("RX", 14, 0, line);
+				UI_PrintStringSmallBold("RX", 8, 0, line);
 #endif
 			}
 #ifdef ENABLE_FEAT_F4HWN
@@ -801,7 +809,7 @@ void UI_DisplayMain(void)
 			{
 				if(RxOnVfofrequency == frequency && !isMainOnly(false))
 				{
-					UI_PrintStringSmallNormal(">>", 14, 0, line);
+					UI_PrintStringSmallNormal(">>", 8, 0, line);
 					//memcpy(p_line0 + 14, BITMAP_VFO_Default, sizeof(BITMAP_VFO_Default));
 				}
 

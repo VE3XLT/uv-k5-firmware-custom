@@ -135,9 +135,19 @@ const uint8_t BITMAP_Antenna[5] =
 	0b00000011
 };
 
-const uint8_t BITMAP_VFO_Default[8] =
+const uint8_t BITMAP_VFO_Lock[7] =
 {
-	0b00000000,
+	0b01111100,
+	0b01000110,
+	0b01000101,
+	0b01000101,
+	0b01000101,
+	0b01000110,
+	0b01111100,
+};
+
+const uint8_t BITMAP_VFO_Default[7] =
+{
 	0b01111111,
 	0b01111111,
 	0b00111110,
@@ -147,9 +157,8 @@ const uint8_t BITMAP_VFO_Default[8] =
 	0b00001000
 };
 
-const uint8_t BITMAP_VFO_NotDefault[8] =
+const uint8_t BITMAP_VFO_NotDefault[7] =
 {
-	0b00000000,
 	0b01000001,
 	0b01000001,
 	0b00100010,

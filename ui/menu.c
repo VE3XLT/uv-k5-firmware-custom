@@ -55,6 +55,9 @@ const t_menu_item MenuList[] =
 	{"BusyCL",		MENU_BCL           }, // was "BCL"
 	{"Compnd",		MENU_COMPAND       },
 	{"Mode",		MENU_AM            }, // was "AM"
+#ifdef ENABLE_FEAT_F4HWN
+	{"TXLock",		MENU_TX_LOCK       }, 
+#endif
 	{"ScAdd1",		MENU_S_ADD1        },
 	{"ScAdd2",		MENU_S_ADD2        },
 	{"ScAdd3",		MENU_S_ADD3        },
@@ -987,6 +990,10 @@ void UI_DisplayMenu(void)
 		case MENU_SET_INV:
 			strcpy(String, gSubMenu_OFF_ON[gSubMenuSelection]);
 			ST7565_ContrastAndInv();
+			break;
+
+		case MENU_TX_LOCK:
+			strcpy(String, gSubMenu_OFF_ON[gSubMenuSelection]);
 			break;
 
 		case MENU_SET_LCK:

@@ -745,6 +745,7 @@ void SETTINGS_SaveChannel(uint8_t Channel, uint8_t VFO, const VFO_Info_t *pVFO, 
 		State._8[2] = (pVFO->freq_config_TX.CodeType << 4) | pVFO->freq_config_RX.CodeType;
 		State._8[3] = (pVFO->Modulation << 4) | pVFO->TX_OFFSET_FREQUENCY_DIRECTION;
 		State._8[4] = 0
+			| (pVFO->TX_LOCK << 6)
 			| (pVFO->BUSY_CHANNEL_LOCK << 5)
 			| (pVFO->OUTPUT_POWER      << 2)
 			| (pVFO->CHANNEL_BANDWIDTH << 1)
