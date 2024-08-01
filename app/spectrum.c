@@ -786,7 +786,7 @@ static void DrawStatus() {
   }
 }
 
-#ifndef ENABLE_FMRADIO
+#ifdef ENABLE_FEAT_F4HWN_SPECTRUM
   static void ShowChannelName(uint32_t f) {
     unsigned int i;
     char s[12];
@@ -827,7 +827,7 @@ static void DrawF(uint32_t f) {
   sprintf(String, "%4sk", bwOptions[settings.listenBw]);
   GUI_DisplaySmallest(String, 108, 7, false, true);
 
-#ifndef ENABLE_FMRADIO
+#ifdef ENABLE_FEAT_F4HWN_SPECTRUM
   ShowChannelName(f);
 #endif
 }
