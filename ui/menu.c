@@ -993,7 +993,14 @@ void UI_DisplayMenu(void)
 			break;
 
 		case MENU_TX_LOCK:
-			strcpy(String, gSubMenu_OFF_ON[gSubMenuSelection]);
+			if(TX_freq_check(gEeprom.VfoInfo[gEeprom.TX_VFO].pRX->Frequency) == 0)
+			{
+				strcpy(String, "Inside\nF Lock\nPlan");
+			}
+			else
+			{
+				strcpy(String, gSubMenu_OFF_ON[gSubMenuSelection]);
+			}
 			break;
 
 		case MENU_SET_LCK:
