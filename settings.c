@@ -439,7 +439,8 @@ void SETTINGS_FactoryReset(bool bIsAll)
 
 	memset(Template, 0xFF, sizeof(Template));
 
-	for (i = 0x0C80; i < 0x1E00; i += 8)
+	//for (i = 0x0C80; i < 0x1E00; i += 8)
+	for (i = 0x0000; i < 0x1E00; i += 8)
 	{
 		if (
 			!(i >= 0x0EE0 && i < 0x0F18) &&         // ANI ID + DTMF codes
@@ -474,6 +475,10 @@ void SETTINGS_FactoryReset(bool bIsAll)
 			gRxVfo->Band               = FREQUENCY_GetBand(Frequency);
 			SETTINGS_SaveChannel(MR_CHANNEL_FIRST + i, 0, gRxVfo, 2);
 		}
+
+		#ifdef ENABLE_FEAT_F4HWN
+			EEPROM_WriteBuffer(0x1FF0, Template);
+		#endif
 	}
 }
 
