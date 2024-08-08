@@ -295,14 +295,14 @@ void DisplayRSSIBar(const bool now)
 		switch(RxBlink)
 		{
 			case 0:
-				UI_PrintStringSmallBold("RX", 14, 0, RxLine);
+				UI_PrintStringSmallBold("RX", 8, 0, RxLine);
 				break;
 			case 1:
-				UI_PrintStringSmallBold("RX", 14, 0, RxLine);
+				UI_PrintStringSmallBold("RX", 8, 0, RxLine);
 				RxBlink = 2;
 				break;
 			case 2:
-				for (uint8_t i = 14; i < 30; i++)
+				for (uint8_t i = 8; i < 24; i++)
 				{
 					gFrameBuffer[RxLine][i] = 0x00;
 				}
@@ -758,6 +758,14 @@ void UI_DisplayMain(void)
 
 		uint32_t frequency = gEeprom.VfoInfo[vfo_num].pRX->Frequency;
 
+		if(TX_freq_check(frequency) != 0 && gEeprom.VfoInfo[vfo_num].TX_LOCK == true)
+		{
+			if(isMainOnly(false))
+				memcpy(p_line0 + 14, BITMAP_VFO_Lock, sizeof(BITMAP_VFO_Lock));
+			else
+				memcpy(p_line0 + 24, BITMAP_VFO_Lock, sizeof(BITMAP_VFO_Lock));
+		}
+
 		if (gCurrentFunction == FUNCTION_TRANSMIT)
 		{	// transmitting
 
@@ -770,7 +778,7 @@ void UI_DisplayMain(void)
 				if (activeTxVFO == vfo_num)
 				{	// show the TX symbol
 					mode = VFO_MODE_TX;
-					UI_PrintStringSmallBold("TX", 14, 0, line);
+					UI_PrintStringSmallBold("TX", 8, 0, line);
 				}
 			}
 		}
@@ -793,7 +801,7 @@ void UI_DisplayMain(void)
 					RxBlink = 0;
 				}
 #else
-				UI_PrintStringSmallBold("RX", 14, 0, line);
+				UI_PrintStringSmallBold("RX", 8, 0, line);
 #endif
 			}
 #ifdef ENABLE_FEAT_F4HWN
@@ -801,7 +809,7 @@ void UI_DisplayMain(void)
 			{
 				if(RxOnVfofrequency == frequency && !isMainOnly(false))
 				{
-					UI_PrintStringSmallNormal(">>", 14, 0, line);
+					UI_PrintStringSmallNormal(">>", 8, 0, line);
 					//memcpy(p_line0 + 14, BITMAP_VFO_Default, sizeof(BITMAP_VFO_Default));
 				}
 
@@ -895,36 +903,40 @@ void UI_DisplayMain(void)
 				uint8_t countList = 0;
 				uint8_t shiftList = 0;
 
-				// show the scan list assigment symbols
-				const ChannelAttributes_t att = gMR_ChannelAttributes[gEeprom.ScreenChannel[vfo_num]];
-
-				if (att.scanlist1)
-					countList++;
-				if (att.scanlist2)
-					countList++;
-				if (att.scanlist3)
-					countList++;
-
-				shiftList = countList;
-
-				if (att.scanlist1)
+				if(gMR_ChannelExclude[gEeprom.ScreenChannel[vfo_num]] == false)
 				{
-					memcpy(p_line0 + 127 - (shiftList * 6), BITMAP_ScanList1, sizeof(BITMAP_ScanList1));
-					shiftList--;
+					// show the scan list assigment symbols
+					const ChannelAttributes_t att = gMR_ChannelAttributes[gEeprom.ScreenChannel[vfo_num]];
+
+					countList = att.scanlist1 + att.scanlist2 + att.scanlist3;
+
+					if(countList == 0)
+					{
+						memcpy(p_line0 + 127 - (1 * 6), BITMAP_ScanList0, sizeof(BITMAP_ScanList0));
+					}
+					else
+					{
+						shiftList = countList;
+
+						if (att.scanlist1)
+						{
+							memcpy(p_line0 + 127 - (shiftList * 6), BITMAP_ScanList1, sizeof(BITMAP_ScanList1));
+							shiftList--;
+						}
+						if (att.scanlist2)
+						{
+							memcpy(p_line0 + 127 - (shiftList * 6), BITMAP_ScanList2, sizeof(BITMAP_ScanList2));
+							shiftList--;
+						}
+						if (att.scanlist3)
+						{
+							memcpy(p_line0 + 127 - (shiftList * 6), BITMAP_ScanList3, sizeof(BITMAP_ScanList3));
+						}
+					}
 				}
-				if (att.scanlist2)
+				else
 				{
-					memcpy(p_line0 + 127 - (shiftList * 6), BITMAP_ScanList2, sizeof(BITMAP_ScanList2));
-					shiftList--;
-				}
-				if (att.scanlist3)
-				{
-					memcpy(p_line0 + 127 - (shiftList * 6), BITMAP_ScanList3, sizeof(BITMAP_ScanList3));
-				}
-
-				if(countList == 0)
-				{
-					memcpy(p_line0 + 127 - (1 * 6), BITMAP_ScanList0, sizeof(BITMAP_ScanList0));
+					memcpy(p_line0 + 127 - (1 * 6), BITMAP_ScanListE, sizeof(BITMAP_ScanListE));
 				}
 
 				/*

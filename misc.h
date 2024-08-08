@@ -205,6 +205,7 @@ typedef union {
 } ChannelAttributes_t;
 
 extern ChannelAttributes_t   gMR_ChannelAttributes[207];
+extern bool                  gMR_ChannelExclude[207];
 
 extern volatile uint16_t     gBatterySaveCountdown_10ms;
 
@@ -227,7 +228,9 @@ extern volatile bool         gTxTimeoutReached;
 	extern volatile uint16_t gTxTimerCountdownAlert_500ms;
 	extern volatile bool     gTxTimeoutReachedAlert;
 	extern volatile uint16_t gTxTimeoutToneAlert;
-	extern volatile uint16_t gRxTimerCountdown_500ms;
+	#ifdef ENABLE_FEAT_F4HWN_RX_TX_TIMER
+		extern volatile uint16_t gRxTimerCountdown_500ms;
+	#endif
 #endif
 
 extern volatile uint16_t     gTailNoteEliminationCountdown_10ms;

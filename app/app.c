@@ -439,7 +439,7 @@ void APP_StartListening(FUNCTION_Type_t function)
 {
 	const unsigned int vfo = gEeprom.RX_VFO;
 
-#ifdef ENABLE_FEAT_F4HWN
+#ifdef ENABLE_FEAT_F4HWN_RX_TX_TIMER
     gRxTimerCountdown_500ms = 7200;
 #endif
 
@@ -714,7 +714,7 @@ static void CheckRadioInterrupts(void)
 		if (interrupts.sqlLost) {
 			g_SquelchLost = true;
 			BK4819_ToggleGpioOut(BK4819_GPIO6_PIN2_GREEN, true);
-			#ifdef ENABLE_FEAT_F4HWN
+			#ifdef ENABLE_FEAT_F4HWN_RX_TX_TIMER
 				gRxTimerCountdown_500ms = 7200;
 			#endif
 		}

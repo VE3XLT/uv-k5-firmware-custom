@@ -225,7 +225,7 @@ void SETTINGS_InitEEPROM(void)
 
 	// 0F18..0F1F
 	EEPROM_ReadBuffer(0x0F18, Data, 8);
-	gEeprom.SCAN_LIST_DEFAULT = (Data[0] < 5) ? Data[0] : 0;  // we now have 'all' channel scan option
+	gEeprom.SCAN_LIST_DEFAULT = (Data[0] < 6) ? Data[0] : 0;  // we now have 'all' channel scan option
 
 	// Fake data
 	/*
@@ -300,6 +300,7 @@ void SETTINGS_InitEEPROM(void)
 			att->__val = 0;
 			att->band = 0x7;
 		}
+		gMR_ChannelExclude[i] = false;
 	}
 
 	// 0F30..0F3F
@@ -438,7 +439,8 @@ void SETTINGS_FactoryReset(bool bIsAll)
 
 	memset(Template, 0xFF, sizeof(Template));
 
-	for (i = 0x0C80; i < 0x1E00; i += 8)
+	//for (i = 0x0C80; i < 0x1E00; i += 8)
+	for (i = 0x0000; i < 0x1E00; i += 8)
 	{
 		if (
 			!(i >= 0x0EE0 && i < 0x0F18) &&         // ANI ID + DTMF codes
@@ -473,6 +475,10 @@ void SETTINGS_FactoryReset(bool bIsAll)
 			gRxVfo->Band               = FREQUENCY_GetBand(Frequency);
 			SETTINGS_SaveChannel(MR_CHANNEL_FIRST + i, 0, gRxVfo, 2);
 		}
+
+		#ifdef ENABLE_FEAT_F4HWN
+			EEPROM_WriteBuffer(0x1FF0, Template);
+		#endif
 	}
 }
 
@@ -744,6 +750,7 @@ void SETTINGS_SaveChannel(uint8_t Channel, uint8_t VFO, const VFO_Info_t *pVFO, 
 		State._8[2] = (pVFO->freq_config_TX.CodeType << 4) | pVFO->freq_config_RX.CodeType;
 		State._8[3] = (pVFO->Modulation << 4) | pVFO->TX_OFFSET_FREQUENCY_DIRECTION;
 		State._8[4] = 0
+			| (pVFO->TX_LOCK << 6)
 			| (pVFO->BUSY_CHANNEL_LOCK << 5)
 			| (pVFO->OUTPUT_POWER      << 2)
 			| (pVFO->CHANNEL_BANDWIDTH << 1)

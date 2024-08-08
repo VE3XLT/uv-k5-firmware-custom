@@ -28,14 +28,16 @@ extern const uint8_t BITMAP_Ready[7];
 #endif
 
 extern const uint8_t BITMAP_Antenna[5];
-extern const uint8_t BITMAP_VFO_Default[8];
-extern const uint8_t BITMAP_VFO_NotDefault[8];
+extern const uint8_t BITMAP_VFO_Default[7];
+extern const uint8_t BITMAP_VFO_NotDefault[7];
+extern const uint8_t BITMAP_VFO_Lock[7];
 extern const uint8_t BITMAP_ScanList0[7];
 extern const uint8_t BITMAP_ScanList1[7];
 extern const uint8_t BITMAP_ScanList2[7];
 extern const uint8_t BITMAP_ScanList3[7];
 extern const uint8_t BITMAP_ScanList123[19];
 extern const uint8_t BITMAP_ScanListAll[19];
+extern const uint8_t BITMAP_ScanListE[7];
 extern const uint8_t BITMAP_PowerUser[3];
 extern const uint8_t BITMAP_compand[6];
 

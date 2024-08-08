@@ -59,13 +59,12 @@ static void toggle_chan_scanlist(void)
 		return;
 	}
 	
-	/*
-	if (gTxVfo->SCANLIST1_PARTICIPATION ^ gTxVfo->SCANLIST2_PARTICIPATION){
-		gTxVfo->SCANLIST2_PARTICIPATION = gTxVfo->SCANLIST1_PARTICIPATION;
-	} else {
-		gTxVfo->SCANLIST1_PARTICIPATION = !gTxVfo->SCANLIST1_PARTICIPATION;
+	// Remove exclude
+	if(gMR_ChannelExclude[gTxVfo->CHANNEL_SAVE] == true)
+	{
+		gMR_ChannelExclude[gTxVfo->CHANNEL_SAVE] = false;
+		return;
 	}
-	*/
 
 	uint8_t scanTmp = gTxVfo->SCANLIST1_PARTICIPATION | (gTxVfo->SCANLIST2_PARTICIPATION << 1) | (gTxVfo->SCANLIST3_PARTICIPATION << 2);
 
@@ -627,15 +626,11 @@ static void MAIN_Key_MENU(bool bKeyPressed, bool bKeyHeld)
 
 			#ifdef ENABLE_FEAT_F4HWN
 			// Exclude work with list 1, 2, 3 or all list
-			if(gScanStateDir != SCAN_OFF && (gEeprom.SCAN_LIST_DEFAULT > 0 && gEeprom.SCAN_LIST_DEFAULT < 5))
+			if(gScanStateDir != SCAN_OFF)
 			{
 				if(FUNCTION_IsRx())
 				{
-					gTxVfo->SCANLIST1_PARTICIPATION = 0;
-					gTxVfo->SCANLIST2_PARTICIPATION = 0;
-					gTxVfo->SCANLIST3_PARTICIPATION = 0;
-
-					SETTINGS_UpdateChannel(gTxVfo->CHANNEL_SAVE, gTxVfo, true, true, false);
+					gMR_ChannelExclude[gTxVfo->CHANNEL_SAVE] = true;
 
 					gVfoConfigureMode = VFO_CONFIGURE;
 					gFlagResetVfos    = true;

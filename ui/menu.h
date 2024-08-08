@@ -45,6 +45,9 @@ enum
 	MENU_SCR,
 #endif
 	MENU_BCL,
+#ifdef ENABLE_FEAT_F4HWN
+	MENU_TX_LOCK, 
+#endif
 	MENU_MEM_CH,
 	MENU_DEL_CH,
 	MENU_MEM_NAME,

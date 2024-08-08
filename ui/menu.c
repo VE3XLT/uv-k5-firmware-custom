@@ -55,6 +55,9 @@ const t_menu_item MenuList[] =
 	{"BusyCL",		MENU_BCL           }, // was "BCL"
 	{"Compnd",		MENU_COMPAND       },
 	{"Mode",		MENU_AM            }, // was "AM"
+#ifdef ENABLE_FEAT_F4HWN
+	{"TXLock",		MENU_TX_LOCK       }, 
+#endif
 	{"ScAdd1",		MENU_S_ADD1        },
 	{"ScAdd2",		MENU_S_ADD2        },
 	{"ScAdd3",		MENU_S_ADD3        },
@@ -989,6 +992,17 @@ void UI_DisplayMenu(void)
 			ST7565_ContrastAndInv();
 			break;
 
+		case MENU_TX_LOCK:
+			if(TX_freq_check(gEeprom.VfoInfo[gEeprom.TX_VFO].pRX->Frequency) == 0)
+			{
+				strcpy(String, "Inside\nF Lock\nPlan");
+			}
+			else
+			{
+				strcpy(String, gSubMenu_OFF_ON[gSubMenuSelection]);
+			}
+			break;
+
 		case MENU_SET_LCK:
 			strcpy(String, gSubMenu_SET_LCK[gSubMenuSelection]);
 			break;
@@ -1079,12 +1093,7 @@ void UI_DisplayMenu(void)
 
 	if (UI_MENU_GetCurrentMenuId() == MENU_SLIST1 || UI_MENU_GetCurrentMenuId() == MENU_SLIST2 || UI_MENU_GetCurrentMenuId() == MENU_SLIST3)
 	{
-		if(UI_MENU_GetCurrentMenuId() == MENU_SLIST1)
-			i = 0;
-		else if(UI_MENU_GetCurrentMenuId() == MENU_SLIST2)
-			i = 1;
-		else if(UI_MENU_GetCurrentMenuId() == MENU_SLIST3)
-			i = 2;
+		i = UI_MENU_GetCurrentMenuId() - MENU_SLIST1;
 
 		char *pPrintStr = String;
 

@@ -62,6 +62,9 @@ bool RADIO_CheckValidChannel(uint16_t channel, bool checkScanList, uint8_t scanL
 
 	const ChannelAttributes_t att = gMR_ChannelAttributes[channel];
 
+	if (checkScanList && gMR_ChannelExclude[channel] == true)
+		return false;
+
 	if (att.band > BAND7_470MHz)
 		return false;
 
@@ -138,6 +141,7 @@ void RADIO_InitInfo(VFO_Info_t *pInfo, const uint8_t ChannelSave, const uint32_t
 	pInfo->StepFrequency            = gStepFrequencyTable[pInfo->STEP_SETTING];
 	pInfo->CHANNEL_SAVE             = ChannelSave;
 	pInfo->FrequencyReverse         = false;
+	pInfo->TX_LOCK             		= true;
 	pInfo->OUTPUT_POWER             = OUTPUT_POWER_LOW1;
 	pInfo->freq_config_RX.Frequency = Frequency;
 	pInfo->freq_config_TX.Frequency = Frequency;
@@ -247,7 +251,7 @@ void RADIO_ConfigureChannel(const unsigned int VFO, const unsigned int configure
 	{
 		uint8_t tmp;
 		uint8_t data[8];
-
+		
 		// ***************
 
 		EEPROM_ReadBuffer(base + 8, data, sizeof(data));
@@ -329,6 +333,7 @@ void RADIO_ConfigureChannel(const unsigned int VFO, const unsigned int configure
 			pVfo->CHANNEL_BANDWIDTH = BK4819_FILTER_BW_WIDE;
 			pVfo->OUTPUT_POWER      = OUTPUT_POWER_LOW1;
 			pVfo->BUSY_CHANNEL_LOCK = false;
+			pVfo->TX_LOCK = true;
 		}
 		else
 		{
@@ -337,6 +342,7 @@ void RADIO_ConfigureChannel(const unsigned int VFO, const unsigned int configure
 			pVfo->CHANNEL_BANDWIDTH = !!((d4 >> 1) & 1u);
 			pVfo->OUTPUT_POWER      =   ((d4 >> 2) & 7u);
 			pVfo->BUSY_CHANNEL_LOCK = !!((d4 >> 5) & 1u);
+			pVfo->TX_LOCK           = !!((d4 >> 6) & 1u);
 		}
 
 		if (data[5] == 0xFF)
@@ -1050,9 +1056,16 @@ void RADIO_PrepareTX(void)
 
 	RADIO_SelectCurrentVfo();
 
-	if(TX_freq_check(gCurrentVfo->pTX->Frequency) != 0
-#if defined(ENABLE_ALARM) || defined(ENABLE_TX1750)
-		&& gAlarmState != ALARM_STATE_SITE_ALARM
+#ifdef ENABLE_FEAT_F4HWN
+		if(TX_freq_check(gCurrentVfo->pTX->Frequency) != 0 && gCurrentVfo->TX_LOCK == true
+	#if defined(ENABLE_ALARM) || defined(ENABLE_TX1750)
+			&& gAlarmState != ALARM_STATE_SITE_ALARM
+	#endif
+#else
+		if(TX_freq_check(gCurrentVfo->pTX->Frequency) != 0
+	#if defined(ENABLE_ALARM) || defined(ENABLE_TX1750)
+			&& gAlarmState != ALARM_STATE_SITE_ALARM
+	#endif
 #endif
 	){
 		// TX frequency not allowed
