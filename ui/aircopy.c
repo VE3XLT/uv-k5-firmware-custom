@@ -27,11 +27,19 @@
 #include "ui/helper.h"
 #include "ui/inputbox.h"
 
+static void set_bit(uint8_t* array, int bit_index) {
+    array[bit_index / 8] |= (1 << (bit_index % 8));
+}
+
+int get_bit(uint8_t* array, int bit_index) {
+    return (array[bit_index / 8] >> (bit_index % 8)) & 1;
+}
+
 void UI_DisplayAircopy(void)
 {
 	char String[16] = { 0 };
 	char *pPrintStr = { 0 };
-	static bool crc[120] = { 0 };
+	static uint8_t crc[15] = { 0 };
 	static uint8_t lErrorsDuringAirCopy = 0;
 	uint16_t percent;
 
@@ -85,13 +93,13 @@ void UI_DisplayAircopy(void)
 		// Check CRC
 		if(gErrorsDuringAirCopy != lErrorsDuringAirCopy)
 		{
-			crc[gAirCopyBlockNumber + gErrorsDuringAirCopy - 1] = 1;
+			set_bit(crc, gAirCopyBlockNumber + gErrorsDuringAirCopy);
 			lErrorsDuringAirCopy = gErrorsDuringAirCopy;
 		}
 
 		for(uint8_t i = 0; i < (gAirCopyBlockNumber + gErrorsDuringAirCopy); i++)
 		{
-			if(crc[i] == 0)
+			if(get_bit(crc, i) == 0)
 			{
 				gFrameBuffer[4][i + 4] = 0xbd;
 			}
