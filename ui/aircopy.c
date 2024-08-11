@@ -27,10 +27,16 @@
 #include "ui/helper.h"
 #include "ui/inputbox.h"
 
+static int8_t map(int8_t x, int8_t in_min, int8_t in_max, int8_t out_min, int8_t out_max) {
+	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+
 void UI_DisplayAircopy(void)
 {
 	char String[16] = { 0 };
 	char *pPrintStr = { 0 };
+	static bool crc[120] = { 0 };
+	static uint8_t lErrorsDuringAirCopy = 0;
 
 	UI_DisplayClear();
 
@@ -60,11 +66,39 @@ void UI_DisplayAircopy(void)
 
 	memset(String, 0, sizeof(String));
 	if (gAirCopyIsSendMode == 0) {
-		sprintf(String, "RCV:%u E:%u", gAirCopyBlockNumber, gErrorsDuringAirCopy);
+		sprintf(String, "RCV:%02d%% E:%02d", map(gAirCopyBlockNumber + gErrorsDuringAirCopy, 0, 120, 0, 100), gErrorsDuringAirCopy);
 	} else if (gAirCopyIsSendMode == 1) {
-		sprintf(String, "SND:%u", gAirCopyBlockNumber);
+		sprintf(String, "SND:%02d%%", map(gAirCopyBlockNumber + gErrorsDuringAirCopy, 0, 120, 0, 100));
 	}
-	UI_PrintString(String, 2, 127, 4, 8);
+	UI_PrintString(String, 2, 127, 5, 8);
+
+	// Draw gauge
+	gFrameBuffer[4][2] = 0xff;
+
+	for(uint8_t i = 1; i <= 122; i++)
+	{
+		gFrameBuffer[4][2 + i] = 0x81;
+	}
+
+	if(gAirCopyBlockNumber + gErrorsDuringAirCopy != 0)
+	{
+		// Check CRC
+		if(gErrorsDuringAirCopy != lErrorsDuringAirCopy)
+		{
+			crc[gAirCopyBlockNumber + gErrorsDuringAirCopy - 1] = 1;
+			lErrorsDuringAirCopy = gErrorsDuringAirCopy;
+		}
+
+		for(uint8_t i = 0; i < (gAirCopyBlockNumber + gErrorsDuringAirCopy); i++)
+		{
+			if(crc[i] == 0)
+			{
+				gFrameBuffer[4][i + 4] = 0xbd;
+			}
+		}
+	}
+
+	gFrameBuffer[4][125] = 0xff;
 
 	ST7565_BlitFullScreen();
 }
