@@ -27,7 +27,7 @@
 #include "ui/helper.h"
 #include "ui/inputbox.h"
 
-static int8_t map(int8_t x, int8_t in_min, int8_t in_max, int8_t out_min, int8_t out_max) {
+static int16_t map(int16_t x, int16_t in_min, int16_t in_max, int16_t out_min, int16_t out_max) {
 	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
@@ -37,6 +37,7 @@ void UI_DisplayAircopy(void)
 	char *pPrintStr = { 0 };
 	static bool crc[120] = { 0 };
 	static uint8_t lErrorsDuringAirCopy = 0;
+	uint16_t percent;
 
 	UI_DisplayClear();
 
@@ -65,10 +66,13 @@ void UI_DisplayAircopy(void)
 	}
 
 	memset(String, 0, sizeof(String));
+
+	percent = map(gAirCopyBlockNumber * 100, 0, 120 * 100, 0, 100 * 100);
+
 	if (gAirCopyIsSendMode == 0) {
-		sprintf(String, "RCV:%02d%% E:%02d", map(gAirCopyBlockNumber, 0, 120, 0, 100), gErrorsDuringAirCopy);
+		sprintf(String, "RCV:%02u.%02u%% E:%d", percent / 100, percent % 100, gErrorsDuringAirCopy);
 	} else if (gAirCopyIsSendMode == 1) {
-		sprintf(String, "SND:%02d%%", map(gAirCopyBlockNumber, 0, 120, 0, 100));
+		sprintf(String, "SND:%02d%%", percent / 100);
 	}
 	UI_PrintString(String, 2, 127, 5, 8);
 
