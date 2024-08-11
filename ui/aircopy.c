@@ -27,10 +27,6 @@
 #include "ui/helper.h"
 #include "ui/inputbox.h"
 
-static int16_t map(int16_t x, int16_t in_min, int16_t in_max, int16_t out_min, int16_t out_max) {
-	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-}
-
 void UI_DisplayAircopy(void)
 {
 	char String[16] = { 0 };
@@ -67,12 +63,12 @@ void UI_DisplayAircopy(void)
 
 	memset(String, 0, sizeof(String));
 
-	percent = map(gAirCopyBlockNumber * 100, 0, 120 * 100, 0, 100 * 100);
+	percent = (gAirCopyBlockNumber * 10000) / 120;
 
 	if (gAirCopyIsSendMode == 0) {
 		sprintf(String, "RCV:%02u.%02u%% E:%d", percent / 100, percent % 100, gErrorsDuringAirCopy);
 	} else if (gAirCopyIsSendMode == 1) {
-		sprintf(String, "SND:%02d%%", percent / 100);
+		sprintf(String, "SND:%02u.%02u%%", percent / 100, percent % 100);
 	}
 	UI_PrintString(String, 2, 127, 5, 8);
 
