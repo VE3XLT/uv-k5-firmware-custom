@@ -66,9 +66,9 @@ void UI_DisplayAircopy(void)
 
 	memset(String, 0, sizeof(String));
 	if (gAirCopyIsSendMode == 0) {
-		sprintf(String, "RCV:%02d%% E:%02d", map(gAirCopyBlockNumber + gErrorsDuringAirCopy, 0, 120, 0, 100), gErrorsDuringAirCopy);
+		sprintf(String, "RCV:%02d%% E:%02d", map(gAirCopyBlockNumber, 0, 120, 0, 100), gErrorsDuringAirCopy);
 	} else if (gAirCopyIsSendMode == 1) {
-		sprintf(String, "SND:%02d%%", map(gAirCopyBlockNumber + gErrorsDuringAirCopy, 0, 120, 0, 100));
+		sprintf(String, "SND:%02d%%", map(gAirCopyBlockNumber, 0, 120, 0, 100));
 	}
 	UI_PrintString(String, 2, 127, 5, 8);
 
