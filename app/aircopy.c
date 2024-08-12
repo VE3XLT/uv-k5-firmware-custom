@@ -16,6 +16,10 @@
 
 #ifdef ENABLE_AIRCOPY
 
+//#if !defined(ENABLE_OVERLAY)
+//	#include "ARMCM0.h"
+//#endif
+
 #include "app/aircopy.h"
 #include "audio.h"
 #include "driver/bk4819.h"
@@ -61,6 +65,7 @@ bool AIRCOPY_SendMessage(void)
 
 	if (++gAirCopyBlockNumber >= 0x78) {
 		gAircopyState = AIRCOPY_COMPLETE;
+		//NVIC_SystemReset();
 	}
 
 	RADIO_SetTxParameters();

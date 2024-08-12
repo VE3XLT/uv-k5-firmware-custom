@@ -31,7 +31,7 @@ static void set_bit(uint8_t* array, int bit_index) {
     array[bit_index / 8] |= (1 << (bit_index % 8));
 }
 
-int get_bit(uint8_t* array, int bit_index) {
+static int get_bit(uint8_t* array, int bit_index) {
     return (array[bit_index / 8] >> (bit_index % 8)) & 1;
 }
 
@@ -88,6 +88,8 @@ void UI_DisplayAircopy(void)
 		gFrameBuffer[4][2 + i] = 0x81;
 	}
 
+	gFrameBuffer[4][125] = 0xff;
+
 	if(gAirCopyBlockNumber + gErrorsDuringAirCopy != 0)
 	{
 		// Check CRC
@@ -105,8 +107,6 @@ void UI_DisplayAircopy(void)
 			}
 		}
 	}
-
-	gFrameBuffer[4][125] = 0xff;
 
 	ST7565_BlitFullScreen();
 }
