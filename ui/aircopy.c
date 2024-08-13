@@ -47,11 +47,6 @@ void UI_DisplayAircopy(void)
 
 	if (gAircopyState == AIRCOPY_READY) {
 		pPrintStr = "AIR COPY(RDY)";
-		lErrorsDuringAirCopy = 0;
-		for(uint8_t i = 0; i < 15; i++)
-		{
-			crc[i] = 0;
-		}
 	} else if (gAircopyState == AIRCOPY_TRANSFER) {
 		pPrintStr = "AIR COPY";
 	} else {

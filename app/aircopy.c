@@ -64,8 +64,7 @@ bool AIRCOPY_SendMessage(void)
 	}
 
 	if (++gAirCopyBlockNumber >= 0x78) {
-		gAircopyState = AIRCOPY_READY;
-		//gAircopyState = AIRCOPY_COMPLETE;
+		gAircopyState = AIRCOPY_COMPLETE;
 		//NVIC_SystemReset();
 	}
 
@@ -123,8 +122,7 @@ void AIRCOPY_StorePacket(void)
 	}
 
 	if (Offset == 0x1E00) {
-		gAircopyState = AIRCOPY_READY;
-		//gAircopyState = AIRCOPY_COMPLETE;
+		gAircopyState = AIRCOPY_COMPLETE;
 	}
 
 	gAirCopyBlockNumber++;
