@@ -405,23 +405,8 @@ static void MAIN_Key_DIGITS(KEY_Code_t Key, bool bKeyPressed, bool bKeyHeld)
 
 		if (gScanStateDir != SCAN_OFF){
 			switch(Key) {
-				case KEY_0:
-					gEeprom.SCAN_LIST_DEFAULT = 0;
-					break;
-				case KEY_1:
-					gEeprom.SCAN_LIST_DEFAULT = 1;
-					break;
-				case KEY_2:
-					gEeprom.SCAN_LIST_DEFAULT = 2;
-					break;
-				case KEY_3:
-					gEeprom.SCAN_LIST_DEFAULT = 3;
-					break;
-				case KEY_4:
-					gEeprom.SCAN_LIST_DEFAULT = 4;
-					break;
-				case KEY_5:
-					gEeprom.SCAN_LIST_DEFAULT = 5;
+				case KEY_0...KEY_5:
+					gEeprom.SCAN_LIST_DEFAULT = Key;
 					break;
 				default:
 					break;
