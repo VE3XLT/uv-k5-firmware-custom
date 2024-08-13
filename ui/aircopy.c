@@ -81,14 +81,16 @@ void UI_DisplayAircopy(void)
 	UI_PrintString(String, 2, 127, 5, 8);
 
 	// Draw gauge
-	gFrameBuffer[4][2] = 0xff;
+	gFrameBuffer[4][1] = 0x3c;
+	gFrameBuffer[4][2] = 0x42;
 
 	for(uint8_t i = 1; i <= 122; i++)
 	{
 		gFrameBuffer[4][2 + i] = 0x81;
 	}
 
-	gFrameBuffer[4][125] = 0xff;
+	gFrameBuffer[4][125] = 0x42;
+	gFrameBuffer[4][126] = 0x3c;
 
 	if(gAirCopyBlockNumber + gErrorsDuringAirCopy != 0)
 	{
