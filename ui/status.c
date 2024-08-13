@@ -37,26 +37,16 @@
 #ifdef ENABLE_FEAT_F4HWN_RX_TX_TIMER
 static void convertTime(uint8_t *line, uint8_t type) 
 {
-	char str[8] = "";
+    uint16_t t = (type == 0) ? (gTxTimerCountdown_500ms / 2) : (3600 - gRxTimerCountdown_500ms / 2);
 
-    uint8_t m, s; // Declare variables for seconds, hours, minutes, and seconds
-    uint16_t t;
+    uint8_t m = t / 60;
+    uint8_t s = t % 60; // Utilisation de l'opérateur modulo pour simplifier le calcul des secondes
 
-    if(type == 0) // Tx timer
-		t = (gTxTimerCountdown_500ms / 2);
-		//t = ((gEeprom.TX_TIMEOUT_TIMER + 1) * 5) - (gTxTimerCountdown_500ms / 2);
-    else          // Rx timer
-		t = 3600 - (gRxTimerCountdown_500ms / 2);
+    gStatusLine[0] = gStatusLine[7] = gStatusLine[14] = 0x00; // Quick fix on display (on scanning I, II, etc.)
 
-    m = t / 60;
-    s = t - (m * 60);
-
-    gStatusLine[0] = 0x00; 	// Quick fix on display (on scanning I, II, etc.)
-    gStatusLine[7] = 0x00; 	// Quick fix on display (on scanning I, II, etc.)
-    gStatusLine[14] = 0x00; // Quick fix on display (on scanning I, II, etc.)
-
+    char str[8];
     sprintf(str, "%02d:%02d", m, s);
-    UI_PrintStringSmallBufferNormal(str, line + 0);
+    UI_PrintStringSmallBufferNormal(str, line);
 
     gUpdateStatus = true;
 }
