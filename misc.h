@@ -171,6 +171,8 @@ extern enum BacklightOnRxTx_t gSetting_backlight_on_tx_rx;
 	extern uint8_t            gDW;
 	extern uint8_t            gCB;
 	extern bool               gSaveRxMode;
+	extern uint8_t            crc[15];
+	extern uint8_t            lErrorsDuringAirCopy;
 #endif
 
 #ifdef ENABLE_AUDIO_BAR
