@@ -41,6 +41,14 @@ uint8_t gAirCopyIsSendMode;
 
 uint16_t g_FSK_Buffer[36];
 
+static void AIRCOPY_clear()
+{
+	for (uint8_t i = 0; i < 15; i++)
+	{
+		crc[i] = 0;
+	}
+}
+
 bool AIRCOPY_SendMessage(void)
 {
 	static uint8_t gAircopySendCountdown = 1;
@@ -183,11 +191,14 @@ static void AIRCOPY_Key_EXIT(bool bKeyPressed, bool bKeyHeld)
 	}
 
 	if (gInputBoxIndex == 0) {
+		gAircopyStep = 1;
 		gFSKWriteIndex = 0;
 		gAirCopyBlockNumber = 0;
 		gInputBoxIndex = 0;
-		gErrorsDuringAirCopy = 0;
+		gErrorsDuringAirCopy = lErrorsDuringAirCopy = 0;
 		gAirCopyIsSendMode = 0;
+
+		AIRCOPY_clear();
 
 		BK4819_PrepareFSKReceive();
 
@@ -205,6 +216,7 @@ static void AIRCOPY_Key_MENU(bool bKeyPressed, bool bKeyHeld)
 		return;
 	}
 
+	gAircopyStep = 1;
 	gFSKWriteIndex = 0;
 	gAirCopyBlockNumber = 0;
 	gInputBoxIndex = 0;
@@ -212,6 +224,8 @@ static void AIRCOPY_Key_MENU(bool bKeyPressed, bool bKeyHeld)
 	g_FSK_Buffer[0] = 0xABCD;
 	g_FSK_Buffer[1] = 0;
 	g_FSK_Buffer[35] = 0xDCBA;
+
+	AIRCOPY_clear();
 
 	GUI_DisplayScreen();
 

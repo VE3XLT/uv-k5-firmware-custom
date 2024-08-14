@@ -121,6 +121,7 @@ enum BacklightOnRxTx_t gSetting_backlight_on_tx_rx;
 	bool          gSaveRxMode = false;
 	uint8_t       crc[15] = { 0 };
 	uint8_t       lErrorsDuringAirCopy = 0;
+	uint8_t       gAircopyStep = 0;
 #endif
 
 #ifdef ENABLE_AUDIO_BAR

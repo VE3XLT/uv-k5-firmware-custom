@@ -49,6 +49,7 @@ void UI_DisplayAircopy(void)
 		pPrintStr = "AIR COPY";
 	} else {
 		pPrintStr = "AIR COPY(CMP)";
+		gAircopyState = AIRCOPY_READY;
 	}
 
 	UI_PrintString(pPrintStr, 2, 127, 0, 8);
@@ -78,7 +79,7 @@ void UI_DisplayAircopy(void)
 	}
 
 	// Draw gauge
-	if(gAircopyState != AIRCOPY_READY)
+	if(gAircopyStep != 0)
 	{
 		UI_PrintString(String, 2, 127, 5, 8);
 
