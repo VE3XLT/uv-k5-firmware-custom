@@ -114,6 +114,7 @@ enum BacklightOnRxTx_t gSetting_backlight_on_tx_rx;
 	bool          gSetting_set_lck = false;
 	bool          gSetting_set_met = 0;
 	bool          gSetting_set_gui = 0;
+	bool          gSetting_set_tmr = 0;
 	bool          gSetting_set_ptt_session;
 	uint8_t       gDebug;
 	uint8_t       gDW = 0;

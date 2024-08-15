@@ -146,6 +146,7 @@ const t_menu_item MenuList[] =
 	{"SetLck",		MENU_SET_LCK       },
 	{"SetMet",		MENU_SET_MET       },
 	{"SetGui",		MENU_SET_GUI       },
+	{"SetTmr",		MENU_SET_TMR       },
 #endif
 	// hidden menu items from here on
 	// enabled if pressing both the PTT and upper side button at power-on
@@ -737,6 +738,9 @@ void UI_DisplayMenu(void)
 		case MENU_350EN:
 #ifndef ENABLE_FEAT_F4HWN
 		case MENU_SCREN:
+#endif
+#ifdef ENABLE_FEAT_F4HWN
+		case MENU_SET_TMR:
 #endif
 			strcpy(String, gSubMenu_OFF_ON[gSubMenuSelection]);
 			break;

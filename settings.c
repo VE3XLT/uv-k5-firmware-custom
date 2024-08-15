@@ -324,6 +324,7 @@ void SETTINGS_InitEEPROM(void)
 		gSetting_set_tot = (((Data[6] & 0xF0) >> 4) < 4) ? ((Data[6] & 0xF0) >> 4) : 0;
 		gSetting_set_eot = (((Data[6] & 0x0F)) < 4) ? ((Data[6] & 0x0F)) : 0;
 
+		/*
 		int tmp = ((Data[5] & 0xF0) >> 4);
 
 		gSetting_set_inv = (((tmp >> 0) & 0x01) < 2) ? ((tmp >> 0) & 0x01): 0;
@@ -331,6 +332,21 @@ void SETTINGS_InitEEPROM(void)
 		gSetting_set_met = (((tmp >> 2) & 0x01) < 2) ? ((tmp >> 2) & 0x01): 0;
 		gSetting_set_gui = (((tmp >> 3) & 0x01) < 2) ? ((tmp >> 3) & 0x01): 0;
 		gSetting_set_ctr = (((Data[5] & 0x0F)) > 00 && ((Data[5] & 0x0F)) < 16) ? ((Data[5] & 0x0F)) : 10;
+
+		gSetting_set_tmr = ((Data[4] & 1) < 2) ? (Data[4] & 1): 0;
+		*/
+
+		int tmp = (Data[5] & 0xF0) >> 4;
+
+		gSetting_set_inv = (tmp >> 0) & 0x01;
+		gSetting_set_lck = (tmp >> 1) & 0x01;
+		gSetting_set_met = (tmp >> 2) & 0x01;
+		gSetting_set_gui = (tmp >> 3) & 0x01;
+
+		int ctr_value = Data[5] & 0x0F;
+		gSetting_set_ctr = (ctr_value > 0 && ctr_value < 16) ? ctr_value : 10;
+
+		gSetting_set_tmr = Data[4] & 1;
 
 		// And set special session settings for actions
 		gSetting_set_ptt_session = gSetting_set_ptt;
@@ -700,6 +716,14 @@ void SETTINGS_SaveSettings(void)
 #ifdef ENABLE_FEAT_F4HWN
 	memset(State, 0xFF, sizeof(State));
 
+	/*
+	tmp = 0;
+
+	if(gSetting_set_tmr == 1)
+		tmp = tmp | (1 << 0);
+
+	State[4] = tmp;
+
 	tmp = 0;
 
    	if(gSetting_set_inv == 1)
@@ -710,6 +734,14 @@ void SETTINGS_SaveSettings(void)
 		tmp = tmp | (1 << 2);
 	if (gSetting_set_gui == 1)
 		tmp = tmp | (1 << 3);
+	*/
+
+	State[4] = gSetting_set_tmr ? (1 << 0) : 0;
+
+	tmp = 	(gSetting_set_inv << 0) |
+			(gSetting_set_lck << 1) |
+			(gSetting_set_met << 2) |
+			(gSetting_set_gui << 3);
 
 	State[5] = ((tmp << 4) | (gSetting_set_ctr & 0x0F));
 	State[6] = ((gSetting_set_tot << 4) | (gSetting_set_eot & 0x0F));

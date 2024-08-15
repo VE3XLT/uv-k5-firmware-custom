@@ -143,11 +143,11 @@ void UI_DisplayStatus()
 
 		if(!SCANNER_IsScanning()) {
 		#ifdef ENABLE_FEAT_F4HWN_RX_TX_TIMER
-			if(gCurrentFunction == FUNCTION_TRANSMIT)
+			if(gCurrentFunction == FUNCTION_TRANSMIT && gSetting_set_tmr == true)
 			{
 				convertTime(line, 0);
 			}
-			else if(FUNCTION_IsRx())
+			else if(FUNCTION_IsRx() && gSetting_set_tmr == true)
 			{
 				convertTime(line, 1);
 			}
