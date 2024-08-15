@@ -24,114 +24,114 @@
 #include "frequencies.h"
 
 enum {
-	RADIO_CHANNEL_UP   = 0x01u,
-	RADIO_CHANNEL_DOWN = 0xFFu,
+    RADIO_CHANNEL_UP   = 0x01u,
+    RADIO_CHANNEL_DOWN = 0xFFu,
 };
 
 enum {
-	BANDWIDTH_WIDE = 0,
-	BANDWIDTH_NARROW
+    BANDWIDTH_WIDE = 0,
+    BANDWIDTH_NARROW
 };
 
 enum PTT_ID_t {
-	PTT_ID_OFF = 0,    // OFF
-	PTT_ID_TX_UP,      // BEGIN OF TX
-	PTT_ID_TX_DOWN,    // END OF TX
-	PTT_ID_BOTH,       // BOTH
-	PTT_ID_APOLLO      // Apolo quindar tones
+    PTT_ID_OFF = 0,    // OFF
+    PTT_ID_TX_UP,      // BEGIN OF TX
+    PTT_ID_TX_DOWN,    // END OF TX
+    PTT_ID_BOTH,       // BOTH
+    PTT_ID_APOLLO      // Apolo quindar tones
 };
 typedef enum PTT_ID_t PTT_ID_t;
 
 enum VfoState_t
 {
-	VFO_STATE_NORMAL = 0,
-	VFO_STATE_BUSY,
-	VFO_STATE_BAT_LOW,
-	VFO_STATE_TX_DISABLE,
-	VFO_STATE_TIMEOUT,
-	VFO_STATE_ALARM,
-	VFO_STATE_VOLTAGE_HIGH,
-	_VFO_STATE_LAST_ELEMENT
+    VFO_STATE_NORMAL = 0,
+    VFO_STATE_BUSY,
+    VFO_STATE_BAT_LOW,
+    VFO_STATE_TX_DISABLE,
+    VFO_STATE_TIMEOUT,
+    VFO_STATE_ALARM,
+    VFO_STATE_VOLTAGE_HIGH,
+    _VFO_STATE_LAST_ELEMENT
 };
 typedef enum VfoState_t VfoState_t;
 
 typedef enum {
-	MODULATION_FM,
-	MODULATION_AM,
-	MODULATION_USB,
+    MODULATION_FM,
+    MODULATION_AM,
+    MODULATION_USB,
 
 #ifdef ENABLE_BYP_RAW_DEMODULATORS
-	MODULATION_BYP,
-	MODULATION_RAW,
+    MODULATION_BYP,
+    MODULATION_RAW,
 #endif
 
-	MODULATION_UKNOWN
+    MODULATION_UKNOWN
 } ModulationMode_t;
 
 extern const char gModulationStr[MODULATION_UKNOWN][4];
 
 typedef struct
 {
-	uint32_t       Frequency;
-	DCS_CodeType_t CodeType;
-	uint8_t        Code;
-	uint8_t        Padding[2];
+    uint32_t       Frequency;
+    DCS_CodeType_t CodeType;
+    uint8_t        Code;
+    uint8_t        Padding[2];
 } FREQ_Config_t;
 
 typedef struct VFO_Info_t
 {
-	FREQ_Config_t  freq_config_RX;
-	FREQ_Config_t  freq_config_TX;
+    FREQ_Config_t  freq_config_RX;
+    FREQ_Config_t  freq_config_TX;
 
-	// this is for a purpose of the FrequencyReverse function
-	// it points to freq_config_RX normally and to freq_config_TX if reverse function is active
-	//
-	FREQ_Config_t *pRX;
+    // this is for a purpose of the FrequencyReverse function
+    // it points to freq_config_RX normally and to freq_config_TX if reverse function is active
+    //
+    FREQ_Config_t *pRX;
 
-	// this is for a purpose of the FrequencyReverse function
-	// it points to freq_config_TX normally and to freq_config_RX if reverse function is active
-	FREQ_Config_t *pTX;
+    // this is for a purpose of the FrequencyReverse function
+    // it points to freq_config_TX normally and to freq_config_RX if reverse function is active
+    FREQ_Config_t *pTX;
 
-	uint32_t       TX_OFFSET_FREQUENCY;
-	uint16_t       StepFrequency;
+    uint32_t       TX_OFFSET_FREQUENCY;
+    uint16_t       StepFrequency;
 
-	uint8_t        CHANNEL_SAVE;
+    uint8_t        CHANNEL_SAVE;
 
-	uint8_t        TX_OFFSET_FREQUENCY_DIRECTION;
+    uint8_t        TX_OFFSET_FREQUENCY_DIRECTION;
 
-	uint8_t        SquelchOpenRSSIThresh;
-	uint8_t        SquelchOpenNoiseThresh;
-	uint8_t        SquelchCloseGlitchThresh;
-	uint8_t        SquelchCloseRSSIThresh;
-	uint8_t        SquelchCloseNoiseThresh;
-	uint8_t        SquelchOpenGlitchThresh;
+    uint8_t        SquelchOpenRSSIThresh;
+    uint8_t        SquelchOpenNoiseThresh;
+    uint8_t        SquelchCloseGlitchThresh;
+    uint8_t        SquelchCloseRSSIThresh;
+    uint8_t        SquelchCloseNoiseThresh;
+    uint8_t        SquelchOpenGlitchThresh;
 
-	STEP_Setting_t STEP_SETTING;
-	uint8_t        TX_LOCK;
-	uint8_t        OUTPUT_POWER;
-	uint8_t        TXP_CalculatedSetting;
-	bool           FrequencyReverse;
+    STEP_Setting_t STEP_SETTING;
+    uint8_t        TX_LOCK;
+    uint8_t        OUTPUT_POWER;
+    uint8_t        TXP_CalculatedSetting;
+    bool           FrequencyReverse;
 
-	uint8_t        SCRAMBLING_TYPE;
-	uint8_t        CHANNEL_BANDWIDTH;
+    uint8_t        SCRAMBLING_TYPE;
+    uint8_t        CHANNEL_BANDWIDTH;
 
-	uint8_t        SCANLIST1_PARTICIPATION;
-	uint8_t        SCANLIST2_PARTICIPATION;
-	uint8_t        SCANLIST3_PARTICIPATION;
+    uint8_t        SCANLIST1_PARTICIPATION;
+    uint8_t        SCANLIST2_PARTICIPATION;
+    uint8_t        SCANLIST3_PARTICIPATION;
 
-	uint8_t        Band;
+    uint8_t        Band;
 #ifdef ENABLE_DTMF_CALLING
-	uint8_t        DTMF_DECODING_ENABLE;
+    uint8_t        DTMF_DECODING_ENABLE;
 #endif
-	PTT_ID_t       DTMF_PTT_ID_TX_MODE;
+    PTT_ID_t       DTMF_PTT_ID_TX_MODE;
 
-	uint8_t        BUSY_CHANNEL_LOCK;
+    uint8_t        BUSY_CHANNEL_LOCK;
 
-	ModulationMode_t    Modulation;
+    ModulationMode_t    Modulation;
 
-	uint8_t        Compander;
+    uint8_t        Compander;
 
-	char           Name[16];
+    char           Name[16];
 } VFO_Info_t;
 
 // Settings of the main VFO that is selected by the user
@@ -159,10 +159,10 @@ void     RADIO_ApplyOffset(VFO_Info_t *pInfo);
 void     RADIO_SelectVfos(void);
 void     RADIO_SetupRegisters(bool switchToForeground);
 #ifdef ENABLE_NOAA
-	void RADIO_ConfigureNOAA(void);
+    void RADIO_ConfigureNOAA(void);
 #endif
 void     RADIO_SetTxParameters(void);
-void 	 RADIO_SetupAGC(bool listeningAM, bool disable);
+void     RADIO_SetupAGC(bool listeningAM, bool disable);
 void     RADIO_SetModulation(ModulationMode_t modulation);
 void     RADIO_SetVfoState(VfoState_t State);
 void     RADIO_PrepareTX(void);

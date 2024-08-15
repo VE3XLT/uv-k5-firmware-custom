@@ -22,17 +22,17 @@
 
 typedef enum 
 {
-	SCAN_CSS_STATE_OFF,
-	SCAN_CSS_STATE_SCANNING,
-	SCAN_CSS_STATE_FOUND,
-	SCAN_CSS_STATE_FAILED
+    SCAN_CSS_STATE_OFF,
+    SCAN_CSS_STATE_SCANNING,
+    SCAN_CSS_STATE_FOUND,
+    SCAN_CSS_STATE_FAILED
 } SCAN_CssState_t;
 
 typedef enum 
 {
-	SCAN_SAVE_NO_PROMPT, // saving process not initiated
-	SCAN_SAVE_CHAN_SEL,  // "SAVE: ", channel select prompt, actives only in channel mode
-	SCAN_SAVE_CHANNEL,   // "SAVE?" prompt, waits for confirmation to save settings to channel, or current VFO 
+    SCAN_SAVE_NO_PROMPT, // saving process not initiated
+    SCAN_SAVE_CHAN_SEL,  // "SAVE: ", channel select prompt, actives only in channel mode
+    SCAN_SAVE_CHANNEL,   // "SAVE?" prompt, waits for confirmation to save settings to channel, or current VFO 
 } SCAN_SaveState_t;
 
 

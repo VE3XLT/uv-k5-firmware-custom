@@ -37,83 +37,83 @@ static int get_bit(uint8_t* array, int bit_index) {
 
 void UI_DisplayAircopy(void)
 {
-	char String[16] = { 0 };
-	char *pPrintStr = { 0 };
-	uint16_t percent;
+    char String[16] = { 0 };
+    char *pPrintStr = { 0 };
+    uint16_t percent;
 
-	UI_DisplayClear();
+    UI_DisplayClear();
 
-	if (gAircopyState == AIRCOPY_READY) {
-		pPrintStr = "AIR COPY(RDY)";
-	} else if (gAircopyState == AIRCOPY_TRANSFER) {
-		pPrintStr = "AIR COPY";
-	} else {
-		pPrintStr = "AIR COPY(CMP)";
-		gAircopyState = AIRCOPY_READY;
-	}
+    if (gAircopyState == AIRCOPY_READY) {
+        pPrintStr = "AIR COPY(RDY)";
+    } else if (gAircopyState == AIRCOPY_TRANSFER) {
+        pPrintStr = "AIR COPY";
+    } else {
+        pPrintStr = "AIR COPY(CMP)";
+        gAircopyState = AIRCOPY_READY;
+    }
 
-	UI_PrintString(pPrintStr, 2, 127, 0, 8);
+    UI_PrintString(pPrintStr, 2, 127, 0, 8);
 
-	if (gInputBoxIndex == 0) {
-		uint32_t frequency = gRxVfo->freq_config_RX.Frequency;
-		sprintf(String, "%3u.%05u", frequency / 100000, frequency % 100000);
-		// show the remaining 2 small frequency digits
-		UI_PrintStringSmallNormal(String + 7, 97, 0, 3);
-		String[7] = 0;
-		// show the main large frequency digits
-		UI_DisplayFrequency(String, 16, 2, false);
-	} else {
-		const char *ascii = INPUTBOX_GetAscii();
-		sprintf(String, "%.3s.%.3s", ascii, ascii + 3);
-		UI_DisplayFrequency(String, 16, 2, false);
-	}
+    if (gInputBoxIndex == 0) {
+        uint32_t frequency = gRxVfo->freq_config_RX.Frequency;
+        sprintf(String, "%3u.%05u", frequency / 100000, frequency % 100000);
+        // show the remaining 2 small frequency digits
+        UI_PrintStringSmallNormal(String + 7, 97, 0, 3);
+        String[7] = 0;
+        // show the main large frequency digits
+        UI_DisplayFrequency(String, 16, 2, false);
+    } else {
+        const char *ascii = INPUTBOX_GetAscii();
+        sprintf(String, "%.3s.%.3s", ascii, ascii + 3);
+        UI_DisplayFrequency(String, 16, 2, false);
+    }
 
-	memset(String, 0, sizeof(String));
+    memset(String, 0, sizeof(String));
 
-	percent = (gAirCopyBlockNumber * 10000) / 120;
+    percent = (gAirCopyBlockNumber * 10000) / 120;
 
-	if (gAirCopyIsSendMode == 0) {
-		sprintf(String, "RCV:%02u.%02u%% E:%d", percent / 100, percent % 100, gErrorsDuringAirCopy);
-	} else if (gAirCopyIsSendMode == 1) {
-		sprintf(String, "SND:%02u.%02u%%", percent / 100, percent % 100);
-	}
+    if (gAirCopyIsSendMode == 0) {
+        sprintf(String, "RCV:%02u.%02u%% E:%d", percent / 100, percent % 100, gErrorsDuringAirCopy);
+    } else if (gAirCopyIsSendMode == 1) {
+        sprintf(String, "SND:%02u.%02u%%", percent / 100, percent % 100);
+    }
 
-	// Draw gauge
-	if(gAircopyStep != 0)
-	{
-		UI_PrintString(String, 2, 127, 5, 8);
+    // Draw gauge
+    if(gAircopyStep != 0)
+    {
+        UI_PrintString(String, 2, 127, 5, 8);
 
-		gFrameBuffer[4][1] = 0x3c;
-		gFrameBuffer[4][2] = 0x42;
+        gFrameBuffer[4][1] = 0x3c;
+        gFrameBuffer[4][2] = 0x42;
 
-		for(uint8_t i = 1; i <= 122; i++)
-		{
-			gFrameBuffer[4][2 + i] = 0x81;
-		}
+        for(uint8_t i = 1; i <= 122; i++)
+        {
+            gFrameBuffer[4][2 + i] = 0x81;
+        }
 
-		gFrameBuffer[4][125] = 0x42;
-		gFrameBuffer[4][126] = 0x3c;
-	}
+        gFrameBuffer[4][125] = 0x42;
+        gFrameBuffer[4][126] = 0x3c;
+    }
 
-	if(gAirCopyBlockNumber + gErrorsDuringAirCopy != 0)
-	{
-		// Check CRC
-		if(gErrorsDuringAirCopy != lErrorsDuringAirCopy)
-		{
-			set_bit(crc, gAirCopyBlockNumber + gErrorsDuringAirCopy);
-			lErrorsDuringAirCopy = gErrorsDuringAirCopy;
-		}
+    if(gAirCopyBlockNumber + gErrorsDuringAirCopy != 0)
+    {
+        // Check CRC
+        if(gErrorsDuringAirCopy != lErrorsDuringAirCopy)
+        {
+            set_bit(crc, gAirCopyBlockNumber + gErrorsDuringAirCopy);
+            lErrorsDuringAirCopy = gErrorsDuringAirCopy;
+        }
 
-		for(uint8_t i = 0; i < (gAirCopyBlockNumber + gErrorsDuringAirCopy); i++)
-		{
-			if(get_bit(crc, i) == 0)
-			{
-				gFrameBuffer[4][i + 4] = 0xbd;
-			}
-		}
-	}
+        for(uint8_t i = 0; i < (gAirCopyBlockNumber + gErrorsDuringAirCopy); i++)
+        {
+            if(get_bit(crc, i) == 0)
+            {
+                gFrameBuffer[4][i + 4] = 0xbd;
+            }
+        }
+    }
 
-	ST7565_BlitFullScreen();
+    ST7565_BlitFullScreen();
 }
 
 #endif

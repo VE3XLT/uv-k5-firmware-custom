@@ -24,7 +24,7 @@ extern const uint8_t BITMAP_USB_C[9];
 extern const uint8_t BITMAP_Ready[7];
 
 #ifdef ENABLE_VOX
-	extern const uint8_t gFontVox[2][6];
+    extern const uint8_t gFontVox[2][6];
 #endif
 
 extern const uint8_t BITMAP_Antenna[5];
@@ -42,7 +42,7 @@ extern const uint8_t BITMAP_PowerUser[3];
 extern const uint8_t BITMAP_compand[6];
 
 #ifndef ENABLE_CUSTOM_MENU_LAYOUT
-	extern const uint8_t BITMAP_CurrentIndicator[8];
+    extern const uint8_t BITMAP_CurrentIndicator[8];
 #endif
 
 #endif

@@ -21,18 +21,18 @@
 #include <stdint.h>
 
 typedef struct {
-	uint8_t MSTR;
-	uint8_t SPR;
-	uint8_t CPHA;
-	uint8_t CPOL;
-	uint8_t LSB;
-	uint8_t TF_CLR;
-	uint8_t RF_CLR;
-	uint8_t TXFIFO_HFULL;
-	uint8_t TXFIFO_EMPTY;
-	uint8_t RXFIFO_HFULL;
-	uint8_t RXFIFO_FULL;
-	uint8_t RXFIFO_OVF;
+    uint8_t MSTR;
+    uint8_t SPR;
+    uint8_t CPHA;
+    uint8_t CPOL;
+    uint8_t LSB;
+    uint8_t TF_CLR;
+    uint8_t RF_CLR;
+    uint8_t TXFIFO_HFULL;
+    uint8_t TXFIFO_EMPTY;
+    uint8_t RXFIFO_HFULL;
+    uint8_t RXFIFO_FULL;
+    uint8_t RXFIFO_OVF;
 } SPI_Config_t;
 
 void SPI0_Init(void);

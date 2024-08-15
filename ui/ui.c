@@ -20,15 +20,15 @@
 #include "app/chFrScanner.h"
 #include "app/dtmf.h"
 #ifdef ENABLE_FMRADIO
-	#include "app/fm.h"
+    #include "app/fm.h"
 #endif
 #include "driver/keyboard.h"
 #include "misc.h"
 #ifdef ENABLE_AIRCOPY
-	#include "ui/aircopy.h"
+    #include "ui/aircopy.h"
 #endif
 #ifdef ENABLE_FMRADIO
-	#include "ui/fmradio.h"
+    #include "ui/fmradio.h"
 #endif
 #include "ui/inputbox.h"
 #include "ui/main.h"
@@ -46,16 +46,16 @@ bool              gAskToDelete;
 
 
 void (*UI_DisplayFunctions[])(void) = {
-	[DISPLAY_MAIN] = &UI_DisplayMain,
-	[DISPLAY_MENU] = &UI_DisplayMenu,
-	[DISPLAY_SCANNER] = &UI_DisplayScanner,
+    [DISPLAY_MAIN] = &UI_DisplayMain,
+    [DISPLAY_MENU] = &UI_DisplayMenu,
+    [DISPLAY_SCANNER] = &UI_DisplayScanner,
 
 #ifdef ENABLE_FMRADIO
-	[DISPLAY_FM] = &UI_DisplayFM,
+    [DISPLAY_FM] = &UI_DisplayFM,
 #endif
 
 #ifdef ENABLE_AIRCOPY
-	[DISPLAY_AIRCOPY] = &UI_DisplayAircopy,
+    [DISPLAY_AIRCOPY] = &UI_DisplayAircopy,
 #endif
 };
 
@@ -63,35 +63,35 @@ static_assert(ARRAY_SIZE(UI_DisplayFunctions) == DISPLAY_N_ELEM);
 
 void GUI_DisplayScreen(void)
 {
-	if (gScreenToDisplay != DISPLAY_INVALID) {
-		UI_DisplayFunctions[gScreenToDisplay]();
-	}
+    if (gScreenToDisplay != DISPLAY_INVALID) {
+        UI_DisplayFunctions[gScreenToDisplay]();
+    }
 }
 
 void GUI_SelectNextDisplay(GUI_DisplayType_t Display)
 {
-	if (Display == DISPLAY_INVALID)
-		return;
+    if (Display == DISPLAY_INVALID)
+        return;
 
-	if (gScreenToDisplay != Display)
-	{
-		DTMF_clear_input_box();
+    if (gScreenToDisplay != Display)
+    {
+        DTMF_clear_input_box();
 
-		gInputBoxIndex       = 0;
-		gIsInSubMenu         = false;
-		gCssBackgroundScan         = false;
-		gScanStateDir        = SCAN_OFF;
-		#ifdef ENABLE_FMRADIO
-			gFM_ScanState    = FM_SCAN_OFF;
-		#endif
-		gAskForConfirmation  = 0;
-		gAskToSave           = false;
-		gAskToDelete         = false;
-		gWasFKeyPressed      = false;
+        gInputBoxIndex       = 0;
+        gIsInSubMenu         = false;
+        gCssBackgroundScan         = false;
+        gScanStateDir        = SCAN_OFF;
+        #ifdef ENABLE_FMRADIO
+            gFM_ScanState    = FM_SCAN_OFF;
+        #endif
+        gAskForConfirmation  = 0;
+        gAskToSave           = false;
+        gAskToDelete         = false;
+        gWasFKeyPressed      = false;
 
-		gUpdateStatus        = true;
-	}
+        gUpdateStatus        = true;
+    }
 
-	gScreenToDisplay = Display;
-	gUpdateDisplay   = true;
+    gScreenToDisplay = Display;
+    gUpdateDisplay   = true;
 }

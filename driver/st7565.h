@@ -39,7 +39,7 @@ void ST7565_SelectColumnAndLine(uint8_t Column, uint8_t Line);
 void ST7565_WriteByte(uint8_t Value);
 
 #ifdef ENABLE_FEAT_F4HWN
-	void ST7565_ContrastAndInv(void);
+    void ST7565_ContrastAndInv(void);
 #endif
 
 #endif

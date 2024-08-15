@@ -24,40 +24,40 @@
 
 enum BK4819_AF_Type_t
 {
-	BK4819_AF_MUTE      =  0u,  //
-	BK4819_AF_FM        =  1u,  // FM
-	BK4819_AF_ALAM      =  2u,  //
-	BK4819_AF_BEEP      =  3u,  //
-	BK4819_AF_BASEBAND1 =  4u,  // RAW
-	BK4819_AF_BASEBAND2 =  5u,  // USB
-	BK4819_AF_CTCO      =  6u,  // strange LF audio .. maybe the CTCSS LF line ?
-	BK4819_AF_AM        =  7u,  // AM
-	BK4819_AF_FSKO      =  8u,  // nothing
-	BK4819_AF_UNKNOWN3  =  9u,  // BYP
-	BK4819_AF_UNKNOWN4  = 10u,  // nothing at all
-	BK4819_AF_UNKNOWN5  = 11u,  // distorted
-	BK4819_AF_UNKNOWN6  = 12u,  // distorted
-	BK4819_AF_UNKNOWN7  = 13u,  // interesting
-	BK4819_AF_UNKNOWN8  = 14u,  // interesting
-	BK4819_AF_UNKNOWN9  = 15u   // not a lot
+    BK4819_AF_MUTE      =  0u,  //
+    BK4819_AF_FM        =  1u,  // FM
+    BK4819_AF_ALAM      =  2u,  //
+    BK4819_AF_BEEP      =  3u,  //
+    BK4819_AF_BASEBAND1 =  4u,  // RAW
+    BK4819_AF_BASEBAND2 =  5u,  // USB
+    BK4819_AF_CTCO      =  6u,  // strange LF audio .. maybe the CTCSS LF line ?
+    BK4819_AF_AM        =  7u,  // AM
+    BK4819_AF_FSKO      =  8u,  // nothing
+    BK4819_AF_UNKNOWN3  =  9u,  // BYP
+    BK4819_AF_UNKNOWN4  = 10u,  // nothing at all
+    BK4819_AF_UNKNOWN5  = 11u,  // distorted
+    BK4819_AF_UNKNOWN6  = 12u,  // distorted
+    BK4819_AF_UNKNOWN7  = 13u,  // interesting
+    BK4819_AF_UNKNOWN8  = 14u,  // interesting
+    BK4819_AF_UNKNOWN9  = 15u   // not a lot
 };
 
 typedef enum BK4819_AF_Type_t BK4819_AF_Type_t;
 
 enum BK4819_FilterBandwidth_t
 {
-	BK4819_FILTER_BW_WIDE = 0,
-	BK4819_FILTER_BW_NARROW,
-	BK4819_FILTER_BW_NARROWER
+    BK4819_FILTER_BW_WIDE = 0,
+    BK4819_FILTER_BW_NARROW,
+    BK4819_FILTER_BW_NARROWER
 };
 
 typedef enum BK4819_FilterBandwidth_t BK4819_FilterBandwidth_t;
 
 enum BK4819_CssScanResult_t
 {
-	BK4819_CSS_RESULT_NOT_FOUND = 0,
-	BK4819_CSS_RESULT_CTCSS,
-	BK4819_CSS_RESULT_CDCSS
+    BK4819_CSS_RESULT_NOT_FOUND = 0,
+    BK4819_CSS_RESULT_CTCSS,
+    BK4819_CSS_RESULT_CDCSS
 };
 
 typedef enum BK4819_CssScanResult_t BK4819_CssScanResult_t;
@@ -85,12 +85,12 @@ void     BK4819_SetFilterBandwidth(const BK4819_FilterBandwidth_t Bandwidth, con
 void     BK4819_SetupPowerAmplifier(const uint8_t bias, const uint32_t frequency);
 void     BK4819_SetFrequency(uint32_t Frequency);
 void     BK4819_SetupSquelch(
-			uint8_t SquelchOpenRSSIThresh,
-			uint8_t SquelchCloseRSSIThresh,
-			uint8_t SquelchOpenNoiseThresh,
-			uint8_t SquelchCloseNoiseThresh,
-			uint8_t SquelchCloseGlitchThresh,
-			uint8_t SquelchOpenGlitchThresh);
+            uint8_t SquelchOpenRSSIThresh,
+            uint8_t SquelchCloseRSSIThresh,
+            uint8_t SquelchOpenNoiseThresh,
+            uint8_t SquelchCloseNoiseThresh,
+            uint8_t SquelchCloseGlitchThresh,
+            uint8_t SquelchOpenGlitchThresh);
 
 void     BK4819_SetAF(BK4819_AF_Type_t AF);
 void     BK4819_RX_TurnOn(void);
@@ -111,7 +111,7 @@ void     BK4819_ExitTxMute(void);
 void     BK4819_Sleep(void);
 void     BK4819_TurnsOffTones_TurnsOnRX(void);
 #ifdef ENABLE_AIRCOPY
-	void     BK4819_SetupAircopy(void);
+    void     BK4819_SetupAircopy(void);
 #endif
 void     BK4819_ResetFSK(void);
 void     BK4819_Idle(void);
