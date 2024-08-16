@@ -117,21 +117,21 @@ static void LoadSettings()
     // 1FF0..0x1FF7
     EEPROM_ReadBuffer(0x1FF0, Data, 8);
 
-    settings.scanStepIndex = ((Data[4] & 0xF0) >> 4);
+    settings.scanStepIndex = ((Data[3] & 0xF0) >> 4);
 
     if (settings.scanStepIndex > 14)
     {
         settings.scanStepIndex = S_STEP_25_0kHz;
     }
 
-    settings.stepsCount = ((Data[4] & 0x0F) & 0b1100) >> 2;
+    settings.stepsCount = ((Data[3] & 0x0F) & 0b1100) >> 2;
 
     if (settings.stepsCount > 3)
     {
         settings.stepsCount = STEPS_64;
     }
 
-    settings.listenBw = ((Data[4] & 0x0F) & 0b0011);
+    settings.listenBw = ((Data[3] & 0x0F) & 0b0011);
 
     if (settings.listenBw > 2)
     {
@@ -145,7 +145,7 @@ static void SaveSettings()
     // 1FF0..0x1FF7
     EEPROM_ReadBuffer(0x1FF0, Data, 8);
 
-    Data[4] = (settings.scanStepIndex << 4) | (settings.stepsCount << 2) | settings.listenBw;
+    Data[3] = (settings.scanStepIndex << 4) | (settings.stepsCount << 2) | settings.listenBw;
 
     EEPROM_WriteBuffer(0x1FF0, Data);
 }
