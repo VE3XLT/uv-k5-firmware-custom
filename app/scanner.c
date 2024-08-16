@@ -344,14 +344,14 @@ void SCANNER_Start(bool singleFreq)
     gScanDelay_10ms        = scan_delay_10ms;
     gScanCssResultCode     = 0xFF;
     gScanCssResultType     = 0xFF;
-    scanHitCount          = 0;
+    scanHitCount           = 0;
     gScanUseCssResult      = false;
     g_CxCSS_TAIL_Found     = false;
     g_CDCSS_Lost           = false;
     gCDCSSCodeType         = 0;
     g_CTCSS_Lost           = false;
 #ifdef ENABLE_VOX
-    g_VOX_Lost         = false;
+    g_VOX_Lost             = false;
 #endif
     g_SquelchLost          = false;
     gScannerSaveState      = SCAN_SAVE_NO_PROMPT;
@@ -365,8 +365,8 @@ void SCANNER_Stop(void)
         gVfoConfigureMode        = VFO_CONFIGURE_RELOAD;
         gFlagResetVfos           = true;
         gUpdateStatus            = true;
-        gCssBackgroundScan           = false;
-        gScanUseCssResult = false;
+        gCssBackgroundScan       = false;
+        gScanUseCssResult        = false;
 #ifdef ENABLE_VOICE
         gAnotherVoiceID          = VOICE_ID_CANCEL;
 #endif
@@ -414,7 +414,7 @@ void SCANNER_TimeSlice10ms(void)
                 BK4819_SetScanFrequency(gScanFrequency);
                 gScanCssResultCode     = 0xFF;
                 gScanCssResultType     = 0xFF;
-                scanHitCount          = 0;
+                scanHitCount           = 0;
                 gScanUseCssResult      = false;
                 gScanProgressIndicator = 0;
                 gScanCssState          = SCAN_CSS_STATE_SCANNING;

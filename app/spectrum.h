@@ -41,12 +41,34 @@
 static const uint8_t DrawingEndY = 40;
 
 static const uint8_t U8RssiMap[] = {
-    121, 115, 109, 103, 97, 91, 85, 79, 73, 63,
+    121,
+    115,
+    109,
+    103,
+    97,
+    91,
+    85,
+    79,
+    73,
+    63,
 };
 
 static const uint16_t scanStepValues[] = {
-    1, 10, 50, 100, 250, 500, 625, 833, 
-    1000, 1250, 1500, 2000, 2500, 5000, 10000,
+    1,
+    10,
+    50,
+    100,
+    250,
+    500,
+    625,
+    833,
+    1000,
+    1250,
+    1500,
+    2000,
+    2500,
+    5000,
+    10000,
 };
 
 static const uint16_t scanStepBWRegValues[] = {
@@ -84,71 +106,78 @@ static const uint16_t listenBWRegValues[] = {
     0b0100100001011000, // 6.25
 };
 
-typedef enum State {
-  SPECTRUM,
-  FREQ_INPUT,
-  STILL,
+typedef enum State
+{
+    SPECTRUM,
+    FREQ_INPUT,
+    STILL,
 } State;
 
-typedef enum StepsCount {
-  STEPS_128,
-  STEPS_64,
-  STEPS_32,
-  STEPS_16,
+typedef enum StepsCount
+{
+    STEPS_128,
+    STEPS_64,
+    STEPS_32,
+    STEPS_16,
 } StepsCount;
 
-typedef enum ScanStep {
-  S_STEP_0_01kHz,
-  S_STEP_0_1kHz,
-  S_STEP_0_5kHz,
-  S_STEP_1_0kHz,
+typedef enum ScanStep
+{
+    S_STEP_0_01kHz,
+    S_STEP_0_1kHz,
+    S_STEP_0_5kHz,
+    S_STEP_1_0kHz,
 
-  S_STEP_2_5kHz,
-  S_STEP_5_0kHz,
-  S_STEP_6_25kHz,
-  S_STEP_8_33kHz,
-  S_STEP_10_0kHz,
-  S_STEP_12_5kHz,
-  S_STEP_15_0kHz,
-  S_STEP_20_0kHz,
-  S_STEP_25_0kHz,
-  S_STEP_50_0kHz,
-  S_STEP_100_0kHz,
+    S_STEP_2_5kHz,
+    S_STEP_5_0kHz,
+    S_STEP_6_25kHz,
+    S_STEP_8_33kHz,
+    S_STEP_10_0kHz,
+    S_STEP_12_5kHz,
+    S_STEP_15_0kHz,
+    S_STEP_20_0kHz,
+    S_STEP_25_0kHz,
+    S_STEP_50_0kHz,
+    S_STEP_100_0kHz,
 } ScanStep;
 
-typedef struct SpectrumSettings {
-  uint32_t frequencyChangeStep;  
-  StepsCount stepsCount;
-  ScanStep scanStepIndex;
-  uint16_t scanDelay;
-  uint16_t rssiTriggerLevel;
-  BK4819_FilterBandwidth_t bw;
-  BK4819_FilterBandwidth_t listenBw;
-  int dbMin;
-  int dbMax;  
-  ModulationMode_t modulationType;
-  bool backlightState;
+typedef struct SpectrumSettings
+{
+    uint32_t frequencyChangeStep;
+    StepsCount stepsCount;
+    ScanStep scanStepIndex;
+    uint16_t scanDelay;
+    uint16_t rssiTriggerLevel;
+    BK4819_FilterBandwidth_t bw;
+    BK4819_FilterBandwidth_t listenBw;
+    int dbMin;
+    int dbMax;
+    ModulationMode_t modulationType;
+    bool backlightState;
 } SpectrumSettings;
 
-typedef struct KeyboardState {
-  KEY_Code_t current;
-  KEY_Code_t prev;
-  uint8_t counter;
+typedef struct KeyboardState
+{
+    KEY_Code_t current;
+    KEY_Code_t prev;
+    uint8_t counter;
 } KeyboardState;
 
-typedef struct ScanInfo {
-  uint16_t rssi, rssiMin, rssiMax;
-  uint16_t i, iPeak;
-  uint32_t f, fPeak;
-  uint16_t scanStep;
-  uint16_t measurementsCount;
+typedef struct ScanInfo
+{
+    uint16_t rssi, rssiMin, rssiMax;
+    uint16_t i, iPeak;
+    uint32_t f, fPeak;
+    uint16_t scanStep;
+    uint16_t measurementsCount;
 } ScanInfo;
 
-typedef struct PeakInfo {
-  uint16_t t;
-  uint16_t rssi;
-  uint32_t f;
-  uint16_t i;
+typedef struct PeakInfo
+{
+    uint16_t t;
+    uint16_t rssi;
+    uint32_t f;
+    uint16_t i;
 } PeakInfo;
 
 void APP_RunSpectrum(void);
