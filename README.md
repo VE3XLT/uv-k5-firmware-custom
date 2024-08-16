@@ -64,10 +64,11 @@ Special thanks to Jean-Cyrille F6IWW, Fabrice 14RC123, David F4BPP, Olivier 14RC
     * CTCSS or DCS value,
     * KeyLock message,
     * last RX,
-    * move BatTxt  menu from 34/63 to 30/63 (just after BatSave menu 29/63),
+    * move BatTxt menu from 34/63 to 30/63 (just after BatSave menu 29/63),
     * rename BackLt to BLTime,
     * rename BltTRX to BLTxRx,
     * improve memory channel input,
+    * add percent and gauge to Air Copy,
     * and more...
 * new menu entries and changes:
     * add SetPwr menu to set User power (<20mW, 125mW, 250mW, 500mW, 1W, 2W or 5W),
@@ -80,6 +81,7 @@ Special thanks to Jean-Cyrille F6IWW, Fabrice 14RC123, David F4BPP, Olivier 14RC
     * add SetLck menu to set what is locked (Keys or Keys + PTT),
     * add SetGui menu to set font size on the VFO baseline (Classic or Tiny),
     * add TXLock menu to open TX on channel,
+    * add SetTmr menu to set RX and TX timers (Off or On)
     * rename BatVol menu (52/63) to SysInf, which displays the firmware version in addition to the battery status,
     * improve PonMsg menu,
     * improve BackLt menu,
