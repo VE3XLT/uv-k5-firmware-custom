@@ -32,6 +32,10 @@
 #include "ui/inputbox.h"
 #include "ui/ui.h"
 
+#ifdef ENABLE_FEAT_F4HWN_SCREENSHOT
+#include "screenshot.h"
+#endif
+
 static const uint16_t Obfuscation[8] = { 0x6C16, 0xE614, 0x912E, 0x400D, 0x3521, 0x40D5, 0x0313, 0x80E9 };
 
 AIRCOPY_State_t gAircopyState;
@@ -73,6 +77,9 @@ bool AIRCOPY_SendMessage(void)
 
     if (++gAirCopyBlockNumber >= 0x78) {
         gAircopyState = AIRCOPY_COMPLETE;
+        #ifdef ENABLE_FEAT_F4HWN_SCREENSHOT
+            getScreenShot();
+        #endif
         //NVIC_SystemReset();
     }
 
@@ -131,6 +138,9 @@ void AIRCOPY_StorePacket(void)
 
     if (Offset == 0x1E00) {
         gAircopyState = AIRCOPY_COMPLETE;
+        #ifdef ENABLE_FEAT_F4HWN_SCREENSHOT
+            getScreenShot();
+        #endif
     }
 
     gAirCopyBlockNumber++;
