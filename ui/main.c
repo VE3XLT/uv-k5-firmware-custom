@@ -1089,7 +1089,7 @@ void UI_DisplayMain(void)
                     case OUTPUT_POWER_LOW3:     Level = 2; break;
                     case OUTPUT_POWER_LOW4:     Level = 2; break;
                     case OUTPUT_POWER_LOW5:     Level = 2; break;
-                    case OUTPUT_POWER_MID:  Level = 4; break;
+                    case OUTPUT_POWER_MID:      Level = 4; break;
                     case OUTPUT_POWER_HIGH:     Level = 6; break;
                 }
             }
