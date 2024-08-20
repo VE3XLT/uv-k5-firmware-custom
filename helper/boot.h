@@ -22,11 +22,11 @@
 
 enum BOOT_Mode_t
 {
-	BOOT_MODE_NORMAL = 0,
-	BOOT_MODE_F_LOCK,
-	#ifdef ENABLE_AIRCOPY
-		BOOT_MODE_AIRCOPY
-	#endif
+    BOOT_MODE_NORMAL = 0,
+    BOOT_MODE_F_LOCK,
+    #ifdef ENABLE_AIRCOPY
+        BOOT_MODE_AIRCOPY
+    #endif
 };
 
 typedef enum BOOT_Mode_t BOOT_Mode_t;

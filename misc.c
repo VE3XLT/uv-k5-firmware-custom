@@ -45,21 +45,21 @@ const uint16_t    key_debounce_10ms                =    20 / 10;   // 20ms
 const uint8_t     scan_delay_10ms                  =   210 / 10;   // 210ms
 
 #ifdef ENABLE_FEAT_F4HWN
-	const uint16_t    dual_watch_count_after_tx_10ms   =  420;         // 4.2 sec after TX ends
-	const uint16_t    dual_watch_count_after_rx_10ms   =  1000 / 10;   // 1 sec after RX ends ?
-	const uint16_t    dual_watch_count_after_1_10ms    =  5000 / 10;   // 5 sec
-	const uint16_t    dual_watch_count_after_2_10ms    =  420;         // 4.2 sec
-	const uint16_t    dual_watch_count_noaa_10ms       =    70 / 10;   // 70ms
+    const uint16_t    dual_watch_count_after_tx_10ms   =  420;         // 4.2 sec after TX ends
+    const uint16_t    dual_watch_count_after_rx_10ms   =  1000 / 10;   // 1 sec after RX ends ?
+    const uint16_t    dual_watch_count_after_1_10ms    =  5000 / 10;   // 5 sec
+    const uint16_t    dual_watch_count_after_2_10ms    =  420;         // 4.2 sec
+    const uint16_t    dual_watch_count_noaa_10ms       =    70 / 10;   // 70ms
 #else
-	const uint16_t    dual_watch_count_after_tx_10ms   =  3600 / 10;   // 3.6 sec after TX ends
-	const uint16_t    dual_watch_count_after_rx_10ms   =  1000 / 10;   // 1 sec after RX ends ?
-	const uint16_t    dual_watch_count_after_1_10ms    =  5000 / 10;   // 5 sec
-	const uint16_t    dual_watch_count_after_2_10ms    =  3600 / 10;   // 3.6 sec
-	const uint16_t    dual_watch_count_noaa_10ms       =    70 / 10;   // 70ms
+    const uint16_t    dual_watch_count_after_tx_10ms   =  3600 / 10;   // 3.6 sec after TX ends
+    const uint16_t    dual_watch_count_after_rx_10ms   =  1000 / 10;   // 1 sec after RX ends ?
+    const uint16_t    dual_watch_count_after_1_10ms    =  5000 / 10;   // 5 sec
+    const uint16_t    dual_watch_count_after_2_10ms    =  3600 / 10;   // 3.6 sec
+    const uint16_t    dual_watch_count_noaa_10ms       =    70 / 10;   // 70ms
 #endif
 
 #ifdef ENABLE_VOX
-	const uint16_t dual_watch_count_after_vox_10ms  =   200 / 10;   // 200ms
+    const uint16_t dual_watch_count_after_vox_10ms  =   200 / 10;   // 200ms
 #endif
 const uint16_t    dual_watch_count_toggle_10ms     =   100 / 10;   // 100ms between VFO toggles
 
@@ -77,7 +77,7 @@ const uint16_t    power_save1_10ms                 =   100 / 10;   // 100ms
 const uint16_t    power_save2_10ms                 =   200 / 10;   // 200ms
 
 #ifdef ENABLE_VOX
-	const uint16_t    vox_stop_count_down_10ms         =  1000 / 10;   // 1 second
+    const uint16_t    vox_stop_count_down_10ms         =  1000 / 10;   // 1 second
 #endif
 
 const uint16_t    NOAA_countdown_10ms              =  5000 / 10;   // 5 seconds
@@ -101,28 +101,32 @@ bool              gSetting_ScrambleEnable;
 enum BacklightOnRxTx_t gSetting_backlight_on_tx_rx;
 
 #ifdef ENABLE_AM_FIX
-	bool          gSetting_AM_fix = true;
+    bool          gSetting_AM_fix = true;
 #endif
 
 #ifdef ENABLE_FEAT_F4HWN
-	uint8_t       gSetting_set_pwr = 1;
-	bool          gSetting_set_ptt = 0;
-	uint8_t       gSetting_set_tot = 0;
-	uint8_t       gSetting_set_ctr = 11;
-	bool          gSetting_set_inv = false;
-	uint8_t       gSetting_set_eot = 0;
-	bool          gSetting_set_lck = false;
-	bool          gSetting_set_met = 0;
-	bool          gSetting_set_gui = 0;
-	bool          gSetting_set_ptt_session;
-	uint8_t       gDebug;
-	uint8_t       gDW = 0;
-	uint8_t       gCB = 0;
-	bool          gSaveRxMode = false;
+    uint8_t       gSetting_set_pwr = 1;
+    bool          gSetting_set_ptt = 0;
+    uint8_t       gSetting_set_tot = 0;
+    uint8_t       gSetting_set_ctr = 11;
+    bool          gSetting_set_inv = false;
+    uint8_t       gSetting_set_eot = 0;
+    bool          gSetting_set_lck = false;
+    bool          gSetting_set_met = 0;
+    bool          gSetting_set_gui = 0;
+    bool          gSetting_set_tmr = 0;
+    bool          gSetting_set_ptt_session;
+    uint8_t       gDebug;
+    uint8_t       gDW = 0;
+    uint8_t       gCB = 0;
+    bool          gSaveRxMode = false;
+    uint8_t       crc[15] = { 0 };
+    uint8_t       lErrorsDuringAirCopy = 0;
+    uint8_t       gAircopyStep = 0;
 #endif
 
 #ifdef ENABLE_AUDIO_BAR
-	bool          gSetting_mic_bar;
+    bool          gSetting_mic_bar;
 #endif
 bool              gSetting_live_DTMF_decoder;
 uint8_t           gSetting_battery_text;
@@ -160,12 +164,12 @@ volatile uint16_t gTxTimerCountdown_500ms;
 volatile bool     gTxTimeoutReached;
 
 #ifdef ENABLE_FEAT_F4HWN
-	volatile uint16_t gTxTimerCountdownAlert_500ms;
-	volatile bool     gTxTimeoutReachedAlert;
-	volatile uint16_t gTxTimeoutToneAlert = 800;
-	#ifdef ENABLE_FEAT_F4HWN_RX_TX_TIMER
-		volatile uint16_t gRxTimerCountdown_500ms;
-	#endif
+    volatile uint16_t gTxTimerCountdownAlert_500ms;
+    volatile bool     gTxTimeoutReachedAlert;
+    volatile uint16_t gTxTimeoutToneAlert = 800;
+    #ifdef ENABLE_FEAT_F4HWN_RX_TX_TIMER
+        volatile uint16_t gRxTimerCountdown_500ms;
+    #endif
 #endif
 
 volatile uint16_t gTailNoteEliminationCountdown_10ms;
@@ -173,7 +177,7 @@ volatile uint16_t gTailNoteEliminationCountdown_10ms;
 volatile uint8_t    gVFOStateResumeCountdown_500ms;
 
 #ifdef ENABLE_NOAA
-	volatile uint16_t gNOAA_Countdown_10ms;
+    volatile uint16_t gNOAA_Countdown_10ms;
 #endif
 
 bool              gEnableSpeaker;
@@ -191,13 +195,13 @@ uint8_t           gVFO_RSSI_bar_level[2];
 
 uint8_t           gReducedService;
 uint8_t           gBatteryVoltageIndex;
-bool     		  gCssBackgroundScan;
+bool              gCssBackgroundScan;
 
 volatile bool     gScheduleScanListen = true;
 volatile uint16_t gScanPauseDelayIn_10ms;
 
 #if defined(ENABLE_ALARM) || defined(ENABLE_TX1750)
-	AlarmState_t  gAlarmState;
+    AlarmState_t  gAlarmState;
 #endif
 uint16_t          gMenuCountdown;
 bool              gPttWasReleased;
@@ -210,7 +214,7 @@ bool              gRequestSaveVFO;
 uint8_t           gRequestSaveChannel;
 bool              gRequestSaveSettings;
 #ifdef ENABLE_FMRADIO
-	bool          gRequestSaveFM;
+    bool          gRequestSaveFM;
 #endif
 bool              gFlagPrepareTX;
 
@@ -218,17 +222,17 @@ bool              gFlagAcceptSetting;
 bool              gFlagRefreshSetting;
 
 #ifdef ENABLE_FMRADIO
-	bool          gFlagSaveFM;
+    bool          gFlagSaveFM;
 #endif
 bool              g_CDCSS_Lost;
 uint8_t           gCDCSSCodeType;
 bool              g_CTCSS_Lost;
 bool              g_CxCSS_TAIL_Found;
 #ifdef ENABLE_VOX
-	bool          g_VOX_Lost;
-	bool          gVOX_NoiseDetected;
-	uint16_t      gVoxResumeCountdown;
-	uint16_t      gVoxPauseCountdown;
+    bool          g_VOX_Lost;
+    bool          gVOX_NoiseDetected;
+    uint16_t      gVoxResumeCountdown;
+    uint16_t      gVoxPauseCountdown;
 #endif
 bool              g_SquelchLost;
 
@@ -240,8 +244,8 @@ ReceptionMode_t   gRxReceptionMode;
 
 bool              gRxVfoIsActive;
 #ifdef ENABLE_ALARM
-	uint8_t       gAlarmToneCounter;
-	uint16_t      gAlarmRunningCounter;
+    uint8_t       gAlarmToneCounter;
+    uint16_t      gAlarmRunningCounter;
 #endif
 bool              gKeyBeingHeld;
 bool              gPttIsPressed;
@@ -252,8 +256,8 @@ uint8_t           gScanDelay_10ms;
 uint8_t           gFSKWriteIndex;
 
 #ifdef ENABLE_NOAA
-	bool          gIsNoaaMode;
-	uint8_t       gNoaaChannel;
+    bool          gIsNoaaMode;
+    uint8_t       gNoaaChannel;
 #endif
 
 bool              gUpdateDisplay;
@@ -266,16 +270,16 @@ volatile bool     gNextTimeslice;
 volatile uint8_t  gFoundCDCSSCountdown_10ms;
 volatile uint8_t  gFoundCTCSSCountdown_10ms;
 #ifdef ENABLE_VOX
-	volatile uint16_t gVoxStopCountdown_10ms;
+    volatile uint16_t gVoxStopCountdown_10ms;
 #endif
 volatile bool     gNextTimeslice40ms;
 #ifdef ENABLE_NOAA
-	volatile uint16_t gNOAACountdown_10ms = 0;
-	volatile bool     gScheduleNOAA       = true;
+    volatile uint16_t gNOAACountdown_10ms = 0;
+    volatile bool     gScheduleNOAA       = true;
 #endif
 volatile bool     gFlagTailNoteEliminationComplete;
 #ifdef ENABLE_FMRADIO
-	volatile bool gScheduleFM;
+    volatile bool gScheduleFM;
 #endif
 
 volatile uint8_t  boot_counter_10ms;
@@ -284,12 +288,12 @@ uint8_t           gIsLocked = 0xFF;
 
 
 #ifdef ENABLE_FEAT_F4HWN
-	bool          gK5startup = true;
-	bool          gBackLight = false;
-	uint8_t       gBacklightTimeOriginal;
-	uint8_t       gBacklightBrightnessOld;
-	uint8_t       gPttOnePushCounter = 0;
-	uint32_t      gBlinkCounter = 0;
+    bool          gK5startup = true;
+    bool          gBackLight = false;
+    uint8_t       gBacklightTimeOriginal;
+    uint8_t       gBacklightBrightnessOld;
+    uint8_t       gPttOnePushCounter = 0;
+    uint32_t      gBlinkCounter = 0;
 #endif
 
 inline void FUNCTION_NOP() { ; }
@@ -297,25 +301,25 @@ inline void FUNCTION_NOP() { ; }
 
 int32_t NUMBER_AddWithWraparound(int32_t Base, int32_t Add, int32_t LowerLimit, int32_t UpperLimit)
 {
-	Base += Add;
+    Base += Add;
 
-	if (Base == 0x7fffffff || Base < LowerLimit)
-		return UpperLimit;
+    if (Base == 0x7fffffff || Base < LowerLimit)
+        return UpperLimit;
 
-	if (Base > UpperLimit)
-		return LowerLimit;
+    if (Base > UpperLimit)
+        return LowerLimit;
 
-	return Base;
+    return Base;
 }
 
 unsigned long StrToUL(const char * str)
 {
-	unsigned long ul = 0;
-	for(uint8_t i = 0; i < strlen(str); i++){
-		char c = str[i];
-		if(c < '0' || c > '9')
-			break;
-		ul = ul * 10 + (uint8_t)(c-'0');
-	}
-	return ul;
+    unsigned long ul = 0;
+    for(uint8_t i = 0; i < strlen(str); i++){
+        char c = str[i];
+        if(c < '0' || c > '9')
+            break;
+        ul = ul * 10 + (uint8_t)(c-'0');
+    }
+    return ul;
 }

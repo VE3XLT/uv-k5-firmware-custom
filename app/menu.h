@@ -20,7 +20,7 @@
 #include "driver/keyboard.h"
 
 #ifdef ENABLE_F_CAL_MENU
-	void writeXtalFreqCal(const int32_t value, const bool update_eeprom);
+    void writeXtalFreqCal(const int32_t value, const bool update_eeprom);
 #endif
 
 extern uint8_t gUnlockAllTxConfCnt;

@@ -19,33 +19,33 @@
 
 static inline void getScreenShot(void)
 {
-	char str[2] = "";
+    char str[2] = "";
 
-	LogUart("P1\n");
-	LogUart("128 64\n");
+    LogUart("P1\n");
+    LogUart("128 64\n");
 
-	for(uint8_t b = 0; b < 8; b++)
-	{
-		for(uint8_t i = 0; i < 128; i++)
-		{
-			sprintf(str, "%d ", ((gStatusLine[i] >> b)  & 0x01));
-			LogUart(str);
-		}
-		LogUart("\n");
-	}
+    for(uint8_t b = 0; b < 8; b++)
+    {
+        for(uint8_t i = 0; i < 128; i++)
+        {
+            sprintf(str, "%d ", ((gStatusLine[i] >> b)  & 0x01));
+            LogUart(str);
+        }
+        LogUart("\n");
+    }
 
-	for(uint8_t l = 0; l < 7; l++)
-	{
-		for(uint8_t b = 0; b < 8; b++)
-		{
-			for(uint8_t i = 0; i < 128; i++)
-			{
-				sprintf(str, "%d ", ((gFrameBuffer[l][i] >> b)  & 0x01));
-				LogUart(str);
-			}
-		}
-		LogUart("\n");
-	}
+    for(uint8_t l = 0; l < 7; l++)
+    {
+        for(uint8_t b = 0; b < 8; b++)
+        {
+            for(uint8_t i = 0; i < 128; i++)
+            {
+                sprintf(str, "%d ", ((gFrameBuffer[l][i] >> b)  & 0x01));
+                LogUart(str);
+            }
+        }
+        LogUart("\n");
+    }
 
-	LogUart("\n----------------\n");
+    LogUart("\n----------------\n");
 }

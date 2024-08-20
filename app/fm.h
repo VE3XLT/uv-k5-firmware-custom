@@ -21,11 +21,11 @@
 
 #include "driver/keyboard.h"
 
-#define FM_CHANNEL_UP	0x01
-#define FM_CHANNEL_DOWN	0xFF
+#define FM_CHANNEL_UP   0x01
+#define FM_CHANNEL_DOWN 0xFF
 
 enum {
-	FM_SCAN_OFF = 0U,
+    FM_SCAN_OFF = 0U,
 };
 
 extern uint16_t          gFM_Channels[20];

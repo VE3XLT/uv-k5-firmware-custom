@@ -21,8 +21,8 @@
 #include <stdint.h>
 
 enum {
-	I2C_WRITE = 0U,
-	I2C_READ = 1U,
+    I2C_WRITE = 0U,
+    I2C_READ = 1U,
 };
 
 void I2C_Start(void);

@@ -22,9 +22,9 @@
 #include "settings.h"
 
 #ifdef ENABLE_FEAT_F4HWN
-	#include "driver/system.h"
-	#include "audio.h"
-	#include "misc.h"
+    #include "driver/system.h"
+    #include "audio.h"
+    #include "misc.h"
 #endif
 
 // this is decremented once every 500ms
@@ -33,128 +33,128 @@ bool backlightOn;
 
 void BACKLIGHT_InitHardware()
 {
-	// 48MHz / 94 / 1024 ~ 500Hz
-	const uint32_t PWM_FREQUENCY_HZ =  25000;
-	PWM_PLUS0_CLKSRC |= ((48000000 / 1024 / PWM_FREQUENCY_HZ) << 16);
-	PWM_PLUS0_PERIOD = 1023;
+    // 48MHz / 94 / 1024 ~ 500Hz
+    const uint32_t PWM_FREQUENCY_HZ =  25000;
+    PWM_PLUS0_CLKSRC |= ((48000000 / 1024 / PWM_FREQUENCY_HZ) << 16);
+    PWM_PLUS0_PERIOD = 1023;
 
-	PORTCON_PORTB_SEL0 &= ~(0
-		// Back light
-		| PORTCON_PORTB_SEL0_B6_MASK
-		);
-	PORTCON_PORTB_SEL0 |= 0
-		// Back light PWM
-		| PORTCON_PORTB_SEL0_B6_BITS_PWMP0_CH0
-		;
+    PORTCON_PORTB_SEL0 &= ~(0
+        // Back light
+        | PORTCON_PORTB_SEL0_B6_MASK
+        );
+    PORTCON_PORTB_SEL0 |= 0
+        // Back light PWM
+        | PORTCON_PORTB_SEL0_B6_BITS_PWMP0_CH0
+        ;
 
-	PWM_PLUS0_GEN = 	
-		PWMPLUS_GEN_CH0_OE_BITS_ENABLE |
-		PWMPLUS_GEN_CH0_OUTINV_BITS_ENABLE |
-		0;
+    PWM_PLUS0_GEN =     
+        PWMPLUS_GEN_CH0_OE_BITS_ENABLE |
+        PWMPLUS_GEN_CH0_OUTINV_BITS_ENABLE |
+        0;
 
-	PWM_PLUS0_CFG =  	
-		PWMPLUS_CFG_CNT_REP_BITS_ENABLE |
-		PWMPLUS_CFG_COUNTER_EN_BITS_ENABLE |
-		0;
+    PWM_PLUS0_CFG =     
+        PWMPLUS_CFG_CNT_REP_BITS_ENABLE |
+        PWMPLUS_CFG_COUNTER_EN_BITS_ENABLE |
+        0;
 }
 
 static void BACKLIGHT_Sound(void)
 {
-	if (gEeprom.POWER_ON_DISPLAY_MODE == POWER_ON_DISPLAY_MODE_SOUND || gEeprom.POWER_ON_DISPLAY_MODE == POWER_ON_DISPLAY_MODE_ALL)
-	{
-		AUDIO_PlayBeep(BEEP_880HZ_60MS_DOUBLE_BEEP);
-		AUDIO_PlayBeep(BEEP_880HZ_60MS_DOUBLE_BEEP);
-		gK5startup = false;
-	}
-	else
-		gK5startup = false;		
+    if (gEeprom.POWER_ON_DISPLAY_MODE == POWER_ON_DISPLAY_MODE_SOUND || gEeprom.POWER_ON_DISPLAY_MODE == POWER_ON_DISPLAY_MODE_ALL)
+    {
+        AUDIO_PlayBeep(BEEP_880HZ_60MS_DOUBLE_BEEP);
+        AUDIO_PlayBeep(BEEP_880HZ_60MS_DOUBLE_BEEP);
+        gK5startup = false;
+    }
+    else
+        gK5startup = false;     
 }
 
 
 void BACKLIGHT_TurnOn(void)
 {
-	#ifdef ENABLE_FEAT_F4HWN
-		gBacklightBrightnessOld = BACKLIGHT_GetBrightness();
-	#endif
+    #ifdef ENABLE_FEAT_F4HWN
+        gBacklightBrightnessOld = BACKLIGHT_GetBrightness();
+    #endif
 
-	if (gEeprom.BACKLIGHT_TIME == 0) {
-		BACKLIGHT_TurnOff();
-		#ifdef ENABLE_FEAT_F4HWN
-			if(gK5startup == true) 
-			{
-				BACKLIGHT_Sound();
-			}
-		#endif
-		return;
-	}
+    if (gEeprom.BACKLIGHT_TIME == 0) {
+        BACKLIGHT_TurnOff();
+        #ifdef ENABLE_FEAT_F4HWN
+            if(gK5startup == true) 
+            {
+                BACKLIGHT_Sound();
+            }
+        #endif
+        return;
+    }
 
-	backlightOn = true;
+    backlightOn = true;
 
 #ifdef ENABLE_FEAT_F4HWN
-	if(gK5startup == true) {
-		for(uint8_t i = 0; i <= gEeprom.BACKLIGHT_MAX; i++)
-		{
-			BACKLIGHT_SetBrightness(i);
-			SYSTEM_DelayMs(50);
-		}
+    if(gK5startup == true) {
+        for(uint8_t i = 0; i <= gEeprom.BACKLIGHT_MAX; i++)
+        {
+            BACKLIGHT_SetBrightness(i);
+            SYSTEM_DelayMs(50);
+        }
 
-		BACKLIGHT_Sound();
-	}
-	else
-	{
-		BACKLIGHT_SetBrightness(gEeprom.BACKLIGHT_MAX);
-	}
+        BACKLIGHT_Sound();
+    }
+    else
+    {
+        BACKLIGHT_SetBrightness(gEeprom.BACKLIGHT_MAX);
+    }
 #else
-	BACKLIGHT_SetBrightness(gEeprom.BACKLIGHT_MAX);
+    BACKLIGHT_SetBrightness(gEeprom.BACKLIGHT_MAX);
 #endif
 
-	switch (gEeprom.BACKLIGHT_TIME) {
-		default:
-		case 1 ... 60:	// 5 sec * value
-			gBacklightCountdown_500ms = 1 + (gEeprom.BACKLIGHT_TIME * 5) * 2;
-			break;
-		case 61:	// always on
-			gBacklightCountdown_500ms = 0;
-			break;
-	}
+    switch (gEeprom.BACKLIGHT_TIME) {
+        default:
+        case 1 ... 60:  // 5 sec * value
+            gBacklightCountdown_500ms = 1 + (gEeprom.BACKLIGHT_TIME * 5) * 2;
+            break;
+        case 61:    // always on
+            gBacklightCountdown_500ms = 0;
+            break;
+    }
 }
 
 void BACKLIGHT_TurnOff()
 {
 #ifdef ENABLE_BLMIN_TMP_OFF
-	register uint8_t tmp;
+    register uint8_t tmp;
 
-	if (gEeprom.BACKLIGHT_MIN_STAT == BLMIN_STAT_ON)
-		tmp = gEeprom.BACKLIGHT_MIN;
-	else
-		tmp = 0;
+    if (gEeprom.BACKLIGHT_MIN_STAT == BLMIN_STAT_ON)
+        tmp = gEeprom.BACKLIGHT_MIN;
+    else
+        tmp = 0;
 
-	BACKLIGHT_SetBrightness(tmp);
+    BACKLIGHT_SetBrightness(tmp);
 #else
-	BACKLIGHT_SetBrightness(gEeprom.BACKLIGHT_MIN);
+    BACKLIGHT_SetBrightness(gEeprom.BACKLIGHT_MIN);
 #endif
-	gBacklightCountdown_500ms = 0;
-	backlightOn = false;
+    gBacklightCountdown_500ms = 0;
+    backlightOn = false;
 }
 
 bool BACKLIGHT_IsOn()
 {
-	return backlightOn;
+    return backlightOn;
 }
 
 static uint8_t currentBrightness;
 
 void BACKLIGHT_SetBrightness(uint8_t brigtness)
 {
-	const uint8_t value[] = {0, 3, 6, 9, 15, 24, 38, 62, 100, 159, 255};
+    const uint8_t value[] = {0, 3, 6, 9, 15, 24, 38, 62, 100, 159, 255};
 
-	currentBrightness = brigtness;
-	PWM_PLUS0_CH0_COMP = value[brigtness] * 4;
-	//PWM_PLUS0_CH0_COMP = (1 << brigtness) - 1;
-	//PWM_PLUS0_SWLOAD = 1;
+    currentBrightness = brigtness;
+    PWM_PLUS0_CH0_COMP = value[brigtness] * 4;
+    //PWM_PLUS0_CH0_COMP = (1 << brigtness) - 1;
+    //PWM_PLUS0_SWLOAD = 1;
 }
 
 uint8_t BACKLIGHT_GetBrightness(void)
 {
-	return currentBrightness;
+    return currentBrightness;
 }
