@@ -69,6 +69,7 @@ Special thanks to Jean-Cyrille F6IWW, Fabrice 14RC123, David F4BPP, Olivier 14RC
     * rename BltTRX to BLTxRx,
     * improve memory channel input,
     * add percent and gauge to Air Copy,
+    * improve audio bar,
     * and more...
 * new menu entries and changes:
     * add SetPwr menu to set User power (<20mW, 125mW, 250mW, 500mW, 1W, 2W or 5W),
