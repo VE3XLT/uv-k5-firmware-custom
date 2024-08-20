@@ -112,7 +112,7 @@ static void DrawSmallAntennaAndBars(uint8_t *p, unsigned int level)
 }
 #if defined ENABLE_AUDIO_BAR || defined ENABLE_RSSI_BAR
 
-static void DrawLevelBar(uint8_t xpos, uint8_t line, uint8_t level)
+static void DrawLevelBar(uint8_t xpos, uint8_t line, uint8_t level, uint8_t bars)
 {
 #ifndef ENABLE_FEAT_F4HWN
     const char hollowBar[] = {
@@ -124,7 +124,7 @@ static void DrawLevelBar(uint8_t xpos, uint8_t line, uint8_t level)
 #endif
     
     uint8_t *p_line = gFrameBuffer[line];
-    level = MIN(level, 13);
+    level = MIN(level, bars);
 
     for(uint8_t i = 0; i < level; i++) {
 #ifdef ENABLE_FEAT_F4HWN
@@ -137,9 +137,9 @@ static void DrawLevelBar(uint8_t xpos, uint8_t line, uint8_t level)
                 0b01111111
             };
 
-            if(i < 9) {
+            if(i < bars - 4) {
                 for(uint8_t j = 0; j < 4; j++)
-                    p_line[xpos + i * 5 + j] = (~(0x7F >> (i+1))) & 0x7F;
+                    p_line[xpos + i * 5 + j] = (~(0x7F >> (i + 1))) & 0x7F;
             }
             else {
                 memcpy(p_line + (xpos + i * 5), &hollowBar, ARRAY_SIZE(hollowBar));
@@ -161,7 +161,7 @@ static void DrawLevelBar(uint8_t xpos, uint8_t line, uint8_t level)
                 0b00111110
             };
 
-            if(i < 9) {
+            if(i < bars - 4) {
                 memcpy(p_line + (xpos + i * 5), &simpleBar, ARRAY_SIZE(simpleBar));
             }
             else {
@@ -169,7 +169,7 @@ static void DrawLevelBar(uint8_t xpos, uint8_t line, uint8_t level)
             }
         }
 #else
-        if(i < 9) {
+        if(i < bars - 4) {
             for(uint8_t j = 0; j < 4; j++)
                 p_line[xpos + i * 5 + j] = (~(0x7F >> (i+1))) & 0x7F;
         }
@@ -183,21 +183,13 @@ static void DrawLevelBar(uint8_t xpos, uint8_t line, uint8_t level)
 
 #ifdef ENABLE_AUDIO_BAR
 
-unsigned int sqrt16(unsigned int value)
-{   // return square root of 'value'
-    unsigned int shift = 16;         // number of bits supplied in 'value' .. 2 ~ 32
-    unsigned int bit   = 1u << --shift;
-    unsigned int sqrti = 0;
-    while (bit)
-    {
-        const unsigned int temp = ((sqrti << 1) | bit) << shift--;
-        if (value >= temp) {
-            value -= temp;
-            sqrti |= bit;
-        }
-        bit >>= 1;
+// Approximation of a logarithmic scale using integer arithmetic
+uint8_t log2_approx(unsigned int value) {
+    uint8_t log = 0;
+    while (value >>= 1) {
+        log++;
     }
-    return sqrti;
+    return log;
 }
 
 void UI_DisplayAudioBar(void)
@@ -238,17 +230,24 @@ void UI_DisplayAudioBar(void)
         if (gAlarmState != ALARM_STATE_OFF)
             return;
 #endif
-        const unsigned int voice_amp  = BK4819_GetVoiceAmplitudeOut();  // 15:0
+        static uint8_t barsOld = 0;
+        const uint8_t thresold = 18; // arbitrary thresold
+        //const uint8_t barsList[] = {0, 0, 0, 1, 2, 3, 4, 5, 6, 8, 10, 13, 16, 20, 25, 25};
+        const uint8_t barsList[] = {0, 0, 0, 1, 2, 3, 5, 7, 9, 12, 15, 18, 21, 25, 25, 25};
+        uint8_t logLevel;
+        uint8_t bars;
 
-        // make non-linear to make more sensitive at low values
-        const unsigned int level      = MIN(voice_amp * 8, 65535u);
-        const unsigned int sqrt_level = MIN(sqrt16(level), 124u);
-        uint8_t bars = 13 * sqrt_level / 124;
+        unsigned int voiceLevel  = BK4819_GetVoiceAmplitudeOut();  // 15:0
+
+        voiceLevel = (voiceLevel >= thresold) ? (voiceLevel - thresold) : 0;
+        logLevel = log2_approx(MIN(voiceLevel * 16, 32768u) + 1);
+        bars = barsList[logLevel];
+        barsOld = (barsOld - bars > 1) ? (barsOld - 1) : bars;
 
         uint8_t *p_line = gFrameBuffer[line];
         memset(p_line, 0, LCD_WIDTH);
 
-        DrawLevelBar(62, line, bars);
+        DrawLevelBar(2, line, barsOld, 25);
 
         if (gCurrentFunction == FUNCTION_TRANSMIT)
             ST7565_BlitFullScreen();
@@ -414,7 +413,7 @@ void DisplayRSSIBar(const bool now)
 
     UI_PrintStringSmallNormal(str, 2, 0, line);
 #endif
-    DrawLevelBar(bar_x, line, s_level + overS9Bars);
+    DrawLevelBar(bar_x, line, s_level + overS9Bars, 13);
     if (now)
         ST7565_BlitLine(line);
 #else
