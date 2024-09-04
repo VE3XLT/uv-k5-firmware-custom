@@ -102,6 +102,7 @@ void BOOT_ProcessMode(BOOT_Mode_t Mode)
             gAircopyState = AIRCOPY_READY;
 
             gEeprom.BACKLIGHT_TIME = 61;
+            gEeprom.KEY_LOCK = 0;
 
             GUI_SelectNextDisplay(DISPLAY_AIRCOPY);
         }
