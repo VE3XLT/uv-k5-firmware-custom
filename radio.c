@@ -276,8 +276,6 @@ void RADIO_ConfigureChannel(const unsigned int VFO, const unsigned int configure
         if (tmp > (ARRAY_SIZE(gSubMenu_SCRAMBLER) - 1))
             tmp = 0;
         pVfo->SCRAMBLING_TYPE = tmp;
-#else
-        pVfo->SCRAMBLING_TYPE = 0;
 #endif
 
         pVfo->freq_config_RX.CodeType = (data[2] >> 0) & 0x0F;
@@ -786,12 +784,10 @@ void RADIO_SetupRegisters(bool switchToForeground)
                     break;
             }
 
-#ifndef ENABLE_FEAT_F4HWN
+#ifdef ENABLE_FEAT_F4HWN
             if (gRxVfo->SCRAMBLING_TYPE > 0 && gSetting_ScrambleEnable)
                 BK4819_EnableScramble(gRxVfo->SCRAMBLING_TYPE - 1);
             else
-                BK4819_DisableScramble();
-#else
                 BK4819_DisableScramble();
 #endif
         }

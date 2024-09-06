@@ -252,7 +252,7 @@ int MENU_GetLimits(uint8_t menu_id, int32_t *pMin, int32_t *pMax)
         case MENU_200TX:
         case MENU_500TX:
         case MENU_350EN:
-#ifndef ENABLE_FEAT_F4HWN
+#ifdef ENABLE_FEAT_F4HWN
         case MENU_SCREN:
 #endif
 #ifdef ENABLE_FEAT_F4HWN
@@ -266,7 +266,7 @@ int MENU_GetLimits(uint8_t menu_id, int32_t *pMin, int32_t *pMax)
             *pMax = ARRAY_SIZE(gModulationStr) - 1;
             break;
 
-#ifndef ENABLE_FEAT_F4HWN
+#ifdef ENABLE_FEAT_F4HWN
         case MENU_SCR:
             //*pMin = 0;
             *pMax = ARRAY_SIZE(gSubMenu_SCRAMBLER) - 1;
@@ -511,7 +511,7 @@ void MENU_AcceptSetting(void)
             gRequestSaveChannel       = 1;
             return;
 
-#ifndef ENABLE_FEAT_F4HWN
+#ifdef ENABLE_FEAT_F4HWN
         case MENU_SCR:
             gTxVfo->SCRAMBLING_TYPE = gSubMenuSelection;
             #if 0
@@ -823,7 +823,7 @@ void MENU_AcceptSetting(void)
             gFlagResetVfos       = true;
             break;
 
-#ifndef ENABLE_FEAT_F4HWN
+#ifdef ENABLE_FEAT_F4HWN
         case MENU_SCREN:
             gSetting_ScrambleEnable = gSubMenuSelection;
             gFlagReconfigureVfos    = true;
@@ -1009,7 +1009,7 @@ void MENU_ShowCurrentSetting(void)
             gSubMenuSelection = gTxVfo->CHANNEL_BANDWIDTH;
             break;
 
-#ifndef ENABLE_FEAT_F4HWN
+#ifdef ENABLE_FEAT_F4HWN
         case MENU_SCR:
             gSubMenuSelection = gTxVfo->SCRAMBLING_TYPE;
             break;
@@ -1250,7 +1250,7 @@ void MENU_ShowCurrentSetting(void)
             gSubMenuSelection = gSetting_350EN;
             break;
 
-#ifndef ENABLE_FEAT_F4HWN
+#ifdef ENABLE_FEAT_F4HWN
         case MENU_SCREN:
             gSubMenuSelection = gSetting_ScrambleEnable;
             break;

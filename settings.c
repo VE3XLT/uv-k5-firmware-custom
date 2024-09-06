@@ -268,8 +268,6 @@ void SETTINGS_InitEEPROM(void)
     gSetting_350EN             = (Data[5] < 2) ? Data[5] : true;
 
 #ifdef ENABLE_FEAT_F4HWN
-    gSetting_ScrambleEnable    = false;
-#else
     gSetting_ScrambleEnable    = (Data[6] < 2) ? Data[6] : true;
 #endif
 
@@ -697,8 +695,6 @@ void SETTINGS_SaveSettings(void)
     State[5]  = gSetting_350EN;
 
 #ifdef ENABLE_FEAT_F4HWN
-    State[6]  = false;
-#else
     State[6]  = gSetting_ScrambleEnable;
 #endif
 
@@ -798,8 +794,6 @@ void SETTINGS_SaveChannel(uint8_t Channel, uint8_t VFO, const VFO_Info_t *pVFO, 
         ;
         State._8[6] =  pVFO->STEP_SETTING;
 #ifdef ENABLE_FEAT_F4HWN
-        State._8[7] =  0;
-#else
         State._8[7] =  pVFO->SCRAMBLING_TYPE;
 #endif
         EEPROM_WriteBuffer(OffsetVFO + 8, State._8);
