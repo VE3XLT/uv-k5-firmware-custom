@@ -1300,7 +1300,7 @@ void UI_DisplayMain(void)
 #ifdef ENABLE_FEAT_F4HWN
         // show the audio scramble symbol
         if (vfoInfo->SCRAMBLING_TYPE > 0 && gSetting_ScrambleEnable)
-            UI_PrintStringSmallNormal("SCR", LCD_WIDTH + 106, 0, line + 1);
+            UI_PrintStringSmallNormal("*", LCD_WIDTH + 120, 0, line + 1);
 #endif
 
 #ifdef ENABLE_FEAT_F4HWN
@@ -1315,7 +1315,7 @@ void UI_DisplayMain(void)
             {
                 if(!gMonitor)
                 {
-                    sprintf(String, "SQL%d", gEeprom.SQUELCH_LEVEL);
+                    sprintf(String, "SQ%d", gEeprom.SQUELCH_LEVEL);
                 }
                 UI_PrintStringSmallNormal(String, LCD_WIDTH + 98, 0, line + 1);
             }
@@ -1323,7 +1323,7 @@ void UI_DisplayMain(void)
             {
                 if(!gMonitor)
                 {
-                    sprintf(String, "SQL%d", gEeprom.SQUELCH_LEVEL);
+                    sprintf(String, "SQ%d", gEeprom.SQUELCH_LEVEL);
                 }
                 GUI_DisplaySmallest(String, 110, line == 0 ? 17 : 49, false, true);
             }
