@@ -4,14 +4,14 @@
 
 # Open re-implementation of the Quansheng UV-K5/K6/5R v2.1.27 firmware
 
-This repository is a fork of [Egzumer custom firmware](https://github.com/egzumer/uv-k5-firmware-custom), who was a merge of [OneOfEleven custom firmware](https://github.com/OneOfEleven/uv-k5-firmware-custom) with [fagci spectrum analizer](https://github.com/fagci/uv-k5-firmware-fagci-mod/tree/refactor) plus my few changes.
+This repository is a fork of [Armel custom firmware](https://github.com/armel/uv-k5-firmware-custom), which is a fork of [Egzumer custom firmware](https://github.com/egzumer/uv-k5-firmware-custom), who was a merge of [OneOfEleven custom firmware](https://github.com/OneOfEleven/uv-k5-firmware-custom) with [fagci spectrum analizer](https://github.com/fagci/uv-k5-firmware-fagci-mod/tree/refactor) plus my few changes.
 
 All is a cloned and customized version of DualTachyon's open firmware found [here](https://github.com/DualTachyon/uv-k5-firmware) ... a cool achievement !
 
 > [!NOTE]
-> EN - About Chirp, as many others firmwares, you need to use a dedicated driver available on [this repository](https://github.com/armel/uv-k5-chirp-driver). 
+> EN - About Chirp, as many others firmwares, you need to use a dedicated driver available on [this repository](https://github.com/VE3XLT/uv-k5-chirp-driver). 
 >
-> _FR - A propos de Chirp, comme beaucoup d'autres firmwares, vous devez utiliser un pilote dédié disponible sur [ce dépôt](https://github.com/armel/uv-k5-chirp-driver)._
+> _FR - A propos de Chirp, comme beaucoup d'autres firmwares, vous devez utiliser un pilote dédié disponible sur [ce dépôt](https://github.com/VE3XLT/uv-k5-chirp-driver)._
 
 > [!WARNING]
 > EN - THIS FIRMWARE HAS NO REAL BRAIN. PLEASE USE YOUR OWN. Use this firmware at your own risk (entirely). There is absolutely no guarantee that it will work in any way shape or form on your radio(s), it may even brick your radio(s), in which case, you'd need to buy another radio.
@@ -169,7 +169,7 @@ Special thanks to Jean-Cyrille F6IWW, Fabrice 14RC123, David F4BPP, Olivier 14RC
 
  ## Manual
 
-Up to date manual is available in the [Wiki section](https://github.com/armel/uv-k5-firmware-custom/wiki)
+Up to date manual is available in the Armel [Wiki section](https://github.com/armel/uv-k5-firmware-custom/wiki)
 
 ## Radio performance
 
@@ -202,7 +202,7 @@ You can get it from: https://releases.llvm.org/download.html
 
 This is the least demanding option as you don't have to install enything on your computer. All you need is Github account.
 
-1. Go to https://github.com/armel/uv-k5-firmware-custom
+1. Go to https://github.com/VE3XLT/uv-k5-firmware-custom
 1. Click green `Code` button
 1. Change tab from `Local` to `Codespace`
 1. Click green `Create codespace on main` button
@@ -234,7 +234,7 @@ If you have docker installed you can use [compile-with-docker.bat](./compile-wit
     pip install --user --upgrade pip
     pip install crcmod
     mkdir c:\projects & cd /D c:/projects
-    git clone https://github.com/armel/uv-k5-firmware-custom.git
+    git clone https://github.com/VE3XLT/uv-k5-firmware-custom.git
     ```
 3. From now on you can build the firmware by going to `c:\projects\uv-k5-firmware-custom` and running `win_make.bat` or by running a command line:
     ```
@@ -253,6 +253,7 @@ I've left some notes in the win_make.bat file to maybe help with stuff.
 
 Many thanks to various people:
 
+* [Armel](https://github.com/armel)
 * [Egzumer](https://github.com/egzumer)
 * [OneOfEleven](https://github.com/OneOfEleven)
 * [DualTachyon](https://github.com/DualTachyon)
