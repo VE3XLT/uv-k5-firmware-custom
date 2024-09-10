@@ -298,6 +298,22 @@ const uint8_t BITMAP_PowerUser[3] =
     0b00001000,
 };
 
+#ifdef ENABLE_NOAA
+	const uint8_t BITMAP_NOAA[11] =
+	{	// "NS"
+		0b00000000,
+		0b01111111,
+		0b00000100,
+		0b00001000,
+		0b00010000,
+		0b01111111,
+		0b00000000,
+		0b01000110,
+		0b01001001,
+		0b01001001,
+		0b00110001
+	};
+#endif
 
 #ifndef ENABLE_CUSTOM_MENU_LAYOUT
 const uint8_t BITMAP_CurrentIndicator[8] = {
